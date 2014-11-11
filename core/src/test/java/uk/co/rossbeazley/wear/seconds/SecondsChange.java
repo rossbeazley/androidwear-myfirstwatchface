@@ -30,7 +30,7 @@ public class SecondsChange implements Seconds.CanReceiveSecondsUpdates {
         
         seconds.tick(aTimeWithTenSeconds);
 
-        assertThat(timeComponentString, is(new Sexagesimal(10).base10String()));
+        assertThat(timeComponentString, is(Sexagesimal.fromBase10(10).base10String()));
     }
 
 
@@ -48,9 +48,12 @@ public class SecondsChange implements Seconds.CanReceiveSecondsUpdates {
     public static class Sexagesimal {
         private final int value;
 
+        private Sexagesimal(int base10) {
+            value = base10;
+        }
 
-        public Sexagesimal(int i) {
-            value = i;
+        public static Sexagesimal fromBase10(int base10) {
+            return new Sexagesimal(base10);
         }
 
         public String base10String() {

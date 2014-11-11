@@ -2,31 +2,31 @@ package uk.co.rossbeazley.wear.seconds;
 
 import java.util.Calendar;
 
+import uk.co.rossbeazley.wear.Announcer;
+
 public class Seconds {
 
-    private CanReceiveSecondsUpdates canReceiveSecondsUpdates = CanReceiveSecondsUpdates.NULL;
+    final private Announcer<CanReceiveSecondsUpdates> canReceiveSecondsUpdates;
 
     public Seconds() {
-
+        canReceiveSecondsUpdates = Announcer.to(CanReceiveSecondsUpdates.class);
     }
 
     public void tick(Calendar instance) {
-        SecondsChange.Sexagesimal value = new SecondsChange.Sexagesimal(instance.get(Calendar.SECOND));
-        canReceiveSecondsUpdates.secondsUpdate(value);
+        int secondsFromTick = instance.get(Calendar.SECOND);
+        SecondsChange.Sexagesimal value = SecondsChange.Sexagesimal.fromBase10(secondsFromTick);
+        announcer().secondsUpdate(value);
+    }
+
+    private CanReceiveSecondsUpdates announcer() {
+        return canReceiveSecondsUpdates.announce();
     }
 
     public void observe(CanReceiveSecondsUpdates canReceiveSecondsUpdates) {
-        this.canReceiveSecondsUpdates = canReceiveSecondsUpdates;
+        this.canReceiveSecondsUpdates.addListener(canReceiveSecondsUpdates);
     }
 
     public static interface CanReceiveSecondsUpdates {
-
         void secondsUpdate(SecondsChange.Sexagesimal to);
-
-        final CanReceiveSecondsUpdates NULL = new CanReceiveSecondsUpdates() {
-            @Override
-            public void secondsUpdate(SecondsChange.Sexagesimal to) {
-            }
-        };
     }
 }
