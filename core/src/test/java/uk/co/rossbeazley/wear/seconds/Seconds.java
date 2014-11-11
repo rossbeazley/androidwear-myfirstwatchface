@@ -6,6 +6,11 @@ import uk.co.rossbeazley.wear.Announcer;
 
 public class Seconds {
 
+    public static interface CanReceiveSecondsUpdates {
+        void secondsUpdate(SecondsChange.Sexagesimal to);
+    }
+
+
     final private Announcer<CanReceiveSecondsUpdates> canReceiveSecondsUpdates;
 
     public Seconds() {
@@ -26,7 +31,5 @@ public class Seconds {
         this.canReceiveSecondsUpdates.addListener(canReceiveSecondsUpdates);
     }
 
-    public static interface CanReceiveSecondsUpdates {
-        void secondsUpdate(SecondsChange.Sexagesimal to);
-    }
+
 }
