@@ -10,5 +10,6 @@ public class MainTest {
     @Test
     public void testInit() throws Exception {
         Assert.assertTrue("MOFO", true);
+        //Assert.fail("MOFO");
     }
 }
