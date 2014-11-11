@@ -14,7 +14,7 @@ public class SecondsChange implements Seconds.CanReceiveSecondsUpdates {
 
     private String timeComponentString;
     private Seconds seconds;
-    private Calendar aTimeWithTenSeconds;
+    private Calendar aTimeWithNineSeconds;
 
     @Override
     public void secondsUpdate(Sexagesimal to)
@@ -26,23 +26,30 @@ public class SecondsChange implements Seconds.CanReceiveSecondsUpdates {
     public void setUp() throws Exception {
         seconds = new Seconds();
         seconds.observe(this);
-        aTimeWithTenSeconds = Calendar.getInstance();
-        aTimeWithTenSeconds.set(Calendar.SECOND, 10);
+        aTimeWithNineSeconds = Calendar.getInstance();
+        aTimeWithNineSeconds.set(Calendar.SECOND, 9);
     }
 
     @Test
     public void theOneWhereTheSecondsUpdate() 
     {
-        seconds.tick(aTimeWithTenSeconds);
-        assertThat(timeComponentString, is(Sexagesimal.fromBase10(10).base10String()));
+        seconds.tick(aTimeWithNineSeconds);
+        assertThat(timeComponentString, is("09"));
     }
 
-
+    @Test
+    public void theOneWhereTheTimeDontUpdate() {
+        seconds.tick(aTimeWithNineSeconds);
+        timeComponentString = "RESET";
+        seconds.tick(aTimeWithNineSeconds);
+        assertThat(timeComponentString, is("RESET"));
+    }
 
     @Test @Ignore
-    public void theOneWhereTheSecondsDontUpdate() {
+    public void theOneWhereTheTimeChangesButSecondsStayTheSame() {
 
     }
+
 
     @Test @Ignore
     public void theOneWhereTheSecondsRollOver() {
@@ -61,7 +68,7 @@ public class SecondsChange implements Seconds.CanReceiveSecondsUpdates {
         }
 
         public String base10String() {
-            DecimalFormat numberFormat = new DecimalFormat("*00");
+            DecimalFormat numberFormat = new DecimalFormat("00");
             return numberFormat.format(value);
         }
     }
