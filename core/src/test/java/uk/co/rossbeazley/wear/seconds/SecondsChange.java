@@ -1,7 +1,9 @@
 package uk.co.rossbeazley.wear.seconds;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
+import java.text.DecimalFormat;
 import java.util.Calendar;
 
 import static org.hamcrest.Matchers.is;
@@ -14,16 +16,13 @@ public class SecondsChange implements Seconds.CanReceiveSecondsUpdates {
     @Override
     public void secondsUpdate(Sexagesimal to)
     {
-        this.timeComponentString = to.toString();
+        this.timeComponentString = to.base10String();
     }
     
     @Test
     public void theOneWhereTheSecondsUpdate() 
     {
-        Calendar aTimeWithZeroSeconds = Calendar.getInstance();
-        aTimeWithZeroSeconds.set(Calendar.SECOND, 0);
-
-        Seconds seconds = new Seconds(aTimeWithZeroSeconds);
+        Seconds seconds = new Seconds();
         seconds.observe(this);
 
         Calendar aTimeWithTenSeconds = Calendar.getInstance();
@@ -31,17 +30,17 @@ public class SecondsChange implements Seconds.CanReceiveSecondsUpdates {
         
         seconds.tick(aTimeWithTenSeconds);
 
-        assertThat(timeComponentString, is(new Sexagesimal(10).toString()));
+        assertThat(timeComponentString, is(new Sexagesimal(10).base10String()));
     }
 
 
 
-    @Test
+    @Test @Ignore
     public void theOneWhereTheSecondsDontUpdate() {
 
     }
 
-    @Test
+    @Test @Ignore
     public void theOneWhereTheSecondsRoleOver() {
 
     }
@@ -49,8 +48,14 @@ public class SecondsChange implements Seconds.CanReceiveSecondsUpdates {
     public static class Sexagesimal {
         private final int value;
 
+
         public Sexagesimal(int i) {
             value = i;
+        }
+
+        public String base10String() {
+            DecimalFormat numberFormat = new DecimalFormat("*00");
+            return numberFormat.format(value);
         }
     }
 
