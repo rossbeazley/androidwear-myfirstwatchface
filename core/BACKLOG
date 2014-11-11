@@ -1,0 +1,16 @@
+Primary domain event - tock
+
+Hour changed
+Minute changed
+Second Changed
+Month Changed
+Day changed
+
+Domain objects
+Hour
+Minute
+Second
+Month
+Day
+
+they all observe the tock
