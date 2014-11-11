@@ -56,12 +56,6 @@ public class SecondsChange implements Seconds.CanReceiveSecondsUpdates {
         assertThat(timeComponentString, is("RESET"));
     }
 
-
-    @Test @Ignore
-    public void theOneWhereTheSecondsRollOver() {
-
-    }
-
     public static class Sexagesimal {
         private final int value;
 

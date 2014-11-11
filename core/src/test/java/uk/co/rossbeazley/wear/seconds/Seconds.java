@@ -6,35 +6,40 @@ import uk.co.rossbeazley.wear.Announcer;
 
 public class Seconds {
 
-    private SecondsChange.Sexagesimal current = null;
-
     public static interface CanReceiveSecondsUpdates {
         void secondsUpdate(SecondsChange.Sexagesimal to);
     }
 
-
-    final private Announcer<CanReceiveSecondsUpdates> canReceiveSecondsUpdates;
+    final private Announcer<CanReceiveSecondsUpdates> announcer;
+    private SecondsChange.Sexagesimal current = null;
 
     public Seconds() {
-        canReceiveSecondsUpdates = Announcer.to(CanReceiveSecondsUpdates.class);
+        announcer = Announcer.to(CanReceiveSecondsUpdates.class);
     }
 
     public void tick(Calendar to) {
         int secondsFromTick = to.get(Calendar.SECOND);
         SecondsChange.Sexagesimal toSeconds = SecondsChange.Sexagesimal.fromBase10(secondsFromTick);
+        tick(toSeconds);
+    }
 
+    private void tick(SecondsChange.Sexagesimal toSeconds) {
         if(toSeconds.equals(current)) return;
 
+        updateCurrentTime(toSeconds);
+    }
+
+    private void updateCurrentTime(SecondsChange.Sexagesimal toSeconds) {
         current=toSeconds;
-        announcer().secondsUpdate(current);
+        announcer().secondsUpdate(toSeconds);
     }
 
     private CanReceiveSecondsUpdates announcer() {
-        return canReceiveSecondsUpdates.announce();
+        return announcer.announce();
     }
 
     public void observe(CanReceiveSecondsUpdates canReceiveSecondsUpdates) {
-        this.canReceiveSecondsUpdates.addListener(canReceiveSecondsUpdates);
+        announcer.addListener(canReceiveSecondsUpdates);
     }
 
 
