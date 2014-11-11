@@ -1,5 +1,6 @@
-Primary domain event - tock
+Primary domain inbound event - tock
 
+domain generated events:
 Hour changed
 Minute changed
 Second Changed
