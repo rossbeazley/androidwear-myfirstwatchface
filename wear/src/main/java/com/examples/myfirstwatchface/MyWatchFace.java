@@ -12,10 +12,11 @@ import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 public class MyWatchFace extends WatchFaceActivity {
 
-    private TextView mTime, mBattery;
+    private TextView mTimeHours, mTimeMins, mDate;
 
     private final static IntentFilter INTENT_FILTER;
     static {
@@ -25,32 +26,35 @@ public class MyWatchFace extends WatchFaceActivity {
         INTENT_FILTER.addAction(Intent.ACTION_TIME_CHANGED);
     }
 
-    private final String TIME_FORMAT_DISPLAYED = "KK:mm a";
-
     private BroadcastReceiver mTimeInfoReceiver = new BroadcastReceiver(){
         @Override
         public void onReceive(Context arg0, Intent intent) {
-            mTime.setText(new SimpleDateFormat(TIME_FORMAT_DISPLAYED).format(Calendar.getInstance().getTime()));
+            Date time = Calendar.getInstance().getTime();
+            mTimeHours.setText(new SimpleDateFormat("KK").format(time));
+            mTimeMins.setText(new SimpleDateFormat("mm").format(time));
+            mDate.setText(new SimpleDateFormat("dd MMMM").format(time));
         }
     };
 
     private BroadcastReceiver mBatInfoReceiver = new BroadcastReceiver(){
         @Override
         public void onReceive(Context arg0, Intent intent) {
-            mBattery.setText(String.valueOf(intent.getIntExtra(BatteryManager.EXTRA_LEVEL, 0) + "%"));
+            //mBattery.setText(String.valueOf(intent.getIntExtra(BatteryManager.EXTRA_LEVEL, 0) + "%"));
         }
     };
 
     @Override
     public void onScreenDim() {
-        mTime.setTextColor(Color.WHITE);
-        mBattery.setTextColor(Color.WHITE);
+        //mTimeHours.setTextColor(Color.WHITE);
+        //mTimeMins.setTextColor(Color.WHITE);
+        //mBattery.setTextColor(Color.WHITE);
     }
 
     @Override
     public void onScreenAwake() {
-        mTime.setTextColor(Color.RED);
-        mBattery.setTextColor(Color.RED);
+        //mTimeHours.setTextColor(Color.RED);
+        //mTimeMins.setTextColor(Color.GRAY);
+        //mBattery.setTextColor(Color.RED);
     }
 
     @Override
@@ -61,10 +65,11 @@ public class MyWatchFace extends WatchFaceActivity {
         stub.setOnLayoutInflatedListener(new WatchViewStub.OnLayoutInflatedListener() {
             @Override
             public void onLayoutInflated(WatchViewStub stub) {
-                mTime = (TextView) stub.findViewById(R.id.watch_time);
-                mTime.setTextColor(Color.RED);
-                mBattery = (TextView) stub.findViewById(R.id.watch_battery);
-                mBattery.setTextColor(Color.RED);
+                mTimeHours = (TextView) stub.findViewById(R.id.watch_time);
+                mTimeMins = (TextView) stub.findViewById(R.id.watch_time_mins);
+
+                mDate = (TextView) stub.findViewById(R.id.date);
+
                 mTimeInfoReceiver.onReceive(MyWatchFace.this, null);
                 registerReceiver(mTimeInfoReceiver, INTENT_FILTER);
                 registerReceiver(mBatInfoReceiver, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
