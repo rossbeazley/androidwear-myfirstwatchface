@@ -28,6 +28,7 @@ public class SecondsChange implements Seconds.CanReceiveSecondsUpdates {
         seconds.observe(this);
         aTimeWithNineSeconds = Calendar.getInstance();
         aTimeWithNineSeconds.set(Calendar.SECOND, 9);
+        aTimeWithNineSeconds.set(Calendar.HOUR, 9);
     }
 
     @Test
@@ -45,9 +46,14 @@ public class SecondsChange implements Seconds.CanReceiveSecondsUpdates {
         assertThat(timeComponentString, is("RESET"));
     }
 
-    @Test @Ignore
+    @Test
     public void theOneWhereTheTimeChangesButSecondsStayTheSame() {
-
+        seconds.tick(aTimeWithNineSeconds);
+        timeComponentString = "RESET";
+        Calendar aDifferentTimeWithNineSeconds = (Calendar) aTimeWithNineSeconds.clone();
+        aDifferentTimeWithNineSeconds.set(Calendar.HOUR,10);
+        seconds.tick(aDifferentTimeWithNineSeconds);
+        assertThat(timeComponentString, is("RESET"));
     }
 
 
@@ -70,6 +76,11 @@ public class SecondsChange implements Seconds.CanReceiveSecondsUpdates {
         public String base10String() {
             DecimalFormat numberFormat = new DecimalFormat("00");
             return numberFormat.format(value);
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            return obj != null && ((Sexagesimal) obj).value == value;
         }
     }
 
