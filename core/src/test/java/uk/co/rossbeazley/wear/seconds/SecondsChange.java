@@ -1,5 +1,6 @@
 package uk.co.rossbeazley.wear.seconds;
 
+import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -12,24 +13,27 @@ import static org.junit.Assert.assertThat;
 public class SecondsChange implements Seconds.CanReceiveSecondsUpdates {
 
     private String timeComponentString;
+    private Seconds seconds;
+    private Calendar aTimeWithTenSeconds;
 
     @Override
     public void secondsUpdate(Sexagesimal to)
     {
         this.timeComponentString = to.base10String();
     }
-    
+
+    @Before
+    public void setUp() throws Exception {
+        seconds = new Seconds();
+        seconds.observe(this);
+        aTimeWithTenSeconds = Calendar.getInstance();
+        aTimeWithTenSeconds.set(Calendar.SECOND, 10);
+    }
+
     @Test
     public void theOneWhereTheSecondsUpdate() 
     {
-        Seconds seconds = new Seconds();
-        seconds.observe(this);
-
-        Calendar aTimeWithTenSeconds = Calendar.getInstance();
-        aTimeWithTenSeconds.set(Calendar.SECOND, 10);
-        
         seconds.tick(aTimeWithTenSeconds);
-
         assertThat(timeComponentString, is(Sexagesimal.fromBase10(10).base10String()));
     }
 
@@ -41,7 +45,7 @@ public class SecondsChange implements Seconds.CanReceiveSecondsUpdates {
     }
 
     @Test @Ignore
-    public void theOneWhereTheSecondsRoleOver() {
+    public void theOneWhereTheSecondsRollOver() {
 
     }
 
