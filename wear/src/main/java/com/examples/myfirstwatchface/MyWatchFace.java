@@ -16,7 +16,7 @@ import java.util.Date;
 
 public class MyWatchFace extends WatchFaceActivity {
 
-    private TextView mTimeHours, mTimeMins, mDate;
+    private TextView mTimeHours, mTimeMins, mDate, mTimeSecs;
 
     private final static IntentFilter INTENT_FILTER;
     static {
@@ -30,11 +30,30 @@ public class MyWatchFace extends WatchFaceActivity {
         @Override
         public void onReceive(Context arg0, Intent intent) {
             Date time = Calendar.getInstance().getTime();
+
             mTimeHours.setText(new SimpleDateFormat("KK").format(time));
-            mTimeMins.setText(new SimpleDateFormat("mm").format(time));
-            mDate.setText(new SimpleDateFormat("dd MMMM").format(time));
+            mTimeMins .setText(new SimpleDateFormat("mm").format(time));
+            mTimeSecs .setText(new SimpleDateFormat("ss").format(time));
+
+            String dateString = new SimpleDateFormat("dd").format(time);
+            dateString += getDayOfMonthSuffix(time.getDay());
+            dateString += new SimpleDateFormat(" MMMM").format(time);
+            mDate.setText(dateString);
+
         }
     };
+
+    String getDayOfMonthSuffix(final int n) {
+        if (n >= 11 && n <= 13) {
+            return "th";
+        }
+        switch (n % 10) {
+            case 1:  return "st";
+            case 2:  return "nd";
+            case 3:  return "rd";
+            default: return "th";
+        }
+    }
 
     private BroadcastReceiver mBatInfoReceiver = new BroadcastReceiver(){
         @Override
@@ -67,6 +86,7 @@ public class MyWatchFace extends WatchFaceActivity {
             public void onLayoutInflated(WatchViewStub stub) {
                 mTimeHours = (TextView) stub.findViewById(R.id.watch_time);
                 mTimeMins = (TextView) stub.findViewById(R.id.watch_time_mins);
+                mTimeSecs = (TextView) stub.findViewById(R.id.watch_time_secs);
 
                 mDate = (TextView) stub.findViewById(R.id.date);
 

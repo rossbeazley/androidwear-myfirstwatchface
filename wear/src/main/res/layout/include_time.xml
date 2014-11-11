@@ -14,7 +14,7 @@
         android:layout_above="@+id/watch_time_container"
         android:textColor="#aaaaaa"
         android:gravity="center"
-        tools:text="29 December"
+        tools:text="29th December"
         />
 
     <LinearLayout
@@ -50,5 +50,17 @@
 
     </LinearLayout>
 
+
+    <TextView
+        android:id="@+id/watch_time_secs"
+        android:textSize="36sp"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/watch_time_container"
+        android:textColor="#eeeeee"
+        android:gravity="center"
+        tools:text="03"
+        android:visibility="gone"
+        />
 
 </RelativeLayout>
