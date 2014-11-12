@@ -29,22 +29,23 @@ public class MyWatchFace extends WatchFaceActivity {
     private BroadcastReceiver mTimeInfoReceiver = new BroadcastReceiver(){
         @Override
         public void onReceive(Context arg0, Intent intent) {
-            Date time = Calendar.getInstance().getTime();
+            Calendar instance = Calendar.getInstance();
+            Date time = instance.getTime();
 
             mTimeHours.setText(new SimpleDateFormat("hh").format(time));
             mTimeMins .setText(new SimpleDateFormat("mm").format(time));
             mTimeSecs .setText(new SimpleDateFormat("ss").format(time));
 
             String dateString = new SimpleDateFormat("dd").format(time);
-            dateString += " ";//getDayOfMonthSuffix(time.getDay());
-            dateString += new SimpleDateFormat(" MMMM").format(time);
+            dateString += getDayOfMonthSuffix(instance.get(Calendar.DAY_OF_MONTH));
+            dateString += new SimpleDateFormat("  MMMM").format(time);
             mDate.setText(dateString);
 
         }
     };
 
     String getDayOfMonthSuffix(final int n) {
-        if (n >= 11 && n <= 13) {
+        if (n >= 4 && n <= 20) {
             return "th";
         }
         switch (n % 10) {
