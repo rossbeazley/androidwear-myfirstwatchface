@@ -7,15 +7,11 @@ import uk.co.rossbeazley.wear.Sexagesimal;
 
 public class Seconds {
 
-    public static interface CanReceiveSecondsUpdates {
-        void secondsUpdate(Sexagesimal to);
-    }
-
-    final private Announcer<CanReceiveSecondsUpdates> announcer;
+    final private Announcer<CanBeObservedForChangesToSeconds.CanReceiveSecondsUpdates> announcer;
     private Sexagesimal current = null;
 
     public Seconds() {
-        announcer = Announcer.to(CanReceiveSecondsUpdates.class);
+        announcer = Announcer.to(CanBeObservedForChangesToSeconds.CanReceiveSecondsUpdates.class);
     }
 
     public void tick(Calendar to) {
@@ -35,11 +31,11 @@ public class Seconds {
         announcer().secondsUpdate(toSeconds);
     }
 
-    private CanReceiveSecondsUpdates announcer() {
+    private CanBeObservedForChangesToSeconds.CanReceiveSecondsUpdates announcer() {
         return announcer.announce();
     }
 
-    public void observe(CanReceiveSecondsUpdates canReceiveSecondsUpdates) {
+    public void observe(CanBeObservedForChangesToSeconds.CanReceiveSecondsUpdates canReceiveSecondsUpdates) {
         announcer.addListener(canReceiveSecondsUpdates);
     }
 
