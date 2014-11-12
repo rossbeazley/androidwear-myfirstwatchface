@@ -26,7 +26,7 @@ public class TickerTest implements CanBeTicked {
 
     final Calendar theExpectedTime = Calendar.getInstance();
 
-    @Test @Ignore
+    @Test
     public void theOneWhereSomethingThatCanBeTickedIsTickedPeriodically() {
 
         TimeSource timeSource = new FakeTimeSource();
@@ -44,8 +44,13 @@ public class TickerTest implements CanBeTicked {
     }
 
     private class Ticker {
-        public Ticker(TimeSource timeSource, ScheduledExecutorService executor, CanBeTicked tickerTest) {
-
+        public Ticker(final TimeSource timeSource, ScheduledExecutorService executor, final CanBeTicked tickerTest) {
+            executor.scheduleAtFixedRate(new Runnable() {
+                @Override
+                public void run() {
+                    tickerTest.tick(timeSource.time());
+                }
+            },0,200,TimeUnit.MILLISECONDS);
         }
     }
 
@@ -67,7 +72,6 @@ public class TickerTest implements CanBeTicked {
 
         @Override
         public ScheduledFuture<?> schedule(Runnable command, long delay, TimeUnit unit) {
-            TickerTest.this.command = command;
             return null;
         }
 
@@ -78,6 +82,7 @@ public class TickerTest implements CanBeTicked {
 
         @Override
         public ScheduledFuture<?> scheduleAtFixedRate(Runnable command, long initialDelay, long period, TimeUnit unit) {
+            TickerTest.this.command = command;
             return null;
         }
 
