@@ -2,8 +2,6 @@ package uk.co.rossbeazley.wear;
 
 import java.text.DecimalFormat;
 
-import uk.co.rossbeazley.wear.seconds.SecondsChange;
-
 /**
 * Created by rdlb on 11/11/14.
 */

@@ -10,7 +10,7 @@ import uk.co.rossbeazley.wear.Sexagesimal;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
-public class SecondsChange implements Seconds.CanReceiveSecondsUpdates {
+public class SecondsChangeTest implements Seconds.CanReceiveSecondsUpdates {
 
     private String timeComponentString;
     private Seconds seconds;
