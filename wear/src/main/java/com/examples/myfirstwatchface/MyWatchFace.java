@@ -31,12 +31,12 @@ public class MyWatchFace extends WatchFaceActivity {
         public void onReceive(Context arg0, Intent intent) {
             Date time = Calendar.getInstance().getTime();
 
-            mTimeHours.setText(new SimpleDateFormat("KK").format(time));
+            mTimeHours.setText(new SimpleDateFormat("hh").format(time));
             mTimeMins .setText(new SimpleDateFormat("mm").format(time));
             mTimeSecs .setText(new SimpleDateFormat("ss").format(time));
 
             String dateString = new SimpleDateFormat("dd").format(time);
-            dateString += getDayOfMonthSuffix(time.getDay());
+            dateString += " ";//getDayOfMonthSuffix(time.getDay());
             dateString += new SimpleDateFormat(" MMMM").format(time);
             mDate.setText(dateString);
 
