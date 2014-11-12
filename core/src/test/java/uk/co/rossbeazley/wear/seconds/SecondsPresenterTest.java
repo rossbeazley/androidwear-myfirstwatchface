@@ -16,11 +16,10 @@ public class SecondsPresenterTest {
     Seconds.CanReceiveSecondsUpdates observer;
 
     @Test
-    @Ignore
     public void theOneWhereWeUpdateTheScreen() {
 
         CanBeObservedForChangesToSeconds canBeObservedForChangesToSeconds = new CanBeObservedForChangesToSeconds(){
-            public void observe(Seconds.CanReceiveSecondsUpdates canReceiveSecondsUpdates) {
+            @Override public void observe(Seconds.CanReceiveSecondsUpdates canReceiveSecondsUpdates) {
                 observer = canReceiveSecondsUpdates;
             }
         };
@@ -40,12 +39,18 @@ public class SecondsPresenterTest {
 
 
     private class SecondsPresenter {
-        public SecondsPresenter(CanBeObservedForChangesToSeconds canBeObservedForChangesToSeconds, SecondsView view) {
-
+        public SecondsPresenter(final CanBeObservedForChangesToSeconds canBeObservedForChangesToSeconds, final SecondsView view) {
+            canBeObservedForChangesToSeconds.observe(new Seconds.CanReceiveSecondsUpdates() {
+                @Override
+                public void secondsUpdate(Sexagesimal to) {
+                    view.showSecondsString(to.base10String());
+                }
+            });
         }
     }
 
     private interface CanBeObservedForChangesToSeconds {
+        void observe(Seconds.CanReceiveSecondsUpdates canReceiveSecondsUpdates);
     }
 
     private interface SecondsView {
