@@ -5,7 +5,7 @@ import java.util.Calendar;
 import uk.co.rossbeazley.wear.Announcer;
 import uk.co.rossbeazley.wear.Sexagesimal;
 
-public class Seconds implements CanBeObservedForChangesToSeconds {
+public class Seconds implements CanBeObservedForChangesToSeconds, CanBeTicked {
 
     final private Announcer<CanBeObservedForChangesToSeconds.CanReceiveSecondsUpdates> announcer;
     private Sexagesimal current = null;
@@ -14,6 +14,7 @@ public class Seconds implements CanBeObservedForChangesToSeconds {
         announcer = Announcer.to(CanBeObservedForChangesToSeconds.CanReceiveSecondsUpdates.class);
     }
 
+    @Override
     public void tick(Calendar to) {
         int secondsFromTick = to.get(Calendar.SECOND);
         Sexagesimal toSeconds = Sexagesimal.fromBase10(secondsFromTick);
