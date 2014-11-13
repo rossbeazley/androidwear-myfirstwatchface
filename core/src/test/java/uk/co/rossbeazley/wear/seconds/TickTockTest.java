@@ -3,6 +3,9 @@ package uk.co.rossbeazley.wear.seconds;
 import org.junit.Test;
 
 import java.util.Calendar;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import static org.hamcrest.Matchers.is;
@@ -23,7 +26,7 @@ public class TickTockTest implements CanBeTicked {
 
         executor.elapseTime();
 
-        epoc.add(Calendar.MILLISECOND,200);
+        epoc.add(Calendar.MILLISECOND,200); //Should this be using time in millis in assertion?
         assertThat(tickedTo, is(epoc));
     }
 
@@ -80,4 +83,14 @@ public class TickTockTest implements CanBeTicked {
         }
     }
 
+    // TO BE USED IN THE REAL WORLD
+    private class DefaultNarrowScheduledExecutorService implements NarrowScheduledExecutorService {
+
+        ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
+
+        @Override
+        public void scheduleAtFixedRate(Runnable command, long period, TimeUnit unit) {
+            service.scheduleAtFixedRate(command,0,period,unit);
+        }
+    }
 }

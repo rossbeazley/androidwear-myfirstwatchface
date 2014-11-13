@@ -26,4 +26,6 @@ it 2:
  wire this up in main and get a view of Seconds working
  -- presenter implemented
  -- view speced out
- -- todo ticker, consider extracting role for tick from seconds, give seconds to this ticker which ticks it at an interval
+ -- DONE todo ticker, consider extracting role for tick from seconds, give seconds to this ticker which ticks it at an interval
+ -- todo implement a view class, this needs a layout and inflated view class
+ -- todo integrate into app, this needs a container view class and layout that wires up the presenter, inflated view and app service layer, need an app service layer and app factory
