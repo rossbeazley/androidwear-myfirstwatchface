@@ -8,7 +8,7 @@ import java.util.concurrent.TimeUnit;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
-public class TickerTest implements CanBeTicked {
+public class TickTockTest implements CanBeTicked {
 
     Calendar tickedTo;
 
@@ -21,7 +21,7 @@ public class TickerTest implements CanBeTicked {
 
         TimeSource timeSource = new FakeTimeSource();
         NarrowScheduledExecutorService executor = new FakeNarrowScheduledExecutorService();
-        new Ticker(timeSource, executor, this);
+        new TickTock(timeSource, executor, this);
 
         command.run();
 
@@ -33,12 +33,12 @@ public class TickerTest implements CanBeTicked {
         tickedTo = to;
     }
 
-    private class Ticker {
-        public Ticker(final TimeSource timeSource, NarrowScheduledExecutorService executor, final CanBeTicked tickerTest) {
+    private class TickTock {
+        public TickTock(final TimeSource timeSource, NarrowScheduledExecutorService executor, final CanBeTicked tock) {
             Runnable tick = new Runnable() {
                 @Override
                 public void run() {
-                    tickerTest.tick(timeSource.time());
+                    tock.tick(timeSource.time());
                 }
             };
             executor.scheduleAtFixedRate(tick,0,200,TimeUnit.MILLISECONDS);
@@ -63,7 +63,7 @@ public class TickerTest implements CanBeTicked {
     private class FakeNarrowScheduledExecutorService implements NarrowScheduledExecutorService {
         @Override
         public void scheduleAtFixedRate(Runnable command, long initialDelay, long period, TimeUnit unit) {
-            TickerTest.this.command = command;
+            TickTockTest.this.command = command;
         }
 
     }
