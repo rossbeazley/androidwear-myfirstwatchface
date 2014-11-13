@@ -21,10 +21,10 @@ public class TickTockTest implements CanBeTicked {
 
         new TickTock(timeSource, executor, this);
 
-        executor.toNextDelay();
+        executor.elapseTime();
 
         epoc.add(Calendar.MILLISECOND,200);
-        assertThat(tickedTo, is(epoc)); // PLUS PERIOD
+        assertThat(tickedTo, is(epoc));
     }
 
     @Override
@@ -57,8 +57,7 @@ public class TickTockTest implements CanBeTicked {
 
         Calendar theNextExpectedTime;
         private Runnable command;
-        private TimeUnit unit;
-        private long period;
+        private int millisecondsToAdd;
 
         public FakeNarrowScheduledExecutorService(Calendar epoc) {
             theNextExpectedTime = (Calendar) epoc.clone();
@@ -66,13 +65,12 @@ public class TickTockTest implements CanBeTicked {
 
         @Override
         public void scheduleAtFixedRate(Runnable command, long period, TimeUnit unit) {
-            this.unit = unit;
-            this.period = period;
             this.command = command;
+            millisecondsToAdd = (int) TimeUnit.MILLISECONDS.convert(period, unit);
         }
 
-        public void toNextDelay() {
-            theNextExpectedTime.add(Calendar.MILLISECOND, (int) TimeUnit.MILLISECONDS.convert(period, unit));
+        public void elapseTime() {
+            theNextExpectedTime.add(Calendar.MILLISECOND, millisecondsToAdd);
             command.run();
         }
 
