@@ -12,20 +12,19 @@ public class TickTockTest implements CanBeTicked {
 
     Calendar tickedTo;
 
-    private Runnable command;
-
-    final Calendar theExpectedTime = Calendar.getInstance();
-
     @Test
     public void theOneWhereSomethingThatCanBeTickedIsTickedPeriodically() {
 
-        TimeSource timeSource = new FakeTimeSource();
-        NarrowScheduledExecutorService executor = new FakeNarrowScheduledExecutorService();
+        Calendar epoc = Calendar.getInstance();
+        FakeNarrowScheduledExecutorService executor = new FakeNarrowScheduledExecutorService(epoc);
+        TimeSource timeSource = executor;
+
         new TickTock(timeSource, executor, this);
 
-        command.run();
+        executor.toNextDelay();
 
-        assertThat(tickedTo, is(theExpectedTime));
+        epoc.add(Calendar.MILLISECOND,200);
+        assertThat(tickedTo, is(epoc)); // PLUS PERIOD
     }
 
     @Override
@@ -41,14 +40,7 @@ public class TickTockTest implements CanBeTicked {
                     tock.tick(timeSource.time());
                 }
             };
-            executor.scheduleAtFixedRate(tick,0,200,TimeUnit.MILLISECONDS);
-        }
-    }
-
-    private class FakeTimeSource implements TimeSource {
-        @Override
-        public Calendar time() {
-            return theExpectedTime;
+            executor.scheduleAtFixedRate(tick,200,TimeUnit.MILLISECONDS);
         }
     }
 
@@ -56,15 +48,38 @@ public class TickTockTest implements CanBeTicked {
         Calendar time();
     }
 
-    private interface NarrowScheduledExecutorService {
-        void scheduleAtFixedRate(Runnable command, long initialDelay, long period, TimeUnit unit);
+    public static interface NarrowScheduledExecutorService {
+        void scheduleAtFixedRate(Runnable command, long period, TimeUnit unit);
     }
 
-    private class FakeNarrowScheduledExecutorService implements NarrowScheduledExecutorService {
-        @Override
-        public void scheduleAtFixedRate(Runnable command, long initialDelay, long period, TimeUnit unit) {
-            TickTockTest.this.command = command;
+
+    private class FakeNarrowScheduledExecutorService implements NarrowScheduledExecutorService, TimeSource {
+
+        Calendar theNextExpectedTime;
+        private Runnable command;
+        private TimeUnit unit;
+        private long period;
+
+        public FakeNarrowScheduledExecutorService(Calendar epoc) {
+            theNextExpectedTime = (Calendar) epoc.clone();
         }
 
+        @Override
+        public void scheduleAtFixedRate(Runnable command, long period, TimeUnit unit) {
+            this.unit = unit;
+            this.period = period;
+            this.command = command;
+        }
+
+        public void toNextDelay() {
+            theNextExpectedTime.add(Calendar.MILLISECOND, (int) TimeUnit.MILLISECONDS.convert(period, unit));
+            command.run();
+        }
+
+        @Override
+        public Calendar time() {
+            return theNextExpectedTime;
+        }
     }
+
 }
