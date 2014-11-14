@@ -21,11 +21,16 @@ they all observe the tock
 it 1:
  test drive the seconds object
 
+---
 it 2:
  test driver a ticker, this has to accept an object that has tick(Calendar) and it ticks it at an interval
  wire this up in main and get a view of Seconds working
  -- presenter implemented
  -- view speced out
  -- DONE todo ticker, consider extracting role for tick from seconds, give seconds to this ticker which ticks it at an interval
- -- todo implement a view class, this needs a layout and inflated view class
- -- todo integrate into app, this needs a container view class and layout that wires up the presenter, inflated view and app service layer, need an app service layer and app factory
+ -- DONE todo implement a view class, this needs a layout and inflated view class
+ -- DONE todo integrate into app, this needs a container view class and layout that wires up the presenter, inflated view and app service layer, need an app service layer and app factory
+
+---
+it 3:
+ implement minutes and remove minute code from hacktivity

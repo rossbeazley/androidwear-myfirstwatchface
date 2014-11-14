@@ -50,13 +50,13 @@ public class WatchFaceView extends RelativeLayout implements CanPostToMainThread
         }
 
         @Override
-        public void showSecondsString(final String seconds) {
+        public void showSecondsString(final String newSeconds) {
             mainThread.post(new Runnable() {
                 @Override
                 public void run() {
-                    AndroidSecondsView.this.seconds.setText(seconds);
+                    seconds.setText(newSeconds);
                 }
-            });
+            }); //SMELL this main thread post solution will get out of hand quickly, maybe I could dispatch on the main thread from the Announcer?
         }
     }
 }
