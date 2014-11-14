@@ -1,16 +1,12 @@
 package uk.co.rossbeazley.wear.ticktock;
 
+import java.util.Calendar;
 import java.util.concurrent.TimeUnit;
 
-import uk.co.rossbeazley.wear.ticktock.CanBeTicked;
-import uk.co.rossbeazley.wear.ticktock.NarrowScheduledExecutorService;
-import uk.co.rossbeazley.wear.ticktock.TimeSource;
+import uk.co.rossbeazley.wear.seconds.Seconds;
 
-/**
-* Created by rdlb on 14/11/14.
-*/
 public class TickTock {
-    public TickTock(final TimeSource timeSource, NarrowScheduledExecutorService executor, final CanBeTicked tock) {
+    TickTock(final TimeSource timeSource, NarrowScheduledExecutorService executor, final CanBeTicked tock) {
         Runnable tick = new Runnable() {
             @Override
             public void run() {
@@ -18,5 +14,14 @@ public class TickTock {
             }
         };
         executor.scheduleAtFixedRate(tick,200, TimeUnit.MILLISECONDS);
+    }
+
+    public static TickTock createTickTock(Seconds seconds) {
+        return new TickTock(new TimeSource() {
+            @Override
+            public Calendar time() {
+                return Calendar.getInstance();
+            }
+        },new DefaultNarrowScheduledExecutorService(), seconds);
     }
 }

@@ -1,12 +1,8 @@
 package uk.co.rossbeazley.wear;
 
-import java.util.Calendar;
-
 import uk.co.rossbeazley.wear.seconds.CanBeObservedForChangesToSeconds;
 import uk.co.rossbeazley.wear.seconds.Seconds;
-import uk.co.rossbeazley.wear.ticktock.DefaultNarrowScheduledExecutorService;
 import uk.co.rossbeazley.wear.ticktock.TickTock;
-import uk.co.rossbeazley.wear.ticktock.TimeSource;
 
 public class Main {
 
@@ -24,11 +20,7 @@ public class Main {
         Seconds seconds = new Seconds();
         canBeObservedForChangesToSeconds = seconds;
 
-        new TickTock(new TimeSource() {
-            @Override
-            public Calendar time() {
-                return Calendar.getInstance();
-            }
-        },new DefaultNarrowScheduledExecutorService(), seconds);
+        TickTock tickTock = TickTock.createTickTock(seconds);
     }
+
 }
