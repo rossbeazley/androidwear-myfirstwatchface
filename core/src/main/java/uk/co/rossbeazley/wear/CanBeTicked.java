@@ -1,4 +1,4 @@
-package uk.co.rossbeazley.wear.seconds;
+package uk.co.rossbeazley.wear;
 
 import java.util.Calendar;
 

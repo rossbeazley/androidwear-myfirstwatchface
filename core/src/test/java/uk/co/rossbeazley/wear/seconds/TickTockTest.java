@@ -3,10 +3,12 @@ package uk.co.rossbeazley.wear.seconds;
 import org.junit.Test;
 
 import java.util.Calendar;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+
+import uk.co.rossbeazley.wear.CanBeTicked;
+import uk.co.rossbeazley.wear.NarrowScheduledExecutorService;
+import uk.co.rossbeazley.wear.TickTock;
+import uk.co.rossbeazley.wear.TimeSource;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
@@ -33,26 +35,6 @@ public class TickTockTest implements CanBeTicked {
     @Override
     public void tick(Calendar to) {
         tickedTo = to;
-    }
-
-    private class TickTock {
-        public TickTock(final TimeSource timeSource, NarrowScheduledExecutorService executor, final CanBeTicked tock) {
-            Runnable tick = new Runnable() {
-                @Override
-                public void run() {
-                    tock.tick(timeSource.time());
-                }
-            };
-            executor.scheduleAtFixedRate(tick,200,TimeUnit.MILLISECONDS);
-        }
-    }
-
-    public static interface TimeSource {
-        Calendar time();
-    }
-
-    public static interface NarrowScheduledExecutorService {
-        void scheduleAtFixedRate(Runnable command, long period, TimeUnit unit);
     }
 
 
@@ -83,14 +65,4 @@ public class TickTockTest implements CanBeTicked {
         }
     }
 
-    // TO BE USED IN THE REAL WORLD
-    private class DefaultNarrowScheduledExecutorService implements NarrowScheduledExecutorService {
-
-        ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
-
-        @Override
-        public void scheduleAtFixedRate(Runnable command, long period, TimeUnit unit) {
-            service.scheduleAtFixedRate(command,0,period,unit);
-        }
-    }
 }

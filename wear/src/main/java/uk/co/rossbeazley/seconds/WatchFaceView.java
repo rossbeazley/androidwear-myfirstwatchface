@@ -15,7 +15,7 @@ import uk.co.rossbeazley.wear.seconds.SecondsPresenter;
 /**
  * Created by beazlr02 on 14/11/2014.
  */
-public class WatchFaceView extends RelativeLayout {
+public class WatchFaceView extends RelativeLayout implements CanPostToMainThread {
     public WatchFaceView(Context context) {
         super(context);
     }
@@ -32,8 +32,9 @@ public class WatchFaceView extends RelativeLayout {
     protected void onFinishInflate() {
         super.onFinishInflate();
 
-        AndroidSecondsView secondsview = new AndroidSecondsView(this);
-        CanBeObservedForChangesToSeconds seconds = Main.canBeObservedForChangesToSeconds;
+        AndroidSecondsView secondsview = new AndroidSecondsView(this, this);
+        Main instance = Main.instance();
+        CanBeObservedForChangesToSeconds seconds = instance.canBeObservedForChangesToSeconds;
         SecondsPresenter secondsPresenter = new SecondsPresenter(seconds, secondsview);
 
     }
@@ -41,14 +42,21 @@ public class WatchFaceView extends RelativeLayout {
     private class AndroidSecondsView implements SecondsPresenter.SecondsView {
 
         private final TextView seconds;
+        private final CanPostToMainThread mainThread;
 
-        public AndroidSecondsView(View inflatedViews) {
+        public AndroidSecondsView(View inflatedViews, CanPostToMainThread mainThread) {
+            this.mainThread = mainThread;
             seconds = (TextView) inflatedViews.findViewById(R.id.watch_time_secs);
         }
 
         @Override
-        public void showSecondsString(String seconds) {
-            this.seconds.setText(seconds);
+        public void showSecondsString(final String seconds) {
+            mainThread.post(new Runnable() {
+                @Override
+                public void run() {
+                    AndroidSecondsView.this.seconds.setText(seconds);
+                }
+            });
         }
     }
 }

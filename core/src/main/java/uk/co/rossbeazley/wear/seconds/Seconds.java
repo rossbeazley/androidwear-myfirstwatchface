@@ -3,6 +3,7 @@ package uk.co.rossbeazley.wear.seconds;
 import java.util.Calendar;
 
 import uk.co.rossbeazley.wear.Announcer;
+import uk.co.rossbeazley.wear.CanBeTicked;
 import uk.co.rossbeazley.wear.Sexagesimal;
 
 public class Seconds implements CanBeObservedForChangesToSeconds, CanBeTicked {
