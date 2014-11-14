@@ -2,7 +2,7 @@ package uk.co.rossbeazley.wear.seconds;
 
 import uk.co.rossbeazley.wear.Sexagesimal;
 
-interface CanBeObservedForChangesToSeconds {
+public interface CanBeObservedForChangesToSeconds {
     void observe(CanReceiveSecondsUpdates canReceiveSecondsUpdates);
 
     interface CanReceiveSecondsUpdates {

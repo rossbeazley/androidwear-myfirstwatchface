@@ -8,6 +8,10 @@ import android.widget.TextView;
 
 import com.examples.myfirstwatchface.R;
 
+import uk.co.rossbeazley.wear.Main;
+import uk.co.rossbeazley.wear.seconds.CanBeObservedForChangesToSeconds;
+import uk.co.rossbeazley.wear.seconds.SecondsPresenter;
+
 /**
  * Created by beazlr02 on 14/11/2014.
  */
@@ -28,16 +32,23 @@ public class WatchFaceView extends RelativeLayout {
     protected void onFinishInflate() {
         super.onFinishInflate();
 
-        new SecondsView(this);
+        AndroidSecondsView secondsview = new AndroidSecondsView(this);
+        CanBeObservedForChangesToSeconds seconds = Main.canBeObservedForChangesToSeconds;
+        SecondsPresenter secondsPresenter = new SecondsPresenter(seconds, secondsview);
 
     }
 
-    private class SecondsView {
+    private class AndroidSecondsView implements SecondsPresenter.SecondsView {
 
         private final TextView seconds;
 
-        public SecondsView(View inflatedViews) {
+        public AndroidSecondsView(View inflatedViews) {
             seconds = (TextView) inflatedViews.findViewById(R.id.watch_time_secs);
+        }
+
+        @Override
+        public void showSecondsString(String seconds) {
+            this.seconds.setText(seconds);
         }
     }
 }

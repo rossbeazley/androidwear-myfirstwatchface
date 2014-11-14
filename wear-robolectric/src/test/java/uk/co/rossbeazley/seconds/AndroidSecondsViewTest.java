@@ -8,7 +8,7 @@ import org.robolectric.RobolectricTestRunner;
 import uk.co.rossbeazley.wear.seconds.SecondsPresenterTest;
 
 @RunWith(RobolectricTestRunner.class)
-public class SecondsViewTest {
+public class AndroidSecondsViewTest {
 
     @Test
     public void theOneWhenTheViewShowsTheNumberOfSeconds() {
