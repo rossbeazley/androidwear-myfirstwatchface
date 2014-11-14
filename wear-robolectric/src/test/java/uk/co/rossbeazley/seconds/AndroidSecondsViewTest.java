@@ -5,6 +5,7 @@ import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 
+import uk.co.rossbeazley.wear.seconds.SecondsPresenter;
 import uk.co.rossbeazley.wear.seconds.SecondsPresenterTest;
 
 @RunWith(RobolectricTestRunner.class)
@@ -17,7 +18,7 @@ public class AndroidSecondsViewTest {
         new AndroidSecondsView();
     }
 
-    public static class AndroidSecondsView implements SecondsPresenterTest.SecondsPresenter.SecondsView{
+    public static class AndroidSecondsView implements SecondsPresenter.SecondsView{
         @Override
         public void showSecondsString(String seconds) {
 
