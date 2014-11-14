@@ -4,6 +4,9 @@ import java.util.Calendar;
 
 import uk.co.rossbeazley.wear.seconds.CanBeObservedForChangesToSeconds;
 import uk.co.rossbeazley.wear.seconds.Seconds;
+import uk.co.rossbeazley.wear.ticktock.DefaultNarrowScheduledExecutorService;
+import uk.co.rossbeazley.wear.ticktock.TickTock;
+import uk.co.rossbeazley.wear.ticktock.TimeSource;
 
 public class Main {
 
@@ -11,7 +14,7 @@ public class Main {
 
     public static Main instance() { return instance; }
 
-    public static void init() {
+    public static void init() { //thinking i will init the core with the external stuff?
         instance = new Main();
     }
 

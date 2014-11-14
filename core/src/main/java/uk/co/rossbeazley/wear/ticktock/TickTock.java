@@ -1,6 +1,10 @@
-package uk.co.rossbeazley.wear;
+package uk.co.rossbeazley.wear.ticktock;
 
 import java.util.concurrent.TimeUnit;
+
+import uk.co.rossbeazley.wear.ticktock.CanBeTicked;
+import uk.co.rossbeazley.wear.ticktock.NarrowScheduledExecutorService;
+import uk.co.rossbeazley.wear.ticktock.TimeSource;
 
 /**
 * Created by rdlb on 14/11/14.
