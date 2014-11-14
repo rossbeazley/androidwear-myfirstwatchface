@@ -35,19 +35,4 @@ public class SecondsPresenterTest {
     }
 
 
-    public static class SecondsPresenter {
-        public SecondsPresenter(final CanBeObservedForChangesToSeconds canBeObservedForChangesToSeconds, final SecondsView view) {
-            canBeObservedForChangesToSeconds.observe(new CanBeObservedForChangesToSeconds.CanReceiveSecondsUpdates() {
-                @Override
-                public void secondsUpdate(Sexagesimal to) {
-                    view.showSecondsString(to.base10String());
-                }
-            });
-        }
-
-        public static interface SecondsView {
-            void showSecondsString(String seconds);
-        }
-    }
-
 }
