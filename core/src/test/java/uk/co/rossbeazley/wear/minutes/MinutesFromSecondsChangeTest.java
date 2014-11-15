@@ -49,28 +49,47 @@ public class MinutesFromSecondsChangeTest implements CanBeObservedForChangesToMi
     }
 
     private class MinutesFromSeconds implements CanBeObservedForChangesToMinutes {
-        private Sexagesimal minutes;
-        private Sexagesimal seconds;
+        private Sexagesimal minutes, seconds;
         private final CanBeObservedForChangesToSeconds secondsSource;
         private CanReceiveMinutesUpdates canReceiveMinutesUpdates;
 
+        CanBeObservedForChangesToSeconds.CanReceiveSecondsUpdates FSM;
 
         public MinutesFromSeconds(final Sexagesimal initialMinutes, final CanBeObservedForChangesToSeconds secondsSource) {
             this.minutes = initialMinutes;
-            this.seconds = null;
             this.secondsSource = secondsSource;
-            this.secondsSource.observe(new CanBeObservedForChangesToSeconds.CanReceiveSecondsUpdates() {
+            FSM = new CanBeObservedForChangesToSeconds.CanReceiveSecondsUpdates() {
+
+                CanBeObservedForChangesToSeconds.CanReceiveSecondsUpdates state = new InitialState();
+
                 @Override
                 public void secondsUpdate(Sexagesimal to) {
-                    if(seconds !=null && to.isLessThan(seconds)) {
-                        incrementMinutes();
-                    }
-                    seconds = to;
+                    state.secondsUpdate(to);
                 }
-            });
+
+
+                class InitialState implements CanBeObservedForChangesToSeconds.CanReceiveSecondsUpdates {
+                    @Override
+                    public void secondsUpdate(Sexagesimal to) {
+                        seconds = to;
+                        state = new IfRollover();
+                    }
+                }
+
+                class IfRollover implements CanBeObservedForChangesToSeconds.CanReceiveSecondsUpdates {
+                    @Override
+                    public void secondsUpdate(Sexagesimal to) {
+                        if(to.isLessThan(seconds)) {
+                            incrementMinute();
+                        }
+                        seconds = to;
+                    }
+                }
+            };
+            this.secondsSource.observe(FSM);
         }
 
-        private void incrementMinutes() {
+        private void incrementMinute() {
             minutes = minutes.increment();
             canReceiveMinutesUpdates.minutesUpdate(minutes);
         }
@@ -79,6 +98,8 @@ public class MinutesFromSecondsChangeTest implements CanBeObservedForChangesToMi
         public void observe(CanReceiveMinutesUpdates canReceiveMinutesUpdates) {
             this.canReceiveMinutesUpdates = canReceiveMinutesUpdates;
         }
+
+
     }
 
 }
