@@ -33,4 +33,13 @@ it 2:
 
 ---
 it 3:
- implement minutes and remove minute code from hacktivity
+ implement minutes and remove minute code from hacktivity -- DONE
+
+---
+it 4:
+ refactor main factory class, think it can be used in tests.
+ implement hours presenter,
+ implement hours,
+ implement view and integrate
+ remove view code from hacktivity
+
