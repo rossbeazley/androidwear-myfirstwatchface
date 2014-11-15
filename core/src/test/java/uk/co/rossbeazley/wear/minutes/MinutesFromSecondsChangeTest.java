@@ -7,6 +7,7 @@ import uk.co.rossbeazley.wear.seconds.CanBeObservedForChangesToSeconds;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
+import static uk.co.rossbeazley.wear.seconds.CanBeObservedForChangesToSeconds.*;
 
 public class MinutesFromSecondsChangeTest implements CanBeObservedForChangesToMinutes.CanReceiveMinutesUpdates {
 
@@ -53,36 +54,34 @@ public class MinutesFromSecondsChangeTest implements CanBeObservedForChangesToMi
         private final CanBeObservedForChangesToSeconds secondsSource;
         private CanReceiveMinutesUpdates canReceiveMinutesUpdates;
 
-        CanBeObservedForChangesToSeconds.CanReceiveSecondsUpdates FSM;
+        CanReceiveSecondsUpdates FSM;
 
         public MinutesFromSeconds(final Sexagesimal initialMinutes, final CanBeObservedForChangesToSeconds secondsSource) {
             this.minutes = initialMinutes;
             this.secondsSource = secondsSource;
-            FSM = new CanBeObservedForChangesToSeconds.CanReceiveSecondsUpdates() {
+            FSM = new CanReceiveSecondsUpdates() {
 
-                CanBeObservedForChangesToSeconds.CanReceiveSecondsUpdates state = new InitialState();
+                CanReceiveSecondsUpdates state = new InitialState();
 
                 @Override
                 public void secondsUpdate(Sexagesimal to) {
                     state.secondsUpdate(to);
+                    seconds = to;
                 }
 
-
-                class InitialState implements CanBeObservedForChangesToSeconds.CanReceiveSecondsUpdates {
+                class InitialState implements CanReceiveSecondsUpdates {
                     @Override
                     public void secondsUpdate(Sexagesimal to) {
-                        seconds = to;
                         state = new IfRollover();
                     }
                 }
 
-                class IfRollover implements CanBeObservedForChangesToSeconds.CanReceiveSecondsUpdates {
+                class IfRollover implements CanReceiveSecondsUpdates {
                     @Override
                     public void secondsUpdate(Sexagesimal to) {
                         if(to.isLessThan(seconds)) {
                             incrementMinute();
                         }
-                        seconds = to;
                     }
                 }
             };
