@@ -1,11 +1,12 @@
 package uk.co.rossbeazley.wear.ticktock;
 
-import org.hamcrest.Matchers;
-import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.Calendar;
 import java.util.concurrent.TimeUnit;
+
+import static org.hamcrest.Matchers.*;
+import static org.junit.Assert.*;
 
 public class TickTockTest implements CanBeTicked {
 
@@ -18,12 +19,12 @@ public class TickTockTest implements CanBeTicked {
         FakeNarrowScheduledExecutorService executor = new FakeNarrowScheduledExecutorService(epoc);
         TimeSource timeSource = executor;
 
-        new TickTock(timeSource, executor, this);
+        new TickTock(timeSource, executor, this, null);
 
         executor.elapseTime();
 
         epoc.add(Calendar.MILLISECOND,200); //Should this be using time in millis in assertion?
-        Assert.assertThat(tickedTo, Matchers.is(epoc));
+        assertThat(tickedTo, is(epoc));
     }
 
     @Override
