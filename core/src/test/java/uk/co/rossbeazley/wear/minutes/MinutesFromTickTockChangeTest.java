@@ -4,6 +4,7 @@ import org.junit.Test;
 
 import java.util.Calendar;
 
+import uk.co.rossbeazley.wear.Announcer;
 import uk.co.rossbeazley.wear.Sexagesimal;
 import uk.co.rossbeazley.wear.ticktock.CanBeTicked;
 
@@ -37,18 +38,26 @@ public class MinutesFromTickTockChangeTest implements CanBeObservedForChangesToM
 
 
     private class MinutesFromTick implements CanBeObservedForChangesToMinutes, CanBeTicked {
-        private CanReceiveMinutesUpdates canReceiveMinutesUpdates;
+        private final Announcer<CanReceiveMinutesUpdates> canReceiveMinutesUpdates;
+
+        private MinutesFromTick() {
+            canReceiveMinutesUpdates = Announcer.to(CanReceiveMinutesUpdates.class);
+        }
 
         @Override
         public void observe(CanReceiveMinutesUpdates canReceiveMinutesUpdates) {
-
-            this.canReceiveMinutesUpdates = canReceiveMinutesUpdates;
+            this.canReceiveMinutesUpdates.addListener(canReceiveMinutesUpdates);
         }
 
         @Override
         public void tick(Calendar to) {
-            canReceiveMinutesUpdates.minutesUpdate(Sexagesimal.fromBase10(to.get(Calendar.MINUTE)));
+            int minsFromTick = to.get(Calendar.MINUTE);
+            Sexagesimal minutes = Sexagesimal.fromBase10(minsFromTick);
+            tick(minutes);
+        }
 
+        private void tick(Sexagesimal to) {
+            canReceiveMinutesUpdates.announce().minutesUpdate(to);
         }
     }
 }
