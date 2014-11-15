@@ -16,10 +16,9 @@ public class MinutesChangeTest implements CanBeObservedForChangesToMinutes.CanRe
     public void theOneWhereTheSecondsTickBackOverToZero() {
 
         FakeSeconds fakeSeconds = new FakeSeconds();
-        CanBeObservedForChangesToSeconds seconds = fakeSeconds;
 
         Sexagesimal startTime = Sexagesimal.fromBase10(8);
-        CanBeObservedForChangesToMinutes minutes = new Minutes(startTime, seconds);
+        CanBeObservedForChangesToMinutes minutes = new Minutes(startTime, fakeSeconds);
         minutes.observe(this);
 
         fakeSeconds.tickTo(Sexagesimal.fromBase10(59));
