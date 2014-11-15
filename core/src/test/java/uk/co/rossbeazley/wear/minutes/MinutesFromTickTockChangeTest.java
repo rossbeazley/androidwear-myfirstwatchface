@@ -39,12 +39,16 @@ public class MinutesFromTickTockChangeTest implements CanBeObservedForChangesToM
         timeComponentString = "RESET";
         minutes.tick(aTimeWithNineMinutes);
         assertThat(timeComponentString, is("RESET"));
-
     }
 
-    @Test @Ignore("just thinking ahead")
+    @Test
     public void timeChangesButMinuteHasStayedTheSame() {
-
+        minutes.tick(aTimeWithNineMinutes);
+        timeComponentString = "RESET";
+        Calendar aDifferentTimeWithNineMinutes = (Calendar) aTimeWithNineMinutes.clone();
+        aDifferentTimeWithNineMinutes.roll(Calendar.SECOND, false);
+        minutes.tick(aDifferentTimeWithNineMinutes);
+        assertThat(timeComponentString, is("RESET"));
     }
 
 
