@@ -1,5 +1,6 @@
 package uk.co.rossbeazley.wear.minutes;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import uk.co.rossbeazley.wear.Sexagesimal;
@@ -13,7 +14,7 @@ public class MinutesFromSecondsChangeTest implements CanBeObservedForChangesToMi
 
     String timeComponentString;
 
-    @Test
+    @Test @Ignore("To be deleted soon, unless it serves academic value - 15/11/14")
     public void theOneWhereTheSecondsTickBackOverToZero() {
 
         FakeSeconds fakeSeconds = new FakeSeconds();
