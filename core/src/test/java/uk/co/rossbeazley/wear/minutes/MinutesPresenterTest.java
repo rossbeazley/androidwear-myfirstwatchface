@@ -9,26 +9,29 @@ import static org.junit.Assert.assertThat;
 
 public class MinutesPresenterTest {
 
-    private String timeComponentString;
-    private CanBeObservedForChangesToMinutes.CanReceiveMinutesUpdates observer;
-
     @Test
     public void theOneWhereWeUpdateTheScreen() {
-        CanBeObservedForChangesToMinutes canBeObservedForChangesToMinutes = new CanBeObservedForChangesToMinutes(){
-            @Override public void observe(CanReceiveMinutesUpdates canReceiveSecondsUpdates) {
-                observer = canReceiveSecondsUpdates;
-            }
-        };
+        Minutes minutes = new Minutes();
+        MinutesView view = new MinutesView();
+        MinutesPresenter presenter = new MinutesPresenter(minutes, view);
+        minutes.observer.minutesUpdate(Sexagesimal.fromBase10(10));
+        assertThat(view.timeComponentString, is("10"));
+    }
 
-        MinutesPresenter.MinutesView view = new MinutesPresenter.MinutesView(){
-            @Override public void showMinutesString(String seconds) {
-                timeComponentString = seconds;
-            }
-        };
+    private class Minutes implements CanBeObservedForChangesToMinutes {
+        private CanReceiveMinutesUpdates observer;
 
-        MinutesPresenter presenter = new MinutesPresenter(canBeObservedForChangesToMinutes, view);
-        observer.minutesUpdate(Sexagesimal.fromBase10(10));
-        assertThat(timeComponentString, is("10"));
+        @Override public void observe(CanReceiveMinutesUpdates canReceiveSecondsUpdates) {
+            observer = canReceiveSecondsUpdates;
+        }
+    }
+
+    private class MinutesView implements MinutesPresenter.MinutesView {
+        private String timeComponentString;
+
+        @Override public void showMinutesString(String seconds) {
+            timeComponentString = seconds;
+        }
     }
 
     private static class MinutesPresenter {
