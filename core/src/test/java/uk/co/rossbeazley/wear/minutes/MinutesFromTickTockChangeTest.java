@@ -75,9 +75,12 @@ public class MinutesFromTickTockChangeTest implements CanBeObservedForChangesToM
         }
 
         private void tick(Sexagesimal to) {
-            if(to.equals(current)) return;
-            current=to;
-            canReceiveMinutesUpdates.announce().minutesUpdate(current);
+            current = to.equals(current) ? current : change(to);
+        }
+
+        private Sexagesimal change(Sexagesimal to) {
+            canReceiveMinutesUpdates.announce().minutesUpdate(to);
+            return to;
         }
     }
 }
