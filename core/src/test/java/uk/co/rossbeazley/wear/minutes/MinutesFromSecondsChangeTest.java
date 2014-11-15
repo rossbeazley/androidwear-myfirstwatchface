@@ -8,7 +8,7 @@ import uk.co.rossbeazley.wear.seconds.CanBeObservedForChangesToSeconds;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
-public class MinutesChangeTest implements CanBeObservedForChangesToMinutes.CanReceiveMinutesUpdates {
+public class MinutesFromSecondsChangeTest implements CanBeObservedForChangesToMinutes.CanReceiveMinutesUpdates {
 
     String timeComponentString;
 
@@ -18,7 +18,7 @@ public class MinutesChangeTest implements CanBeObservedForChangesToMinutes.CanRe
         FakeSeconds fakeSeconds = new FakeSeconds();
 
         Sexagesimal startTime = Sexagesimal.fromBase10(8);
-        CanBeObservedForChangesToMinutes minutes = new Minutes(startTime, fakeSeconds);
+        CanBeObservedForChangesToMinutes minutes = new MinutesFromSeconds(startTime, fakeSeconds);
         minutes.observe(this);
 
         fakeSeconds.tickTo(Sexagesimal.fromBase10(59));
@@ -48,8 +48,8 @@ public class MinutesChangeTest implements CanBeObservedForChangesToMinutes.CanRe
         }
     }
 
-    private class Minutes implements CanBeObservedForChangesToMinutes {
-        public Minutes(Sexagesimal sexagesimal, CanBeObservedForChangesToSeconds seconds) {
+    private class MinutesFromSeconds implements CanBeObservedForChangesToMinutes {
+        public MinutesFromSeconds(Sexagesimal sexagesimal, CanBeObservedForChangesToSeconds seconds) {
 
         }
 
