@@ -9,6 +9,8 @@ import android.widget.TextView;
 import com.examples.myfirstwatchface.R;
 
 import uk.co.rossbeazley.wear.Main;
+import uk.co.rossbeazley.wear.minutes.CanBeObservedForChangesToMinutes;
+import uk.co.rossbeazley.wear.minutes.MinutesPresenter;
 import uk.co.rossbeazley.wear.seconds.CanBeObservedForChangesToSeconds;
 import uk.co.rossbeazley.wear.seconds.SecondsPresenter;
 
@@ -32,11 +34,42 @@ public class WatchFaceView extends RelativeLayout implements CanPostToMainThread
     protected void onFinishInflate() {
         super.onFinishInflate();
 
-        AndroidSecondsView secondsview = new AndroidSecondsView(this, this);
         Main instance = Main.instance();
-        CanBeObservedForChangesToSeconds seconds = instance.canBeObservedForChangesToSeconds;
-        SecondsPresenter secondsPresenter = new SecondsPresenter(seconds, secondsview);
 
+        createSecondsView(instance);
+        createMinutesView(instance);
+    }
+
+    private void createMinutesView(Main instance) {
+        CanBeObservedForChangesToMinutes minutes = instance.canBeObservedForChangesToMinutes;
+        MinutesPresenter.MinutesView minutesView = new AndroidMinutesView(this, this);
+        MinutesPresenter minutesPresenter = new MinutesPresenter(minutes, minutesView);
+    }
+
+    private void createSecondsView(Main instance) {
+        CanBeObservedForChangesToSeconds seconds = instance.canBeObservedForChangesToSeconds;
+        AndroidSecondsView secondsview = new AndroidSecondsView(this, this);
+        SecondsPresenter secondsPresenter = new SecondsPresenter(seconds, secondsview);
+    }
+
+    private static class AndroidMinutesView implements MinutesPresenter.MinutesView {
+        private final TextView minutes;
+        private final CanPostToMainThread mainThread;
+
+        public AndroidMinutesView(View view, CanPostToMainThread canPostToMainThread) {
+            mainThread = canPostToMainThread;
+            this.minutes = (TextView) view.findViewById(R.id.watch_time_mins);
+        }
+
+        @Override
+        public void showMinutesString(final String minuteString) {
+            mainThread.post(new Runnable() {
+                @Override
+                public void run() {
+                    minutes.setText(minuteString);
+                }
+            });
+        }
     }
 
     private class AndroidSecondsView implements SecondsPresenter.SecondsView {
