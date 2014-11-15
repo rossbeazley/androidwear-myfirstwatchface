@@ -1,5 +1,6 @@
 package uk.co.rossbeazley.wear.minutes;
 
+import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -16,21 +17,28 @@ public class MinutesFromTickTockChangeTest implements CanBeObservedForChangesToM
 
     String timeComponentString;
     private Calendar aTimeWithNineMinutes;
+    private MinutesFromTick minutes;
+
+    @Before
+    public void setUp() throws Exception {
+        aTimeWithNineMinutes = Calendar.getInstance();
+        aTimeWithNineMinutes.set(Calendar.MINUTE, 9);
+        minutes = new MinutesFromTick();
+        minutes.observe(this);
+    }
 
     @Test
     public void theOneWhereTheMinutesUpdate() {
-
-        aTimeWithNineMinutes = Calendar.getInstance();
-        aTimeWithNineMinutes.set(Calendar.MINUTE, 9);
-
-        MinutesFromTick minutes = new MinutesFromTick();
-        minutes.observe(this);
         minutes.tick(aTimeWithNineMinutes);
         assertThat(timeComponentString, is("09"));
     }
 
     @Test
     public void theOneWhereTheTimeDontUpdate() {
+        minutes.tick(aTimeWithNineMinutes);
+        timeComponentString = "RESET";
+        minutes.tick(aTimeWithNineMinutes);
+        assertThat(timeComponentString, is("RESET"));
 
     }
 
