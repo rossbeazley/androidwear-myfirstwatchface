@@ -51,7 +51,7 @@ public class SecondsChangeTest implements CanBeObservedForChangesToSeconds.CanRe
         seconds.tick(aTimeWithNineSeconds);
         timeComponentString = "RESET";
         Calendar aDifferentTimeWithNineSeconds = (Calendar) aTimeWithNineSeconds.clone();
-        aDifferentTimeWithNineSeconds.set(Calendar.HOUR,10);
+        aDifferentTimeWithNineSeconds.roll(Calendar.HOUR,true);
         seconds.tick(aDifferentTimeWithNineSeconds);
         assertThat(timeComponentString, is("RESET"));
     }
