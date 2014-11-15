@@ -1,17 +1,11 @@
 package uk.co.rossbeazley.wear.ticktock;
 
+import org.hamcrest.Matchers;
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.Calendar;
 import java.util.concurrent.TimeUnit;
-
-import uk.co.rossbeazley.wear.ticktock.CanBeTicked;
-import uk.co.rossbeazley.wear.ticktock.NarrowScheduledExecutorService;
-import uk.co.rossbeazley.wear.ticktock.TickTock;
-import uk.co.rossbeazley.wear.ticktock.TimeSource;
-
-import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
 
 public class TickTockTest implements CanBeTicked {
 
