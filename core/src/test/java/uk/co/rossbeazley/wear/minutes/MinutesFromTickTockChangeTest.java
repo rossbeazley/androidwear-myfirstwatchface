@@ -1,5 +1,6 @@
 package uk.co.rossbeazley.wear.minutes;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.Calendar;
@@ -28,7 +29,15 @@ public class MinutesFromTickTockChangeTest implements CanBeObservedForChangesToM
         assertThat(timeComponentString, is("09"));
     }
 
+    @Test
+    public void theOneWhereTheTimeDontUpdate() {
 
+    }
+
+    @Test @Ignore("just thinking ahead")
+    public void timeChangesButMinuteHasStayedTheSame() {
+
+    }
 
 
     @Override
