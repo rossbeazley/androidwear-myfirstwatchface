@@ -37,7 +37,13 @@ public class MinutesPresenterTest {
             void showMinutesString(String seconds);
         }
 
-        public MinutesPresenter(CanBeObservedForChangesToMinutes canBeObservedForChangesToMinutes, MinutesView view) {
+        public MinutesPresenter(final CanBeObservedForChangesToMinutes canBeObservedForChangesToMinutes, final MinutesView view) {
+            canBeObservedForChangesToMinutes.observe(new CanBeObservedForChangesToMinutes.CanReceiveMinutesUpdates() {
+                @Override
+                public void minutesUpdate(Sexagesimal to) {
+                    view.showMinutesString(to.base10String());
+                }
+            });
         }
     }
 }
