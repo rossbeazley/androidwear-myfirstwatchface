@@ -17,4 +17,9 @@ public class HourBase24 {
         DecimalFormat numberFormat = new DecimalFormat("00");
         return numberFormat.format(value%12);
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        return obj !=null && ((HourBase24)obj).value == value;
+    }
 }

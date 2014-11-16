@@ -9,6 +9,7 @@ import uk.co.rossbeazley.wear.ticktock.CanBeTicked;
 public class HoursFromTick implements CanBeObservedForChangesToHours,CanBeTicked {
 
     final private Announcer<CanReceiveHoursUpdates> announcer;
+    private HourBase24 current;
 
     public HoursFromTick() {
         announcer = Announcer.to(CanReceiveHoursUpdates.class);
@@ -27,6 +28,11 @@ public class HoursFromTick implements CanBeObservedForChangesToHours,CanBeTicked
     }
 
     private void tick(HourBase24 to) {
+        current = to.equals(current) ? current : update(to);
+    }
+
+    private HourBase24 update(HourBase24 to) {
         announcer.announce().hoursUpdate(to);
+        return to;
     }
 }

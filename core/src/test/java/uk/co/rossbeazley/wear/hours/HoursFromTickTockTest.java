@@ -1,6 +1,7 @@
 package uk.co.rossbeazley.wear.hours;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.Calendar;
@@ -31,6 +32,24 @@ public class HoursFromTickTockTest implements CanBeObservedForChangesToHours.Can
     public void theOneWhereTheHourUpdates() {
         hours.tick(aTimeWithThreeHours);
         assertThat(timeComponentString, is("03"));
+    }
+
+    @Test
+    public void theOneWhereTheTimeDontUpdate() {
+        hours.tick(aTimeWithThreeHours);
+        timeComponentString = "RESET";
+        hours.tick(aTimeWithThreeHours);
+        assertThat(timeComponentString,is("RESET"));
+    }
+
+    @Test
+    public void theOneWhereTheTimeChangesButHoursStayTheSame() {
+        hours.tick(aTimeWithThreeHours);
+        timeComponentString = "RESET";
+        Calendar aDifferentTimeWithThreeMinutes = aTimeWithThreeHours;
+        aDifferentTimeWithThreeMinutes.roll(Calendar.DAY_OF_MONTH,true);
+        hours.tick(aDifferentTimeWithThreeMinutes);
+        assertThat(timeComponentString,is("RESET"));
     }
 
     @Override
