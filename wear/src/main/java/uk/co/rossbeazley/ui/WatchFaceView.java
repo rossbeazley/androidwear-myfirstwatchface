@@ -1,4 +1,4 @@
-package uk.co.rossbeazley.seconds;
+package uk.co.rossbeazley.ui;
 
 import android.content.Context;
 import android.util.AttributeSet;
