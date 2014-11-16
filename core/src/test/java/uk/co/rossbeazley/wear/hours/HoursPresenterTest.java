@@ -10,15 +10,13 @@ import static org.junit.Assert.assertThat;
 
 public class HoursPresenterTest {
 
-    private String timeComponentString;
-    private CanBeObservedForChangesToHours.CanReceiveHoursUpdates observer;
-
     @Test
     public void theOneWhereItsMorningAndTheHourUpdates() {
-
-        new HoursPresenter(new Hours(), new HoursView());
-        observer.hoursUpdate(Base24.fromBase10(8));
-        assertThat(timeComponentString, is("08"));
+        Hours hours = new Hours();
+        HoursView hoursView = new HoursView();
+        new HoursPresenter(hours, hoursView);
+        hours.observer.hoursUpdate(Base24.fromBase10(8));
+        assertThat(hoursView.timeComponentString, is("08"));
     }
 
     @Test @Ignore("one at a time")
@@ -67,13 +65,17 @@ public class HoursPresenterTest {
     }
 
     private class Hours implements CanBeObservedForChangesToHours {
+        private CanReceiveHoursUpdates observer;
+
         @Override
         public void observe(CanReceiveHoursUpdates canReceiveHoursUpdates) {
-            observer = canReceiveHoursUpdates;
+            this.observer = canReceiveHoursUpdates;
         }
     }
 
     private class HoursView implements HoursPresenter.HoursView {
+        private String timeComponentString;
+
         @Override
         public void showHoursString(String hours) {
             timeComponentString = hours;
