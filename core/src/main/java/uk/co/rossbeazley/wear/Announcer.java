@@ -14,7 +14,7 @@ public class Announcer<T> {
     private final List<T> listeners = new ArrayList<T>();
 
 
-    public Announcer(Class<? extends T> listenerType) {
+    private Announcer(Class<? extends T> listenerType) {
         proxy = listenerType.cast(Proxy.newProxyInstance(
                 listenerType.getClassLoader(),
                 new Class<?>[]{listenerType},

@@ -1,5 +1,7 @@
 package uk.co.rossbeazley.wear;
 
+import java.util.Calendar;
+
 import uk.co.rossbeazley.wear.hours.CanBeObservedForChangesToHours;
 import uk.co.rossbeazley.wear.minutes.CanBeObservedForChangesToMinutes;
 import uk.co.rossbeazley.wear.minutes.MinutesFromTick;
@@ -37,6 +39,8 @@ public class Main {
 
         private Seconds seconds;
         private MinutesFromTick minutes;
+        private HoursFromTick hours;
+
         public CanBeObservedForChangesToHours canBeObservedForChangesToHours;
 
         public Core() {
@@ -44,16 +48,29 @@ public class Main {
             minutes = new MinutesFromTick();
             canBeObservedForChangesToSeconds = seconds;
             canBeObservedForChangesToMinutes = minutes;
-            canBeObservedForChangesToHours = new CanBeObservedForChangesToHours() {
-                @Override
-                public void observe(CanReceiveHoursUpdates canReceiveHoursUpdates) {
-                    canReceiveHoursUpdates.hoursUpdate(HourBase24.fromBase10(1));
-                }
-            };
+            canBeObservedForChangesToHours = hours = new HoursFromTick();
             // haha, an eventbus - kinda
             canBeTicked = Announcer.to(CanBeTicked.class)
-                             .addListeners(seconds,minutes)
+                             .addListeners(seconds,minutes,hours)
                              .announce();
+        }
+
+        private static class HoursFromTick implements CanBeObservedForChangesToHours,CanBeTicked {
+
+            Announcer<CanReceiveHoursUpdates> announcer = Announcer.to(CanReceiveHoursUpdates.class);
+
+            @Override
+            public void observe(CanReceiveHoursUpdates canReceiveHoursUpdates) {
+                announcer.addListener(canReceiveHoursUpdates);
+
+            }
+
+            @Override
+            public void tick(Calendar to) {
+                int hourInt = to.get(Calendar.HOUR);
+                HourBase24 hourBase24 = HourBase24.fromBase10(hourInt);
+                announcer.announce().hoursUpdate(hourBase24);
+            }
         }
     }
 
