@@ -1,4 +1,5 @@
 package uk.co.rossbeazley.wear;
+
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -7,10 +8,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import uk.co.rossbeazley.wear.minutes.MinutesFromTick;
-import uk.co.rossbeazley.wear.seconds.Seconds;
-
-/** nicked from GOOS*/
+/** nicked from GOOS, modifed by me*/
 public class Announcer<T> {
     private final T proxy;
     private final List<T> listeners = new ArrayList<T>();

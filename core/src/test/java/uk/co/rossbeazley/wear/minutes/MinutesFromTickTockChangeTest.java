@@ -5,7 +5,9 @@ import org.junit.Test;
 
 import java.util.Calendar;
 
+import uk.co.rossbeazley.wear.Main;
 import uk.co.rossbeazley.wear.Sexagesimal;
+import uk.co.rossbeazley.wear.ticktock.CanBeTicked;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
@@ -14,14 +16,17 @@ public class MinutesFromTickTockChangeTest implements CanBeObservedForChangesToM
 
     String timeComponentString;
     private Calendar aTimeWithNineMinutes;
-    private MinutesFromTick minutes;
+    private CanBeTicked minutes;
+
 
     @Before
     public void setUp() throws Exception {
+        Main.Core core = new Main.Core();
+
         aTimeWithNineMinutes = Calendar.getInstance();
         aTimeWithNineMinutes.set(Calendar.MINUTE, 9);
-        minutes = new MinutesFromTick();
-        minutes.observe(this);
+        core.canBeObservedForChangesToMinutes.observe(this);
+        this.minutes = core.canBeTicked;
     }
 
     @Test
