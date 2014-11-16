@@ -11,35 +11,19 @@ import static org.junit.Assert.assertThat;
 public class HoursPresenterTest {
 
     private String timeComponentString;
-    private CanReceiveHoursUpdates observer;
+    private CanBeObservedForChangesToHours.CanReceiveHoursUpdates observer;
 
     @Test
     public void theOneWhereItsMorningAndTheHourUpdates() {
 
-        new HoursPresenter(new CanBeObservedForChangesToHours(){
-            @Override
-            public void observe(CanReceiveHoursUpdates canReceiveHoursUpdates) {
-                observer = canReceiveHoursUpdates;
-            }
-        }, new HoursView(){
-            @Override
-            public void showHoursString(String hours) {
-                timeComponentString = hours;
-            }
-        });
-
+        new HoursPresenter(new Hours(), new HoursView());
         observer.hoursUpdate(Base24.fromBase10(8));
-
         assertThat(timeComponentString, is("08"));
     }
 
     @Test @Ignore("one at a time")
     public void theOneWhereItsEveningAndTheHourUpdates() {
 
-    }
-
-    private interface CanReceiveHoursUpdates {
-        void hoursUpdate(Base24 base24);
     }
 
     private static class Base24 {
@@ -59,22 +43,40 @@ public class HoursPresenterTest {
         }
     }
 
-    private class HoursPresenter {
+    private static class HoursPresenter {
         public HoursPresenter(CanBeObservedForChangesToHours canBeObservedForChangesToHours, final HoursView hoursView) {
-            canBeObservedForChangesToHours.observe(new CanReceiveHoursUpdates() {
+            canBeObservedForChangesToHours.observe(new CanBeObservedForChangesToHours.CanReceiveHoursUpdates() {
                 @Override
                 public void hoursUpdate(Base24 base24) {
                     hoursView.showHoursString(base24.toBase10());
                 }
             });
         }
+
+        private interface HoursView {
+            public void showHoursString(String hours);
+        }
     }
 
     private interface CanBeObservedForChangesToHours {
         public void observe(CanReceiveHoursUpdates canReceiveHoursUpdates);
+
+        interface CanReceiveHoursUpdates {
+            void hoursUpdate(Base24 base24);
+        }
     }
 
-    private interface HoursView {
-        public void showHoursString(String hours);
+    private class Hours implements CanBeObservedForChangesToHours {
+        @Override
+        public void observe(CanReceiveHoursUpdates canReceiveHoursUpdates) {
+            observer = canReceiveHoursUpdates;
+        }
+    }
+
+    private class HoursView implements HoursPresenter.HoursView {
+        @Override
+        public void showHoursString(String hours) {
+            timeComponentString = hours;
+        }
     }
 }
