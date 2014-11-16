@@ -2,6 +2,8 @@ package uk.co.rossbeazley.wear.hours;
 
 import org.junit.Test;
 
+import uk.co.rossbeazley.wear.HourBase24;
+
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 

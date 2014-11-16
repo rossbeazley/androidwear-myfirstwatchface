@@ -1,5 +1,7 @@
 package uk.co.rossbeazley.wear.hours;
 
+import uk.co.rossbeazley.wear.HourBase24;
+
 public class HoursPresenter {
     public HoursPresenter(CanBeObservedForChangesToHours canBeObservedForChangesToHours, final HoursView hoursView) {
         canBeObservedForChangesToHours.observe(new CanBeObservedForChangesToHours.CanReceiveHoursUpdates() {
