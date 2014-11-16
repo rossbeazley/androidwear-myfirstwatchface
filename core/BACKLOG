@@ -42,4 +42,14 @@ it 4:
  implement hours,
  implement view and integrate
  remove view code from hacktivity
+ DONE
+
+ ---
+it 5:
+ implement month presenter,
+ implement view,
+ integrate view, presenter and outer shell,
+ remove view code from hactivity,
+ implement month domain object
+
 
