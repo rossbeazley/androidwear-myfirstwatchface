@@ -1,6 +1,5 @@
 package uk.co.rossbeazley.wear.hours;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.text.DecimalFormat;
@@ -19,9 +18,13 @@ public class HoursPresenterTest {
         assertThat(hoursView.timeComponentString, is("08"));
     }
 
-    @Test @Ignore("one at a time")
-    public void theOneWhereItsEveningAndTheHourUpdates() {
-
+    @Test
+    public void theOneWhereItsEveningAndTheHourUpdatesInTwelveHourFormat() {
+        Hours hours = new Hours();
+        HoursView hoursView = new HoursView();
+        new HoursPresenter(hours, hoursView);
+        hours.observer.hoursUpdate(Base24.fromBase10(14));
+        assertThat(hoursView.timeComponentString, is("02"));
     }
 
     private static class Base24 {
@@ -35,9 +38,9 @@ public class HoursPresenterTest {
             return new Base24(base10);
         }
 
-        public String toBase10() {
+        public String toBase10TwelveHour() {
             DecimalFormat numberFormat = new DecimalFormat("00");
-            return numberFormat.format(value);
+            return numberFormat.format(value%12);
         }
     }
 
@@ -46,7 +49,7 @@ public class HoursPresenterTest {
             canBeObservedForChangesToHours.observe(new CanBeObservedForChangesToHours.CanReceiveHoursUpdates() {
                 @Override
                 public void hoursUpdate(Base24 base24) {
-                    hoursView.showHoursString(base24.toBase10());
+                    hoursView.showHoursString(base24.toBase10TwelveHour());
                 }
             });
         }
