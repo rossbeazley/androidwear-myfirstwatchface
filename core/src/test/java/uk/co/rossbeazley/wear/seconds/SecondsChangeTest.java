@@ -5,6 +5,7 @@ import org.junit.Test;
 
 import java.util.Calendar;
 
+import uk.co.rossbeazley.wear.Main;
 import uk.co.rossbeazley.wear.Sexagesimal;
 import uk.co.rossbeazley.wear.ticktock.CanBeTicked;
 
@@ -25,9 +26,10 @@ public class SecondsChangeTest implements CanBeObservedForChangesToSeconds.CanRe
 
     @Before
     public void setUp() throws Exception {
-        Seconds seconds = new Seconds();
-        seconds.observe(this);
-        secondsToTick = seconds;
+        Main.Core core = new Main.Core();
+        secondsToTick = core.ticked;
+        core.canBeObservedForChangesToSeconds.observe(this);
+
         aTimeWithNineSeconds = Calendar.getInstance();
         aTimeWithNineSeconds.set(Calendar.SECOND, 9);
         aTimeWithNineSeconds.set(Calendar.HOUR, 9);

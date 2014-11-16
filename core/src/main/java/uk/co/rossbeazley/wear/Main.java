@@ -37,17 +37,23 @@ public class Main {
 
         public final Collection<CanBeTicked> canBeTicked;
 
+        public final CanBeTicked ticked;
+
         private Seconds seconds;
         private MinutesFromTick minutes;
 
-        Core() {
+        public Core() {
             seconds = new Seconds();
             minutes = new MinutesFromTick();
             canBeObservedForChangesToSeconds = seconds;
             canBeObservedForChangesToMinutes = minutes;
 
-            canBeTicked = Arrays.asList(seconds,minutes);
+            canBeTicked = Arrays.asList(seconds, minutes);
 
+            Announcer<CanBeTicked> to = Announcer.to(CanBeTicked.class);
+            to.addListener(seconds);
+            to.addListener(minutes);
+            ticked = to.announce();
         }
     }
 
