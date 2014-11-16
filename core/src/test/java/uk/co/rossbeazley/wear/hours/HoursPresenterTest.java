@@ -3,6 +3,8 @@ package uk.co.rossbeazley.wear.hours;
 import org.junit.Ignore;
 import org.junit.Test;
 
+import java.text.DecimalFormat;
+
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
@@ -50,11 +52,21 @@ public class HoursPresenterTest {
         public static Base24 fromBase10(int base10) {
             return new Base24(base10);
         }
+
+        public String toBase10() {
+            DecimalFormat numberFormat = new DecimalFormat("00");
+            return numberFormat.format(value);
+        }
     }
 
     private class HoursPresenter {
-        public HoursPresenter(CanBeObservedForChangesToHours canBeObservedForChangesToHours, HoursView hoursView) {
-
+        public HoursPresenter(CanBeObservedForChangesToHours canBeObservedForChangesToHours, final HoursView hoursView) {
+            canBeObservedForChangesToHours.observe(new CanReceiveHoursUpdates() {
+                @Override
+                public void hoursUpdate(Base24 base24) {
+                    hoursView.showHoursString(base24.toBase10());
+                }
+            });
         }
     }
 
