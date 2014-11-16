@@ -1,5 +1,6 @@
 package uk.co.rossbeazley.wear;
 
+import uk.co.rossbeazley.wear.hours.CanBeObservedForChangesToHours;
 import uk.co.rossbeazley.wear.minutes.CanBeObservedForChangesToMinutes;
 import uk.co.rossbeazley.wear.minutes.MinutesFromTick;
 import uk.co.rossbeazley.wear.seconds.CanBeObservedForChangesToSeconds;
@@ -36,13 +37,20 @@ public class Main {
 
         private Seconds seconds;
         private MinutesFromTick minutes;
+        public CanBeObservedForChangesToHours canBeObservedForChangesToHours;
 
         public Core() {
             seconds = new Seconds();
             minutes = new MinutesFromTick();
             canBeObservedForChangesToSeconds = seconds;
             canBeObservedForChangesToMinutes = minutes;
-
+            canBeObservedForChangesToHours = new CanBeObservedForChangesToHours() {
+                @Override
+                public void observe(CanReceiveHoursUpdates canReceiveHoursUpdates) {
+                    canReceiveHoursUpdates.hoursUpdate(HourBase24.fromBase10(1));
+                }
+            };
+            // haha, an eventbus - kinda
             canBeTicked = Announcer.to(CanBeTicked.class)
                              .addListeners(seconds,minutes)
                              .announce();

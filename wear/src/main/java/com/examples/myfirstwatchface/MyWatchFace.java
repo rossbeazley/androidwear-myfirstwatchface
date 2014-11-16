@@ -16,7 +16,7 @@ import java.util.Date;
 
 public class MyWatchFace extends WatchFaceActivity {
 
-    private TextView mTimeHours, mDate;
+    private TextView mDate;
 
     private final static IntentFilter INTENT_FILTER;
     static {
@@ -31,8 +31,6 @@ public class MyWatchFace extends WatchFaceActivity {
         public void onReceive(Context arg0, Intent intent) {
             Calendar instance = Calendar.getInstance();
             Date time = instance.getTime();
-
-            mTimeHours.setText(new SimpleDateFormat("hh").format(time));
 
             String dateString = new SimpleDateFormat("dd").format(time);
             dateString += getDayOfMonthSuffix(instance.get(Calendar.DAY_OF_MONTH));
@@ -63,16 +61,12 @@ public class MyWatchFace extends WatchFaceActivity {
 
     @Override
     public void onScreenDim() {
-        //mTimeHours.setTextColor(Color.WHITE);
-        //mTimeMins.setTextColor(Color.WHITE);
-        //mBattery.setTextColor(Color.WHITE);
+
     }
 
     @Override
     public void onScreenAwake() {
-        //mTimeHours.setTextColor(Color.RED);
-        //mTimeMins.setTextColor(Color.GRAY);
-        //mBattery.setTextColor(Color.RED);
+
     }
 
     @Override
@@ -83,8 +77,6 @@ public class MyWatchFace extends WatchFaceActivity {
         stub.setOnLayoutInflatedListener(new WatchViewStub.OnLayoutInflatedListener() {
             @Override
             public void onLayoutInflated(WatchViewStub stub) {
-                mTimeHours = (TextView) stub.findViewById(R.id.watch_time);
-
                 mDate = (TextView) stub.findViewById(R.id.date);
 
                 mTimeInfoReceiver.onReceive(MyWatchFace.this, null);

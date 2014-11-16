@@ -9,6 +9,8 @@ import android.widget.TextView;
 import com.examples.myfirstwatchface.R;
 
 import uk.co.rossbeazley.wear.Main;
+import uk.co.rossbeazley.wear.hours.CanBeObservedForChangesToHours;
+import uk.co.rossbeazley.wear.hours.HoursPresenter;
 import uk.co.rossbeazley.wear.minutes.CanBeObservedForChangesToMinutes;
 import uk.co.rossbeazley.wear.minutes.MinutesPresenter;
 import uk.co.rossbeazley.wear.seconds.CanBeObservedForChangesToSeconds;
@@ -34,20 +36,27 @@ public class WatchFaceView extends RelativeLayout implements CanPostToMainThread
     protected void onFinishInflate() {
         super.onFinishInflate();
 
-        Main instance = Main.instance();
+        Main main = Main.instance();
 
-        createSecondsView(instance);
-        createMinutesView(instance);
+        createSecondsView(main);
+        createMinutesView(main);
+        createHoursView(main);
     }
 
-    private void createMinutesView(Main instance) {
-        CanBeObservedForChangesToMinutes minutes = instance.canBeObservedForChangesToMinutes;
+    private void createHoursView(Main main) {
+        CanBeObservedForChangesToHours hours = main.core.canBeObservedForChangesToHours;
+        AndroidHoursView hoursView = new AndroidHoursView(this);
+        HoursPresenter hoursPresenter = new HoursPresenter(hours, hoursView);
+    }
+
+    private void createMinutesView(Main main) {
+        CanBeObservedForChangesToMinutes minutes = main.core.canBeObservedForChangesToMinutes;
         MinutesPresenter.MinutesView minutesView = new AndroidMinutesView(this, this);
         MinutesPresenter minutesPresenter = new MinutesPresenter(minutes, minutesView);
     }
 
-    private void createSecondsView(Main instance) {
-        CanBeObservedForChangesToSeconds seconds = instance.canBeObservedForChangesToSeconds;
+    private void createSecondsView(Main main) {
+        CanBeObservedForChangesToSeconds seconds = main.core.canBeObservedForChangesToSeconds;
         AndroidSecondsView secondsview = new AndroidSecondsView(this, this);
         SecondsPresenter secondsPresenter = new SecondsPresenter(seconds, secondsview);
     }
@@ -67,6 +76,24 @@ public class WatchFaceView extends RelativeLayout implements CanPostToMainThread
                 @Override
                 public void run() {
                     minutes.setText(minuteString);
+                }
+            });
+        }
+    }
+
+    private static class AndroidHoursView implements HoursPresenter.HoursView {
+        private final TextView hours;
+
+        public AndroidHoursView(View view) {
+            hours = (TextView) view.findViewById(R.id.watch_time);
+        }
+
+        @Override
+        public void showHoursString(final String newHour) {
+            this.hours.post(new Runnable() {
+                @Override
+                public void run() {
+                    hours.setText(newHour);
                 }
             });
         }
