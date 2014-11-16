@@ -1,9 +1,13 @@
 package uk.co.rossbeazley.wear;
 
+import java.util.Arrays;
+import java.util.Collection;
+
 import uk.co.rossbeazley.wear.minutes.CanBeObservedForChangesToMinutes;
 import uk.co.rossbeazley.wear.minutes.MinutesFromTick;
 import uk.co.rossbeazley.wear.seconds.CanBeObservedForChangesToSeconds;
 import uk.co.rossbeazley.wear.seconds.Seconds;
+import uk.co.rossbeazley.wear.ticktock.CanBeTicked;
 import uk.co.rossbeazley.wear.ticktock.TickTock;
 
 public class Main {
@@ -21,13 +25,17 @@ public class Main {
 
         this.core = new Core();
 
-        TickTock tickTock = TickTock.createTickTock(core.seconds, core.minutes);
+        TickTock tickTock = TickTock.createTickTock(core.canBeTicked);
+
+        /** probably also initialise the ui navigation framework here */
     }
 
     public static class Core {
 
         public final CanBeObservedForChangesToMinutes canBeObservedForChangesToMinutes;
         public final CanBeObservedForChangesToSeconds canBeObservedForChangesToSeconds;
+
+        public final Collection<CanBeTicked> canBeTicked;
 
         private Seconds seconds;
         private MinutesFromTick minutes;
@@ -37,6 +45,8 @@ public class Main {
             minutes = new MinutesFromTick();
             canBeObservedForChangesToSeconds = seconds;
             canBeObservedForChangesToMinutes = minutes;
+
+            canBeTicked = Arrays.asList(seconds,minutes);
 
         }
     }

@@ -1,6 +1,7 @@
 package uk.co.rossbeazley.wear.ticktock;
 
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.concurrent.TimeUnit;
 
 import uk.co.rossbeazley.wear.seconds.Seconds;
@@ -27,5 +28,9 @@ public class TickTock {
         }
 
         return new TickTock(new CalendarTimeSource(), new DefaultNarrowScheduledExecutorService(), tocks);
+    }
+
+    public static TickTock createTickTock(Collection<CanBeTicked> canBeTicked) {
+        return createTickTock(canBeTicked.toArray(new CanBeTicked[canBeTicked.size()]));
     }
 }
