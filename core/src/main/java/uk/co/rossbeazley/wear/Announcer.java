@@ -4,7 +4,11 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+
+import uk.co.rossbeazley.wear.minutes.MinutesFromTick;
+import uk.co.rossbeazley.wear.seconds.Seconds;
 
 /** nicked from GOOS*/
 public class Announcer<T> {
@@ -26,6 +30,11 @@ public class Announcer<T> {
 
     public void addListener(T listener) {
         listeners.add(listener);
+    }
+
+    public Announcer<T> addListeners(T... listeners) {
+        Collections.addAll(this.listeners, listeners);
+        return this;
     }
 
     public void removeListener(T listener) {

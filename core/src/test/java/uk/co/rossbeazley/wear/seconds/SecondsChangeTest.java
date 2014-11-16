@@ -27,7 +27,7 @@ public class SecondsChangeTest implements CanBeObservedForChangesToSeconds.CanRe
     @Before
     public void setUp() throws Exception {
         Main.Core core = new Main.Core();
-        secondsToTick = core.ticked;
+        secondsToTick = core.canBeTicked;
         core.canBeObservedForChangesToSeconds.observe(this);
 
         aTimeWithNineSeconds = Calendar.getInstance();

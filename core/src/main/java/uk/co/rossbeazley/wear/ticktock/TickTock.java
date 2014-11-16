@@ -29,8 +29,4 @@ public class TickTock {
 
         return new TickTock(new CalendarTimeSource(), new DefaultNarrowScheduledExecutorService(), tocks);
     }
-
-    public static TickTock createTickTock(Collection<CanBeTicked> canBeTicked) {
-        return createTickTock(canBeTicked.toArray(new CanBeTicked[canBeTicked.size()]));
-    }
 }
