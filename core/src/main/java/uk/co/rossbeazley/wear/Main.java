@@ -1,8 +1,7 @@
 package uk.co.rossbeazley.wear;
 
-import java.util.Calendar;
-
 import uk.co.rossbeazley.wear.hours.CanBeObservedForChangesToHours;
+import uk.co.rossbeazley.wear.hours.HoursFromTick;
 import uk.co.rossbeazley.wear.minutes.CanBeObservedForChangesToMinutes;
 import uk.co.rossbeazley.wear.minutes.MinutesFromTick;
 import uk.co.rossbeazley.wear.seconds.CanBeObservedForChangesToSeconds;
@@ -25,29 +24,26 @@ public class Main {
 
         this.core = new Core();
 
-        TickTock tickTock = TickTock.createTickTock(this.core.canBeTicked);
+        TickTock.createTickTock(this.core.canBeTicked);
 
         /** probably also initialise the ui navigation framework here */
     }
 
     public static class Core {
 
+        public final CanBeObservedForChangesToHours canBeObservedForChangesToHours;
         public final CanBeObservedForChangesToMinutes canBeObservedForChangesToMinutes;
         public final CanBeObservedForChangesToSeconds canBeObservedForChangesToSeconds;
 
         public final CanBeTicked canBeTicked;
 
-        private Seconds seconds;
-        private MinutesFromTick minutes;
-        private HoursFromTick hours;
-
-        public CanBeObservedForChangesToHours canBeObservedForChangesToHours;
+        private final Seconds seconds;
+        private final MinutesFromTick minutes;
+        private final HoursFromTick hours;
 
         public Core() {
-            seconds = new Seconds();
-            minutes = new MinutesFromTick();
-            canBeObservedForChangesToSeconds = seconds;
-            canBeObservedForChangesToMinutes = minutes;
+            canBeObservedForChangesToSeconds = seconds = new Seconds();
+            canBeObservedForChangesToMinutes = minutes = new MinutesFromTick();
             canBeObservedForChangesToHours = hours = new HoursFromTick();
             // haha, an eventbus - kinda
             canBeTicked = Announcer.to(CanBeTicked.class)
@@ -55,23 +51,6 @@ public class Main {
                              .announce();
         }
 
-        private static class HoursFromTick implements CanBeObservedForChangesToHours,CanBeTicked {
-
-            Announcer<CanReceiveHoursUpdates> announcer = Announcer.to(CanReceiveHoursUpdates.class);
-
-            @Override
-            public void observe(CanReceiveHoursUpdates canReceiveHoursUpdates) {
-                announcer.addListener(canReceiveHoursUpdates);
-
-            }
-
-            @Override
-            public void tick(Calendar to) {
-                int hourInt = to.get(Calendar.HOUR);
-                HourBase24 hourBase24 = HourBase24.fromBase10(hourInt);
-                announcer.announce().hoursUpdate(hourBase24);
-            }
-        }
     }
 
 }
