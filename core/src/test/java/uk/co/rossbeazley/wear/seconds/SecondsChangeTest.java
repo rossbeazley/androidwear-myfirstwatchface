@@ -6,6 +6,7 @@ import org.junit.Test;
 import java.util.Calendar;
 
 import uk.co.rossbeazley.wear.Sexagesimal;
+import uk.co.rossbeazley.wear.ticktock.CanBeTicked;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
@@ -13,7 +14,7 @@ import static org.junit.Assert.assertThat;
 public class SecondsChangeTest implements CanBeObservedForChangesToSeconds.CanReceiveSecondsUpdates {
 
     private String timeComponentString;
-    private Seconds seconds;
+    private CanBeTicked secondsToTick;
     private Calendar aTimeWithNineSeconds;
 
     @Override
@@ -24,8 +25,9 @@ public class SecondsChangeTest implements CanBeObservedForChangesToSeconds.CanRe
 
     @Before
     public void setUp() throws Exception {
-        seconds = new Seconds();
+        Seconds seconds = new Seconds();
         seconds.observe(this);
+        secondsToTick = seconds;
         aTimeWithNineSeconds = Calendar.getInstance();
         aTimeWithNineSeconds.set(Calendar.SECOND, 9);
         aTimeWithNineSeconds.set(Calendar.HOUR, 9);
@@ -34,25 +36,25 @@ public class SecondsChangeTest implements CanBeObservedForChangesToSeconds.CanRe
     @Test
     public void theOneWhereTheSecondsUpdate() 
     {
-        seconds.tick(aTimeWithNineSeconds);
+        secondsToTick.tick(aTimeWithNineSeconds);
         assertThat(timeComponentString, is("09"));
     }
 
     @Test
     public void theOneWhereTheTimeDontUpdate() {
-        seconds.tick(aTimeWithNineSeconds);
+        secondsToTick.tick(aTimeWithNineSeconds);
         timeComponentString = "RESET";
-        seconds.tick(aTimeWithNineSeconds);
+        secondsToTick.tick(aTimeWithNineSeconds);
         assertThat(timeComponentString, is("RESET"));
     }
 
     @Test
     public void theOneWhereTheTimeChangesButSecondsStayTheSame() {
-        seconds.tick(aTimeWithNineSeconds);
+        secondsToTick.tick(aTimeWithNineSeconds);
         timeComponentString = "RESET";
         Calendar aDifferentTimeWithNineSeconds = (Calendar) aTimeWithNineSeconds.clone();
         aDifferentTimeWithNineSeconds.roll(Calendar.HOUR,true);
-        seconds.tick(aDifferentTimeWithNineSeconds);
+        secondsToTick.tick(aDifferentTimeWithNineSeconds);
         assertThat(timeComponentString, is("RESET"));
     }
 
