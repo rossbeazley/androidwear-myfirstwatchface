@@ -24,4 +24,9 @@ public class DayOrdinalityTest {
     public void theThird() {
         assertThat(Day.fromBase10(3).toOrdinalString(), is("3rd"));
     }
+
+    @Test
+    public void theForth() {
+        assertThat(Day.fromBase10(4).toOrdinalString(), is("4th"));
+    }
 }

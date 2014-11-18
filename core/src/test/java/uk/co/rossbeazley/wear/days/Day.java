@@ -23,11 +23,12 @@ class Day {
     private String ordinalForValue(int value) {
         HashMap<Integer, String> lookupTable;
         lookupTable = new HashMap<Integer, String>() {{
+            put(1,"st");
             put(2,"nd");
             put(3,"rd");
         }};
 
-        String DEFAULT = "st";
+        String DEFAULT = "th";
         return lookupTable.containsKey(value)? lookupTable.get(value) : DEFAULT;
     }
 
