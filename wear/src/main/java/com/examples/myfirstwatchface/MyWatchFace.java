@@ -60,12 +60,12 @@ public class MyWatchFace extends WatchFaceActivity {
     };
 
     @Override
-    public void onScreenDim() {
+    public void screenDim() {
 
     }
 
     @Override
-    public void onScreenAwake() {
+    public void screenAwake() {
 
     }
 
