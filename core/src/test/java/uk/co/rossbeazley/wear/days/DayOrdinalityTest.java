@@ -29,4 +29,11 @@ public class DayOrdinalityTest {
     public void theForth() {
         assertThat(Day.fromBase10(4).toOrdinalString(), is("4th"));
     }
+
+    @Test
+    public void theTwentyFirst() {
+        assertThat(Day.fromBase10(21).toOrdinalString(), is("21st"));
+    }
+
+
 }

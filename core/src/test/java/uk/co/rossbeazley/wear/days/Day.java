@@ -26,6 +26,8 @@ class Day {
             put(1,"st");
             put(2,"nd");
             put(3,"rd");
+            put(21,"st");
+
         }};
 
         String DEFAULT = "th";
