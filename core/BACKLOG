@@ -46,10 +46,14 @@ it 4:
 
  ---
 it 5:
- implement month presenter,
+ implement day presenter,
  implement view,
  integrate view, presenter and outer shell,
  remove view code from hactivity,
- implement month domain object
+ implement day domain object
 
 
+---
+it 6:
+ make observerables notify observer of current state upon observation
+ implement month presetner, view and domain object
