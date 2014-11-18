@@ -27,7 +27,8 @@ class Day {
             put(3,"rd");
         }};
 
-        return lookupTable.containsKey(value)? lookupTable.get(value) : "st";
+        String DEFAULT = "st";
+        return lookupTable.containsKey(value)? lookupTable.get(value) : DEFAULT;
     }
 
 }
