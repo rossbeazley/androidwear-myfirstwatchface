@@ -5,7 +5,8 @@ import java.util.HashMap;
 import static java.lang.String.*;
 
 /**
-* Created by beazlr02 on 18/11/2014.
+* The problem with this class, maybe it should be the month part also
+ * There are rules about days in a month....
 */
 class Day {
     private final int value;
