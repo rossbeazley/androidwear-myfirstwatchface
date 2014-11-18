@@ -15,7 +15,11 @@ class Day {
     }
 
     public String toOrdinalString() {
-        String ordinal = "";
+        return value + ordinalForValue(value);
+    }
+
+    private String ordinalForValue(int value) {
+        String ordinal;
         switch (value) {
             case 3:
                 ordinal = "rd";
@@ -27,8 +31,7 @@ class Day {
                 ordinal = "st";
                 break;
         }
-
-        return value + ordinal;
+        return ordinal;
     }
 
 }
