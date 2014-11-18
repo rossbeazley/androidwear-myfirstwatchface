@@ -35,5 +35,10 @@ public class DayOrdinalityTest {
         assertThat(Day.fromBase10(21).toOrdinalString(), is("21st"));
     }
 
+    @Test
+    public void theTwentySecond() {
+        assertThat(Day.fromBase10(22).toOrdinalString(), is("22nd"));
+    }
+
 
 }

@@ -27,6 +27,7 @@ class Day {
             put(2,"nd");
             put(3,"rd");
             put(21,"st");
+            put(22,"nd");
 
         }};
 
