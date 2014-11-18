@@ -1,5 +1,7 @@
 package uk.co.rossbeazley.wear.days;
 
+import java.util.HashMap;
+
 /**
 * Created by beazlr02 on 18/11/2014.
 */
@@ -19,19 +21,13 @@ class Day {
     }
 
     private String ordinalForValue(int value) {
-        String ordinal;
-        switch (value) {
-            case 3:
-                ordinal = "rd";
-                break;
-            case 2:
-                ordinal = "nd";
-                break;
-            default:
-                ordinal = "st";
-                break;
-        }
-        return ordinal;
+        HashMap<Integer, String> lookupTable;
+        lookupTable = new HashMap<Integer, String>() {{
+            put(2,"nd");
+            put(3,"rd");
+        }};
+
+        return lookupTable.containsKey(value)? lookupTable.get(value) : "st";
     }
 
 }
