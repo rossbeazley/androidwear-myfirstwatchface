@@ -8,7 +8,7 @@ import static java.lang.String.*;
 * The problem with this class, maybe it should be the month part also
  * There are rules about days in a month....
 */
-class Day {
+public class Day {
     private final int value;
 
     private Day(int i) {
@@ -27,28 +27,23 @@ class Day {
 
     private static class Ordinal {
 
-        final String ST = "st", ND = "nd", RD = "rd", TH = "th";
-        final String DEFAULT = TH;
+        private final String ordinal;
 
-        private final int value;
-        private HashMap<Integer, String> lookupTable;
+        private final String ST = "st", ND = "nd", RD = "rd", TH = "th";
+        private final String DEFAULT = TH;
 
         private Ordinal(int value) {
-            this.value = value;
-            lookupTable = new HashMap<Integer, String>() {{
-                put(1, ST);
-                put(2, ND);
-                put(3, RD);
-                put(21, ST);
-                put(22, ND);
-                put(23, RD);
+            HashMap<Integer, String> lookupTable = new HashMap<Integer, String>() {{
+                put(1, ST);  put(2, ND);  put(3, RD);
+                put(21, ST); put(22, ND); put(23, RD);
                 put(31, ST);
             }};
+            ordinal = lookupTable.containsKey(value)? lookupTable.get(value) : DEFAULT;
         }
 
         @Override
         public String toString() {
-            return lookupTable.containsKey(value)? lookupTable.get(value) : DEFAULT;
+            return ordinal;
         }
 
         private static Ordinal forValue(int value) {

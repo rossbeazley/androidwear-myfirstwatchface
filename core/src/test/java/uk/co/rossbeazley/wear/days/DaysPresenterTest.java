@@ -46,12 +46,4 @@ public class DaysPresenterTest {
         void showDaysString(String newDays);
     }
 
-    private interface CanBeObservedForChangesToDays {
-        void observe(CanReceiveDaysUpdates canReceiveSecondsUpdates);
-
-        interface CanReceiveDaysUpdates {
-            void daysUpdate(Day to);
-        }
-    }
-
 }

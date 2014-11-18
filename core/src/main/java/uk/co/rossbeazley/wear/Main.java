@@ -1,5 +1,9 @@
 package uk.co.rossbeazley.wear;
 
+import java.util.Calendar;
+
+import uk.co.rossbeazley.wear.days.CanBeObservedForChangesToDays;
+import uk.co.rossbeazley.wear.days.Day;
 import uk.co.rossbeazley.wear.hours.CanBeObservedForChangesToHours;
 import uk.co.rossbeazley.wear.hours.HoursFromTick;
 import uk.co.rossbeazley.wear.minutes.CanBeObservedForChangesToMinutes;
@@ -34,23 +38,46 @@ public class Main {
         public final CanBeObservedForChangesToHours canBeObservedForChangesToHours;
         public final CanBeObservedForChangesToMinutes canBeObservedForChangesToMinutes;
         public final CanBeObservedForChangesToSeconds canBeObservedForChangesToSeconds;
+        public final CanBeObservedForChangesToDays canBeObservedForChangesToDays;
 
         public final CanBeTicked canBeTicked;
 
         private final Seconds seconds;
         private final MinutesFromTick minutes;
         private final HoursFromTick hours;
+        private final DaysFromTick days;
+
 
         public Core() {
             canBeObservedForChangesToSeconds = seconds = new Seconds();
             canBeObservedForChangesToMinutes = minutes = new MinutesFromTick();
             canBeObservedForChangesToHours = hours = new HoursFromTick();
+            canBeObservedForChangesToDays = days = new DaysFromTick();
             // haha, an eventbus - kinda
             canBeTicked = Announcer.to(CanBeTicked.class)
-                             .addListeners(seconds,minutes,hours)
+                             .addListeners(seconds,minutes,hours,days)
                              .announce();
         }
 
+        private static class DaysFromTick implements CanBeObservedForChangesToDays, CanBeTicked {
+
+            Announcer<CanReceiveDaysUpdates> announcer;
+
+            private DaysFromTick() {
+                announcer = Announcer.to(CanReceiveDaysUpdates.class);
+            }
+
+            @Override
+            public void observe(CanReceiveDaysUpdates canReceiveSecondsUpdates) {
+                announcer.addListener(canReceiveSecondsUpdates);
+            }
+
+            @Override
+            public void tick(Calendar to) {
+                Day day = Day.fromBase10(to.get(Calendar.DAY_OF_MONTH));
+                announcer.announce().daysUpdate(day);
+            }
+        }
     }
 
 }
