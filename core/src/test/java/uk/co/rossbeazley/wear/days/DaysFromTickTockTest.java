@@ -34,6 +34,14 @@ public class DaysFromTickTockTest implements CanBeObservedForChangesToDays.CanRe
         assertThat(timeComponentString,is("1st"));
     }
 
+    @Test
+    public void theOneWhereTheTimeChangesOnTheSameDay() {
+        days.tick(aTimeWithFirstDayOfMonth);
+        timeComponentString = "RESET";
+        days.tick(aTimeWithFirstDayOfMonth);
+        assertThat(timeComponentString,is("RESET"));
+    }
+
     @Override
     public void daysUpdate(Day to) {
         timeComponentString = to.toOrdinalString();

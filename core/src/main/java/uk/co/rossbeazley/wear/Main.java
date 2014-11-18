@@ -61,11 +61,7 @@ public class Main {
 
         private static class DaysFromTick implements CanBeObservedForChangesToDays, CanBeTicked {
 
-            Announcer<CanReceiveDaysUpdates> announcer;
-
-            private DaysFromTick() {
-                announcer = Announcer.to(CanReceiveDaysUpdates.class);
-            }
+            private final Announcer<CanReceiveDaysUpdates> announcer = Announcer.to(CanReceiveDaysUpdates.class);
 
             @Override
             public void observe(CanReceiveDaysUpdates canReceiveSecondsUpdates) {
@@ -74,7 +70,12 @@ public class Main {
 
             @Override
             public void tick(Calendar to) {
-                Day day = Day.fromBase10(to.get(Calendar.DAY_OF_MONTH));
+                int dayInt = to.get(Calendar.DAY_OF_MONTH);
+                Day day = Day.fromBase10(dayInt);
+                tick(day);
+            }
+
+            private void tick(Day day) {
                 announcer.announce().daysUpdate(day);
             }
         }
