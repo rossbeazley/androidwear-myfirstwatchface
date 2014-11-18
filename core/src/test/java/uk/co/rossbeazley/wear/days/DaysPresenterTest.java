@@ -27,7 +27,7 @@ public class DaysPresenterTest {
 
         new DaysPresenter(days, daysView);
 
-        daysChange.daysUpdate(new Day(1));
+        daysChange.daysUpdate(Day.fromBase10(1));
         assertThat(dateString, is("1st"));
     }
 
@@ -54,16 +54,4 @@ public class DaysPresenterTest {
         }
     }
 
-    private class Day {
-        private final int value;
-
-        public Day(int i) {
-            this.value = i;
-        }
-
-        public String toOrdinalString() {
-            return value+"st";
-        }
-
-    }
 }
