@@ -15,7 +15,7 @@ class Day {
     }
 
     public String toOrdinalString() {
-        return value+"st";
+        return value + (value==2?"nd":"st");
     }
 
 }
