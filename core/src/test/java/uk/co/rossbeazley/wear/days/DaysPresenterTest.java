@@ -25,16 +25,20 @@ public class DaysPresenterTest {
             }
         };
 
-        daysChange.daysUpdate(new Day(1));
-
         new DaysPresenter(days, daysView);
 
+        daysChange.daysUpdate(new Day(1));
         assertThat(dateString, is("1st"));
     }
 
     private class DaysPresenter {
-        public DaysPresenter(CanBeObservedForChangesToDays days, DaysView daysView) {
-
+        public DaysPresenter(CanBeObservedForChangesToDays days, final DaysView daysView) {
+            days.observe(new CanBeObservedForChangesToDays.CanReceiveDaysUpdates() {
+                @Override
+                public void daysUpdate(Day to) {
+                    daysView.showDaysString(to.toOrdinalString());
+                }
+            });
         }
     }
 
