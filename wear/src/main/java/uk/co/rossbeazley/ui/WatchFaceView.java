@@ -9,6 +9,8 @@ import android.widget.TextView;
 import com.examples.myfirstwatchface.R;
 
 import uk.co.rossbeazley.wear.Main;
+import uk.co.rossbeazley.wear.days.CanBeObservedForChangesToDays;
+import uk.co.rossbeazley.wear.days.DaysPresenter;
 import uk.co.rossbeazley.wear.hours.CanBeObservedForChangesToHours;
 import uk.co.rossbeazley.wear.hours.HoursPresenter;
 import uk.co.rossbeazley.wear.minutes.CanBeObservedForChangesToMinutes;
@@ -41,6 +43,12 @@ public class WatchFaceView extends RelativeLayout implements CanPostToMainThread
         createSecondsView(main);
         createMinutesView(main);
         createHoursView(main);
+        createDaysView(main);
+    }
+
+    private void createDaysView(Main main) {
+        CanBeObservedForChangesToDays days = main.core.canBeObservedForChangesToDays;
+        new DaysPresenter(days, new DayMonthView(this));
     }
 
     private void createHoursView(Main main) {
@@ -117,6 +125,31 @@ public class WatchFaceView extends RelativeLayout implements CanPostToMainThread
                     seconds.setText(newSeconds);
                 }
             }); //SMELL this main thread post solution will get out of hand quickly, maybe I could dispatch on the main thread from the Announcer?
+        }
+    }
+
+    private class DayMonthView implements DaysPresenter.DaysView {
+
+        private TextView dayMonthTextView;
+        private String days;
+
+        public DayMonthView(View inflatedViews) {
+            dayMonthTextView = (TextView) inflatedViews.findViewById(R.id.date);
+        }
+
+        @Override
+        public void showDaysString(String newDays) {
+            days = newDays;
+            update();
+        }
+
+        private void update() {
+            dayMonthTextView.post(new Runnable() {
+                @Override
+                public void run() {
+                    dayMonthTextView.setText(days + " MONTH" );
+                }
+            });
         }
     }
 }

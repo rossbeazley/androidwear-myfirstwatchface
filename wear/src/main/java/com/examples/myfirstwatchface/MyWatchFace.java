@@ -1,63 +1,15 @@
 package com.examples.myfirstwatchface;
 
-import android.content.BroadcastReceiver;
+import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.graphics.Color;
-import android.os.BatteryManager;
+import android.hardware.display.DisplayManager;
 import android.os.Bundle;
-import android.support.wearable.view.WatchViewStub;
-import android.widget.TextView;
+import android.view.Display;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
+public class MyWatchFace extends Activity implements WatchFace {
 
-public class MyWatchFace extends WatchFaceActivity {
-
-    private TextView mDate;
-
-    private final static IntentFilter INTENT_FILTER;
-    static {
-        INTENT_FILTER = new IntentFilter();
-        INTENT_FILTER.addAction(Intent.ACTION_TIME_TICK);
-        INTENT_FILTER.addAction(Intent.ACTION_TIMEZONE_CHANGED);
-        INTENT_FILTER.addAction(Intent.ACTION_TIME_CHANGED);
-    }
-
-    private BroadcastReceiver mTimeInfoReceiver = new BroadcastReceiver(){
-        @Override
-        public void onReceive(Context arg0, Intent intent) {
-            Calendar instance = Calendar.getInstance();
-            Date time = instance.getTime();
-
-            String dateString = new SimpleDateFormat("dd").format(time);
-            dateString += getDayOfMonthSuffix(instance.get(Calendar.DAY_OF_MONTH));
-            dateString += new SimpleDateFormat("  MMMM").format(time);
-            mDate.setText(dateString);
-
-        }
-    };
-
-    String getDayOfMonthSuffix(final int n) {
-        if (n >= 4 && n <= 20) {
-            return "th";
-        }
-        switch (n % 10) {
-            case 1:  return "st";
-            case 2:  return "nd";
-            case 3:  return "rd";
-            default: return "th";
-        }
-    }
-
-    private BroadcastReceiver mBatInfoReceiver = new BroadcastReceiver(){
-        @Override
-        public void onReceive(Context arg0, Intent intent) {
-            //mBattery.setText(String.valueOf(intent.getIntExtra(BatteryManager.EXTRA_LEVEL, 0) + "%"));
-        }
-    };
+    private final MyDisplayListener displayListener = new MyDisplayListener(this);
+    private DisplayManager displayManager;
 
     @Override
     public void screenDim() {
@@ -69,28 +21,71 @@ public class MyWatchFace extends WatchFaceActivity {
 
     }
 
+    /**
+     * Used to detect when a watch face is being removed (switched).<br/>
+     * You can either do what you need here, or simply override {@code onDestroy()}.
+     */
+    @Override
+    public void removed(){}
+
+    /**
+     * When the screen is OFF due to "Always-On" being disabled.
+     */
+    @Override
+    public void screenOff(){}
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //  Set up the display manager and register a listener (this activity).
+        displayManager = (DisplayManager) getSystemService(Context.DISPLAY_SERVICE);
+        displayManager.registerDisplayListener(displayListener, null);
+
         setContentView(R.layout.activity_my_watch_face);
-        final WatchViewStub stub = (WatchViewStub) findViewById(R.id.watch_view_stub);
-        stub.setOnLayoutInflatedListener(new WatchViewStub.OnLayoutInflatedListener() {
-            @Override
-            public void onLayoutInflated(WatchViewStub stub) {
-                mDate = (TextView) stub.findViewById(R.id.date);
 
-                mTimeInfoReceiver.onReceive(MyWatchFace.this, null);
-                registerReceiver(mTimeInfoReceiver, INTENT_FILTER);
-                registerReceiver(mBatInfoReceiver, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
-
-            }
-        });
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        unregisterReceiver(mTimeInfoReceiver);
-        unregisterReceiver(mBatInfoReceiver);
+        //  Unregister the listener. If you don't, even after the watch face is gone,
+        //  it will still accept your callbacks.
+        displayManager.unregisterDisplayListener(displayListener);
+    }
+
+
+    private class MyDisplayListener implements DisplayManager.DisplayListener {
+        private final WatchFace watchFace;
+
+        public MyDisplayListener(WatchFace watchFace) {
+            this.watchFace = watchFace;
+        }
+
+        @Override
+        public void onDisplayRemoved(int displayId) {
+            this.watchFace.removed();
+        }
+
+        @Override
+        public void onDisplayAdded(int displayId) {
+            //  In testing, this was never called, so the callback for this was removed.
+        }
+
+        @Override
+        public void onDisplayChanged(int displayId) {
+            switch(displayManager.getDisplay(displayId).getState()){
+                case Display.STATE_DOZING:
+                    this.watchFace.screenDim();
+                    break;
+                case Display.STATE_OFF:
+                    this.watchFace.screenOff();
+                    break;
+                default:
+                    //  Not really sure what to so about Display.STATE_UNKNOWN, so
+                    //  we'll treat it as if the screen is normal.
+                    this.watchFace.screenAwake();
+                    break;
+            }
+        }
     }
 }
