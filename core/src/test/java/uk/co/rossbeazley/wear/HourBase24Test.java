@@ -15,6 +15,12 @@ public class HourBase24Test {
     }
 
     public void twelveHourClockShows12amAs12() throws Exception {
+        String actual = HourBase24.fromBase10(24).toBase10TwelveHour();
+        assertThat(actual,is("12"));
+    }
 
+    public void twelveHourClockShows00As12() throws Exception {
+        String actual = HourBase24.fromBase10(0).toBase10TwelveHour();
+        assertThat(actual,is("12"));
     }
 }
