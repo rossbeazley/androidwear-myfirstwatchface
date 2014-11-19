@@ -15,7 +15,8 @@ public class HourBase24 {
 
     public String toBase10TwelveHour() {
         DecimalFormat numberFormat = new DecimalFormat("00");
-        return numberFormat.format(value%12);
+        String format = numberFormat.format(value % 12);
+        return format.equals("00") ? "12" : format;
     }
 
     @Override
