@@ -12,7 +12,7 @@ public class DaysPresenterTest {
     @Test
     public void theOneWhereTheDayUpdates() {
 
-        DaysView daysView = new DaysView() {
+        DaysPresenter.DaysView daysView = new DaysPresenter.DaysView() {
             @Override public void showDaysString(String newDays) {
                 dateString = newDays;
             }
@@ -29,21 +29,6 @@ public class DaysPresenterTest {
 
         daysChange.daysUpdate(Day.fromBase10(1));
         assertThat(dateString, is("1st"));
-    }
-
-    private class DaysPresenter {
-        public DaysPresenter(CanBeObservedForChangesToDays days, final DaysView daysView) {
-            days.observe(new CanBeObservedForChangesToDays.CanReceiveDaysUpdates() {
-                @Override
-                public void daysUpdate(Day to) {
-                    daysView.showDaysString(to.toOrdinalString());
-                }
-            });
-        }
-    }
-
-    private interface DaysView {
-        void showDaysString(String newDays);
     }
 
 }
