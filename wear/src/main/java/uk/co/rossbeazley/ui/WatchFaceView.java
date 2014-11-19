@@ -21,7 +21,7 @@ import uk.co.rossbeazley.wear.seconds.SecondsPresenter;
 /**
  * Created by beazlr02 on 14/11/2014.
  */
-public class WatchFaceView extends RelativeLayout implements CanPostToMainThread {
+public class WatchFaceView extends RelativeLayout {
     public WatchFaceView(Context context) {
         super(context);
     }
@@ -59,28 +59,26 @@ public class WatchFaceView extends RelativeLayout implements CanPostToMainThread
 
     private void createMinutesView(Main main) {
         CanBeObservedForChangesToMinutes minutes = main.core.canBeObservedForChangesToMinutes;
-        MinutesPresenter.MinutesView minutesView = new AndroidMinutesView(this, this);
+        MinutesPresenter.MinutesView minutesView = new AndroidMinutesView(this);
         MinutesPresenter minutesPresenter = new MinutesPresenter(minutes, minutesView);
     }
 
     private void createSecondsView(Main main) {
         CanBeObservedForChangesToSeconds seconds = main.core.canBeObservedForChangesToSeconds;
-        AndroidSecondsView secondsview = new AndroidSecondsView(this, this);
+        AndroidSecondsView secondsview = new AndroidSecondsView(this);
         SecondsPresenter secondsPresenter = new SecondsPresenter(seconds, secondsview);
     }
 
     private static class AndroidMinutesView implements MinutesPresenter.MinutesView {
         private final TextView minutes;
-        private final CanPostToMainThread mainThread;
 
-        public AndroidMinutesView(View view, CanPostToMainThread canPostToMainThread) {
-            mainThread = canPostToMainThread;
+        public AndroidMinutesView(View view) {
             this.minutes = (TextView) view.findViewById(R.id.watch_time_mins);
         }
 
         @Override
         public void showMinutesString(final String minuteString) {
-            mainThread.post(new Runnable() {
+            minutes.post(new Runnable() {
                 @Override
                 public void run() {
                     minutes.setText(minuteString);
@@ -110,16 +108,14 @@ public class WatchFaceView extends RelativeLayout implements CanPostToMainThread
     private class AndroidSecondsView implements SecondsPresenter.SecondsView {
 
         private final TextView seconds;
-        private final CanPostToMainThread mainThread;
 
-        public AndroidSecondsView(View inflatedViews, CanPostToMainThread mainThread) {
-            this.mainThread = mainThread;
+        public AndroidSecondsView(View inflatedViews) {
             seconds = (TextView) inflatedViews.findViewById(R.id.watch_time_secs);
         }
 
         @Override
         public void showSecondsString(final String newSeconds) {
-            mainThread.post(new Runnable() {
+            seconds.post(new Runnable() {
                 @Override
                 public void run() {
                     seconds.setText(newSeconds);
