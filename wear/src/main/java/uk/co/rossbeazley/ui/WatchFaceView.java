@@ -70,36 +70,36 @@ public class WatchFaceView extends RelativeLayout {
     }
 
     private static class AndroidMinutesView implements MinutesPresenter.MinutesView {
-        private final TextView minutes;
+        private final TextView textView;
 
-        public AndroidMinutesView(View view) {
-            this.minutes = (TextView) view.findViewById(R.id.watch_time_mins);
+        public AndroidMinutesView(View textView) {
+            this.textView = (TextView) textView.findViewById(R.id.watch_time_mins);
         }
 
         @Override
         public void showMinutesString(final String minuteString) {
-            minutes.post(new Runnable() {
+            textView.post(new Runnable() {
                 @Override
                 public void run() {
-                    minutes.setText(minuteString);
+                    textView.setText(minuteString);
                 }
             });
         }
     }
 
     private static class AndroidHoursView implements HoursPresenter.HoursView {
-        private final TextView hours;
+        private final TextView textView;
 
         public AndroidHoursView(View view) {
-            hours = (TextView) view.findViewById(R.id.watch_time);
+            textView = (TextView) view.findViewById(R.id.watch_time);
         }
 
         @Override
         public void showHoursString(final String newHour) {
-            this.hours.post(new Runnable() {
+            this.textView.post(new Runnable() {
                 @Override
                 public void run() {
-                    hours.setText(newHour);
+                    textView.setText(newHour);
                 }
             });
         }
@@ -107,18 +107,18 @@ public class WatchFaceView extends RelativeLayout {
 
     private class AndroidSecondsView implements SecondsPresenter.SecondsView {
 
-        private final TextView seconds;
+        private final TextView textView;
 
         public AndroidSecondsView(View inflatedViews) {
-            seconds = (TextView) inflatedViews.findViewById(R.id.watch_time_secs);
+            textView = (TextView) inflatedViews.findViewById(R.id.watch_time_secs);
         }
 
         @Override
         public void showSecondsString(final String newSeconds) {
-            seconds.post(new Runnable() {
+            textView.post(new Runnable() {
                 @Override
                 public void run() {
-                    seconds.setText(newSeconds);
+                    textView.setText(newSeconds);
                 }
             }); //SMELL this main thread post solution will get out of hand quickly, maybe I could dispatch on the main thread from the Announcer?
         }
@@ -126,11 +126,11 @@ public class WatchFaceView extends RelativeLayout {
 
     private class DayMonthView implements DaysPresenter.DaysView {
 
-        private TextView dayMonthTextView;
+        private TextView textView;
         private String days;
 
         public DayMonthView(View inflatedViews) {
-            dayMonthTextView = (TextView) inflatedViews.findViewById(R.id.date);
+            textView = (TextView) inflatedViews.findViewById(R.id.date);
         }
 
         @Override
@@ -140,10 +140,10 @@ public class WatchFaceView extends RelativeLayout {
         }
 
         private void update() {
-            dayMonthTextView.post(new Runnable() {
+            textView.post(new Runnable() {
                 @Override
                 public void run() {
-                    dayMonthTextView.setText(days + " MONTH" );
+                    textView.setText(days + " MONTH");
                 }
             });
         }
