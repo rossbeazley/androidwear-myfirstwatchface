@@ -27,7 +27,12 @@ public class MonthsPresenterTest {
 
     private class MonthsPresenter {
         public MonthsPresenter(CanBeObservedForChangesToMonths months, final FakeMonthView view) {
-
+            months.observe(new CanBeObservedForChangesToMonths.CanReceiveMonthUpdates() {
+                @Override
+                public void monthUpdate(Month month) {
+                    view.showMonthString(month.toString());
+                }
+            });
         }
     }
 
