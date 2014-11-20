@@ -11,7 +11,7 @@ import uk.co.rossbeazley.wear.days.DefaultMap;
 public class Month {
     private final String monthString;
 
-    Month(int i) {
+    private Month(int i) {
 
         String[] lookup = new String[]{
                 "None-ary",
