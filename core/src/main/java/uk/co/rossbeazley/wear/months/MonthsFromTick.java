@@ -15,7 +15,7 @@ public class MonthsFromTick implements CanBeObservedForChangesToMonths, CanBeTic
     final private Announcer<CanReceiveMonthsUpdates> announcer;
     private Month current;
 
-    MonthsFromTick() {
+    public MonthsFromTick() {
         announcer = Announcer.to(CanReceiveMonthsUpdates.class);
     }
 
