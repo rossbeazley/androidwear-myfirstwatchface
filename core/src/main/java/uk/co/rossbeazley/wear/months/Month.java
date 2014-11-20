@@ -8,7 +8,7 @@ import uk.co.rossbeazley.wear.days.DefaultMap;
 /**
  * Created by beazlr02 on 20/11/2014.
  */
-class Month {
+public class Month {
     private final String monthString;
 
     Month(int i) {
