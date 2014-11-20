@@ -20,6 +20,7 @@ class Month {
             put(4,"April");
             put(5,"May");
             put(6,"June");
+            put(7,"July");
         }};
 
         this.monthString = lookup.get(i);

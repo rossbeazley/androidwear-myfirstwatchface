@@ -34,4 +34,9 @@ public class MonthsTest {
     public void sixthMonthIsJune() {
         assertThat(Month.fromBaseTen(6).toString(),is("June"));
     }
+
+    @Test
+    public void seventhMonthIsJuly() {
+        assertThat(Month.fromBaseTen(7).toString(),is("July"));
+    }
 }
