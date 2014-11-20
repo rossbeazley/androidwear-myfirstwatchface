@@ -67,6 +67,7 @@ public class Main {
         private static class MonthsFromTick implements CanBeObservedForChangesToMonths, CanBeTicked {
 
             final private Announcer<CanReceiveMonthsUpdates> announcer;
+            private Month current;
 
             private MonthsFromTick() {
                 announcer = Announcer.to(CanReceiveMonthsUpdates.class);
@@ -85,7 +86,12 @@ public class Main {
             }
 
             private void tick(Month to) {
-                announcer.announce().daysUpdate(to);
+                if(to.equals(current)) {
+                    //nowt
+                } else {
+                    this.current = to;
+                    announcer.announce().daysUpdate(to);
+                }
             }
         }
 

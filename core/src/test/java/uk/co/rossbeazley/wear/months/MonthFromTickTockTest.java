@@ -36,6 +36,14 @@ public class MonthFromTickTockTest implements CanBeObservedForChangesToMonths.Ca
         assertThat(monthString,is("September"));
     }
 
+    @Test
+    public void theOneWhereTheMonthDosntChange() {
+        months.tick(aTimeWithNineMonths);
+        monthString = "RESET";
+        months.tick(aTimeWithNineMonths);
+        assertThat(monthString,is("RESET"));
+    }
+
     @Override
     public void daysUpdate(Month to) {
         this.monthString = to.toString();

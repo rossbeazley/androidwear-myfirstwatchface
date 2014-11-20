@@ -32,6 +32,11 @@ public class Month {
     }
 
     @Override
+    public boolean equals(Object obj) {
+        return obj!=null && ((Month)obj).monthString.equals(monthString);
+    }
+
+    @Override
     public String toString() {
         return this.monthString;
     }
