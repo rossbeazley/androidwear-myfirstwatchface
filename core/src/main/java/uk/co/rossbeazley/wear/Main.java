@@ -62,6 +62,7 @@ public class Main {
         private static class DaysFromTick implements CanBeObservedForChangesToDays, CanBeTicked {
 
             private final Announcer<CanReceiveDaysUpdates> announcer = Announcer.to(CanReceiveDaysUpdates.class);
+            private Day current;
 
             @Override
             public void observe(CanReceiveDaysUpdates canReceiveSecondsUpdates) {
@@ -76,7 +77,12 @@ public class Main {
             }
 
             private void tick(Day day) {
+                current = day.equals(current) ? current : change(day);
+            }
+
+            private Day change(Day day) {
                 announcer.announce().daysUpdate(day);
+                return day;
             }
         }
     }

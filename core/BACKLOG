@@ -55,5 +55,11 @@ it 5:
 
 ---
 it 6:
- make observerables notify observer of current state upon observation
  implement month presetner, view and domain object
+ extract DayFromTickTock
+ fix failing test
+
+---
+it 7:
+ make observerables notify observer of current state upon observation
+

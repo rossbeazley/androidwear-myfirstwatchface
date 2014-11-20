@@ -19,7 +19,7 @@ public class TickTockTest implements CanBeTicked {
         FakeNarrowScheduledExecutorService executor = new FakeNarrowScheduledExecutorService(epoc);
         TimeSource timeSource = executor;
 
-        new TickTock(timeSource, executor, this, null);
+        new TickTock(timeSource, executor, this);
 
         executor.elapseTime();
 

@@ -1,7 +1,5 @@
 package uk.co.rossbeazley.wear.days;
 
-import java.util.HashMap;
-
 import static java.lang.String.*;
 
 /**
@@ -23,7 +21,10 @@ public class Day {
         return format("%d%s", value, Ordinal.forValue(value));
     }
 
-
+    @Override
+    public boolean equals(Object obj) {
+        return obj!=null && ((Day)obj).value == value;
+    }
 
     private static class Ordinal {
 
@@ -33,12 +34,12 @@ public class Day {
         private final String DEFAULT = TH;
 
         private Ordinal(int value) {
-            HashMap<Integer, String> lookupTable = new HashMap<Integer, String>() {{
+            DefaultMap<Integer, String> lookupTable = new DefaultMap<Integer, String>(DEFAULT) {{
                 put(1, ST);  put(2, ND);  put(3, RD);
                 put(21, ST); put(22, ND); put(23, RD);
                 put(31, ST);
             }};
-            ordinal = lookupTable.containsKey(value)? lookupTable.get(value) : DEFAULT;
+            ordinal = lookupTable.get(value);
         }
 
         @Override
@@ -50,7 +51,6 @@ public class Day {
             return new Ordinal(value);
         }
     }
-
 
 
 }
