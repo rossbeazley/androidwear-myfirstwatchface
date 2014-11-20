@@ -10,7 +10,7 @@ public class DefaultMap<Key, Value> {
     final private Map<Key, Value> map;
     private final Value defaultValue;
 
-    DefaultMap(Value defaultValue) {
+    public DefaultMap(Value defaultValue) {
         this.defaultValue = defaultValue;
         map = new HashMap<Key, Value>();
     }

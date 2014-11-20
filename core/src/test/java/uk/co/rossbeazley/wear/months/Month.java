@@ -1,5 +1,10 @@
 package uk.co.rossbeazley.wear.months;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import uk.co.rossbeazley.wear.days.DefaultMap;
+
 /**
 * Created by beazlr02 on 20/11/2014.
 */
@@ -8,7 +13,12 @@ class Month {
 
     Month(int i) {
 
-        this.monthString = i==1 ? "January":"March";
+        Map<Integer, String> lookup = new HashMap<Integer, String>() {{
+            put(1,"January");
+            put(3,"March");
+        }};
+
+        this.monthString = lookup.get(i);
     }
 
     @Override
