@@ -80,7 +80,12 @@ public class Main {
             @Override
             public void tick(Calendar to) {
                 int monthInt = to.get(Calendar.MONTH);
-                announcer.announce().daysUpdate(Month.fromBaseTen(monthInt));
+                Month month = Month.fromBaseTen(monthInt);
+                tick(month);
+            }
+
+            private void tick(Month to) {
+                announcer.announce().daysUpdate(to);
             }
         }
 
