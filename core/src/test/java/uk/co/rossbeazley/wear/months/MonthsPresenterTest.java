@@ -50,23 +50,6 @@ public class MonthsPresenterTest {
         }
     }
 
-    private static class Month {
-        private final String monthString;
-
-        private Month(int i) {
-            this.monthString = "March";
-        }
-
-        @Override
-        public String toString() {
-            return this.monthString;
-        }
-
-        public static Month fromBaseTen(int i) {
-            return new Month(i);
-        }
-    }
-
     private static class FakeMonths implements CanBeObservedForChangesToMonths {
         private CanReceiveMonthUpdates canReceiveMonthUpdates;
 
