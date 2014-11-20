@@ -14,4 +14,24 @@ public class MonthsTest {
     public void firstMonthIsJanuary() {
         assertThat(Month.fromBaseTen(1).toString(),is("January"));
     }
+
+    @Test
+    public void secondMonthIsFebruary() {
+        assertThat(Month.fromBaseTen(2).toString(),is("February"));
+    }
+
+    @Test
+    public void forthMonthIsApril() {
+        assertThat(Month.fromBaseTen(4).toString(),is("April"));
+    }
+
+    @Test
+    public void fifthMonthIsMay() {
+        assertThat(Month.fromBaseTen(5).toString(),is("May"));
+    }
+
+    @Test
+    public void sixthMonthIsJune() {
+        assertThat(Month.fromBaseTen(6).toString(),is("June"));
+    }
 }

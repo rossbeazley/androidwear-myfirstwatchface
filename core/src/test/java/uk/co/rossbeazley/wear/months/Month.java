@@ -15,7 +15,11 @@ class Month {
 
         Map<Integer, String> lookup = new HashMap<Integer, String>() {{
             put(1,"January");
+            put(2,"February");
             put(3,"March");
+            put(4,"April");
+            put(5,"May");
+            put(6,"June");
         }};
 
         this.monthString = lookup.get(i);
