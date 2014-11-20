@@ -41,9 +41,12 @@ public class MonthsTest {
     }
 
     @Test
-    public void eigthMonthIsAugust() {
+    public void eighthMonthIsAugust() {
         assertThat(Month.fromBaseTen(8).toString(),is("August"));
     }
 
-
+    @Test
+    public void ninthMonthIsSeptember() {
+        assertThat(Month.fromBaseTen(9).toString(),is("September"));
+    }
 }
