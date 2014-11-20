@@ -20,7 +20,9 @@ public class Main {
     private static Main instance;
     public final Core core;
 
-    public static Main instance() { return instance; }
+    public static Main instance() {
+        return instance;
+    }
 
     public static void init() { //thinking i will init the core with the external stuff?
         instance = new Main();
@@ -60,8 +62,8 @@ public class Main {
             canBeObservedForChangesToMonths = months = new MonthsFromTick();
             // haha, an eventbus - kinda
             canBeTicked = Announcer.to(CanBeTicked.class)
-                             .addListeners(seconds,minutes,hours,days,months)
-                             .announce();
+                    .addListeners(seconds, minutes, hours, days, months)
+                    .announce();
         }
 
         private static class MonthsFromTick implements CanBeObservedForChangesToMonths, CanBeTicked {
@@ -86,12 +88,12 @@ public class Main {
             }
 
             private void tick(Month to) {
-                if(to.equals(current)) {
-                    //nowt
-                } else {
-                    this.current = to;
-                    announcer.announce().daysUpdate(to);
-                }
+                current = to.equals(current) ? current : update(to);
+            }
+
+            private Month update(Month to) {
+                announcer.announce().daysUpdate(to);
+                return to;
             }
         }
 
