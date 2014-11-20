@@ -1,7 +1,5 @@
 package uk.co.rossbeazley.wear;
 
-import java.util.Calendar;
-
 import uk.co.rossbeazley.wear.days.CanBeObservedForChangesToDays;
 import uk.co.rossbeazley.wear.days.DaysFromTick;
 import uk.co.rossbeazley.wear.hours.CanBeObservedForChangesToHours;
@@ -9,7 +7,7 @@ import uk.co.rossbeazley.wear.hours.HoursFromTick;
 import uk.co.rossbeazley.wear.minutes.CanBeObservedForChangesToMinutes;
 import uk.co.rossbeazley.wear.minutes.MinutesFromTick;
 import uk.co.rossbeazley.wear.months.CanBeObservedForChangesToMonths;
-import uk.co.rossbeazley.wear.months.Month;
+import uk.co.rossbeazley.wear.months.MonthsFromTick;
 import uk.co.rossbeazley.wear.seconds.CanBeObservedForChangesToSeconds;
 import uk.co.rossbeazley.wear.seconds.Seconds;
 import uk.co.rossbeazley.wear.ticktock.CanBeTicked;
@@ -64,37 +62,6 @@ public class Main {
             canBeTicked = Announcer.to(CanBeTicked.class)
                     .addListeners(seconds, minutes, hours, days, months)
                     .announce();
-        }
-
-        private static class MonthsFromTick implements CanBeObservedForChangesToMonths, CanBeTicked {
-
-            final private Announcer<CanReceiveMonthsUpdates> announcer;
-            private Month current;
-
-            private MonthsFromTick() {
-                announcer = Announcer.to(CanReceiveMonthsUpdates.class);
-            }
-
-            @Override
-            public void observe(CanReceiveMonthsUpdates canReceiveMonthsUpdates) {
-                announcer.addListener(canReceiveMonthsUpdates);
-            }
-
-            @Override
-            public void tick(Calendar to) {
-                int monthInt = to.get(Calendar.MONTH);
-                Month month = Month.fromBaseTen(monthInt);
-                tick(month);
-            }
-
-            private void tick(Month to) {
-                current = to.equals(current) ? current : update(to);
-            }
-
-            private Month update(Month to) {
-                announcer.announce().daysUpdate(to);
-                return to;
-            }
         }
 
 
