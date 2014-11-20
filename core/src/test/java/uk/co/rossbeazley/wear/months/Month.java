@@ -6,26 +6,29 @@ import java.util.Map;
 import uk.co.rossbeazley.wear.days.DefaultMap;
 
 /**
-* Created by beazlr02 on 20/11/2014.
-*/
+ * Created by beazlr02 on 20/11/2014.
+ */
 class Month {
     private final String monthString;
 
     Month(int i) {
 
-        Map<Integer, String> lookup = new HashMap<Integer, String>() {{
-            put(1,"January");
-            put(2,"February");
-            put(3,"March");
-            put(4,"April");
-            put(5,"May");
-            put(6,"June");
-            put(7,"July");
-            put(8,"August");
-            put(9,"September");
-        }};
+        String[] lookup = new String[]{
+                "None-ary",
+                "January",
+                "February",
+                "March",
+                "April",
+                "May",
+                "June",
+                "July",
+                "August",
+                "September",
+                "October",
+                "November",
+                "December"};
 
-        this.monthString = lookup.get(i);
+        this.monthString = lookup[i];
     }
 
     @Override

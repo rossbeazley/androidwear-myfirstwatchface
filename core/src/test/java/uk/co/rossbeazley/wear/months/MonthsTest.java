@@ -49,4 +49,19 @@ public class MonthsTest {
     public void ninthMonthIsSeptember() {
         assertThat(Month.fromBaseTen(9).toString(),is("September"));
     }
+
+    @Test
+    public void tenthMonthIsOctober() {
+        assertThat(Month.fromBaseTen(10).toString(),is("October"));
+    }
+
+    @Test
+    public void eleventhMonthIsNovember() {
+        assertThat(Month.fromBaseTen(11).toString(),is("November"));
+    }
+
+    @Test
+    public void twelthMonthIsDecember() {
+        assertThat(Month.fromBaseTen(12).toString(),is("December"));
+    }
 }
