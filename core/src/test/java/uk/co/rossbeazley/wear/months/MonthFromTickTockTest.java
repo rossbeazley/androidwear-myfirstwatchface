@@ -25,7 +25,7 @@ public class MonthFromTickTockTest implements CanBeObservedForChangesToMonths.Ca
     public void setUp() throws Exception {
         Main.Core core = new Main.Core();
         aTimeWithNineMonths = Calendar.getInstance();
-        aTimeWithNineMonths.set(Calendar.MONTH, 9);
+        aTimeWithNineMonths.set(Calendar.MONTH, Calendar.SEPTEMBER);
         core.canBeObservedForChangesToMonths.observe(this);
         this.months = core.canBeTicked;
     }

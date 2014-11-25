@@ -24,7 +24,7 @@ public class MonthsFromTick implements CanBeObservedForChangesToMonths, CanBeTic
 
     @Override
     public void tick(Calendar to) {
-        int monthInt = to.get(Calendar.MONTH);
+        int monthInt = to.get(Calendar.MONTH) + 1;
         Month month = Month.fromBaseTen(monthInt);
         tick(month);
     }
