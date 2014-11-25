@@ -3,8 +3,6 @@ package uk.co.rossbeazley.wear.months;
 import java.util.Calendar;
 
 import uk.co.rossbeazley.wear.Announcer;
-import uk.co.rossbeazley.wear.months.CanBeObservedForChangesToMonths;
-import uk.co.rossbeazley.wear.months.Month;
 import uk.co.rossbeazley.wear.ticktock.CanBeTicked;
 
 /**
@@ -36,7 +34,7 @@ public class MonthsFromTick implements CanBeObservedForChangesToMonths, CanBeTic
     }
 
     private Month update(Month to) {
-        announcer.announce().daysUpdate(to);
+        announcer.announce().monthsUpdate(to);
         return to;
     }
 }

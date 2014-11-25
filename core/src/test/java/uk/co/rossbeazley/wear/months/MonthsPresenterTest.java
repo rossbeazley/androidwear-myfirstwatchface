@@ -19,44 +19,18 @@ public class MonthsPresenterTest {
 
         new MonthsPresenter(months, view);
 
-        months.canReceiveMonthUpdates.monthUpdate(Month.fromBaseTen(3));
+        months.canReceiveMonthUpdates.monthsUpdate(Month.fromBaseTen(3));
 
         assertThat(view.monthString, is("March"));
     }
 
 
-    private class MonthsPresenter {
-        public MonthsPresenter(CanBeObservedForChangesToMonths months, final FakeMonthView view) {
-            months.observe(new CanBeObservedForChangesToMonths.CanReceiveMonthUpdates() {
-                @Override
-                public void monthUpdate(Month month) {
-                    view.showMonthString(month.toString());
-                }
-            });
-        }
-    }
-
-
-
-    private interface MonthView {
-        void showMonthString(String monthString);
-    }
-
-    private interface CanBeObservedForChangesToMonths {
-        void observe(CanReceiveMonthUpdates canReceiveMonthUpdates);
-
-        interface CanReceiveMonthUpdates {
-            void monthUpdate(Month month);
-        }
-    }
-
     private static class FakeMonths implements CanBeObservedForChangesToMonths {
-        private CanReceiveMonthUpdates canReceiveMonthUpdates;
+        private CanReceiveMonthsUpdates canReceiveMonthUpdates;
 
         @Override
-        public void observe(CanReceiveMonthUpdates canReceiveMonthUpdates) {
-
-            this.canReceiveMonthUpdates = canReceiveMonthUpdates;
+        public void observe(CanReceiveMonthsUpdates canReceiveMonthsUpdates) {
+            this.canReceiveMonthUpdates = canReceiveMonthsUpdates;
         }
     }
 

@@ -45,7 +45,7 @@ public class MonthFromTickTockTest implements CanBeObservedForChangesToMonths.Ca
     }
 
     @Override
-    public void daysUpdate(Month to) {
+    public void monthsUpdate(Month to) {
         this.monthString = to.toString();
     }
 }

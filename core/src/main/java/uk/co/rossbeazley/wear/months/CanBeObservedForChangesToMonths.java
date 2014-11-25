@@ -7,6 +7,6 @@ public interface CanBeObservedForChangesToMonths {
     void observe(CanReceiveMonthsUpdates canReceiveMonthsUpdates);
 
     interface CanReceiveMonthsUpdates {
-        void daysUpdate(Month to);
+        void monthsUpdate(Month to);
     }
 }
