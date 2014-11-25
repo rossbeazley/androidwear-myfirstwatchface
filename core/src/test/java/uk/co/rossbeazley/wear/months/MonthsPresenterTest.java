@@ -35,7 +35,7 @@ public class MonthsPresenterTest {
     }
 
 
-    private static class FakeMonthView implements MonthView {
+    private static class FakeMonthView implements MonthsPresenter.MonthView {
         public String monthString;
 
         @Override

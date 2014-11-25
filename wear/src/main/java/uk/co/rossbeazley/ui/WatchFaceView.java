@@ -15,6 +15,7 @@ import uk.co.rossbeazley.wear.hours.CanBeObservedForChangesToHours;
 import uk.co.rossbeazley.wear.hours.HoursPresenter;
 import uk.co.rossbeazley.wear.minutes.CanBeObservedForChangesToMinutes;
 import uk.co.rossbeazley.wear.minutes.MinutesPresenter;
+import uk.co.rossbeazley.wear.months.MonthsPresenter;
 import uk.co.rossbeazley.wear.seconds.CanBeObservedForChangesToSeconds;
 import uk.co.rossbeazley.wear.seconds.SecondsPresenter;
 
@@ -43,12 +44,14 @@ public class WatchFaceView extends RelativeLayout {
         createSecondsView(main);
         createMinutesView(main);
         createHoursView(main);
-        createDaysView(main);
+        createMonthDaysView(main);
     }
 
-    private void createDaysView(Main main) {
+    private void createMonthDaysView(Main main) {
         CanBeObservedForChangesToDays days = main.core.canBeObservedForChangesToDays;
-        new DaysPresenter(days, new DayMonthView(this));
+        DayMonthView dayMonthView = new DayMonthView(this);
+        new DaysPresenter(days, dayMonthView);
+        new MonthsPresenter(main.core.canBeObservedForChangesToMonths,dayMonthView);
     }
 
     private void createHoursView(Main main) {
@@ -112,10 +115,11 @@ public class WatchFaceView extends RelativeLayout {
 
     }
 
-    private class DayMonthView implements DaysPresenter.DaysView {
+    private class DayMonthView implements DaysPresenter.DaysView, MonthsPresenter.MonthView {
 
         private final SetTextOnMainThread setTextOnMainThread;
         private String days;
+        private String months;
 
         public DayMonthView(View inflatedViews) {
             TextView textView = (TextView) inflatedViews.findViewById(R.id.date);
@@ -129,7 +133,13 @@ public class WatchFaceView extends RelativeLayout {
         }
 
         private void update() {
-            setTextOnMainThread.to(days + " MONTH");
+            setTextOnMainThread.to(days + " " + months);
+        }
+
+        @Override
+        public void showMonthString(String monthString) {
+            months = monthString;
+            update();
         }
     }
 

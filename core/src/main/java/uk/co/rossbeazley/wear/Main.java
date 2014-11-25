@@ -58,7 +58,7 @@ public class Main {
             canBeObservedForChangesToHours = hours = new HoursFromTick();
             canBeObservedForChangesToDays = days = new DaysFromTick();
             canBeObservedForChangesToMonths = months = new MonthsFromTick();
-            // haha, an eventbus - kinda
+
             canBeTicked = Announcer.to(CanBeTicked.class)
                     .addListeners(seconds, minutes, hours, days, months)
                     .announce();

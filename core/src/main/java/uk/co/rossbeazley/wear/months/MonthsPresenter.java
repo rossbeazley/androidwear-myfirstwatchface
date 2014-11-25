@@ -3,7 +3,7 @@ package uk.co.rossbeazley.wear.months;
 /**
 * Created by beazlr02 on 25/11/2014.
 */
-class MonthsPresenter {
+public class MonthsPresenter {
     public MonthsPresenter(CanBeObservedForChangesToMonths months, final MonthView view) {
         months.observe(new CanBeObservedForChangesToMonths.CanReceiveMonthsUpdates() {
             @Override
@@ -11,5 +11,9 @@ class MonthsPresenter {
                 view.showMonthString(month.toString());
             }
         });
+    }
+
+    public static interface MonthView {
+        void showMonthString(String monthString);
     }
 }
