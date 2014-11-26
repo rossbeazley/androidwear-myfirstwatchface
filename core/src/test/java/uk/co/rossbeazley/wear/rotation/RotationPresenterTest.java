@@ -33,6 +33,9 @@ public class RotationPresenterTest {
     }
 
     private static class Rotation {
+        public float degrees() {
+            return 0.0f;
+        }
     }
 
     private static class RotationChanges implements CanBeObservedForChangesToRotation {
@@ -56,8 +59,13 @@ public class RotationPresenterTest {
 
 
     private class RotationPresenter {
-        public RotationPresenter(FakeRotationView view, CanBeObservedForChangesToRotation canBeObservedForChangesToRotation) {
-
+        public RotationPresenter(final FakeRotationView view, CanBeObservedForChangesToRotation canBeObservedForChangesToRotation) {
+            canBeObservedForChangesToRotation.observe(new CanBeObservedForChangesToRotation.CanReceiveRotationUpdates() {
+                @Override
+                public void rotationUpdate(Rotation to) {
+                    view.rotateToDegrees(to.degrees());
+                }
+            });
         }
     }
 }
