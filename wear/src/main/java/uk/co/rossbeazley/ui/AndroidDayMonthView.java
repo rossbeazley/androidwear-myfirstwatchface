@@ -8,13 +8,13 @@ import com.examples.myfirstwatchface.R;
 import uk.co.rossbeazley.wear.days.DaysPresenter;
 import uk.co.rossbeazley.wear.months.MonthsPresenter;
 
-class DayMonthView implements DaysPresenter.DaysView, MonthsPresenter.MonthView {
+class AndroidDayMonthView implements DaysPresenter.DaysView, MonthsPresenter.MonthView {
 
     private final SetTextOnMainThread setTextOnMainThread;
     private String days;
     private String months;
 
-    public DayMonthView(View inflatedViews) {
+    public AndroidDayMonthView(View inflatedViews) {
         TextView textView = (TextView) inflatedViews.findViewById(R.id.date);
         setTextOnMainThread = new SetTextOnMainThread(textView);
     }

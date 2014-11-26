@@ -45,9 +45,9 @@ public class WatchFaceView extends RelativeLayout {
 
     private void createMonthDaysView(Main main) {
         CanBeObservedForChangesToDays days = main.core.canBeObservedForChangesToDays;
-        DayMonthView dayMonthView = new DayMonthView(this);
-        new DaysPresenter(days, dayMonthView);
-        new MonthsPresenter(main.core.canBeObservedForChangesToMonths,dayMonthView);
+        AndroidDayMonthView androidDayMonthView = new AndroidDayMonthView(this);
+        new DaysPresenter(days, androidDayMonthView);
+        new MonthsPresenter(main.core.canBeObservedForChangesToMonths, androidDayMonthView);
     }
 
     private void createHoursView(Main main) {
