@@ -53,19 +53,19 @@ public class WatchFaceView extends RelativeLayout {
     private void createHoursView(Main main) {
         CanBeObservedForChangesToHours hours = main.core.canBeObservedForChangesToHours;
         AndroidHoursView hoursView = new AndroidHoursView(this);
-        HoursPresenter hoursPresenter = new HoursPresenter(hours, hoursView);
+        new HoursPresenter(hours, hoursView);
     }
 
     private void createMinutesView(Main main) {
         CanBeObservedForChangesToMinutes minutes = main.core.canBeObservedForChangesToMinutes;
         MinutesPresenter.MinutesView minutesView = new AndroidMinutesView(this);
-        MinutesPresenter minutesPresenter = new MinutesPresenter(minutes, minutesView);
+        new MinutesPresenter(minutes, minutesView);
     }
 
     private void createSecondsView(Main main) {
         CanBeObservedForChangesToSeconds seconds = main.core.canBeObservedForChangesToSeconds;
         AndroidSecondsView secondsview = new AndroidSecondsView(this);
-        SecondsPresenter secondsPresenter = new SecondsPresenter(seconds, secondsview);
+        new SecondsPresenter(seconds, secondsview);
     }
 
 }
