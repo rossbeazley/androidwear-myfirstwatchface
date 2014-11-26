@@ -15,7 +15,7 @@ public class RotationPresenterTest {
         RotationChanges canBeObservedForChangesToRotation = new RotationChanges();
         new RotationPresenter(view, canBeObservedForChangesToRotation);
 
-        canBeObservedForChangesToRotation.canReceiveRotationUpdates.rotationUpdate(new Rotation());
+        canBeObservedForChangesToRotation.canReceiveRotationUpdates.rotationUpdate(new Rotation(0.0f));
 
         assertThat(view.degreesRotation, is(0.0f));
     }
@@ -33,8 +33,15 @@ public class RotationPresenterTest {
     }
 
     private static class Rotation {
+
+        private float degrees;
+
+        private Rotation(float degrees) {
+            this.degrees = degrees;
+        }
+
         public float degrees() {
-            return 0.0f;
+            return degrees;
         }
     }
 
