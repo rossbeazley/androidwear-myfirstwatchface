@@ -11,14 +11,20 @@ import uk.co.rossbeazley.wear.seconds.SecondsPresenter;
 */
 class ConsoleView implements DaysPresenter.DaysView, MonthsPresenter.MonthView, HoursPresenter.HoursView, MinutesPresenter.MinutesView, SecondsPresenter.SecondsView {
 
+    private final Clock.Printer printer;
     private String newDays;
     private String monthString;
     private String hours;
     private String minutes;
     private String seconds;
 
+    public ConsoleView(Clock.Printer printer) {
+        this.printer = printer;
+    }
+
     private void redraw() {
-        System.out.println(hours + ":" + minutes + ":" + seconds + " " + newDays + " " + monthString);
+        String outputString = hours + ":" + minutes + ":" + seconds + " " + newDays + " " + monthString;
+        printer.print(outputString);
     }
 
     @Override
