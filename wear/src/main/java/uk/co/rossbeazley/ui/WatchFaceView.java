@@ -2,11 +2,7 @@ package uk.co.rossbeazley.ui;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.view.View;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
-
-import com.examples.myfirstwatchface.R;
 
 import uk.co.rossbeazley.wear.Main;
 import uk.co.rossbeazley.wear.days.CanBeObservedForChangesToDays;
@@ -72,91 +68,4 @@ public class WatchFaceView extends RelativeLayout {
         SecondsPresenter secondsPresenter = new SecondsPresenter(seconds, secondsview);
     }
 
-    private static class AndroidMinutesView implements MinutesPresenter.MinutesView {
-        private SetTextOnMainThread setTextOnMainThread;
-
-        public AndroidMinutesView(View view) {
-            TextView textView = (TextView) view.findViewById(R.id.watch_time_mins);
-            setTextOnMainThread = new SetTextOnMainThread(textView);
-        }
-
-        @Override
-        public void showMinutesString(final String minuteString) {
-            setTextOnMainThread.to(minuteString);
-        }
-    }
-
-    private static class AndroidHoursView implements HoursPresenter.HoursView {
-        private SetTextOnMainThread setTextOnMainThread;
-
-        public AndroidHoursView(View view) {
-            TextView textView = (TextView) view.findViewById(R.id.watch_time);
-            setTextOnMainThread = new SetTextOnMainThread(textView);
-        }
-
-        @Override
-        public void showHoursString(final String newHour) {
-            setTextOnMainThread.to(newHour);
-        }
-    }
-
-    private class AndroidSecondsView implements SecondsPresenter.SecondsView {
-        private SetTextOnMainThread setTextOnMainThread;
-
-        public AndroidSecondsView(View inflatedViews) {
-            TextView textView = (TextView) inflatedViews.findViewById(R.id.watch_time_secs);
-            setTextOnMainThread = new SetTextOnMainThread(textView);
-        }
-
-        @Override
-        public void showSecondsString(final String newSeconds) {
-            setTextOnMainThread.to(newSeconds);
-        }
-
-    }
-
-    private class DayMonthView implements DaysPresenter.DaysView, MonthsPresenter.MonthView {
-
-        private final SetTextOnMainThread setTextOnMainThread;
-        private String days;
-        private String months;
-
-        public DayMonthView(View inflatedViews) {
-            TextView textView = (TextView) inflatedViews.findViewById(R.id.date);
-            setTextOnMainThread = new SetTextOnMainThread(textView);
-        }
-
-        @Override
-        public void showDaysString(String newDays) {
-            days = newDays;
-            update();
-        }
-
-        private void update() {
-            setTextOnMainThread.to(days + " " + months);
-        }
-
-        @Override
-        public void showMonthString(String monthString) {
-            months = monthString;
-            update();
-        }
-    }
-
-    private static class SetTextOnMainThread {
-        private final TextView textView;
-
-        public SetTextOnMainThread(TextView textView) {
-            this.textView = textView;
-        }
-
-        public void to(final String text) {
-             textView.post(new Runnable() {
-                @Override
-                public void run() {
-                    textView.setText(text);
-                }
-            });
-        }
-    }
 }
