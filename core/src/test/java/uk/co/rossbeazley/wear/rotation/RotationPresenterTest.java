@@ -15,7 +15,7 @@ public class RotationPresenterTest {
         RotationChanges canBeObservedForChangesToRotation = new RotationChanges();
         new RotationPresenter(view, canBeObservedForChangesToRotation);
 
-        canBeObservedForChangesToRotation.canReceiveRotationUpdates.rotationUpdate(new Rotation(0.0f));
+        canBeObservedForChangesToRotation.canReceiveRotationUpdates.rotationUpdate(Rotation.north());
 
         assertThat(view.degreesRotation, is(0.0f));
     }
@@ -38,6 +38,10 @@ public class RotationPresenterTest {
 
         private Rotation(float degrees) {
             this.degrees = degrees;
+        }
+
+        private static Rotation north() {
+            return new Rotation(0.0f);
         }
 
         public float degrees() {
@@ -67,12 +71,14 @@ public class RotationPresenterTest {
 
     private class RotationPresenter {
         public RotationPresenter(final FakeRotationView view, CanBeObservedForChangesToRotation canBeObservedForChangesToRotation) {
-            canBeObservedForChangesToRotation.observe(new CanBeObservedForChangesToRotation.CanReceiveRotationUpdates() {
+            CanBeObservedForChangesToRotation.CanReceiveRotationUpdates updateView;
+            updateView = new CanBeObservedForChangesToRotation.CanReceiveRotationUpdates() {
                 @Override
                 public void rotationUpdate(Rotation to) {
                     view.rotateToDegrees(to.degrees());
                 }
-            });
+            };
+            canBeObservedForChangesToRotation.observe(updateView);
         }
     }
 }
