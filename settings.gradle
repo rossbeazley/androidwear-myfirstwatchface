@@ -1,1 +1,1 @@
-include ':mobile', ':wear', ':core', ':wear-robolectric'
+include ':mobile', ':wear', ':core', ':wear-robolectric', ':console-clock'
