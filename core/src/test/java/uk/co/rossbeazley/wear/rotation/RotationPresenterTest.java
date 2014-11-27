@@ -20,33 +20,8 @@ public class RotationPresenterTest {
         assertThat(view.degreesRotation, is(0.0f));
     }
 
-    interface CanBeObservedForChangesToRotation {
-        void observe(CanReceiveRotationUpdates canReceiveRotationUpdates);
-
-        interface CanReceiveRotationUpdates {
-            void rotationUpdate(Rotation to);
-        }
-    }
-
     interface RotationView {
         void rotateToDegrees(float degreesRotation);
-    }
-
-    private static class Rotation {
-
-        private float degrees;
-
-        private Rotation(float degrees) {
-            this.degrees = degrees;
-        }
-
-        private static Rotation north() {
-            return new Rotation(0.0f);
-        }
-
-        public float degrees() {
-            return degrees;
-        }
     }
 
     private static class RotationChanges implements CanBeObservedForChangesToRotation {

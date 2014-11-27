@@ -8,6 +8,9 @@ import uk.co.rossbeazley.wear.minutes.CanBeObservedForChangesToMinutes;
 import uk.co.rossbeazley.wear.minutes.MinutesFromTick;
 import uk.co.rossbeazley.wear.months.CanBeObservedForChangesToMonths;
 import uk.co.rossbeazley.wear.months.MonthsFromTick;
+import uk.co.rossbeazley.wear.rotation.CanBeObservedForChangesToRotation;
+import uk.co.rossbeazley.wear.rotation.CanBeRotated;
+import uk.co.rossbeazley.wear.rotation.Rotation;
 import uk.co.rossbeazley.wear.seconds.CanBeObservedForChangesToSeconds;
 import uk.co.rossbeazley.wear.seconds.Seconds;
 import uk.co.rossbeazley.wear.ticktock.CanBeTicked;
@@ -50,6 +53,21 @@ public class Main {
         private final DaysFromTick days;
         public final CanBeObservedForChangesToMonths canBeObservedForChangesToMonths;
         private final MonthsFromTick months;
+
+        CanBeObservedForChangesToRotation.CanReceiveRotationUpdates rotationUpdates;
+
+        public CanBeObservedForChangesToRotation canBeObservedForChangesToRotation = new CanBeObservedForChangesToRotation() {
+            @Override
+            public void observe(CanReceiveRotationUpdates canReceiveRotationUpdates) {
+                rotationUpdates = canReceiveRotationUpdates;
+            }
+        };
+        public CanBeRotated canBeRotated = new CanBeRotated() {
+            @Override
+            public void right() {
+                rotationUpdates.rotationUpdate(Rotation.east());
+            }
+        };
 
 
         public Core() {
