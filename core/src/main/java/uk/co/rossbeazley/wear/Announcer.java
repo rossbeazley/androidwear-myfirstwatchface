@@ -12,9 +12,16 @@ import java.util.List;
 public class Announcer<T> {
     private final T proxy;
     private final List<T> listeners = new ArrayList<T>();
+    private Producer<T> producer;
 
 
     private Announcer(Class<? extends T> listenerType) {
+        producer = new Producer<T>() {
+            @Override
+            public void observed(T observer) {
+            }
+        };
+
         proxy = listenerType.cast(Proxy.newProxyInstance(
                 listenerType.getClassLoader(),
                 new Class<?>[]{listenerType},
@@ -28,6 +35,7 @@ public class Announcer<T> {
 
     public void addListener(T listener) {
         listeners.add(listener);
+        producer.observed(listener);
     }
 
     public Announcer<T> addListeners(T... listeners) {
@@ -69,5 +77,15 @@ public class Announcer<T> {
 
     public static <T> Announcer<T> to(Class<? extends T> listenerType) {
         return new Announcer<T>(listenerType);
+    }
+
+    public void registerProducer(Producer<T> producer) {
+
+        this.producer = producer;
+    }
+
+    public static interface Producer<T> {
+
+        public abstract void observed(T observer);
     }
 }
