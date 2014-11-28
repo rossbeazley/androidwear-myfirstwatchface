@@ -69,7 +69,6 @@ public class Main {
             }
         };
 
-
         public Core() {
             canBeObservedForChangesToSeconds = seconds = new Seconds();
             canBeObservedForChangesToMinutes = minutes = new MinutesFromTick();
@@ -81,8 +80,5 @@ public class Main {
                     .addListeners(seconds, minutes, hours, days, months)
                     .announce();
         }
-
-
     }
-
 }

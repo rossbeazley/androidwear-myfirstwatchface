@@ -1,5 +1,6 @@
 package uk.co.rossbeazley.wear.rotation;
 
+import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -11,13 +12,13 @@ import static org.junit.Assert.assertThat;
 public class RotationTest {
 
     private float degreesRotation;
+    private Main.Core core;
+    private CanBeObservedForChangesToRotation rotation;
 
-    @Test
-    public void theOneWhereWeRotateRightToEast() {
-
-        Main.Core core = new Main.Core();
-
-        CanBeObservedForChangesToRotation rotation = core.canBeObservedForChangesToRotation;
+    @Before
+    public void setUp() throws Exception {
+        core = new Main.Core();
+        rotation = core.canBeObservedForChangesToRotation;
         rotation.observe(new CanBeObservedForChangesToRotation.CanReceiveRotationUpdates() {
             @Override
             public void rotationUpdate(Rotation to) {
@@ -25,8 +26,11 @@ public class RotationTest {
             }
         });
 
-        core.canBeRotated.right();
+    }
 
+    @Test
+    public void theOneWhereWeRotateRightToEast() {
+        core.canBeRotated.right();
         assertThat(degreesRotation, is(90.0f));
     }
 
