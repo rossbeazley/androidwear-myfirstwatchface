@@ -69,3 +69,6 @@ it 7:
 
 
 construct domain objects with current time
+implement un-observe to stop views leaking
+low resolution ticking when display dim
+app tear down
