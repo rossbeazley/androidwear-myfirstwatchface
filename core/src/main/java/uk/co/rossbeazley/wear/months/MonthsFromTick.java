@@ -15,6 +15,12 @@ public class MonthsFromTick implements CanBeObservedForChangesToMonths, CanBeTic
 
     public MonthsFromTick() {
         announcer = Announcer.to(CanReceiveMonthsUpdates.class);
+        announcer.registerProducer(new Announcer.Producer<CanReceiveMonthsUpdates>() {
+            @Override
+            public void observed(CanReceiveMonthsUpdates observer) {
+                if(current!=null) observer.monthsUpdate(current);
+            }
+        });
     }
 
     @Override
