@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.examples.myfirstwatchface.R;
+import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.wearable.Node;
 import com.google.android.gms.wearable.NodeApi;
@@ -31,7 +32,18 @@ public class Rotate extends Activity {
     }
 
     private void sendMessage(CharSequence mesg) {
-        GoogleApiClient gac = null;
+        GoogleApiClient gac = new GoogleApiClient.Builder(this)
+                .addApi(Wearable.API)
+                .addConnectionCallbacks(new GoogleApiClient.ConnectionCallbacks() {
+                    @Override public void onConnected(Bundle bundle) { }
+
+                    @Override public void onConnectionSuspended(int i) { }
+                })
+                .addOnConnectionFailedListener(new GoogleApiClient.OnConnectionFailedListener() {
+                    @Override public void onConnectionFailed(ConnectionResult connectionResult) { }
+                })
+                .build();
+        gac.connect();
         NodeApi.GetConnectedNodesResult result = Wearable.NodeApi.getConnectedNodes(gac).await();
         for(Node node : result.getNodes()) {
             Wearable.MessageApi.sendMessage(gac,node.getId(),"/face/rotate",mesg.toString().getBytes());
