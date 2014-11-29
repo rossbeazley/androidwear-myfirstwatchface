@@ -12,8 +12,18 @@ import uk.co.rossbeazley.wear.ticktock.CanBeTicked;
 */
 public class DaysFromTick implements CanBeObservedForChangesToDays, CanBeTicked {
 
-    private final Announcer<CanReceiveDaysUpdates> announcer = Announcer.to(CanReceiveDaysUpdates.class);
+    private final Announcer<CanReceiveDaysUpdates> announcer;
     private Day current;
+
+    public DaysFromTick() {
+        announcer = Announcer.to(CanReceiveDaysUpdates.class);
+        announcer.registerProducer(new Announcer.Producer<CanReceiveDaysUpdates>() {
+            @Override
+            public void observed(CanReceiveDaysUpdates observer) {
+                if(current!=null) observer.daysUpdate(current);
+            }
+        });
+    }
 
     @Override
     public void observe(CanReceiveDaysUpdates canReceiveSecondsUpdates) {
