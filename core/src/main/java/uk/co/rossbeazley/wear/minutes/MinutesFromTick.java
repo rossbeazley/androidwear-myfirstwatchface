@@ -12,6 +12,12 @@ public class MinutesFromTick implements CanBeObservedForChangesToMinutes, CanBeT
 
     public MinutesFromTick() {
         canReceiveMinutesUpdates = Announcer.to(CanReceiveMinutesUpdates.class);
+        canReceiveMinutesUpdates.registerProducer(new Announcer.Producer<CanReceiveMinutesUpdates>() {
+            @Override
+            public void observed(CanReceiveMinutesUpdates observer) {
+                if(current!=null) observer.minutesUpdate(current);
+            }
+        });
     }
 
     @Override

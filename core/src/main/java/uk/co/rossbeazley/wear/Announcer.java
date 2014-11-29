@@ -39,7 +39,9 @@ public class Announcer<T> {
     }
 
     public Announcer<T> addListeners(T... listeners) {
-        Collections.addAll(this.listeners, listeners);
+        for(T t : listeners) {
+            addListener(t);
+        }
         return this;
     }
 
@@ -58,7 +60,7 @@ public class Announcer<T> {
             }
         }
         catch (IllegalAccessException e) {
-            throw new IllegalArgumentException("could not invoke listener", e);
+            throw new IllegalArgumentException("could not to listener", e);
         }
         catch (InvocationTargetException e) {
             Throwable cause = e.getCause();
