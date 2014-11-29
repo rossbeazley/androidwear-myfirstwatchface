@@ -14,7 +14,8 @@ Second
 Month
 Day
 
-they all observe the tock
+they all observe the tock ie CanBeTicked
+they CanBeObserved
 
 
 ---
@@ -66,3 +67,5 @@ it 7:
  a console watchface
  rotation
 
+
+construct domain objects with current time
