@@ -13,6 +13,12 @@ public class HoursFromTick implements CanBeObservedForChangesToHours,CanBeTicked
 
     public HoursFromTick() {
         announcer = Announcer.to(CanReceiveHoursUpdates.class);
+        announcer.registerProducer(new Announcer.Producer<CanReceiveHoursUpdates>() {
+            @Override
+            public void observed(CanReceiveHoursUpdates observer) {
+                if(current!=null) observer.hoursUpdate(current);
+            }
+        });
     }
 
     @Override
