@@ -72,3 +72,5 @@ construct domain objects with current time
 implement un-observe to stop views leaking
 low resolution ticking when display dim
 app tear down
+
+wearable gac message adapter : https://developer.android.com/training/wearables/data-layer/events.html#Listen
