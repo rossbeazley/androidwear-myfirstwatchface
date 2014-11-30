@@ -22,4 +22,8 @@ public class Rotation {
     public static Rotation east() {
         return new Rotation(90.0f);
     }
+
+    public Rotation right() {
+        return null;
+    }
 }

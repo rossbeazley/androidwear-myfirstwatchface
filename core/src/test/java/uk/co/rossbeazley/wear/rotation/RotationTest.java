@@ -34,21 +34,30 @@ public class RotationTest {
         assertThat(degreesRotation, is(90.0f));
     }
 
-    @Test @Ignore("test list")
+    @Test
     public void theOneWhereWeRotateRightToSouth() {
-
+        core.canBeRotated.right();
+        core.canBeRotated.right();
+        assertThat(degreesRotation, is(180.0f));
     }
 
 
     @Test @Ignore("test list")
     public void theOneWhereWeRotateRightToWest() {
-
+        core.canBeRotated.right();
+        core.canBeRotated.right();
+        core.canBeRotated.right();
+        assertThat(degreesRotation, is(270.0f));
     }
 
 
     @Test @Ignore("test list")
     public void theOneWhereWeRotateRightToNorth() {
-
+        core.canBeRotated.right();
+        core.canBeRotated.right();
+        core.canBeRotated.right();
+        core.canBeRotated.right();
+        assertThat(degreesRotation, is(0.0f));
     }
 
 

@@ -63,9 +63,13 @@ public class Main {
             }
         };
         public CanBeRotated canBeRotated = new CanBeRotated() {
+
+            Rotation rotation = Rotation.north();
+
             @Override
             public void right() {
-                rotationUpdates.rotationUpdate(Rotation.east());
+                rotation = rotation.right();
+                rotationUpdates.rotationUpdate(rotation);
             }
         };
 
