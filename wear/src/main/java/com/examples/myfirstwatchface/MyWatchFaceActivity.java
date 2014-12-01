@@ -6,33 +6,11 @@ import android.hardware.display.DisplayManager;
 import android.os.Bundle;
 import android.view.Display;
 
-public class MyWatchFace extends Activity implements WatchFace {
+public class MyWatchFaceActivity extends Activity {
 
-    private final MyDisplayListener displayListener = new MyDisplayListener(this);
+    private final MyWatchFace watchFace = new MyWatchFace();
+    private final MyDisplayListener displayListener = new MyDisplayListener(watchFace);
     private DisplayManager displayManager;
-
-    @Override
-    public void screenDim() {
-
-    }
-
-    @Override
-    public void screenAwake() {
-
-    }
-
-    /**
-     * Used to detect when a watch face is being removed (switched).<br/>
-     * You can either do what you need here, or simply override {@code onDestroy()}.
-     */
-    @Override
-    public void removed(){}
-
-    /**
-     * When the screen is OFF due to "Always-On" being disabled.
-     */
-    @Override
-    public void screenOff(){}
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,5 +65,30 @@ public class MyWatchFace extends Activity implements WatchFace {
                     break;
             }
         }
+    }
+
+    private class MyWatchFace implements WatchFace {
+        @Override
+        public void screenDim() {
+
+        }
+
+        @Override
+        public void screenAwake() {
+
+        }
+
+        /**
+         * Used to detect when a watch face is being removed (switched).<br/>
+         * You can either do what you need here, or simply override {@code onDestroy()}.
+         */
+        @Override
+        public void removed(){}
+
+        /**
+         * When the screen is OFF due to "Always-On" being disabled.
+         */
+        @Override
+        public void screenOff(){}
     }
 }
