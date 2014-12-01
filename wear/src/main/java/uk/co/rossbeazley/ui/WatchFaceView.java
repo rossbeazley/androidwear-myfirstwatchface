@@ -2,11 +2,9 @@ package uk.co.rossbeazley.ui;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.view.View;
 import android.widget.RelativeLayout;
 
-import com.examples.myfirstwatchface.R;
-
+import uk.co.rossbeazley.wear.Core;
 import uk.co.rossbeazley.wear.Main;
 import uk.co.rossbeazley.wear.days.CanBeObservedForChangesToDays;
 import uk.co.rossbeazley.wear.days.DaysPresenter;
@@ -45,23 +43,9 @@ public class WatchFaceView extends RelativeLayout {
         createMinutesView(main);
         createHoursView(main);
         createMonthDaysView(main);
-
-        new RotationPresenter(new RotationPresenter.RotationView() {
-            @Override
-            public void rotateToDegrees(final float degreesRotation) {
-                final View view = findViewById(R.id.watch_face_view);
-//                ObjectAnimator.ofFloat(view,"rotation",view.getRotation(),degreesRotation)
-//                        .setDuration(1000)
-//                        .start();
-                view.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        view.setRotation(degreesRotation);
-                    }
-                });
-            }
-        },main.core.canBeObservedForChangesToRotation);
+        AndroidRotationView.createRotationView(main.core,this);
     }
+
 
     private void createMonthDaysView(Main main) {
         CanBeObservedForChangesToDays days = main.core.canBeObservedForChangesToDays;
@@ -76,7 +60,8 @@ public class WatchFaceView extends RelativeLayout {
         new HoursPresenter(hours, hoursView);
     }
 
-    private void createMinutesView(Main main) {
+    private void createMinutesView(Main main)
+    {
         CanBeObservedForChangesToMinutes minutes = main.core.canBeObservedForChangesToMinutes;
         MinutesPresenter.MinutesView minutesView = new AndroidMinutesView(this);
         new MinutesPresenter(minutes, minutesView);
