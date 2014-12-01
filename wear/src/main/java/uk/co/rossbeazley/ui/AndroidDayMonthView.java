@@ -5,6 +5,8 @@ import android.widget.TextView;
 
 import com.examples.myfirstwatchface.R;
 
+import uk.co.rossbeazley.wear.Main;
+import uk.co.rossbeazley.wear.days.CanBeObservedForChangesToDays;
 import uk.co.rossbeazley.wear.days.DaysPresenter;
 import uk.co.rossbeazley.wear.months.MonthsPresenter;
 
@@ -33,5 +35,12 @@ class AndroidDayMonthView implements DaysPresenter.DaysView, MonthsPresenter.Mon
     public void showMonthString(String monthString) {
         months = monthString;
         update();
+    }
+
+    public static void createMonthDaysView(Main main, View view) {
+        CanBeObservedForChangesToDays days = main.core.canBeObservedForChangesToDays;
+        AndroidDayMonthView androidDayMonthView = new AndroidDayMonthView(view);
+        new DaysPresenter(days, androidDayMonthView);
+        new MonthsPresenter(main.core.canBeObservedForChangesToMonths, androidDayMonthView);
     }
 }

@@ -5,6 +5,8 @@ import android.widget.TextView;
 
 import com.examples.myfirstwatchface.R;
 
+import uk.co.rossbeazley.wear.Main;
+import uk.co.rossbeazley.wear.minutes.CanBeObservedForChangesToMinutes;
 import uk.co.rossbeazley.wear.minutes.MinutesPresenter;
 
 class AndroidMinutesView implements MinutesPresenter.MinutesView {
@@ -18,5 +20,11 @@ class AndroidMinutesView implements MinutesPresenter.MinutesView {
     @Override
     public void showMinutesString(final String minuteString) {
         setTextOnMainThread.to(minuteString);
+    }
+
+    public static void createMinutesView(Main main, View views) {
+        CanBeObservedForChangesToMinutes minutes = main.core.canBeObservedForChangesToMinutes;
+        MinutesPresenter.MinutesView minutesView = new AndroidMinutesView(views);
+        new MinutesPresenter(minutes, minutesView);
     }
 }

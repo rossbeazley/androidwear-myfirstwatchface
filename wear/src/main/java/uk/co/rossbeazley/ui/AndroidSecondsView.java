@@ -5,6 +5,8 @@ import android.widget.TextView;
 
 import com.examples.myfirstwatchface.R;
 
+import uk.co.rossbeazley.wear.Main;
+import uk.co.rossbeazley.wear.seconds.CanBeObservedForChangesToSeconds;
 import uk.co.rossbeazley.wear.seconds.SecondsPresenter;
 
 class AndroidSecondsView implements SecondsPresenter.SecondsView {
@@ -20,4 +22,9 @@ class AndroidSecondsView implements SecondsPresenter.SecondsView {
         setTextOnMainThread.to(newSeconds);
     }
 
+    public static void createSecondsView(Main main, View views) {
+        CanBeObservedForChangesToSeconds seconds = main.core.canBeObservedForChangesToSeconds;
+        AndroidSecondsView secondsview = new AndroidSecondsView(views);
+        new SecondsPresenter(seconds, secondsview);
+    }
 }

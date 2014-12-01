@@ -5,6 +5,8 @@ import android.widget.TextView;
 
 import com.examples.myfirstwatchface.R;
 
+import uk.co.rossbeazley.wear.Main;
+import uk.co.rossbeazley.wear.hours.CanBeObservedForChangesToHours;
 import uk.co.rossbeazley.wear.hours.HoursPresenter;
 
 class AndroidHoursView implements HoursPresenter.HoursView {
@@ -18,5 +20,11 @@ class AndroidHoursView implements HoursPresenter.HoursView {
     @Override
     public void showHoursString(final String newHour) {
         setTextOnMainThread.to(newHour);
+    }
+
+    public static void createHoursView(Main main, View views) {
+        CanBeObservedForChangesToHours hours = main.core.canBeObservedForChangesToHours;
+        AndroidHoursView hoursView = new AndroidHoursView(views);
+        new HoursPresenter(hours, hoursView);
     }
 }
