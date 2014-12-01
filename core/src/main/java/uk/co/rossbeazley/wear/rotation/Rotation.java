@@ -1,29 +1,30 @@
 package uk.co.rossbeazley.wear.rotation;
 
-/**
-* Created by beazlr02 on 27/11/2014.
-*/
 public class Rotation {
 
+    private static final Rotation NORTH = new Rotation(0.0f,1);
+    private static final Rotation EAST = new Rotation(90.0f,2);
+    private static final Rotation SOUTH = new Rotation(180.0f,3);
+    private static final Rotation WEST = new Rotation(270.0f,0);
+
     private float degrees;
+    private final int nextIndex;
 
-    Rotation(float degrees) {
+    Rotation(float degrees, int nextIndex) {
         this.degrees = degrees;
-    }
-
-    public static Rotation north() {
-        return new Rotation(0.0f);
+        this.nextIndex = nextIndex;
     }
 
     public float degrees() {
         return degrees;
     }
 
-    public static Rotation east() {
-        return new Rotation(90.0f);
+    public Rotation right() {
+        final Rotation[] compass = {NORTH,EAST,SOUTH,WEST};
+        return compass[nextIndex];
     }
 
-    public Rotation right() {
-        return null;
+    public static Rotation north() {
+        return NORTH;
     }
 }

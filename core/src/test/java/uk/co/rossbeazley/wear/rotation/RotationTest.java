@@ -42,7 +42,7 @@ public class RotationTest {
     }
 
 
-    @Test @Ignore("test list")
+    @Test
     public void theOneWhereWeRotateRightToWest() {
         core.canBeRotated.right();
         core.canBeRotated.right();
@@ -51,7 +51,7 @@ public class RotationTest {
     }
 
 
-    @Test @Ignore("test list")
+    @Test
     public void theOneWhereWeRotateRightToNorth() {
         core.canBeRotated.right();
         core.canBeRotated.right();
