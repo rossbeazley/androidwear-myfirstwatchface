@@ -5,7 +5,7 @@ import org.junit.Test;
 
 import java.util.Calendar;
 
-import uk.co.rossbeazley.wear.Main;
+import uk.co.rossbeazley.wear.Core;
 import uk.co.rossbeazley.wear.ticktock.CanBeTicked;
 
 import static org.hamcrest.Matchers.is;
@@ -20,7 +20,7 @@ public class DaysFromTickTockTest implements CanBeObservedForChangesToDays.CanRe
 
     @Before
     public void setUp() throws Exception {
-        Main.Core core = new Main.Core();
+        Core core = new Core();
 
         aTimeWithFirstDayOfMonth = Calendar.getInstance();
         aTimeWithFirstDayOfMonth.set(Calendar.DAY_OF_MONTH, 1);

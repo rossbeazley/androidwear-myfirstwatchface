@@ -5,7 +5,7 @@ import org.junit.Test;
 
 import java.util.Calendar;
 
-import uk.co.rossbeazley.wear.Main;
+import uk.co.rossbeazley.wear.Core;
 import uk.co.rossbeazley.wear.Sexagesimal;
 import uk.co.rossbeazley.wear.ticktock.CanBeTicked;
 
@@ -17,12 +17,12 @@ public class LateObservationOfMinutesTest implements CanBeObservedForChangesToMi
     String timeComponentString;
     private Calendar aTimeWithNineMinutes;
     private CanBeTicked minutes;
-    private Main.Core core;
+    private Core core;
 
 
     @Before
     public void setUp() throws Exception {
-        core = new Main.Core();
+        core = new Core();
 
         aTimeWithNineMinutes = Calendar.getInstance();
         aTimeWithNineMinutes.set(Calendar.MINUTE, 9);

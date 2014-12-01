@@ -5,7 +5,7 @@ import org.junit.Test;
 
 import java.util.Calendar;
 
-import uk.co.rossbeazley.wear.Main;
+import uk.co.rossbeazley.wear.Core;
 import uk.co.rossbeazley.wear.ticktock.CanBeTicked;
 
 import static org.hamcrest.Matchers.is;
@@ -20,11 +20,11 @@ public class LateObservationOfMonthTest implements CanBeObservedForChangesToMont
     private CanBeTicked months;
     private Calendar aTimeWithNineMonths;
     private String monthString = "UNSET";
-    private Main.Core core;
+    private Core core;
 
     @Before
     public void setUp() throws Exception {
-        core = new Main.Core();
+        core = new Core();
         aTimeWithNineMonths = Calendar.getInstance();
         aTimeWithNineMonths.set(Calendar.MONTH, Calendar.SEPTEMBER);
         this.months = core.canBeTicked;

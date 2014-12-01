@@ -1,13 +1,12 @@
 package uk.co.rossbeazley.wear.hours;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.Calendar;
 
+import uk.co.rossbeazley.wear.Core;
 import uk.co.rossbeazley.wear.HourBase24;
-import uk.co.rossbeazley.wear.Main;
 import uk.co.rossbeazley.wear.ticktock.CanBeTicked;
 
 import static org.hamcrest.Matchers.is;
@@ -21,7 +20,7 @@ public class HoursFromTickTockTest implements CanBeObservedForChangesToHours.Can
 
     @Before
     public void givenATimeWithThreeHours() {
-        Main.Core core = new Main.Core();
+        Core core = new Core();
         core.canBeObservedForChangesToHours.observe(this);
         this.hours = core.canBeTicked;
         this.aTimeWithThreeHours = Calendar.getInstance();

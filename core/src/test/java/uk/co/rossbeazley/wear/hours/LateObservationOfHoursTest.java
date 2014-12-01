@@ -5,8 +5,8 @@ import org.junit.Test;
 
 import java.util.Calendar;
 
+import uk.co.rossbeazley.wear.Core;
 import uk.co.rossbeazley.wear.HourBase24;
-import uk.co.rossbeazley.wear.Main;
 import uk.co.rossbeazley.wear.ticktock.CanBeTicked;
 
 import static org.hamcrest.Matchers.is;
@@ -17,11 +17,11 @@ public class LateObservationOfHoursTest implements CanBeObservedForChangesToHour
     private String timeComponentString;
     private CanBeTicked hours;
     private Calendar aTimeWithThreeHours;
-    private Main.Core core;
+    private Core core;
 
     @Before
     public void givenATimeWithThreeHours() {
-        core = new Main.Core();
+        core = new Core();
         this.hours = core.canBeTicked;
         this.aTimeWithThreeHours = Calendar.getInstance();
         aTimeWithThreeHours.set(Calendar.HOUR, 3);

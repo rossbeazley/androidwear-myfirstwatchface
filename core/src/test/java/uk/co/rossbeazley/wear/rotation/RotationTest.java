@@ -1,10 +1,9 @@
 package uk.co.rossbeazley.wear.rotation;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
-import uk.co.rossbeazley.wear.Main;
+import uk.co.rossbeazley.wear.Core;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -12,12 +11,12 @@ import static org.junit.Assert.assertThat;
 public class RotationTest {
 
     private float degreesRotation;
-    private Main.Core core;
+    private Core core;
     private CanBeObservedForChangesToRotation rotation;
 
     @Before
     public void setUp() throws Exception {
-        core = new Main.Core();
+        core = new Core();
         rotation = core.canBeObservedForChangesToRotation;
         rotation.observe(new CanBeObservedForChangesToRotation.CanReceiveRotationUpdates() {
             @Override

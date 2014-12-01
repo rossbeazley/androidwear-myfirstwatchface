@@ -2,7 +2,10 @@ package uk.co.rossbeazley.ui;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.View;
 import android.widget.RelativeLayout;
+
+import com.examples.myfirstwatchface.R;
 
 import uk.co.rossbeazley.wear.Main;
 import uk.co.rossbeazley.wear.days.CanBeObservedForChangesToDays;
@@ -12,6 +15,7 @@ import uk.co.rossbeazley.wear.hours.HoursPresenter;
 import uk.co.rossbeazley.wear.minutes.CanBeObservedForChangesToMinutes;
 import uk.co.rossbeazley.wear.minutes.MinutesPresenter;
 import uk.co.rossbeazley.wear.months.MonthsPresenter;
+import uk.co.rossbeazley.wear.rotation.RotationPresenter;
 import uk.co.rossbeazley.wear.seconds.CanBeObservedForChangesToSeconds;
 import uk.co.rossbeazley.wear.seconds.SecondsPresenter;
 
@@ -41,6 +45,22 @@ public class WatchFaceView extends RelativeLayout {
         createMinutesView(main);
         createHoursView(main);
         createMonthDaysView(main);
+
+        new RotationPresenter(new RotationPresenter.RotationView() {
+            @Override
+            public void rotateToDegrees(final float degreesRotation) {
+                final View view = findViewById(R.id.watch_face_view);
+//                ObjectAnimator.ofFloat(view,"rotation",view.getRotation(),degreesRotation)
+//                        .setDuration(1000)
+//                        .start();
+                view.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        view.setRotation(degreesRotation);
+                    }
+                });
+            }
+        },main.core.canBeObservedForChangesToRotation);
     }
 
     private void createMonthDaysView(Main main) {

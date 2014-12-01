@@ -1,19 +1,20 @@
 package uk.co.rossbeazley.console.ui;
 
+import uk.co.rossbeazley.wear.Core;
 import uk.co.rossbeazley.wear.Main;
 import uk.co.rossbeazley.wear.days.DaysPresenter;
 import uk.co.rossbeazley.wear.hours.HoursPresenter;
 import uk.co.rossbeazley.wear.minutes.MinutesPresenter;
 import uk.co.rossbeazley.wear.months.MonthsPresenter;
 import uk.co.rossbeazley.wear.seconds.SecondsPresenter;
+import uk.co.rossbeazley.wear.ticktock.TickTock;
 
 public class Clock {
 
     public Clock() {
-        Main.init();
-        Main main = Main.instance();
+        Core core = new Core();
+        TickTock.createTickTock(core.canBeTicked);
         class SysOutPrinter implements Printer {
-
             @Override
             public void print(String out) {
                 System.out.println(out);
@@ -21,11 +22,11 @@ public class Clock {
         }
         Printer printer = new SysOutPrinter();
         ConsoleView view = new ConsoleView(printer);
-        new DaysPresenter(main.core.canBeObservedForChangesToDays, view);
-        new MonthsPresenter(main.core.canBeObservedForChangesToMonths, view);
-        new HoursPresenter(main.core.canBeObservedForChangesToHours, view);
-        new MinutesPresenter(main.core.canBeObservedForChangesToMinutes, view);
-        new SecondsPresenter(main.core.canBeObservedForChangesToSeconds, view);
+        new DaysPresenter(core.canBeObservedForChangesToDays, view);
+        new MonthsPresenter(core.canBeObservedForChangesToMonths, view);
+        new HoursPresenter(core.canBeObservedForChangesToHours, view);
+        new MinutesPresenter(core.canBeObservedForChangesToMinutes, view);
+        new SecondsPresenter(core.canBeObservedForChangesToSeconds, view);
     }
 
     interface Printer {

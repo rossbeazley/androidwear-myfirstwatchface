@@ -20,10 +20,6 @@ public class RotationPresenterTest {
         assertThat(view.degreesRotation, is(0.0f));
     }
 
-    interface RotationView {
-        void rotateToDegrees(float degreesRotation);
-    }
-
     private static class RotationChanges implements CanBeObservedForChangesToRotation {
         private CanReceiveRotationUpdates canReceiveRotationUpdates;
 
@@ -33,7 +29,7 @@ public class RotationPresenterTest {
         }
     }
 
-    class FakeRotationView implements RotationView {
+    class FakeRotationView implements RotationPresenter.RotationView {
         private float degreesRotation;
 
         @Override
@@ -43,17 +39,4 @@ public class RotationPresenterTest {
     }
 
 
-
-    private class RotationPresenter {
-        public RotationPresenter(final FakeRotationView view, CanBeObservedForChangesToRotation canBeObservedForChangesToRotation) {
-            CanBeObservedForChangesToRotation.CanReceiveRotationUpdates updateView;
-            updateView = new CanBeObservedForChangesToRotation.CanReceiveRotationUpdates() {
-                @Override
-                public void rotationUpdate(Rotation to) {
-                    view.rotateToDegrees(to.degrees());
-                }
-            };
-            canBeObservedForChangesToRotation.observe(updateView);
-        }
-    }
 }
