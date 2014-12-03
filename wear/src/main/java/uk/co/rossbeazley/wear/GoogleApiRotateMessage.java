@@ -11,7 +11,7 @@ import com.google.android.gms.wearable.Wearable;
 
 import uk.co.rossbeazley.wear.rotation.CanBeRotated;
 
-public class GAC {
+public class GoogleApiRotateMessage {
     private final GoogleApiClient gac;
     private final CanBeRotated canBeRotated;
 
@@ -24,7 +24,7 @@ public class GAC {
         }
     };
 
-    public GAC(Context context, final CanBeRotated canBeRotated) {
+    public GoogleApiRotateMessage(Context context, final CanBeRotated canBeRotated) {
         this.canBeRotated = canBeRotated;
         this.gac = new GoogleApiClient.Builder(context)
                 .addApi(Wearable.API)

@@ -26,7 +26,7 @@ public class Main {
         this.core = new Core();
         TickTock.createTickTock(this.core.canBeTicked);
         //createAutoRotatingAdapter();
-        new GAC(context,core.canBeRotated);
+        new GoogleApiRotateMessage(context,core.canBeRotated);
     }
 
     private void createAutoRotatingAdapter() {
