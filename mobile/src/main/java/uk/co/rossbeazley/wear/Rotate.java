@@ -9,7 +9,9 @@ import android.widget.TextView;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.wearable.Node;
+import com.google.android.gms.wearable.NodeApi;
 import com.google.android.gms.wearable.Wearable;
 
 import java.util.Collections;
@@ -58,14 +60,17 @@ public class Rotate extends Activity {
 
         private final Listable connected = new Listable() {
             @Override
-            public List<Node> list() { return Wearable.NodeApi.getConnectedNodes(gac).await().getNodes(); }
+            public List<Node> list() {
+                PendingResult<NodeApi.GetConnectedNodesResult> connectedNodes = Wearable.NodeApi.getConnectedNodes(gac);
+                NodeApi.GetConnectedNodesResult await = connectedNodes.await();
+                return await.getNodes(); }
         };
 
         private Listable nodes = empty;
 
         Nodes(Context context) {
             this.context = context.getApplicationContext();
-            connectToPlayServices();
+            gac = connectToPlayServices();
         }
 
         public List<Node> nodes() {
@@ -101,10 +106,16 @@ public class Rotate extends Activity {
             return gac;
         }
 
-        public void sendMessage(CharSequence mesg) {
-            for(Node node : nodes.list()) {
-                Wearable.MessageApi.sendMessage(gac,node.getId(),"/face/rotate",mesg.toString().getBytes());
-            }
+        public void sendMessage(final CharSequence mesg) {
+
+            Runnable runnable = new Runnable() {
+                public void run() {
+                    for(Node node : nodes()) {
+                        Wearable.MessageApi.sendMessage(gac,node.getId(),"/face/rotate",mesg.toString().getBytes());
+                    }
+                }
+            };
+            new Thread(runnable).start();
         }
 
     }

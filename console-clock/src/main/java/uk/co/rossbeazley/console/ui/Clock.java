@@ -1,7 +1,6 @@
 package uk.co.rossbeazley.console.ui;
 
 import uk.co.rossbeazley.wear.Core;
-import uk.co.rossbeazley.wear.Main;
 import uk.co.rossbeazley.wear.days.DaysPresenter;
 import uk.co.rossbeazley.wear.hours.HoursPresenter;
 import uk.co.rossbeazley.wear.minutes.MinutesPresenter;

@@ -9,8 +9,13 @@ import uk.co.rossbeazley.wear.Main;
  */
 public class App extends Application {
     @Override
+    public void onTerminate() {
+        super.onTerminate();
+    }
+
+    @Override
     public void onCreate() {
         super.onCreate();
-        Main.init();
+        Main.init(this);
     }
 }

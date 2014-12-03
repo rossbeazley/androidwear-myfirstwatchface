@@ -1,5 +1,9 @@
 package uk.co.rossbeazley.wear;
 
+import android.content.Context;
+
+import com.examples.myfirstwatchface.GAC;
+
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
@@ -13,16 +17,21 @@ public class Main {
         return instance;
     }
 
-    public static void init() {
-        instance = new Main();
+    public static void init(Context context) {
+        instance = new Main(context);
     }
 
 
     public final Core core;
 
-    public Main() {
+    public Main(Context context) {
         this.core = new Core();
         TickTock.createTickTock(this.core.canBeTicked);
+        //createAutoRotatingAdapter();
+        new GAC(context,core.canBeRotated);
+    }
+
+    private void createAutoRotatingAdapter() {
         Executors.newScheduledThreadPool(1)
                 .scheduleAtFixedRate(new Runnable() {
                     @Override

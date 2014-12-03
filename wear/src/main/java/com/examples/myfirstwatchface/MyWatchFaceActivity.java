@@ -6,6 +6,8 @@ import android.hardware.display.DisplayManager;
 import android.os.Bundle;
 import android.view.Display;
 
+import uk.co.rossbeazley.wear.Main;
+
 public class MyWatchFaceActivity extends Activity {
 
     private final MyWatchFace watchFace = new MyWatchFace();
@@ -18,9 +20,7 @@ public class MyWatchFaceActivity extends Activity {
         //  Set up the display manager and register a listener (this activity).
         displayManager = (DisplayManager) getSystemService(Context.DISPLAY_SERVICE);
         displayManager.registerDisplayListener(displayListener, null);
-
         setContentView(R.layout.activity_my_watch_face);
-
     }
 
     @Override
@@ -91,4 +91,5 @@ public class MyWatchFaceActivity extends Activity {
         @Override
         public void screenOff(){}
     }
+
 }
