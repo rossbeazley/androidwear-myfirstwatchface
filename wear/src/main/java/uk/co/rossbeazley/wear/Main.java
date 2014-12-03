@@ -2,8 +2,6 @@ package uk.co.rossbeazley.wear;
 
 import android.content.Context;
 
-import com.examples.myfirstwatchface.GAC;
-
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 

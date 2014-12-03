@@ -1,4 +1,4 @@
-package com.examples.myfirstwatchface;
+package uk.co.rossbeazley.wear;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -11,9 +11,6 @@ import com.google.android.gms.wearable.Wearable;
 
 import uk.co.rossbeazley.wear.rotation.CanBeRotated;
 
-/**
-* Created by beazlr02 on 03/12/2014.
-*/
 public class GAC {
     private final GoogleApiClient gac;
     private final CanBeRotated canBeRotated;
