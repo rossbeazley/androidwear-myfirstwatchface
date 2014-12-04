@@ -18,7 +18,7 @@ public class GoogleApiRotateMessage {
     private MessageApi.MessageListener rotateMessage = new MessageApi.MessageListener() {
         @Override
         public void onMessageReceived(MessageEvent messageEvent) {
-            if ("/face/rotate".equals(messageEvent.getPath())) {
+            if ("/face/rotate/right".equals(messageEvent.getPath())) {
                 canBeRotated.right();
             }
         }
@@ -35,20 +35,17 @@ public class GoogleApiRotateMessage {
                     }
 
                     @Override
-                    public void onConnectionSuspended(int i) {
-
-                    }
+                    public void onConnectionSuspended(int i) { }
                 })
                 .addOnConnectionFailedListener(new GoogleApiClient.OnConnectionFailedListener() {
                     @Override
-                    public void onConnectionFailed(ConnectionResult connectionResult) {
-
-                    }
+                    public void onConnectionFailed(ConnectionResult connectionResult) { }
                 })
                 .build();
                 gac.connect();
     }
 
+    // since the app dosnt "Stop" unless killed, maybe we dont call this at all
     public void destroy() {
         Wearable.MessageApi.removeListener(gac, rotateMessage);
         gac.disconnect();

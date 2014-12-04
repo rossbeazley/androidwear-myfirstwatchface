@@ -111,7 +111,7 @@ public class Rotate extends Activity {
             Runnable runnable = new Runnable() {
                 public void run() {
                     for(Node node : nodes()) {
-                        Wearable.MessageApi.sendMessage(gac,node.getId(),"/face/rotate",mesg.toString().getBytes());
+                        Wearable.MessageApi.sendMessage(gac,node.getId(),"/face/rotate/right",mesg.toString().getBytes());
                     }
                 }
             };
