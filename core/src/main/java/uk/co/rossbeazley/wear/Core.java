@@ -61,4 +61,6 @@ public class Core {
                 .addListeners(seconds, minutes, hours, days, months)
                 .announce();
     }
+
+    public static final Core instance = new Core();
 }
