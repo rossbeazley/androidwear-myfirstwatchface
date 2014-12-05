@@ -5,8 +5,7 @@ import android.widget.TextView;
 
 
 import uk.co.rossbeazley.wear.Core;
-import uk.co.rossbeazley.wear.Main;
-import uk.co.rossbeazley.wear.R;
+import uk.co.rossbeazley.wear.android.R;
 import uk.co.rossbeazley.wear.days.CanBeObservedForChangesToDays;
 import uk.co.rossbeazley.wear.days.DaysPresenter;
 import uk.co.rossbeazley.wear.months.MonthsPresenter;

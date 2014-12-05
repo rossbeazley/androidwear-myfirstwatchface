@@ -4,8 +4,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import uk.co.rossbeazley.wear.Core;
-import uk.co.rossbeazley.wear.Main;
-import uk.co.rossbeazley.wear.R;
+import uk.co.rossbeazley.wear.android.R;
 import uk.co.rossbeazley.wear.minutes.CanBeObservedForChangesToMinutes;
 import uk.co.rossbeazley.wear.minutes.MinutesPresenter;
 

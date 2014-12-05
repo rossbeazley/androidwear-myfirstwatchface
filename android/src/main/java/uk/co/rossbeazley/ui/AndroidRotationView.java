@@ -5,7 +5,7 @@ import android.view.View;
 
 
 import uk.co.rossbeazley.wear.Core;
-import uk.co.rossbeazley.wear.R;
+import uk.co.rossbeazley.wear.android.R;
 import uk.co.rossbeazley.wear.rotation.RotationPresenter;
 
 class AndroidRotationView implements RotationPresenter.RotationView {
