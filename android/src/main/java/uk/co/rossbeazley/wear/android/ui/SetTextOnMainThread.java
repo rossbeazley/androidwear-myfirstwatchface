@@ -1,4 +1,4 @@
-package uk.co.rossbeazley.ui;
+package uk.co.rossbeazley.wear.android.ui;
 
 import android.widget.TextView;
 

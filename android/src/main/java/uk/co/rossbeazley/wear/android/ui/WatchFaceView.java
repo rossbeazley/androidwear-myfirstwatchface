@@ -1,4 +1,4 @@
-package uk.co.rossbeazley.ui;
+package uk.co.rossbeazley.wear.android.ui;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -6,9 +6,6 @@ import android.widget.RelativeLayout;
 
 import uk.co.rossbeazley.wear.Core;
 
-/**
- * Created by beazlr02 on 14/11/2014.
- */
 public class WatchFaceView extends RelativeLayout {
     public WatchFaceView(Context context) {
         super(context);
