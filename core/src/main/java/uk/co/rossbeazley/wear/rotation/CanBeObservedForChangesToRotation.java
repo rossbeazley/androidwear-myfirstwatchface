@@ -7,6 +7,6 @@ public interface CanBeObservedForChangesToRotation {
     void observe(CanReceiveRotationUpdates canReceiveRotationUpdates);
 
     interface CanReceiveRotationUpdates {
-        void rotationUpdate(Rotation to);
+        void rotationUpdate(Orientation to);
     }
 }

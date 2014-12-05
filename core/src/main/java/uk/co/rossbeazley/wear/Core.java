@@ -10,7 +10,7 @@ import uk.co.rossbeazley.wear.months.CanBeObservedForChangesToMonths;
 import uk.co.rossbeazley.wear.months.MonthsFromTick;
 import uk.co.rossbeazley.wear.rotation.CanBeObservedForChangesToRotation;
 import uk.co.rossbeazley.wear.rotation.CanBeRotated;
-import uk.co.rossbeazley.wear.rotation.Rotation;
+import uk.co.rossbeazley.wear.rotation.Orientation;
 import uk.co.rossbeazley.wear.seconds.CanBeObservedForChangesToSeconds;
 import uk.co.rossbeazley.wear.seconds.Seconds;
 import uk.co.rossbeazley.wear.ticktock.CanBeTicked;
@@ -41,12 +41,12 @@ public class Core {
     };
     public CanBeRotated canBeRotated = new CanBeRotated() {
 
-        Rotation rotation = Rotation.north();
+        Orientation orientation = Orientation.north();
 
         @Override
         public void right() {
-            rotation = rotation.right();
-            rotationUpdates.rotationUpdate(rotation);
+            orientation = orientation.right();
+            rotationUpdates.rotationUpdate(orientation);
         }
     };
 

@@ -8,7 +8,7 @@ import uk.co.rossbeazley.wear.Core;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
-public class RotationTest {
+public class OrientationTest {
 
     private float degreesRotation;
     private Core core;
@@ -20,7 +20,7 @@ public class RotationTest {
         rotation = core.canBeObservedForChangesToRotation;
         rotation.observe(new CanBeObservedForChangesToRotation.CanReceiveRotationUpdates() {
             @Override
-            public void rotationUpdate(Rotation to) {
+            public void rotationUpdate(Orientation to) {
                 degreesRotation = to.degrees();
             }
         });

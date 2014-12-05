@@ -5,7 +5,7 @@ import org.junit.Test;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
-public class RotationPresenterTest {
+public class OrientationPresenterTest {
 
 
     @Test
@@ -15,7 +15,7 @@ public class RotationPresenterTest {
         RotationChanges canBeObservedForChangesToRotation = new RotationChanges();
         new RotationPresenter(view, canBeObservedForChangesToRotation);
 
-        canBeObservedForChangesToRotation.canReceiveRotationUpdates.rotationUpdate(Rotation.north());
+        canBeObservedForChangesToRotation.canReceiveRotationUpdates.rotationUpdate(Orientation.north());
 
         assertThat(view.degreesRotation, is(0.0f));
     }

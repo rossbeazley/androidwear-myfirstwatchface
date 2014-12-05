@@ -5,7 +5,7 @@ public class RotationPresenter {
         CanBeObservedForChangesToRotation.CanReceiveRotationUpdates updateView;
         updateView = new CanBeObservedForChangesToRotation.CanReceiveRotationUpdates() {
             @Override
-            public void rotationUpdate(Rotation to) {
+            public void rotationUpdate(Orientation to) {
                 view.rotateToDegrees(to.degrees());
             }
         };
