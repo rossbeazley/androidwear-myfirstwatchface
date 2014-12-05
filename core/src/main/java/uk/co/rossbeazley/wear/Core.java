@@ -30,14 +30,15 @@ public class Core {
 
     public Core() {
         Seconds seconds;
-        canBeObservedForChangesToSeconds = seconds = new Seconds();
         MinutesFromTick minutes;
-        canBeObservedForChangesToMinutes = minutes = new MinutesFromTick();
         HoursFromTick hours;
-        canBeObservedForChangesToHours = hours = new HoursFromTick();
         DaysFromTick days;
-        canBeObservedForChangesToDays = days = new DaysFromTick();
         MonthsFromTick months;
+
+        canBeObservedForChangesToSeconds = seconds = new Seconds();
+        canBeObservedForChangesToMinutes = minutes = new MinutesFromTick();
+        canBeObservedForChangesToHours = hours = new HoursFromTick();
+        canBeObservedForChangesToDays = days = new DaysFromTick();
         canBeObservedForChangesToMonths = months = new MonthsFromTick();
 
         canBeTicked = Announcer.to(CanBeTicked.class)
