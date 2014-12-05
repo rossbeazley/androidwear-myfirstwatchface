@@ -17,50 +17,57 @@ import uk.co.rossbeazley.wear.ticktock.CanBeTicked;
 
 public class Core {
 
+    public final CanBeObservedForChangesToMonths canBeObservedForChangesToMonths;
+    public final CanBeObservedForChangesToDays canBeObservedForChangesToDays;
     public final CanBeObservedForChangesToHours canBeObservedForChangesToHours;
     public final CanBeObservedForChangesToMinutes canBeObservedForChangesToMinutes;
     public final CanBeObservedForChangesToSeconds canBeObservedForChangesToSeconds;
-    public final CanBeObservedForChangesToDays canBeObservedForChangesToDays;
 
     public final CanBeTicked canBeTicked;
 
-    private final Seconds seconds;
-    private final MinutesFromTick minutes;
-    private final HoursFromTick hours;
-    private final DaysFromTick days;
-    public final CanBeObservedForChangesToMonths canBeObservedForChangesToMonths;
-    private final MonthsFromTick months;
-
-    CanBeObservedForChangesToRotation.CanReceiveRotationUpdates rotationUpdates;
-
-    public CanBeObservedForChangesToRotation canBeObservedForChangesToRotation = new CanBeObservedForChangesToRotation() {
-        @Override
-        public void observe(CanReceiveRotationUpdates canReceiveRotationUpdates) {
-            rotationUpdates = canReceiveRotationUpdates;
-        }
-    };
-    public CanBeRotated canBeRotated = new CanBeRotated() {
-
-        Orientation orientation = Orientation.north();
-
-        @Override
-        public void right() {
-            orientation = orientation.right();
-            rotationUpdates.rotationUpdate(orientation);
-        }
-    };
+    public final CanBeRotated canBeRotated;
+    public final CanBeObservedForChangesToRotation canBeObservedForChangesToRotation;
 
     public Core() {
+        Seconds seconds;
         canBeObservedForChangesToSeconds = seconds = new Seconds();
+        MinutesFromTick minutes;
         canBeObservedForChangesToMinutes = minutes = new MinutesFromTick();
+        HoursFromTick hours;
         canBeObservedForChangesToHours = hours = new HoursFromTick();
+        DaysFromTick days;
         canBeObservedForChangesToDays = days = new DaysFromTick();
+        MonthsFromTick months;
         canBeObservedForChangesToMonths = months = new MonthsFromTick();
 
         canBeTicked = Announcer.to(CanBeTicked.class)
                 .addListeners(seconds, minutes, hours, days, months)
                 .announce();
+        Rotation rotation = new Rotation();
+        canBeRotated = rotation;
+        canBeObservedForChangesToRotation = rotation;
     }
 
     public static final Core instance = new Core(); //This might be a mistake having this "service locator" in this class
+
+    private class Rotation implements CanBeRotated, CanBeObservedForChangesToRotation {
+
+        Orientation orientation = Orientation.north();
+        Announcer<CanBeObservedForChangesToRotation.CanReceiveRotationUpdates> rotationUpdates;
+
+        private Rotation() {
+            rotationUpdates = Announcer.to(CanReceiveRotationUpdates.class);
+        }
+
+        @Override
+        public void observe(CanReceiveRotationUpdates canReceiveRotationUpdates) {
+            rotationUpdates.addListener(canReceiveRotationUpdates);
+        }
+
+        @Override
+        public void right() {
+            orientation = orientation.right();
+            rotationUpdates.announce().rotationUpdate(orientation);
+        }
+    }
 }
