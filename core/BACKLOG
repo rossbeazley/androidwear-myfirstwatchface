@@ -66,6 +66,7 @@ it 7:
  make observerables notify observer of current state upon observation
  a console watchface
  rotation
+ DONE
 
 
 construct domain objects with current time
