@@ -6,7 +6,8 @@ import android.hardware.display.DisplayManager;
 import android.os.Bundle;
 import android.view.Display;
 
-import uk.co.rossbeazley.wear.Main;
+import uk.co.rossbeazley.wear.R;
+
 
 public class MyWatchFaceActivity extends Activity {
 

@@ -3,9 +3,10 @@ package uk.co.rossbeazley.ui;
 import android.view.View;
 import android.widget.TextView;
 
-import com.examples.myfirstwatchface.R;
 
+import uk.co.rossbeazley.wear.Core;
 import uk.co.rossbeazley.wear.Main;
+import uk.co.rossbeazley.wear.R;
 import uk.co.rossbeazley.wear.seconds.CanBeObservedForChangesToSeconds;
 import uk.co.rossbeazley.wear.seconds.SecondsPresenter;
 
@@ -22,8 +23,8 @@ class AndroidSecondsView implements SecondsPresenter.SecondsView {
         setTextOnMainThread.to(newSeconds);
     }
 
-    public static void createSecondsView(Main main, View views) {
-        CanBeObservedForChangesToSeconds seconds = main.core.canBeObservedForChangesToSeconds;
+    public static void createSecondsView(Core core, View views) {
+        CanBeObservedForChangesToSeconds seconds = core.canBeObservedForChangesToSeconds;
         AndroidSecondsView secondsview = new AndroidSecondsView(views);
         new SecondsPresenter(seconds, secondsview);
     }

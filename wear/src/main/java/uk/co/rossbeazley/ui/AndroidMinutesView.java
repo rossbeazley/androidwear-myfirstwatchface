@@ -3,9 +3,9 @@ package uk.co.rossbeazley.ui;
 import android.view.View;
 import android.widget.TextView;
 
-import com.examples.myfirstwatchface.R;
-
+import uk.co.rossbeazley.wear.Core;
 import uk.co.rossbeazley.wear.Main;
+import uk.co.rossbeazley.wear.R;
 import uk.co.rossbeazley.wear.minutes.CanBeObservedForChangesToMinutes;
 import uk.co.rossbeazley.wear.minutes.MinutesPresenter;
 
@@ -22,8 +22,8 @@ class AndroidMinutesView implements MinutesPresenter.MinutesView {
         setTextOnMainThread.to(minuteString);
     }
 
-    public static void createMinutesView(Main main, View views) {
-        CanBeObservedForChangesToMinutes minutes = main.core.canBeObservedForChangesToMinutes;
+    public static void createMinutesView(Core core, View views) {
+        CanBeObservedForChangesToMinutes minutes = core.canBeObservedForChangesToMinutes;
         MinutesPresenter.MinutesView minutesView = new AndroidMinutesView(views);
         new MinutesPresenter(minutes, minutesView);
     }

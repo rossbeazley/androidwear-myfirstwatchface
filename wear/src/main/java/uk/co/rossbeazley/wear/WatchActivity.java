@@ -2,9 +2,6 @@ package uk.co.rossbeazley.wear;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.view.WindowInsets;
-
-import com.examples.myfirstwatchface.R;
 
 public class WatchActivity extends Activity {
     @Override

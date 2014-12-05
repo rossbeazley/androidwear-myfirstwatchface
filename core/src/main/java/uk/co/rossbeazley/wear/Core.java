@@ -62,5 +62,5 @@ public class Core {
                 .announce();
     }
 
-    public static final Core instance = new Core();
+    public static final Core instance = new Core(); //This might be a mistake having this "service locator" in this class
 }

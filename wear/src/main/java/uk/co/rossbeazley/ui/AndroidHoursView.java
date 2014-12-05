@@ -3,9 +3,10 @@ package uk.co.rossbeazley.ui;
 import android.view.View;
 import android.widget.TextView;
 
-import com.examples.myfirstwatchface.R;
 
+import uk.co.rossbeazley.wear.Core;
 import uk.co.rossbeazley.wear.Main;
+import uk.co.rossbeazley.wear.R;
 import uk.co.rossbeazley.wear.hours.CanBeObservedForChangesToHours;
 import uk.co.rossbeazley.wear.hours.HoursPresenter;
 
@@ -22,8 +23,8 @@ class AndroidHoursView implements HoursPresenter.HoursView {
         setTextOnMainThread.to(newHour);
     }
 
-    public static void createHoursView(Main main, View views) {
-        CanBeObservedForChangesToHours hours = main.core.canBeObservedForChangesToHours;
+    public static void createHoursView(Core core, View views) {
+        CanBeObservedForChangesToHours hours = core.canBeObservedForChangesToHours;
         AndroidHoursView hoursView = new AndroidHoursView(views);
         new HoursPresenter(hours, hoursView);
     }
