@@ -1,7 +1,14 @@
 apply plugin: 'java'
 
 dependencies {
+    def am = project(':android').android
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile project(':wear')
     testCompile fileTree(dir: 'src/test/libs', include: ['*.jar'])
+    testCompile project(':android')
+    testCompile 'com.google.android:android:+'
+}
+
+tasks.withType(Test) {
+    scanForTestClasses = false
+    include "**/*Test.class"
 }

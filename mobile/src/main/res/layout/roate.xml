@@ -14,5 +14,8 @@
         android:layout_gravity="center_horizontal"
         android:layout_weight="0.17"
         android:text="RIGHT ->" />
-    <include layout="@layout/watch_face_view"/>
+
+        <include layout="@layout/watch_face_view"/>
+
+
 </LinearLayout>

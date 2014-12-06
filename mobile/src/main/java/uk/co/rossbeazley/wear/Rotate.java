@@ -5,7 +5,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.TextView;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -35,6 +34,7 @@ public class Rotate extends Activity {
             @Override
             public void onClick(View view) {
                 Rotate.this.nodes.sendMessage();
+                Core.instance.canBeRotated.right();
             }
         });
     }
@@ -110,7 +110,8 @@ public class Rotate extends Activity {
             Runnable runnable = new Runnable() {
                 public void run() {
                     for(Node node : nodes()) {
-                        Wearable.MessageApi.sendMessage(gac,node.getId(),"/face/rotate/right",null);
+                        byte[] b = new byte[0];
+                        Wearable.MessageApi.sendMessage(gac,node.getId(),"/face/rotate/right",b);
                     }
                 }
             };
