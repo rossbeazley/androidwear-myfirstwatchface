@@ -34,8 +34,7 @@ public class Rotate extends Activity {
         findViewById(R.id.button2).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                CharSequence mesg = ((TextView) findViewById(R.id.textView)).getText();
-                Rotate.this.nodes.sendMessage(mesg);
+                Rotate.this.nodes.sendMessage();
             }
         });
     }
@@ -106,12 +105,12 @@ public class Rotate extends Activity {
             return gac;
         }
 
-        public void sendMessage(final CharSequence mesg) {
+        public void sendMessage() {
 
             Runnable runnable = new Runnable() {
                 public void run() {
                     for(Node node : nodes()) {
-                        Wearable.MessageApi.sendMessage(gac,node.getId(),"/face/rotate/right",mesg.toString().getBytes());
+                        Wearable.MessageApi.sendMessage(gac,node.getId(),"/face/rotate/right",null);
                     }
                 }
             };

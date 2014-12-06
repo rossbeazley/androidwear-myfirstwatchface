@@ -69,7 +69,7 @@ it 7:
  DONE
 
 
-construct domain objects with current time
+construct domain objects with current time or rotation
 implement un-observe to stop views leaking
 low resolution ticking when display dim
 app tear down
