@@ -74,7 +74,9 @@ persist rotation
 construct domain objects with current rotation
 implement un-observe to stop views leaking
 low resolution ticking when display dim
-when mobile node attaches, send current state (what about shared data item?)
 icons!
+implement mobile app without launcher!
+v2
+when mobile node attaches, send current state (what about shared data item?)
 
 wearable gac message adapter : https://developer.android.com/training/wearables/data-layer/events.html#Listen
