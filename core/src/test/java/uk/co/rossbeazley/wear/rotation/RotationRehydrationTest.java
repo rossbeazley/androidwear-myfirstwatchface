@@ -1,6 +1,5 @@
 package uk.co.rossbeazley.wear.rotation;
 
-import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -15,7 +14,7 @@ public class RotationRehydrationTest {
     private Core core;
     private CanBeObservedForChangesToRotation rotation;
 
-    public void setUp(float startRotation) {
+    public void createCoreAtRotation(float startRotation) {
         core = new Core();
         rotation = core.canBeObservedForChangesToRotation;
         rotation.observe(new CanBeObservedForChangesToRotation.CanReceiveRotationUpdates() {
@@ -29,14 +28,14 @@ public class RotationRehydrationTest {
 
     @Test @Ignore("test list")
     public void theOneWhereWeRotateRightToEast() {
-        setUp(0.0f);
+        createCoreAtRotation(0.0f);
         core.canBeRotated.right();
         assertThat(degreesRotation, is(90.0f));
     }
 
     @Test @Ignore("test list")
     public void theOneWhereWeRotateRightToSouth() {
-        setUp(90.0f);
+        createCoreAtRotation(90.0f);
         core.canBeRotated.right();
         assertThat(degreesRotation, is(180.0f));
     }
@@ -44,7 +43,7 @@ public class RotationRehydrationTest {
 
     @Test @Ignore("test list")
     public void theOneWhereWeRotateRightToWest() {
-        setUp(180.0f);
+        createCoreAtRotation(180.0f);
         core.canBeRotated.right();
         assertThat(degreesRotation, is(270.0f));
     }
@@ -52,7 +51,7 @@ public class RotationRehydrationTest {
 
     @Test @Ignore("test list")
     public void theOneWhereWeRotateRightToNorth() {
-        setUp(270.0f);
+        createCoreAtRotation(270.0f);
         core.canBeRotated.right();
         assertThat(degreesRotation, is(0.0f));
     }
