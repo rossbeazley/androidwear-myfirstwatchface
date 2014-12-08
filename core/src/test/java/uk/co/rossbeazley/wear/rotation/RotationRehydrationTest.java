@@ -41,7 +41,7 @@ public class RotationRehydrationTest {
     }
 
 
-    @Test @Ignore("test list")
+    @Test
     public void theOneWhereWeRotateRightToWest() {
         createCoreAtRotation(Orientation.south());
         core.canBeRotated.right();
@@ -49,7 +49,7 @@ public class RotationRehydrationTest {
     }
 
 
-    @Test @Ignore("test list")
+    @Test
     public void theOneWhereWeRotateRightToNorth() {
         createCoreAtRotation(Orientation.west());
         core.canBeRotated.right();
