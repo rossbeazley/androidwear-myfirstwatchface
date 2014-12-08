@@ -23,7 +23,7 @@ public class Main {
     public final Core core;
 
     public Main(Context context) {
-        this.core = Core.instance();
+        this.core = Core.init();
         TickTock.createTickTock(this.core.canBeTicked);
         //createAutoRotatingAdapter();
         new GoogleApiRotateMessage(context,core.canBeRotated);
