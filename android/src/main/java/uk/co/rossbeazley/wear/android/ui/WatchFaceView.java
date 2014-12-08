@@ -23,7 +23,7 @@ public class WatchFaceView extends RelativeLayout {
     protected void onFinishInflate() {
         super.onFinishInflate();
 
-        Core core = Core.instance;
+        Core core = Core.instance();
         AndroidSecondsView.createSecondsView(core, this);
         AndroidMinutesView.createMinutesView(core, this);
         AndroidHoursView.createHoursView(core, this);

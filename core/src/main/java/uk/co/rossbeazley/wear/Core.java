@@ -33,7 +33,7 @@ public class Core {
         this(Orientation.north());
     }
 
-    public static final Core instance = new Core(); //This might be a mistake having this "service locator" in this class
+    private static final Core instance = new Core(); //This might be a mistake having this "service locator" in this class
 
     public Core(Orientation orientation) {
         Seconds seconds;
@@ -55,5 +55,9 @@ public class Core {
         Rotation rotation = new Rotation(orientation);
         canBeRotated = rotation;
         canBeObservedForChangesToRotation = rotation;
+    }
+
+    public static Core instance() {
+        return instance;
     }
 }

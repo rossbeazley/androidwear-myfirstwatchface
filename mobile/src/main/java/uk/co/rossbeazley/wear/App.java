@@ -8,6 +8,6 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        TickTock.createTickTock(Core.instance.canBeTicked);
+        TickTock.createTickTock(Core.instance().canBeTicked);
     }
 }

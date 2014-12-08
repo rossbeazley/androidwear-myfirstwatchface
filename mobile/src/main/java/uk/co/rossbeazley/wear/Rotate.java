@@ -34,7 +34,7 @@ public class Rotate extends Activity {
             @Override
             public void onClick(View view) {
                 Rotate.this.nodes.sendMessage();
-                Core.instance.canBeRotated.right();
+                Core.instance().canBeRotated.right();
             }
         });
     }
