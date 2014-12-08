@@ -14,8 +14,8 @@ public class RotationRehydrationTest {
     private Core core;
     private CanBeObservedForChangesToRotation rotation;
 
-    public void createCoreAtRotation(float startRotation) {
-        core = new Core();
+    public void createCoreAtRotation(Orientation orientation) {
+        core = new Core(orientation);
         rotation = core.canBeObservedForChangesToRotation;
         rotation.observe(new CanBeObservedForChangesToRotation.CanReceiveRotationUpdates() {
             @Override
@@ -26,16 +26,16 @@ public class RotationRehydrationTest {
 
     }
 
-    @Test @Ignore("test list")
+    @Test
     public void theOneWhereWeRotateRightToEast() {
-        createCoreAtRotation(0.0f);
+        createCoreAtRotation(Orientation.north());
         core.canBeRotated.right();
         assertThat(degreesRotation, is(90.0f));
     }
 
-    @Test @Ignore("test list")
+    @Test
     public void theOneWhereWeRotateRightToSouth() {
-        createCoreAtRotation(90.0f);
+        createCoreAtRotation(Orientation.east());
         core.canBeRotated.right();
         assertThat(degreesRotation, is(180.0f));
     }
@@ -43,7 +43,7 @@ public class RotationRehydrationTest {
 
     @Test @Ignore("test list")
     public void theOneWhereWeRotateRightToWest() {
-        createCoreAtRotation(180.0f);
+        createCoreAtRotation(Orientation.south());
         core.canBeRotated.right();
         assertThat(degreesRotation, is(270.0f));
     }
@@ -51,7 +51,7 @@ public class RotationRehydrationTest {
 
     @Test @Ignore("test list")
     public void theOneWhereWeRotateRightToNorth() {
-        createCoreAtRotation(270.0f);
+        createCoreAtRotation(Orientation.west());
         core.canBeRotated.right();
         assertThat(degreesRotation, is(0.0f));
     }

@@ -1,7 +1,7 @@
 apply plugin: 'java'
 
 dependencies {
-    def am = project(':android').android
+
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile fileTree(dir: 'src/test/libs', include: ['*.jar'])
     testCompile project(':android')

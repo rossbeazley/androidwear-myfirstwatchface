@@ -4,10 +4,15 @@ import uk.co.rossbeazley.wear.Announcer;
 
 public class Rotation implements CanBeRotated, CanBeObservedForChangesToRotation {
 
-    Orientation orientation = Orientation.north();
+    Orientation orientation;
     Announcer<CanReceiveRotationUpdates> rotationUpdates;
 
     public Rotation() {
+        this(Orientation.north());
+    }
+
+    public Rotation(Orientation orientation) {
+        this.orientation = orientation;
         rotationUpdates = Announcer.to(CanReceiveRotationUpdates.class);
     }
 

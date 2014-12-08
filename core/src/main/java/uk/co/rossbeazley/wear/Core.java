@@ -10,6 +10,7 @@ import uk.co.rossbeazley.wear.months.CanBeObservedForChangesToMonths;
 import uk.co.rossbeazley.wear.months.MonthsFromTick;
 import uk.co.rossbeazley.wear.rotation.CanBeObservedForChangesToRotation;
 import uk.co.rossbeazley.wear.rotation.CanBeRotated;
+import uk.co.rossbeazley.wear.rotation.Orientation;
 import uk.co.rossbeazley.wear.rotation.Rotation;
 import uk.co.rossbeazley.wear.seconds.CanBeObservedForChangesToSeconds;
 import uk.co.rossbeazley.wear.seconds.Seconds;
@@ -29,6 +30,12 @@ public class Core {
     public final CanBeObservedForChangesToRotation canBeObservedForChangesToRotation;
 
     public Core() {
+        this(Orientation.north());
+    }
+
+    public static final Core instance = new Core(); //This might be a mistake having this "service locator" in this class
+
+    public Core(Orientation orientation) {
         Seconds seconds;
         MinutesFromTick minutes;
         HoursFromTick hours;
@@ -45,11 +52,8 @@ public class Core {
                 .addListeners(seconds, minutes, hours, days, months)
                 .announce();
 
-        Rotation rotation = new Rotation();
+        Rotation rotation = new Rotation(orientation);
         canBeRotated = rotation;
         canBeObservedForChangesToRotation = rotation;
     }
-
-    public static final Core instance = new Core(); //This might be a mistake having this "service locator" in this class
-
 }

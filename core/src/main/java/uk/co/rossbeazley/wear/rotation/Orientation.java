@@ -27,4 +27,16 @@ public class Orientation {
     public static Orientation north() {
         return NORTH;
     }
+
+    public static Orientation east() {
+        return EAST;
+    }
+
+    public static Orientation south() {
+        return SOUTH;
+    }
+
+    public static Orientation west() {
+        return WEST;
+    }
 }
