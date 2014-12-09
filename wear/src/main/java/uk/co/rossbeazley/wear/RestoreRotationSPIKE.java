@@ -19,10 +19,19 @@ import uk.co.rossbeazley.wear.rotation.Orientation;
 * Created by beazlr02 on 09/12/2014.
 */
 class RestoreRotationSPIKE implements GoogleWearApiConnection.ConnectedApiClient {
-    private final CanBeRotated canBeRotated;
 
-    public RestoreRotationSPIKE(CanBeRotated canBeRotated) {
-        this.canBeRotated = canBeRotated;
+    public static interface Restored {
+        void to(Orientation orientation);
+    }
+
+    private Announcer<Restored> announcer;
+
+    RestoreRotationSPIKE() {
+        announcer = Announcer.to(Restored.class);
+    }
+
+    public void observe(Restored observer) {
+        announcer.addListener(observer);
     }
 
     @Override
@@ -46,8 +55,9 @@ class RestoreRotationSPIKE implements GoogleWearApiConnection.ConnectedApiClient
                             DataItem dataItem = dataItemResult.getDataItem();
                             DataMapItem map = DataMapItem.fromDataItem(dataItem);
                             float degreesAsFloat = map.getDataMap().getFloat(OrientationPersistence.rotation_key);
-                            System.out.println(degreesAsFloat);
-                            canBeRotated.to(Orientation.from(degreesAsFloat));
+                            Orientation from = Orientation.from(degreesAsFloat);
+                            System.out.println(from);
+                            announcer.announce().to(from);
                         } catch (Exception ignored) {
                             ignored.printStackTrace();
                         }
