@@ -2,11 +2,13 @@ package uk.co.rossbeazley.wear;
 
 import android.content.Context;
 import android.net.Uri;
+import android.os.Debug;
 
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.wearable.DataApi;
+import com.google.android.gms.wearable.DataMapItem;
 import com.google.android.gms.wearable.NodeApi;
 import com.google.android.gms.wearable.PutDataMapRequest;
 import com.google.android.gms.wearable.Wearable;
@@ -31,6 +33,7 @@ public class Main {
         TickTock.createTickTock(core.canBeTicked);
         new GoogleApiConnection(context, new RotationMessage(core.canBeRotated));
         new GoogleApiConnection(context, new OrientationPersistence(core.canBeObservedForChangesToRotation));
+        //Debug.waitForDebugger();
         new GoogleApiConnection(context, new RestoreRotationSPIKE());
     }
 
@@ -38,7 +41,6 @@ public class Main {
         @Override
         public void invoke(final GoogleApiClient gac) {
             // load rotation
-            PutDataMapRequest dataMap = PutDataMapRequest.create("/count");
             Wearable.NodeApi.getLocalNode(gac).setResultCallback(new ResultCallback<NodeApi.GetLocalNodeResult>() {
                 @Override
                 public void onResult(NodeApi.GetLocalNodeResult getLocalNodeResult) {
@@ -48,17 +50,14 @@ public class Main {
                                             .authority(getLocalNodeResult.getNode().getId())
                                             .path("count")
                                             .build();
-                    System.out.println("ASDASDASDA " + requestUri);
                     PendingResult<DataApi.DataItemResult> pendingResult;
                     pendingResult = Wearable.DataApi.getDataItem(gac, requestUri);
                     pendingResult.setResultCallback(new ResultCallback<DataApi.DataItemResult>() {
                         @Override
                         public void onResult(DataApi.DataItemResult dataItemResult) {
-                            System.out.println("ASDASDASDA " + dataItemResult.toString());
-                            System.out.println("ASDASDASDA " + dataItemResult.getDataItem());
-                            System.out.println("ASDASDASDA " + dataItemResult.getDataItem().getAssets());
-                            System.out.println("ASDASDASDA " + dataItemResult.getDataItem().getData());
-
+                            DataMapItem map = DataMapItem.fromDataItem(dataItemResult.getDataItem());
+                            float rotation = map.getDataMap().getFloat("ROTATION");
+                            System.out.println(rotation);
                         }
                     });
                 }
