@@ -9,6 +9,8 @@ import uk.co.rossbeazley.wear.rotation.CanBeObservedForChangesToRotation;
 import uk.co.rossbeazley.wear.rotation.Orientation;
 
 class OrientationPersistence implements ConnectedApiClient {
+    public final static String rotation_key = "ROTATION";
+    public final static String rotation_path = "count";
     private CanBeObservedForChangesToRotation canBeObservedForChangesToRotation;
 
     public OrientationPersistence(CanBeObservedForChangesToRotation canBeObservedForChangesToRotation) {
@@ -20,8 +22,8 @@ class OrientationPersistence implements ConnectedApiClient {
         canBeObservedForChangesToRotation.observe(new CanBeObservedForChangesToRotation.CanReceiveRotationUpdates() {
             @Override
             public void rotationUpdate(Orientation to) {
-                PutDataMapRequest dataMap = PutDataMapRequest.create("/count");
-                dataMap.getDataMap().putFloat("ROTATION", to.degrees());
+                PutDataMapRequest dataMap = PutDataMapRequest.create("/" + rotation_path);
+                dataMap.getDataMap().putFloat(rotation_key, to.degrees());
                 PutDataRequest request = dataMap.asPutDataRequest();
                 Wearable.DataApi.putDataItem(gac, request);
             }

@@ -34,7 +34,7 @@ class RestoreRotationSPIKE implements ConnectedApiClient {
                 Uri requestUri = new Uri.Builder()
                                         .scheme("wear")
                                         .authority(getLocalNodeResult.getNode().getId())
-                                        .path("count")
+                                        .path(OrientationPersistence.rotation_path)
                                         .build();
                 PendingResult<DataApi.DataItemResult> pendingResult;
                 pendingResult = Wearable.DataApi.getDataItem(gac, requestUri);
@@ -44,7 +44,7 @@ class RestoreRotationSPIKE implements ConnectedApiClient {
                         try {
                             DataItem dataItem = dataItemResult.getDataItem();
                             DataMapItem map = DataMapItem.fromDataItem(dataItem);
-                            float degreesAsFloat = map.getDataMap().getFloat("ROTATION");
+                            float degreesAsFloat = map.getDataMap().getFloat(OrientationPersistence.rotation_key);
                             System.out.println(degreesAsFloat);
                             canBeRotated.to(Orientation.from(degreesAsFloat));
                         } catch (Exception ignored) {
