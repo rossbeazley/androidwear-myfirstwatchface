@@ -5,6 +5,7 @@ import com.google.android.gms.wearable.PutDataMapRequest;
 import com.google.android.gms.wearable.PutDataRequest;
 import com.google.android.gms.wearable.Wearable;
 
+import uk.co.rossbeazley.wear.android.gsm.GoogleWearApiConnection;
 import uk.co.rossbeazley.wear.rotation.CanBeObservedForChangesToRotation;
 import uk.co.rossbeazley.wear.rotation.Orientation;
 

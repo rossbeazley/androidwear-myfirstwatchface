@@ -2,6 +2,7 @@ package uk.co.rossbeazley.wear;
 
 import android.content.Context;
 
+import uk.co.rossbeazley.wear.android.gsm.GoogleWearApiConnection;
 import uk.co.rossbeazley.wear.ticktock.TickTock;
 
 public class Main {

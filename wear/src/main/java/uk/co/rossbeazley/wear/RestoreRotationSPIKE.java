@@ -11,6 +11,7 @@ import com.google.android.gms.wearable.DataMapItem;
 import com.google.android.gms.wearable.NodeApi;
 import com.google.android.gms.wearable.Wearable;
 
+import uk.co.rossbeazley.wear.android.gsm.GoogleWearApiConnection;
 import uk.co.rossbeazley.wear.rotation.CanBeRotated;
 import uk.co.rossbeazley.wear.rotation.Orientation;
 

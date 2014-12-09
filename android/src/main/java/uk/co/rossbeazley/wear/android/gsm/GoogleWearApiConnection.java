@@ -1,4 +1,4 @@
-package uk.co.rossbeazley.wear;
+package uk.co.rossbeazley.wear.android.gsm;
 
 import android.content.Context;
 import android.os.Bundle;
