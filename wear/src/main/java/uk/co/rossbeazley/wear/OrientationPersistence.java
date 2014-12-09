@@ -8,7 +8,7 @@ import com.google.android.gms.wearable.Wearable;
 import uk.co.rossbeazley.wear.rotation.CanBeObservedForChangesToRotation;
 import uk.co.rossbeazley.wear.rotation.Orientation;
 
-class OrientationPersistence implements ConnectedApiClient {
+class OrientationPersistence implements GoogleWearApiConnection.ConnectedApiClient {
     public final static String rotation_key = "ROTATION";
     public final static String rotation_path = "count";
     private CanBeObservedForChangesToRotation canBeObservedForChangesToRotation;

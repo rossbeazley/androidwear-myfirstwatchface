@@ -7,7 +7,7 @@ import com.google.android.gms.wearable.Wearable;
 
 import uk.co.rossbeazley.wear.rotation.CanBeRotated;
 
-public class RotationMessage implements ConnectedApiClient{
+public class RotationMessage implements GoogleWearApiConnection.ConnectedApiClient {
 
     private CanBeRotated canBeRotated;
     private MessageApi.MessageListener rotateMessage = new MessageApi.MessageListener() {

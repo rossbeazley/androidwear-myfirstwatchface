@@ -17,7 +17,7 @@ import uk.co.rossbeazley.wear.rotation.Orientation;
 /**
 * Created by beazlr02 on 09/12/2014.
 */
-class RestoreRotationSPIKE implements ConnectedApiClient {
+class RestoreRotationSPIKE implements GoogleWearApiConnection.ConnectedApiClient {
     private final CanBeRotated canBeRotated;
 
     public RestoreRotationSPIKE(CanBeRotated canBeRotated) {

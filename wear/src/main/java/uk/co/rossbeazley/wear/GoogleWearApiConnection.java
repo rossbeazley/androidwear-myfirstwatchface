@@ -24,4 +24,8 @@ public class GoogleWearApiConnection {
                 .build();
         gac.connect();
     }
+
+    public static interface ConnectedApiClient {
+        void invoke(GoogleApiClient gac);
+    }
 }
