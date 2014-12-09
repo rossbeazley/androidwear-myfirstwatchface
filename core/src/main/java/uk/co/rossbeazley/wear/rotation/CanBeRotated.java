@@ -5,4 +5,6 @@ package uk.co.rossbeazley.wear.rotation;
  */
 public interface CanBeRotated {
     void right();
+
+    void to(Orientation north);
 }

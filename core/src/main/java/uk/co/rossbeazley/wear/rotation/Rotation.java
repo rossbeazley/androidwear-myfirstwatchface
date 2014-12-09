@@ -23,7 +23,12 @@ public class Rotation implements CanBeRotated, CanBeObservedForChangesToRotation
 
     @Override
     public void right() {
-        orientation = orientation.right();
+        to(orientation.right());
+    }
+
+    @Override
+    public void to(Orientation newOrientation) {
+        orientation = newOrientation;
         rotationUpdates.announce().rotationUpdate(orientation);
     }
 }
