@@ -8,6 +8,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.wearable.DataApi;
+import com.google.android.gms.wearable.DataItem;
 import com.google.android.gms.wearable.DataMapItem;
 import com.google.android.gms.wearable.NodeApi;
 import com.google.android.gms.wearable.PutDataMapRequest;
@@ -63,10 +64,15 @@ public class Main {
                     pendingResult.setResultCallback(new ResultCallback<DataApi.DataItemResult>() {
                         @Override
                         public void onResult(DataApi.DataItemResult dataItemResult) {
-                            DataMapItem map = DataMapItem.fromDataItem(dataItemResult.getDataItem());
-                            float degreesAsFloat = map.getDataMap().getFloat("ROTATION");
-                            System.out.println(degreesAsFloat);
-                            canBeRotated.to(Orientation.from(degreesAsFloat));
+                            try {
+                                DataItem dataItem = dataItemResult.getDataItem();
+                                DataMapItem map = DataMapItem.fromDataItem(dataItem);
+                                float degreesAsFloat = map.getDataMap().getFloat("ROTATION");
+                                System.out.println(degreesAsFloat);
+                                canBeRotated.to(Orientation.from(degreesAsFloat));
+                            } catch (Exception ignored) {
+                                ignored.printStackTrace();
+                            }
                         }
                     });
                 }
