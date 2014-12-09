@@ -39,4 +39,14 @@ public class Orientation {
     public static Orientation west() {
         return WEST;
     }
+
+    public static Orientation from(float degreesAsFloat) {
+        if(degreesAsFloat>=90.0f && degreesAsFloat<180.0f)
+            return Orientation.east();
+        else if(degreesAsFloat>=180.0f && degreesAsFloat<270.0f)
+            return Orientation.south();
+        else if(degreesAsFloat>=270.0f)
+            return Orientation.west();
+        return Orientation.north();
+    }
 }
