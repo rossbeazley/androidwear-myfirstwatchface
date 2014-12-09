@@ -16,8 +16,8 @@
         android:layout_weight="0.17"
         android:text="Rotate clockwise ->"
         android:textColor="#ff0000"
-        android:textSize="80sp"
-
+        android:textSize="40sp"
+        android:fontFamily="sans-serif-thin"
         />
 
         <include layout="@layout/watch_face_view"/>
