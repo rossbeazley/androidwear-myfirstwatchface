@@ -7,6 +7,8 @@ public class Orientation {
     private static final Orientation SOUTH = new Orientation(180.0f,3);
     private static final Orientation WEST = new Orientation(270.0f,0);
 
+    private static final Orientation[] compass = new Orientation[]{NORTH,EAST,SOUTH,WEST};
+
     private float degrees;
     private final int nextIndex;
 
@@ -20,7 +22,6 @@ public class Orientation {
     }
 
     public Orientation right() {
-        final Orientation[] compass = {NORTH,EAST,SOUTH,WEST};
         return compass[nextIndex];
     }
 
@@ -41,12 +42,11 @@ public class Orientation {
     }
 
     public static Orientation from(float degreesAsFloat) {
-        if(degreesAsFloat>=90.0f && degreesAsFloat<180.0f)
-            return Orientation.east();
-        else if(degreesAsFloat>=180.0f && degreesAsFloat<270.0f)
-            return Orientation.south();
-        else if(degreesAsFloat>=270.0f)
-            return Orientation.west();
-        return Orientation.north();
+        return compass[((int) (degreesAsFloat / 90.0f))%4];
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%s degrees", degrees);
     }
 }
