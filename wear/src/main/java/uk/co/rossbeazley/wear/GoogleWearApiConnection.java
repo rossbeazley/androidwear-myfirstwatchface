@@ -6,10 +6,10 @@ import android.os.Bundle;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.wearable.Wearable;
 
-class GoogleApiConnection {
+public class GoogleWearApiConnection {
     private final GoogleApiClient gac;
 
-    public GoogleApiConnection(Context context, final ConnectedApiClient connected) {
+    public GoogleWearApiConnection(Context context, final ConnectedApiClient connected) {
         this.gac = new GoogleApiClient.Builder(context)
                 .addApi(Wearable.API)
                 .addConnectionCallbacks(new GoogleApiClient.ConnectionCallbacks() {

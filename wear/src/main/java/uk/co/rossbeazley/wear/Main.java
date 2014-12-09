@@ -20,10 +20,10 @@ public class Main {
     public Main(final Context context) {
         final Core core = Core.init();
         TickTock.createTickTock(core.canBeTicked);
-        new GoogleApiConnection(context, new RotationMessage(core.canBeRotated));
-        new GoogleApiConnection(context, new OrientationPersistence(core.canBeObservedForChangesToRotation));
+        new GoogleWearApiConnection(context, new RotationMessage(core.canBeRotated));
+        new GoogleWearApiConnection(context, new OrientationPersistence(core.canBeObservedForChangesToRotation));
         //Debug.waitForDebugger();
-        new GoogleApiConnection(context, new RestoreRotationSPIKE(core.canBeRotated));
+        new GoogleWearApiConnection(context, new RestoreRotationSPIKE(core.canBeRotated));
     }
 
 }
