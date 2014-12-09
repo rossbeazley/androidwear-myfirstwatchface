@@ -13,6 +13,8 @@ import com.google.android.gms.wearable.NodeApi;
 import com.google.android.gms.wearable.PutDataMapRequest;
 import com.google.android.gms.wearable.Wearable;
 
+import uk.co.rossbeazley.wear.rotation.CanBeRotated;
+import uk.co.rossbeazley.wear.rotation.Orientation;
 import uk.co.rossbeazley.wear.ticktock.TickTock;
 
 public class Main {
@@ -34,10 +36,16 @@ public class Main {
         new GoogleApiConnection(context, new RotationMessage(core.canBeRotated));
         new GoogleApiConnection(context, new OrientationPersistence(core.canBeObservedForChangesToRotation));
         //Debug.waitForDebugger();
-        new GoogleApiConnection(context, new RestoreRotationSPIKE());
+        new GoogleApiConnection(context, new RestoreRotationSPIKE(core.canBeRotated));
     }
 
     private static class RestoreRotationSPIKE implements ConnectedApiClient {
+        private final CanBeRotated canBeRotated;
+
+        public RestoreRotationSPIKE(CanBeRotated canBeRotated) {
+            this.canBeRotated = canBeRotated;
+        }
+
         @Override
         public void invoke(final GoogleApiClient gac) {
             // load rotation
@@ -56,8 +64,9 @@ public class Main {
                         @Override
                         public void onResult(DataApi.DataItemResult dataItemResult) {
                             DataMapItem map = DataMapItem.fromDataItem(dataItemResult.getDataItem());
-                            float rotation = map.getDataMap().getFloat("ROTATION");
-                            System.out.println(rotation);
+                            float degreesAsFloat = map.getDataMap().getFloat("ROTATION");
+                            System.out.println(degreesAsFloat);
+                            canBeRotated.to(Orientation.from(degreesAsFloat));
                         }
                     });
                 }
