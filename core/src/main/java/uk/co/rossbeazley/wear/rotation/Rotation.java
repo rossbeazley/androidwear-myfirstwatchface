@@ -11,9 +11,15 @@ public class Rotation implements CanBeRotated, CanBeObservedForChangesToRotation
         this(Orientation.north());
     }
 
-    public Rotation(Orientation orientation) {
+    public Rotation(final Orientation orientation) {
         this.orientation = orientation;
         rotationUpdates = Announcer.to(CanReceiveRotationUpdates.class);
+        rotationUpdates.registerProducer(new Announcer.Producer<CanReceiveRotationUpdates>() {
+            @Override
+            public void observed(CanReceiveRotationUpdates observer) {
+                observer.rotationUpdate(orientation);
+            }
+        });
     }
 
     @Override
