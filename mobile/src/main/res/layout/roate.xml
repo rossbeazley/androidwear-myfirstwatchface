@@ -8,13 +8,17 @@
     android:background="@android:color/white">
 
 
-    <Button
+    <TextView
         android:id="@+id/button2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_weight="0.17"
-        android:text="RIGHT ->" />
+        android:text="Rotate clockwise ->"
+        android:textColor="#ff0000"
+        android:textSize="80sp"
+
+        />
 
         <include layout="@layout/watch_face_view"/>
 
