@@ -1,6 +1,7 @@
 package uk.co.rossbeazley.wear;
 
 import android.content.Context;
+import android.os.Debug;
 
 import uk.co.rossbeazley.wear.android.gsm.GoogleWearApiConnection;
 import uk.co.rossbeazley.wear.rotation.Orientation;
@@ -22,12 +23,21 @@ public class Main {
     public Main(final Context context) {
         final Core core = Core.init();
         //Debug.waitForDebugger();
+        TickTock.createTickTock(core.canBeTicked);
         RestoreRotationSPIKE loadOrientationFromPersistentStore = new RestoreRotationSPIKE();
+        loadOrientationFromPersistentStore.observe(new RestoreRotationSPIKE.Restored() {
+            @Override
+            public void to(Orientation orientation) {
+                System.out.println("RESTORED ROTATION" +
+                        " TO " + orientation);
+            }
+        });
         loadOrientationFromPersistentStore.observe(new RotateWatchFace(core));
         loadOrientationFromPersistentStore.observe(new BindRotationMessageAdapter(context, core));
         loadOrientationFromPersistentStore.observe(new BindRotationPersistence(context, core));
-        loadOrientationFromPersistentStore.observe(new BindTickTock(core));
+        //loadOrientationFromPersistentStore.observe(new BindTickTock(core));
         new GoogleWearApiConnection(context, loadOrientationFromPersistentStore);
+
     }
 
     private static class RotateWatchFace implements RestoreRotationSPIKE.Restored {

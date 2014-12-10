@@ -54,10 +54,11 @@ public class Announcer<T> {
     }
 
     private void announce(Method m, Object[] args) {
+        for (T listener : listeners) {
         try {
-            for (T listener : listeners) {
+
                 m.invoke(listener, args);
-            }
+
         }
         catch (IllegalAccessException e) {
             throw new IllegalArgumentException("could not to listener", e);
@@ -74,6 +75,7 @@ public class Announcer<T> {
             else {
                 throw new UnsupportedOperationException("listener threw exception", cause);
             }
+        }
         }
     }
 
