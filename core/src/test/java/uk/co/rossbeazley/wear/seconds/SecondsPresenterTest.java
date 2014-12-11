@@ -21,6 +21,9 @@ public class SecondsPresenterTest {
             @Override public void observe(CanReceiveSecondsUpdates canReceiveSecondsUpdates) {
                 observer = canReceiveSecondsUpdates;
             }
+
+            @Override
+            public void unObserve(CanReceiveSecondsUpdates canReceiveSecondsUpdates) {}
         };
 
         SecondsPresenter.SecondsView view = new SecondsPresenter.SecondsView(){

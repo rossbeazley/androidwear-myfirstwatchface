@@ -6,13 +6,23 @@ import uk.co.rossbeazley.wear.Sexagesimal;
 * Created by beazlr02 on 14/11/2014.
 */
 public class SecondsPresenter {
+
+    public final CanBeObservedForChangesToSeconds.CanReceiveSecondsUpdates updateView;
+    private final CanBeObservedForChangesToSeconds canBeObservedForChangesToSeconds;
+
     public SecondsPresenter(final CanBeObservedForChangesToSeconds canBeObservedForChangesToSeconds, final SecondsView view) {
-        canBeObservedForChangesToSeconds.observe(new CanBeObservedForChangesToSeconds.CanReceiveSecondsUpdates() {
+        this.canBeObservedForChangesToSeconds = canBeObservedForChangesToSeconds;
+        updateView = new CanBeObservedForChangesToSeconds.CanReceiveSecondsUpdates() {
             @Override
             public void secondsUpdate(Sexagesimal to) {
                 view.showSecondsString(to.base10String());
             }
-        });
+        };
+        canBeObservedForChangesToSeconds.observe(updateView);
+    }
+
+    public void dispose() {
+        canBeObservedForChangesToSeconds.unObserve(updateView);
     }
 
     public static interface SecondsView {

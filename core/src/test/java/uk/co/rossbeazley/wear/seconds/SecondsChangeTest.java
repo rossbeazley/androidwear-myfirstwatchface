@@ -1,6 +1,7 @@
 package uk.co.rossbeazley.wear.seconds;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.Calendar;
@@ -58,6 +59,11 @@ public class SecondsChangeTest implements CanBeObservedForChangesToSeconds.CanRe
         aDifferentTimeWithNineSeconds.roll(Calendar.HOUR,true);
         secondsToTick.tick(aDifferentTimeWithNineSeconds);
         assertThat(timeComponentString, is("RESET"));
+    }
+
+    @Test @Ignore("Feature to be implemented")
+    public void theOneWhereWeStopObserving() {
+
     }
 
 }

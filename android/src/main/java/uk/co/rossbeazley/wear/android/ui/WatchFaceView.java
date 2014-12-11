@@ -24,11 +24,14 @@ public class WatchFaceView extends RelativeLayout {
         super.onFinishInflate();
 
         Core core = Core.instance();
-        AndroidSecondsView.createSecondsView(core, this);
+        //Diposable disposable =
+                AndroidSecondsView.createSecondsView(core, this);
         AndroidMinutesView.createMinutesView(core, this);
         AndroidHoursView.createHoursView(core, this);
         AndroidDayMonthView.createMonthDaysView(core, this);
         AndroidRotationView.createRotationView(core, this);
     }
 
+    public static interface Diposable {
+    }
 }

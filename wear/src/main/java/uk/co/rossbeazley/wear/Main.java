@@ -25,13 +25,6 @@ public class Main {
         //Debug.waitForDebugger();
         TickTock.createTickTock(core.canBeTicked);
         RestoreRotationSPIKE loadOrientationFromPersistentStore = new RestoreRotationSPIKE();
-        loadOrientationFromPersistentStore.observe(new RestoreRotationSPIKE.Restored() {
-            @Override
-            public void to(Orientation orientation) {
-                System.out.println("RESTORED ROTATION" +
-                        " TO " + orientation);
-            }
-        });
         loadOrientationFromPersistentStore.observe(new RotateWatchFace(core));
         loadOrientationFromPersistentStore.observe(new BindRotationMessageAdapter(context, core));
         loadOrientationFromPersistentStore.observe(new BindRotationPersistence(context, core));

@@ -3,6 +3,7 @@ package uk.co.rossbeazley.wear.android.gsm;
 import android.content.Context;
 import android.os.Bundle;
 
+import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.wearable.Wearable;
 
@@ -20,6 +21,11 @@ public class GoogleWearApiConnection {
 
                     @Override
                     public void onConnectionSuspended(int i) { }
+                })
+                .addOnConnectionFailedListener(new GoogleApiClient.OnConnectionFailedListener() {
+                    @Override
+                    public void onConnectionFailed(ConnectionResult connectionResult) {
+                    }
                 })
                 .build();
         gac.connect();
