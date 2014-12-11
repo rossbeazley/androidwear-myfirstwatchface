@@ -18,6 +18,7 @@ public class SecondsChangeTest implements CanBeObservedForChangesToSeconds.CanRe
     private String timeComponentString;
     private CanBeTicked secondsToTick;
     private Calendar aTimeWithNineSeconds;
+    public Core core;
 
     @Override
     public void secondsUpdate(Sexagesimal to)
@@ -27,7 +28,7 @@ public class SecondsChangeTest implements CanBeObservedForChangesToSeconds.CanRe
 
     @Before
     public void setUp() throws Exception {
-        Core core = new Core();
+        core = new Core();
         secondsToTick = core.canBeTicked;
         core.canBeObservedForChangesToSeconds.observe(this);
 
@@ -61,9 +62,15 @@ public class SecondsChangeTest implements CanBeObservedForChangesToSeconds.CanRe
         assertThat(timeComponentString, is("RESET"));
     }
 
-    @Test @Ignore("Feature to be implemented")
+    @Test
     public void theOneWhereWeStopObserving() {
-
+        secondsToTick.tick(aTimeWithNineSeconds);
+        timeComponentString = "RESET";
+        core.canBeObservedForChangesToSeconds.unObserve(this);
+        Calendar aDifferentTime = (Calendar) aTimeWithNineSeconds.clone();
+        aDifferentTime.roll(Calendar.SECOND, true);
+        secondsToTick.tick(aDifferentTime);
+        assertThat(timeComponentString, is("RESET"));
     }
 
 }

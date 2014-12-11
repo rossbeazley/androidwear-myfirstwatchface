@@ -43,7 +43,7 @@ public class Seconds implements CanBeObservedForChangesToSeconds, CanBeTicked {
 
     @Override
     public void unObserve(CanReceiveSecondsUpdates canReceiveSecondsUpdates) {
-
+        announcer.removeListener(canReceiveSecondsUpdates);
     }
 
 
