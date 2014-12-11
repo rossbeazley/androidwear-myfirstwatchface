@@ -6,7 +6,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import uk.co.rossbeazley.wear.Sexagesimal;
+import uk.co.rossbeazley.wear.ui.Disposable;
 
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.is;
@@ -32,10 +32,10 @@ public class SecondsPresenterDisposalTest {
 
 
         };
-        SecondsPresenter secondsPresenter = new SecondsPresenter(canBeObservedForChangesToSeconds, UNUSED_VIEW);
-        secondsPresenter.dispose();
+        Disposable disposable = new SecondsPresenter(canBeObservedForChangesToSeconds, UNUSED_VIEW);
+        disposable.dispose();
 
-        assertThat(observers.size(),is(0));
+        assertThat(observers.size(), is(0));
     }
 
 }
