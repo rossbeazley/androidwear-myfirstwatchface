@@ -4,9 +4,15 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.RelativeLayout;
 
+import uk.co.rossbeazley.wear.Announcer;
 import uk.co.rossbeazley.wear.Core;
+import uk.co.rossbeazley.wear.ui.Disposable;
 
 public class WatchFaceView extends RelativeLayout {
+
+    private Announcer<Disposable> disposables = Announcer.to(Disposable.class);
+
+
     public WatchFaceView(Context context) {
         super(context);
     }
@@ -24,14 +30,16 @@ public class WatchFaceView extends RelativeLayout {
         super.onFinishInflate();
 
         Core core = Core.instance();
-        //Diposable disposable =
-                AndroidSecondsView.createSecondsView(core, this);
+        disposables.addListener(AndroidSecondsView.createSecondsView(core, this));
         AndroidMinutesView.createMinutesView(core, this);
         AndroidHoursView.createHoursView(core, this);
         AndroidDayMonthView.createMonthDaysView(core, this);
         AndroidRotationView.createRotationView(core, this);
     }
 
-    public static interface Diposable {
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        disposables.announce().dispose();
     }
 }

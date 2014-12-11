@@ -8,6 +8,7 @@ import uk.co.rossbeazley.wear.Core;
 import uk.co.rossbeazley.wear.android.R;
 import uk.co.rossbeazley.wear.seconds.CanBeObservedForChangesToSeconds;
 import uk.co.rossbeazley.wear.seconds.SecondsPresenter;
+import uk.co.rossbeazley.wear.ui.Disposable;
 
 class AndroidSecondsView implements SecondsPresenter.SecondsView {
     private SetTextOnMainThread setTextOnMainThread;
@@ -22,9 +23,9 @@ class AndroidSecondsView implements SecondsPresenter.SecondsView {
         setTextOnMainThread.to(newSeconds);
     }
 
-    public static void createSecondsView(Core core, View views) {
+    public static Disposable createSecondsView(Core core, View views) {
         CanBeObservedForChangesToSeconds seconds = core.canBeObservedForChangesToSeconds;
         AndroidSecondsView secondsview = new AndroidSecondsView(views);
-        new SecondsPresenter(seconds, secondsview);
+        return new SecondsPresenter(seconds, secondsview);
     }
 }
