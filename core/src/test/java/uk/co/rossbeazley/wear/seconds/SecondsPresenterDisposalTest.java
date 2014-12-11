@@ -14,10 +14,19 @@ import static org.junit.Assert.assertThat;
 
 public class SecondsPresenterDisposalTest {
 
-    List<CanBeObservedForChangesToSeconds.CanReceiveSecondsUpdates> observers = new ArrayList<CanBeObservedForChangesToSeconds.CanReceiveSecondsUpdates>(1);
+
 
     @Test
     public void theOneWhereWeStopObservingCoreOnDisposal() {
+        List observers = new ArrayList(1);
+
+        Disposable disposable = buildDisposable(observers);
+        disposable.dispose();
+
+        assertThat(observers.size(), is(0));
+    }
+
+    private Disposable buildDisposable(final List observers) {
         SecondsPresenter.SecondsView UNUSED_VIEW = null;
         CanBeObservedForChangesToSeconds canBeObservedForChangesToSeconds = new CanBeObservedForChangesToSeconds() {
             @Override
@@ -32,10 +41,7 @@ public class SecondsPresenterDisposalTest {
 
 
         };
-        Disposable disposable = new SecondsPresenter(canBeObservedForChangesToSeconds, UNUSED_VIEW);
-        disposable.dispose();
-
-        assertThat(observers.size(), is(0));
+        return new SecondsPresenter(canBeObservedForChangesToSeconds, UNUSED_VIEW);
     }
 
 }
