@@ -24,6 +24,11 @@ public class MinutesPresenterTest {
         @Override public void observe(CanReceiveMinutesUpdates canReceiveSecondsUpdates) {
             observer = canReceiveSecondsUpdates;
         }
+
+        @Override
+        public void unObserve(CanReceiveMinutesUpdates canReceiveSecondsUpdates) {
+
+        }
     }
 
     private class MinutesView implements MinutesPresenter.MinutesView {

@@ -8,6 +8,8 @@ import uk.co.rossbeazley.wear.Sexagesimal;
 public interface CanBeObservedForChangesToMinutes {
     void observe(CanReceiveMinutesUpdates canReceiveMinutesUpdates);
 
+    void unObserve(CanReceiveMinutesUpdates canReceiveSecondsUpdates);
+
     interface CanReceiveMinutesUpdates {
         void minutesUpdate(Sexagesimal to);
     }

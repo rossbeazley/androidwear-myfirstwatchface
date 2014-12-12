@@ -27,6 +27,11 @@ public class MinutesFromTick implements CanBeObservedForChangesToMinutes, CanBeT
     }
 
     @Override
+    public void unObserve(CanReceiveMinutesUpdates canReceiveSecondsUpdates) {
+
+    }
+
+    @Override
     public void tick(Calendar to) {
         int minsFromTick = to.get(Calendar.MINUTE);
         Sexagesimal minutes = Sexagesimal.fromBase10(minsFromTick);
