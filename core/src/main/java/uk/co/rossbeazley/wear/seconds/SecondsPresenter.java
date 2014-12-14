@@ -7,12 +7,12 @@ import uk.co.rossbeazley.wear.Sexagesimal;
 */
 public class SecondsPresenter implements uk.co.rossbeazley.wear.ui.Disposable {
 
-    public final CanBeObservedForChangesToSeconds.CanReceiveSecondsUpdates updateView;
-    private final CanBeObservedForChangesToSeconds canBeObservedForChangesToSeconds;
+    public final CanReceiveSecondsUpdates updateView;
+    private final CanBeObservedForChangesToSeconds<CanReceiveSecondsUpdates> canBeObservedForChangesToSeconds;
 
-    public SecondsPresenter(final CanBeObservedForChangesToSeconds canBeObservedForChangesToSeconds, final SecondsView view) {
+    public SecondsPresenter(final CanBeObservedForChangesToSeconds<CanReceiveSecondsUpdates> canBeObservedForChangesToSeconds, final SecondsView view) {
         this.canBeObservedForChangesToSeconds = canBeObservedForChangesToSeconds;
-        updateView = new CanBeObservedForChangesToSeconds.CanReceiveSecondsUpdates() {
+        updateView = new CanReceiveSecondsUpdates() {
             @Override
             public void secondsUpdate(Sexagesimal to) {
                 view.showSecondsString(to.base10String());

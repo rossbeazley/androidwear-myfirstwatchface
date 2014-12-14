@@ -28,7 +28,7 @@ public class SecondsPresenterDisposalTest {
 
     private Disposable buildDisposable(final List observers) {
         SecondsPresenter.SecondsView UNUSED_VIEW = null;
-        CanBeObservedForChangesToSeconds canBeObservedForChangesToSeconds = new CanBeObservedForChangesToSeconds() {
+        CanBeObservedForChangesToSeconds<CanReceiveSecondsUpdates> canBeObservedForChangesToSeconds = new CanBeObservedForChangesToSeconds<CanReceiveSecondsUpdates>() {
             @Override
             public void addListener(CanReceiveSecondsUpdates canReceiveSecondsUpdates) {
                 observers.add(canReceiveSecondsUpdates);

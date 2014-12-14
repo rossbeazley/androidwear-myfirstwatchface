@@ -8,8 +8,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import uk.co.rossbeazley.wear.seconds.CanBeObservedForChangesToSeconds;
+
 /** nicked from GOOS, modifed by me*/
-public class Announcer<T> {
+public class Announcer<T> implements CanBeObservedForChangesToSeconds<T> {
     private final T proxy;
     private final List<T> listeners = new ArrayList<T>();
     private Producer<T> producer;
@@ -33,6 +35,7 @@ public class Announcer<T> {
                 }));
     }
 
+    @Override
     public void addListener(T listener) {
         listeners.add(listener);
         producer.observed(listener);
@@ -45,6 +48,7 @@ public class Announcer<T> {
         return this;
     }
 
+    @Override
     public void removeListener(T listener) {
         listeners.remove(listener);
     }

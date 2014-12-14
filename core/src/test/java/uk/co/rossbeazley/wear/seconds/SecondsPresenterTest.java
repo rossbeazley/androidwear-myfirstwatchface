@@ -13,12 +13,12 @@ public class SecondsPresenterTest {
 
     private String timeComponentString = "UNSET";
 
-    CanBeObservedForChangesToSeconds.CanReceiveSecondsUpdates observer;
+    CanReceiveSecondsUpdates observer;
 
     @Test
     public void theOneWhereWeUpdateTheScreen() {
 
-        CanBeObservedForChangesToSeconds canBeObservedForChangesToSeconds = new CanBeObservedForChangesToSeconds(){
+        CanBeObservedForChangesToSeconds<CanReceiveSecondsUpdates> canBeObservedForChangesToSeconds = new CanBeObservedForChangesToSeconds<CanReceiveSecondsUpdates>(){
             @Override public void addListener(CanReceiveSecondsUpdates canReceiveSecondsUpdates) {
                 observer = canReceiveSecondsUpdates;
             }

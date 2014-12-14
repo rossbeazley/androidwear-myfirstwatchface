@@ -6,13 +6,13 @@ import uk.co.rossbeazley.wear.Announcer;
 import uk.co.rossbeazley.wear.ticktock.CanBeTicked;
 import uk.co.rossbeazley.wear.Sexagesimal;
 
-public class Seconds implements CanBeObservedForChangesToSeconds, CanBeTicked {
+public class Seconds implements CanBeTicked {
 
-    final private Announcer<CanBeObservedForChangesToSeconds.CanReceiveSecondsUpdates> announcer;
+    final private Announcer<CanReceiveSecondsUpdates> announcer;
     private Sexagesimal current = null;
 
-    public Seconds() {
-        announcer = Announcer.to(CanBeObservedForChangesToSeconds.CanReceiveSecondsUpdates.class);
+    public Seconds(Announcer<CanReceiveSecondsUpdates> secondsUpdatesAnnouncer) {
+        announcer = secondsUpdatesAnnouncer;
     }
 
     @Override
@@ -33,17 +33,8 @@ public class Seconds implements CanBeObservedForChangesToSeconds, CanBeTicked {
         announcer().secondsUpdate(toSeconds);
     }
 
-    private CanBeObservedForChangesToSeconds.CanReceiveSecondsUpdates announcer() {
+    private CanReceiveSecondsUpdates announcer() {
         return announcer.announce();
-    }
-
-    public void addListener(CanReceiveSecondsUpdates canReceiveSecondsUpdates) {
-        announcer.addListener(canReceiveSecondsUpdates);
-    }
-
-    @Override
-    public void removeListener(CanReceiveSecondsUpdates canReceiveSecondsUpdates) {
-        announcer.removeListener(canReceiveSecondsUpdates);
     }
 
 

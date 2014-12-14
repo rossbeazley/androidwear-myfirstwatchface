@@ -12,7 +12,7 @@ import uk.co.rossbeazley.wear.ticktock.CanBeTicked;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
-public class SecondsChangeTest implements CanBeObservedForChangesToSeconds.CanReceiveSecondsUpdates {
+public class SecondsChangeTest implements CanReceiveSecondsUpdates {
 
     private String timeComponentString;
     private CanBeTicked secondsToTick;

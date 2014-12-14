@@ -13,6 +13,7 @@ import uk.co.rossbeazley.wear.rotation.CanBeRotated;
 import uk.co.rossbeazley.wear.rotation.Orientation;
 import uk.co.rossbeazley.wear.rotation.Rotation;
 import uk.co.rossbeazley.wear.seconds.CanBeObservedForChangesToSeconds;
+import uk.co.rossbeazley.wear.seconds.CanReceiveSecondsUpdates;
 import uk.co.rossbeazley.wear.seconds.Seconds;
 import uk.co.rossbeazley.wear.ticktock.CanBeTicked;
 
@@ -22,7 +23,7 @@ public class Core {
     public final CanBeObservedForChangesToDays canBeObservedForChangesToDays;
     public final CanBeObservedForChangesToHours canBeObservedForChangesToHours;
     public final CanBeObservedForChangesToMinutes canBeObservedForChangesToMinutes;
-    public final CanBeObservedForChangesToSeconds canBeObservedForChangesToSeconds;
+    public final CanBeObservedForChangesToSeconds<CanReceiveSecondsUpdates> canBeObservedForChangesToSeconds;
 
     public final CanBeTicked canBeTicked;
 
@@ -41,7 +42,9 @@ public class Core {
         DaysFromTick days;
         MonthsFromTick months;
 
-        canBeObservedForChangesToSeconds = seconds = new Seconds();
+        final Announcer<CanReceiveSecondsUpdates> to = Announcer.to(CanReceiveSecondsUpdates.class);
+        seconds = new Seconds(to);
+        canBeObservedForChangesToSeconds = to;
         canBeObservedForChangesToMinutes = minutes = new MinutesFromTick();
         canBeObservedForChangesToHours = hours = new HoursFromTick();
         canBeObservedForChangesToDays = days = new DaysFromTick();
