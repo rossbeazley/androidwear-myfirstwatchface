@@ -42,11 +42,16 @@ public class Core {
         MonthsFromTick months;
 
         final Announcer<CanReceiveSecondsUpdates> to = Announcer.to(CanReceiveSecondsUpdates.class);
-        seconds = new Seconds(to);
+        seconds = new Seconds(to.announce());
         canBeObserved = to;
-        canBeObservedForChangesToMinutes = minutes = new MinutesFromTick();
+
+        minutes = new MinutesFromTick();
+        canBeObservedForChangesToMinutes = minutes;
+
         canBeObservedForChangesToHours = hours = new HoursFromTick();
+
         canBeObservedForChangesToDays = days = new DaysFromTick();
+
         canBeObservedForChangesToMonths = months = new MonthsFromTick();
 
         canBeTicked = Announcer.to(CanBeTicked.class)

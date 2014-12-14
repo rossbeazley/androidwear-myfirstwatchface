@@ -2,17 +2,16 @@ package uk.co.rossbeazley.wear.seconds;
 
 import java.util.Calendar;
 
-import uk.co.rossbeazley.wear.Announcer;
 import uk.co.rossbeazley.wear.ticktock.CanBeTicked;
 import uk.co.rossbeazley.wear.Sexagesimal;
 
 public class Seconds implements CanBeTicked {
 
-    final private Announcer<CanReceiveSecondsUpdates> announcer;
     private Sexagesimal current = null;
+    private CanReceiveSecondsUpdates secondsUpdates;
 
-    public Seconds(Announcer<CanReceiveSecondsUpdates> secondsUpdatesAnnouncer) {
-        announcer = secondsUpdatesAnnouncer;
+    public Seconds(CanReceiveSecondsUpdates canReceiveSecondsUpdates) {
+        secondsUpdates = canReceiveSecondsUpdates;
     }
 
     @Override
@@ -30,11 +29,7 @@ public class Seconds implements CanBeTicked {
 
     private void updateCurrentTime(Sexagesimal toSeconds) {
         current=toSeconds;
-        announcer().secondsUpdate(toSeconds);
-    }
-
-    private CanReceiveSecondsUpdates announcer() {
-        return announcer.announce();
+        secondsUpdates.secondsUpdate(toSeconds);
     }
 
 
