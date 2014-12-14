@@ -20,7 +20,7 @@ public class OrientationPresenterTest {
         assertThat(view.degreesRotation, is(0.0f));
     }
 
-    private static class RotationChanges implements CanBeObservedForChangesToRotation<CanReceiveRotationUpdates> {
+    private static class RotationChanges implements uk.co.rossbeazley.wear.CanBeObserved<CanReceiveRotationUpdates> {
         private CanReceiveRotationUpdates canReceiveRotationUpdates;
 
         @Override

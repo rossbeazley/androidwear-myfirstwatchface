@@ -3,6 +3,7 @@ package uk.co.rossbeazley.wear.rotation;
 import org.junit.Before;
 import org.junit.Test;
 
+import uk.co.rossbeazley.wear.CanBeObserved;
 import uk.co.rossbeazley.wear.Core;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -12,7 +13,7 @@ public class OrientationTest {
 
     private float degreesRotation;
     private Core core;
-    private CanBeObservedForChangesToRotation<CanReceiveRotationUpdates> rotation;
+    private CanBeObserved<CanReceiveRotationUpdates> rotation;
 
     @Before
     public void setUp() throws Exception {

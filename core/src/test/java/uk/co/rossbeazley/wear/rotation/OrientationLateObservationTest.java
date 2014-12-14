@@ -2,6 +2,7 @@ package uk.co.rossbeazley.wear.rotation;
 
 import org.junit.Test;
 
+import uk.co.rossbeazley.wear.CanBeObserved;
 import uk.co.rossbeazley.wear.Core;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -14,7 +15,7 @@ public class OrientationLateObservationTest {
     @Test
     public void theOneWhereWeAreToldOrientationIsSouth() {
         Core core = new Core(Orientation.south());
-        CanBeObservedForChangesToRotation<CanReceiveRotationUpdates> rotation = core.canBeObservedForChangesToRotation;
+        CanBeObserved<CanReceiveRotationUpdates> rotation = core.canBeObservedForChangesToRotation;
         rotation.addListener(new CanReceiveRotationUpdates() {
             @Override
             public void rotationUpdate(Orientation to) {

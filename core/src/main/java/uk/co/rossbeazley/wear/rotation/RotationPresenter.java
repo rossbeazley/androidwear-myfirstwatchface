@@ -1,7 +1,9 @@
 package uk.co.rossbeazley.wear.rotation;
 
+import uk.co.rossbeazley.wear.CanBeObserved;
+
 public class RotationPresenter {
-    public RotationPresenter(final RotationView view, CanBeObservedForChangesToRotation<CanReceiveRotationUpdates> canBeObservedForChangesToRotation) {
+    public RotationPresenter(final RotationView view, CanBeObserved<CanReceiveRotationUpdates> canBeObservedForChangesToRotation) {
         CanReceiveRotationUpdates updateView;
         updateView = new CanReceiveRotationUpdates() {
             @Override

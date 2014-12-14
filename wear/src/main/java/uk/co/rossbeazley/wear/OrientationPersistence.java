@@ -6,16 +6,15 @@ import com.google.android.gms.wearable.PutDataRequest;
 import com.google.android.gms.wearable.Wearable;
 
 import uk.co.rossbeazley.wear.android.gsm.GoogleWearApiConnection;
-import uk.co.rossbeazley.wear.rotation.CanBeObservedForChangesToRotation;
 import uk.co.rossbeazley.wear.rotation.CanReceiveRotationUpdates;
 import uk.co.rossbeazley.wear.rotation.Orientation;
 
 class OrientationPersistence implements GoogleWearApiConnection.ConnectedApiClient {
     public final static String rotation_key = "ROTATION";
     public final static String rotation_path = "count";
-    private CanBeObservedForChangesToRotation<CanReceiveRotationUpdates> canBeObservedForChangesToRotation;
+    private CanBeObserved<CanReceiveRotationUpdates> canBeObservedForChangesToRotation;
 
-    public OrientationPersistence(CanBeObservedForChangesToRotation<CanReceiveRotationUpdates> canBeObservedForChangesToRotation) {
+    public OrientationPersistence(CanBeObserved<CanReceiveRotationUpdates> canBeObservedForChangesToRotation) {
         this.canBeObservedForChangesToRotation = canBeObservedForChangesToRotation;
     }
 
