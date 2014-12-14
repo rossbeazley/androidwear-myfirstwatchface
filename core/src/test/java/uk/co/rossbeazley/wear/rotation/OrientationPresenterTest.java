@@ -24,8 +24,13 @@ public class OrientationPresenterTest {
         private CanReceiveRotationUpdates canReceiveRotationUpdates;
 
         @Override
-        public void observe(CanReceiveRotationUpdates canReceiveRotationUpdates) {
+        public void addListener(CanReceiveRotationUpdates canReceiveRotationUpdates) {
             this.canReceiveRotationUpdates = canReceiveRotationUpdates;
+        }
+
+        @Override
+        public void removeListener(CanReceiveRotationUpdates canReceiveRotationUpdates) {
+
         }
     }
 

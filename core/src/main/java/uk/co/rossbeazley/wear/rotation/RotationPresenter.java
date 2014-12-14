@@ -9,7 +9,7 @@ public class RotationPresenter {
                 view.rotateToDegrees(to.degrees());
             }
         };
-        canBeObservedForChangesToRotation.observe(updateView);
+        canBeObservedForChangesToRotation.addListener(updateView);
     }
 
     public static interface RotationView {

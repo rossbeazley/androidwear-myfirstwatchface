@@ -21,7 +21,7 @@ class OrientationPersistence implements GoogleWearApiConnection.ConnectedApiClie
 
     @Override
     public void invoke(final GoogleApiClient gac) {
-        canBeObservedForChangesToRotation.observe(new CanReceiveRotationUpdates() {
+        canBeObservedForChangesToRotation.addListener(new CanReceiveRotationUpdates() {
             @Override
             public void rotationUpdate(Orientation to) {
                 PutDataMapRequest dataMap = PutDataMapRequest.create("/" + rotation_path);

@@ -16,7 +16,7 @@ public class RotationRehydrationTest {
     public void createCoreAtRotation(Orientation orientation) {
         core = new Core(orientation);
         rotation = core.canBeObservedForChangesToRotation;
-        rotation.observe(new CanReceiveRotationUpdates() {
+        rotation.addListener(new CanReceiveRotationUpdates() {
             @Override
             public void rotationUpdate(Orientation to) {
                 degreesRotation = to.degrees();

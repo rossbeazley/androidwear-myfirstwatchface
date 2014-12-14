@@ -23,8 +23,13 @@ public class Rotation implements CanBeRotated, CanBeObservedForChangesToRotation
     }
 
     @Override
-    public void observe(CanReceiveRotationUpdates canReceiveRotationUpdates) {
+    public void addListener(CanReceiveRotationUpdates canReceiveRotationUpdates) {
         rotationUpdates.addListener(canReceiveRotationUpdates);
+    }
+
+    @Override
+    public void removeListener(CanReceiveRotationUpdates canReceiveRotationUpdates) {
+
     }
 
     @Override

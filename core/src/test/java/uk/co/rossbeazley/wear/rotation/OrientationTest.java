@@ -18,7 +18,7 @@ public class OrientationTest {
     public void setUp() throws Exception {
         core = new Core();
         rotation = core.canBeObservedForChangesToRotation;
-        rotation.observe(new CanReceiveRotationUpdates() {
+        rotation.addListener(new CanReceiveRotationUpdates() {
             @Override
             public void rotationUpdate(Orientation to) {
                 degreesRotation = to.degrees();
