@@ -18,7 +18,7 @@ public class MinutesPresenterTest {
         assertThat(view.timeComponentString, is("10"));
     }
 
-    private class Minutes implements CanBeObservedForChangesToMinutes {
+    private class Minutes implements CanBeObservedForChangesToMinutes<CanReceiveMinutesUpdates> {
         private CanReceiveMinutesUpdates observer;
 
         @Override public void addListener(CanReceiveMinutesUpdates canReceiveSecondsUpdates) {

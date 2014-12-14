@@ -2,9 +2,9 @@ package uk.co.rossbeazley.wear.minutes;
 
 import uk.co.rossbeazley.wear.CanBeObserved;
 
-public interface CanBeObservedForChangesToMinutes extends CanBeObserved<CanReceiveMinutesUpdates> {
-    void addListener(CanReceiveMinutesUpdates canReceiveMinutesUpdates);
+public interface CanBeObservedForChangesToMinutes<T> extends CanBeObserved<T> {
+    void addListener(T canReceiveMinutesUpdates);
 
-    void removeListener(CanReceiveMinutesUpdates canReceiveSecondsUpdates);
+    void removeListener(T canReceiveSecondsUpdates);
 
 }
