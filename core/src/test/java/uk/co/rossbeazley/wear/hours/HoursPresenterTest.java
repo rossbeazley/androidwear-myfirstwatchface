@@ -2,6 +2,7 @@ package uk.co.rossbeazley.wear.hours;
 
 import org.junit.Test;
 
+import uk.co.rossbeazley.wear.CanBeObserved;
 import uk.co.rossbeazley.wear.HourBase24;
 
 import static org.hamcrest.Matchers.is;
@@ -27,7 +28,7 @@ public class HoursPresenterTest {
         assertThat(hoursView.timeComponentString, is("02"));
     }
 
-    private class Hours implements CanBeObservedForChangesToHours<CanReceiveHoursUpdates> {
+    private class Hours implements CanBeObserved<CanReceiveHoursUpdates> {
         private CanReceiveHoursUpdates observer;
 
         @Override
