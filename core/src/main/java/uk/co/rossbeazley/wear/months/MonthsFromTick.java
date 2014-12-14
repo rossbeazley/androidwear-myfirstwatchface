@@ -9,28 +9,19 @@ import uk.co.rossbeazley.wear.ticktock.CanBeTicked;
 /**
 * Created by beazlr02 on 20/11/2014.
 */
-public class MonthsFromTick implements CanBeObserved<CanReceiveMonthsUpdates>, CanBeTicked {
+public class MonthsFromTick implements CanBeTicked {
 
     final private Announcer<CanReceiveMonthsUpdates> announcer;
     private Month current;
 
-    public MonthsFromTick() {
-        announcer = Announcer.to(CanReceiveMonthsUpdates.class);
+    public MonthsFromTick(Announcer<CanReceiveMonthsUpdates> canReceiveMonthsUpdatesAnnouncer) {
+        announcer = canReceiveMonthsUpdatesAnnouncer;
         announcer.registerProducer(new Announcer.Producer<CanReceiveMonthsUpdates>() {
             @Override
             public void observed(CanReceiveMonthsUpdates observer) {
                 if(current!=null) observer.monthsUpdate(current);
             }
         });
-    }
-
-    @Override
-    public void addListener(CanReceiveMonthsUpdates canReceiveMonthsUpdates) {
-        announcer.addListener(canReceiveMonthsUpdates);
-    }
-
-    @Override
-    public void removeListener(CanReceiveMonthsUpdates canReceiveMonthsUpdates) {
     }
 
     @Override

@@ -57,8 +57,9 @@ public class Core {
         days = new DaysFromTick(canReceiveDaysUpdatesAnnouncer);
         canBeObservedForChangesToDays = canReceiveDaysUpdatesAnnouncer;
 
-        months = new MonthsFromTick();
-        canBeObservedForChangesToMonths = months;
+        Announcer<CanReceiveMonthsUpdates> canReceiveMonthsUpdatesAnnouncer = Announcer.to(CanReceiveMonthsUpdates.class);
+        months = new MonthsFromTick(canReceiveMonthsUpdatesAnnouncer);
+        canBeObservedForChangesToMonths = canReceiveMonthsUpdatesAnnouncer;
 
         canBeTicked = Announcer.to(CanBeTicked.class)
                 .addListeners(seconds, minutes, hours, days, months)
