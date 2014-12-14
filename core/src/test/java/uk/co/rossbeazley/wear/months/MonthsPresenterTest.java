@@ -2,6 +2,8 @@ package uk.co.rossbeazley.wear.months;
 
 import org.junit.Test;
 
+import uk.co.rossbeazley.wear.CanBeObserved;
+
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
@@ -25,7 +27,7 @@ public class MonthsPresenterTest {
     }
 
 
-    private static class FakeMonths implements CanBeObservedForChangesToMonths<CanReceiveMonthsUpdates> {
+    private static class FakeMonths implements CanBeObserved<CanReceiveMonthsUpdates> {
         private CanReceiveMonthsUpdates canReceiveMonthUpdates;
 
         @Override

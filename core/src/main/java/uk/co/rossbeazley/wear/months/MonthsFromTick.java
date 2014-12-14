@@ -3,12 +3,13 @@ package uk.co.rossbeazley.wear.months;
 import java.util.Calendar;
 
 import uk.co.rossbeazley.wear.Announcer;
+import uk.co.rossbeazley.wear.CanBeObserved;
 import uk.co.rossbeazley.wear.ticktock.CanBeTicked;
 
 /**
 * Created by beazlr02 on 20/11/2014.
 */
-public class MonthsFromTick implements CanBeObservedForChangesToMonths<CanReceiveMonthsUpdates>, CanBeTicked {
+public class MonthsFromTick implements CanBeObserved<CanReceiveMonthsUpdates>, CanBeTicked {
 
     final private Announcer<CanReceiveMonthsUpdates> announcer;
     private Month current;
