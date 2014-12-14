@@ -41,9 +41,9 @@ public class Core {
         DaysFromTick days;
         MonthsFromTick months;
 
-        final Announcer<CanReceiveSecondsUpdates> to = Announcer.to(CanReceiveSecondsUpdates.class);
-        seconds = new Seconds(to.announce());
-        canBeObservedForChangesToSeconds = to;
+        final Announcer<CanReceiveSecondsUpdates> canReceiveSecondsUpdatesAnnouncer = Announcer.to(CanReceiveSecondsUpdates.class);
+        seconds = new Seconds(canReceiveSecondsUpdatesAnnouncer.announce());
+        canBeObservedForChangesToSeconds = canReceiveSecondsUpdatesAnnouncer;
 
         Announcer<CanReceiveMinutesUpdates> canReceiveMinutesUpdatesAnnouncer = Announcer.to(CanReceiveMinutesUpdates.class);
         minutes = new MinutesFromTick(canReceiveMinutesUpdatesAnnouncer);
