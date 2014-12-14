@@ -6,8 +6,6 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import uk.co.rossbeazley.wear.seconds.CanBeObservedForChangesToSeconds;
-import uk.co.rossbeazley.wear.seconds.SecondsPresenter;
 import uk.co.rossbeazley.wear.ui.Disposable;
 
 import static org.hamcrest.Matchers.is;

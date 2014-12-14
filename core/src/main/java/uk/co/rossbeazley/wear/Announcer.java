@@ -5,13 +5,10 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
-import uk.co.rossbeazley.wear.seconds.CanBeObservedForChangesToSeconds;
-
 /** nicked from GOOS, modifed by me*/
-public class Announcer<T> implements CanBeObservedForChangesToSeconds<T> {
+public class Announcer<T> implements CanBeObserved<T> {
     private final T proxy;
     private final List<T> listeners = new ArrayList<T>();
     private Producer<T> producer;

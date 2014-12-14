@@ -1,5 +1,6 @@
 package uk.co.rossbeazley.wear.seconds;
 
+import uk.co.rossbeazley.wear.CanBeObserved;
 import uk.co.rossbeazley.wear.Sexagesimal;
 
 /**
@@ -8,22 +9,22 @@ import uk.co.rossbeazley.wear.Sexagesimal;
 public class SecondsPresenter implements uk.co.rossbeazley.wear.ui.Disposable {
 
     public final CanReceiveSecondsUpdates updateView;
-    private final CanBeObservedForChangesToSeconds<CanReceiveSecondsUpdates> canBeObservedForChangesToSeconds;
+    private final CanBeObserved<CanReceiveSecondsUpdates> canBeObserved;
 
-    public SecondsPresenter(final CanBeObservedForChangesToSeconds<CanReceiveSecondsUpdates> canBeObservedForChangesToSeconds, final SecondsView view) {
-        this.canBeObservedForChangesToSeconds = canBeObservedForChangesToSeconds;
+    public SecondsPresenter(final CanBeObserved<CanReceiveSecondsUpdates> canBeObserved, final SecondsView view) {
+        this.canBeObserved = canBeObserved;
         updateView = new CanReceiveSecondsUpdates() {
             @Override
             public void secondsUpdate(Sexagesimal to) {
                 view.showSecondsString(to.base10String());
             }
         };
-        canBeObservedForChangesToSeconds.addListener(updateView);
+        canBeObserved.addListener(updateView);
     }
 
     @Override
     public void dispose() {
-        canBeObservedForChangesToSeconds.removeListener(updateView);
+        canBeObserved.removeListener(updateView);
     }
 
     public static interface SecondsView {

@@ -6,6 +6,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
+import uk.co.rossbeazley.wear.CanBeObserved;
 import uk.co.rossbeazley.wear.ui.Disposable;
 
 import static org.hamcrest.Matchers.contains;
@@ -28,7 +29,7 @@ public class SecondsPresenterDisposalTest {
 
     private Disposable buildDisposable(final List observers) {
         SecondsPresenter.SecondsView UNUSED_VIEW = null;
-        CanBeObservedForChangesToSeconds<CanReceiveSecondsUpdates> canBeObservedForChangesToSeconds = new CanBeObservedForChangesToSeconds<CanReceiveSecondsUpdates>() {
+        CanBeObserved<CanReceiveSecondsUpdates> canBeObserved = new CanBeObserved<CanReceiveSecondsUpdates>() {
             @Override
             public void addListener(CanReceiveSecondsUpdates canReceiveSecondsUpdates) {
                 observers.add(canReceiveSecondsUpdates);
@@ -41,7 +42,7 @@ public class SecondsPresenterDisposalTest {
 
 
         };
-        return new SecondsPresenter(canBeObservedForChangesToSeconds, UNUSED_VIEW);
+        return new SecondsPresenter(canBeObserved, UNUSED_VIEW);
     }
 
 }

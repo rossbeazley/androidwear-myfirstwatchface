@@ -3,6 +3,7 @@ package uk.co.rossbeazley.wear.seconds;
 
 import org.junit.Test;
 
+import uk.co.rossbeazley.wear.CanBeObserved;
 import uk.co.rossbeazley.wear.Sexagesimal;
 import uk.co.rossbeazley.wear.ui.Disposable;
 
@@ -18,7 +19,7 @@ public class SecondsPresenterTest {
     @Test
     public void theOneWhereWeUpdateTheScreen() {
 
-        CanBeObservedForChangesToSeconds<CanReceiveSecondsUpdates> canBeObservedForChangesToSeconds = new CanBeObservedForChangesToSeconds<CanReceiveSecondsUpdates>(){
+        CanBeObserved<CanReceiveSecondsUpdates> canBeObserved = new CanBeObserved<CanReceiveSecondsUpdates>(){
             @Override public void addListener(CanReceiveSecondsUpdates canReceiveSecondsUpdates) {
                 observer = canReceiveSecondsUpdates;
             }
@@ -33,7 +34,7 @@ public class SecondsPresenterTest {
             }
         };
 
-        Disposable secondsPresenter = new SecondsPresenter(canBeObservedForChangesToSeconds, view);
+        Disposable secondsPresenter = new SecondsPresenter(canBeObserved, view);
         observer.secondsUpdate(Sexagesimal.fromBase10(10));
         assertThat(timeComponentString, is("10"));
     }

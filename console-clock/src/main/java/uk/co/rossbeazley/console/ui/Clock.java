@@ -25,7 +25,7 @@ public class Clock {
         new MonthsPresenter(core.canBeObservedForChangesToMonths, view);
         new HoursPresenter(core.canBeObservedForChangesToHours, view);
         new MinutesPresenter(core.canBeObservedForChangesToMinutes, view);
-        new SecondsPresenter(core.canBeObservedForChangesToSeconds, view);
+        new SecondsPresenter(core.canBeObserved, view);
     }
 
     interface Printer {
