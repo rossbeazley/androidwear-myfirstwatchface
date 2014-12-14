@@ -30,7 +30,7 @@ public class LateObservationOfHoursTest implements CanReceiveHoursUpdates {
     @Test
     public void theOneWhereTheHourUpdatesAfterObserving() {
         hours.tick(aTimeWithThreeHours);
-        core.canBeObservedForChangesToHours.observe(this);
+        core.canBeObservedForChangesToHours.addListener(this);
         assertThat(timeComponentString, is("03"));
     }
 

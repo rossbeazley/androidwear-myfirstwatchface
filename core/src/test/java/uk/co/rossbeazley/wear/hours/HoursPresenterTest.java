@@ -31,8 +31,13 @@ public class HoursPresenterTest {
         private CanReceiveHoursUpdates observer;
 
         @Override
-        public void observe(CanReceiveHoursUpdates canReceiveHoursUpdates) {
+        public void addListener(CanReceiveHoursUpdates canReceiveHoursUpdates) {
             this.observer = canReceiveHoursUpdates;
+        }
+
+        @Override
+        public void removeListener(CanReceiveHoursUpdates canReceiveHoursUpdates) {
+
         }
     }
 

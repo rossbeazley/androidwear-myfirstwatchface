@@ -21,7 +21,7 @@ public class HoursFromTickTockTest implements CanReceiveHoursUpdates {
     @Before
     public void givenATimeWithThreeHours() {
         Core core = new Core();
-        core.canBeObservedForChangesToHours.observe(this);
+        core.canBeObservedForChangesToHours.addListener(this);
         this.hours = core.canBeTicked;
         this.aTimeWithThreeHours = Calendar.getInstance();
         aTimeWithThreeHours.set(Calendar.HOUR,3);

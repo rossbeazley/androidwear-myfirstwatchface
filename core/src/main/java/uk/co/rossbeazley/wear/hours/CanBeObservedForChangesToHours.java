@@ -1,6 +1,6 @@
 package uk.co.rossbeazley.wear.hours;
 
 public interface CanBeObservedForChangesToHours {
-    public void observe(CanReceiveHoursUpdates canReceiveHoursUpdates);
-
+    public void addListener(CanReceiveHoursUpdates canReceiveHoursUpdates);
+    public void removeListener(CanReceiveHoursUpdates canReceiveHoursUpdates);
 }

@@ -22,8 +22,13 @@ public class HoursFromTick implements CanBeObservedForChangesToHours,CanBeTicked
     }
 
     @Override
-    public void observe(CanReceiveHoursUpdates canReceiveHoursUpdates) {
+    public void addListener(CanReceiveHoursUpdates canReceiveHoursUpdates) {
         announcer.addListener(canReceiveHoursUpdates);
+    }
+
+    @Override
+    public void removeListener(CanReceiveHoursUpdates canReceiveHoursUpdates) {
+
     }
 
     @Override
