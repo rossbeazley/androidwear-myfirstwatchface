@@ -2,6 +2,8 @@ package uk.co.rossbeazley.wear.days;
 
 import org.junit.Test;
 
+import uk.co.rossbeazley.wear.CanBeObserved;
+
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
@@ -18,7 +20,7 @@ public class DaysPresenterTest {
             }
         };
 
-        CanBeObservedForChangesToDays<CanReceiveDaysUpdates> days = new CanBeObservedForChangesToDays<CanReceiveDaysUpdates>() {
+        CanBeObserved<CanReceiveDaysUpdates> days = new CanBeObserved<CanReceiveDaysUpdates>() {
             @Override
             public void addListener(CanReceiveDaysUpdates canReceiveDaysUpdates) {
                 DaysPresenterTest.this.daysChange = canReceiveDaysUpdates;
