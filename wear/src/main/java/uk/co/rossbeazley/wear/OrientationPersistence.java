@@ -13,9 +13,9 @@ import uk.co.rossbeazley.wear.rotation.Orientation;
 class OrientationPersistence implements GoogleWearApiConnection.ConnectedApiClient {
     public final static String rotation_key = "ROTATION";
     public final static String rotation_path = "count";
-    private CanBeObservedForChangesToRotation canBeObservedForChangesToRotation;
+    private CanBeObservedForChangesToRotation<CanReceiveRotationUpdates> canBeObservedForChangesToRotation;
 
-    public OrientationPersistence(CanBeObservedForChangesToRotation canBeObservedForChangesToRotation) {
+    public OrientationPersistence(CanBeObservedForChangesToRotation<CanReceiveRotationUpdates> canBeObservedForChangesToRotation) {
         this.canBeObservedForChangesToRotation = canBeObservedForChangesToRotation;
     }
 

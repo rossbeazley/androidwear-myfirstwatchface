@@ -11,7 +11,7 @@ public class RotationRehydrationTest {
 
     private float degreesRotation;
     private Core core;
-    private CanBeObservedForChangesToRotation rotation;
+    private CanBeObservedForChangesToRotation<CanReceiveRotationUpdates> rotation;
 
     public void createCoreAtRotation(Orientation orientation) {
         core = new Core(orientation);

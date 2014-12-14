@@ -10,6 +10,7 @@ import uk.co.rossbeazley.wear.months.CanReceiveMonthsUpdates;
 import uk.co.rossbeazley.wear.months.MonthsFromTick;
 import uk.co.rossbeazley.wear.rotation.CanBeObservedForChangesToRotation;
 import uk.co.rossbeazley.wear.rotation.CanBeRotated;
+import uk.co.rossbeazley.wear.rotation.CanReceiveRotationUpdates;
 import uk.co.rossbeazley.wear.rotation.Orientation;
 import uk.co.rossbeazley.wear.rotation.Rotation;
 import uk.co.rossbeazley.wear.seconds.CanReceiveSecondsUpdates;
@@ -27,7 +28,7 @@ public class Core {
     public final CanBeTicked canBeTicked;
 
     public final CanBeRotated canBeRotated;
-    public final CanBeObservedForChangesToRotation canBeObservedForChangesToRotation;
+    public final CanBeObservedForChangesToRotation<CanReceiveRotationUpdates> canBeObservedForChangesToRotation;
 
     public Core() {
         this(Orientation.north());

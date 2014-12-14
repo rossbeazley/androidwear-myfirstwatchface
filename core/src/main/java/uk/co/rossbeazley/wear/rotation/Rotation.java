@@ -2,7 +2,7 @@ package uk.co.rossbeazley.wear.rotation;
 
 import uk.co.rossbeazley.wear.Announcer;
 
-public class Rotation implements CanBeRotated, CanBeObservedForChangesToRotation {
+public class Rotation implements CanBeRotated, CanBeObservedForChangesToRotation<CanReceiveRotationUpdates> {
 
     Orientation orientation;
     Announcer<CanReceiveRotationUpdates> rotationUpdates;

@@ -12,7 +12,7 @@ public class RotateToOrientationTest {
 
     private float degreesRotation;
     private Core core;
-    private CanBeObservedForChangesToRotation rotation;
+    private CanBeObservedForChangesToRotation<CanReceiveRotationUpdates> rotation;
 
     @Before
     public void setUp() throws Exception {
