@@ -19,12 +19,12 @@ public class SecondsPresenterTest {
     public void theOneWhereWeUpdateTheScreen() {
 
         CanBeObservedForChangesToSeconds canBeObservedForChangesToSeconds = new CanBeObservedForChangesToSeconds(){
-            @Override public void observe(CanReceiveSecondsUpdates canReceiveSecondsUpdates) {
+            @Override public void addListener(CanReceiveSecondsUpdates canReceiveSecondsUpdates) {
                 observer = canReceiveSecondsUpdates;
             }
 
             @Override
-            public void unObserve(CanReceiveSecondsUpdates canReceiveSecondsUpdates) {}
+            public void removeListener(CanReceiveSecondsUpdates canReceiveSecondsUpdates) {}
         };
 
         SecondsPresenter.SecondsView view = new SecondsPresenter.SecondsView(){

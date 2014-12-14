@@ -1,7 +1,6 @@
 package uk.co.rossbeazley.wear.seconds;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.Calendar;
@@ -30,7 +29,7 @@ public class SecondsChangeTest implements CanBeObservedForChangesToSeconds.CanRe
     public void setUp() throws Exception {
         core = new Core();
         secondsToTick = core.canBeTicked;
-        core.canBeObservedForChangesToSeconds.observe(this);
+        core.canBeObservedForChangesToSeconds.addListener(this);
 
         aTimeWithNineSeconds = Calendar.getInstance();
         aTimeWithNineSeconds.set(Calendar.SECOND, 9);
@@ -66,7 +65,7 @@ public class SecondsChangeTest implements CanBeObservedForChangesToSeconds.CanRe
     public void theOneWhereWeStopObserving() {
         secondsToTick.tick(aTimeWithNineSeconds);
         timeComponentString = "RESET";
-        core.canBeObservedForChangesToSeconds.unObserve(this);
+        core.canBeObservedForChangesToSeconds.removeListener(this);
         Calendar aDifferentTime = (Calendar) aTimeWithNineSeconds.clone();
         aDifferentTime.roll(Calendar.SECOND, true);
         secondsToTick.tick(aDifferentTime);

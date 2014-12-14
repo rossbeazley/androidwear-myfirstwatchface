@@ -28,7 +28,7 @@ public class Main {
         loadOrientationFromPersistentStore.observe(new RotateWatchFace(core));
         loadOrientationFromPersistentStore.observe(new BindRotationMessageAdapter(context, core));
         loadOrientationFromPersistentStore.observe(new BindRotationPersistence(context, core));
-        //loadOrientationFromPersistentStore.observe(new BindTickTock(core));
+        //loadOrientationFromPersistentStore.addListener(new BindTickTock(core));
         new GoogleWearApiConnection(context, loadOrientationFromPersistentStore);
 
     }

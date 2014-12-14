@@ -18,12 +18,12 @@ public class SecondsPresenter implements uk.co.rossbeazley.wear.ui.Disposable {
                 view.showSecondsString(to.base10String());
             }
         };
-        canBeObservedForChangesToSeconds.observe(updateView);
+        canBeObservedForChangesToSeconds.addListener(updateView);
     }
 
     @Override
     public void dispose() {
-        canBeObservedForChangesToSeconds.unObserve(updateView);
+        canBeObservedForChangesToSeconds.removeListener(updateView);
     }
 
     public static interface SecondsView {

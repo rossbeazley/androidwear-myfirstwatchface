@@ -30,12 +30,12 @@ public class SecondsPresenterDisposalTest {
         SecondsPresenter.SecondsView UNUSED_VIEW = null;
         CanBeObservedForChangesToSeconds canBeObservedForChangesToSeconds = new CanBeObservedForChangesToSeconds() {
             @Override
-            public void observe(CanReceiveSecondsUpdates canReceiveSecondsUpdates) {
+            public void addListener(CanReceiveSecondsUpdates canReceiveSecondsUpdates) {
                 observers.add(canReceiveSecondsUpdates);
             }
 
             @Override
-            public void unObserve(CanReceiveSecondsUpdates canReceiveSecondsUpdates) {
+            public void removeListener(CanReceiveSecondsUpdates canReceiveSecondsUpdates) {
                 observers.remove(canReceiveSecondsUpdates);
             }
 

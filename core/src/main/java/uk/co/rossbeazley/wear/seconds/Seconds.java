@@ -37,12 +37,12 @@ public class Seconds implements CanBeObservedForChangesToSeconds, CanBeTicked {
         return announcer.announce();
     }
 
-    public void observe(CanBeObservedForChangesToSeconds.CanReceiveSecondsUpdates canReceiveSecondsUpdates) {
+    public void addListener(CanReceiveSecondsUpdates canReceiveSecondsUpdates) {
         announcer.addListener(canReceiveSecondsUpdates);
     }
 
     @Override
-    public void unObserve(CanReceiveSecondsUpdates canReceiveSecondsUpdates) {
+    public void removeListener(CanReceiveSecondsUpdates canReceiveSecondsUpdates) {
         announcer.removeListener(canReceiveSecondsUpdates);
     }
 
