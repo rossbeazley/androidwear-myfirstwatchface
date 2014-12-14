@@ -7,12 +7,12 @@ import uk.co.rossbeazley.wear.CanBeObserved;
 import uk.co.rossbeazley.wear.Sexagesimal;
 import uk.co.rossbeazley.wear.ticktock.CanBeTicked;
 
-public class MinutesFromTick implements CanBeObserved<CanReceiveMinutesUpdates>, CanBeTicked {
+public class MinutesFromTick implements CanBeTicked {
     private final Announcer<CanReceiveMinutesUpdates> canReceiveMinutesUpdates;
     private Sexagesimal current;
 
-    public MinutesFromTick() {
-        canReceiveMinutesUpdates = Announcer.to(CanReceiveMinutesUpdates.class);
+    public MinutesFromTick(Announcer<CanReceiveMinutesUpdates> canReceiveMinutesUpdatesAnnouncer) {
+        canReceiveMinutesUpdates = canReceiveMinutesUpdatesAnnouncer;
         canReceiveMinutesUpdates.registerProducer(new Announcer.Producer<CanReceiveMinutesUpdates>() {
             @Override
             public void observed(CanReceiveMinutesUpdates observer) {
@@ -20,16 +20,6 @@ public class MinutesFromTick implements CanBeObserved<CanReceiveMinutesUpdates>,
                 if(current!=null) observer.minutesUpdate(current);
             }
         });
-    }
-
-    @Override
-    public void addListener(CanReceiveMinutesUpdates canReceiveMinutesUpdates) {
-        this.canReceiveMinutesUpdates.addListener(canReceiveMinutesUpdates);
-    }
-
-    @Override
-    public void removeListener(CanReceiveMinutesUpdates canReceiveSecondsUpdates) {
-
     }
 
     @Override

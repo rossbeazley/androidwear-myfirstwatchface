@@ -45,8 +45,9 @@ public class Core {
         seconds = new Seconds(to.announce());
         canBeObservedForChangesToSeconds = to;
 
-        minutes = new MinutesFromTick();
-        canBeObservedForChangesToMinutes = minutes;
+        Announcer<CanReceiveMinutesUpdates> canReceiveMinutesUpdatesAnnouncer = Announcer.to(CanReceiveMinutesUpdates.class);
+        minutes = new MinutesFromTick(canReceiveMinutesUpdatesAnnouncer);
+        canBeObservedForChangesToMinutes = canReceiveMinutesUpdatesAnnouncer;
 
         canBeObservedForChangesToHours = hours = new HoursFromTick();
 
