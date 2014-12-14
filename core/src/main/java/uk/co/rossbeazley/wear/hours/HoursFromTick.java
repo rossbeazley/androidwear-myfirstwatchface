@@ -6,7 +6,7 @@ import uk.co.rossbeazley.wear.Announcer;
 import uk.co.rossbeazley.wear.HourBase24;
 import uk.co.rossbeazley.wear.ticktock.CanBeTicked;
 
-public class HoursFromTick implements CanBeObservedForChangesToHours,CanBeTicked {
+public class HoursFromTick implements CanBeObservedForChangesToHours<CanReceiveHoursUpdates>,CanBeTicked {
 
     final private Announcer<CanReceiveHoursUpdates> announcer;
     private HourBase24 current;

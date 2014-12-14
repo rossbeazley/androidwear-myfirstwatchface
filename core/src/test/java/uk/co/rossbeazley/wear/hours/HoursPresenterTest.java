@@ -27,7 +27,7 @@ public class HoursPresenterTest {
         assertThat(hoursView.timeComponentString, is("02"));
     }
 
-    private class Hours implements CanBeObservedForChangesToHours {
+    private class Hours implements CanBeObservedForChangesToHours<CanReceiveHoursUpdates> {
         private CanReceiveHoursUpdates observer;
 
         @Override

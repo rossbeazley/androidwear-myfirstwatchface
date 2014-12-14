@@ -7,6 +7,7 @@ import android.widget.TextView;
 import uk.co.rossbeazley.wear.Core;
 import uk.co.rossbeazley.wear.android.R;
 import uk.co.rossbeazley.wear.hours.CanBeObservedForChangesToHours;
+import uk.co.rossbeazley.wear.hours.CanReceiveHoursUpdates;
 import uk.co.rossbeazley.wear.hours.HoursPresenter;
 
 class AndroidHoursView implements HoursPresenter.HoursView {
@@ -23,7 +24,7 @@ class AndroidHoursView implements HoursPresenter.HoursView {
     }
 
     public static void createHoursView(Core core, View views) {
-        CanBeObservedForChangesToHours hours = core.canBeObservedForChangesToHours;
+        CanBeObservedForChangesToHours<CanReceiveHoursUpdates> hours = core.canBeObservedForChangesToHours;
         AndroidHoursView hoursView = new AndroidHoursView(views);
         new HoursPresenter(hours, hoursView);
     }
