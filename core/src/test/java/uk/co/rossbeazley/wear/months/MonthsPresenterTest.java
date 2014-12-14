@@ -29,8 +29,13 @@ public class MonthsPresenterTest {
         private CanReceiveMonthsUpdates canReceiveMonthUpdates;
 
         @Override
-        public void observe(CanReceiveMonthsUpdates canReceiveMonthsUpdates) {
+        public void addListener(CanReceiveMonthsUpdates canReceiveMonthsUpdates) {
             this.canReceiveMonthUpdates = canReceiveMonthsUpdates;
+        }
+
+        @Override
+        public void removeListener(CanReceiveMonthsUpdates canReceiveMonthsUpdates) {
+
         }
     }
 

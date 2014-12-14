@@ -26,7 +26,7 @@ public class MonthFromTickTockTest implements CanReceiveMonthsUpdates {
         Core core = new Core();
         aTimeWithNineMonths = Calendar.getInstance();
         aTimeWithNineMonths.set(Calendar.MONTH, Calendar.SEPTEMBER);
-        core.canBeObservedForChangesToMonths.observe(this);
+        core.canBeObservedForChangesToMonths.addListener(this);
         this.months = core.canBeTicked;
     }
 

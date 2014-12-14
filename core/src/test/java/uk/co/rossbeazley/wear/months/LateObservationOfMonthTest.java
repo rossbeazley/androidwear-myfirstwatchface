@@ -33,7 +33,7 @@ public class LateObservationOfMonthTest implements CanReceiveMonthsUpdates {
     @Test
     public void theOneWhereTheMonthUpdates() {
         months.tick(aTimeWithNineMonths);
-        core.canBeObservedForChangesToMonths.observe(this);
+        core.canBeObservedForChangesToMonths.addListener(this);
         assertThat(monthString,is("September"));
     }
 

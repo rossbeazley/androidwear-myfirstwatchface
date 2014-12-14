@@ -24,8 +24,12 @@ public class MonthsFromTick implements CanBeObservedForChangesToMonths, CanBeTic
     }
 
     @Override
-    public void observe(CanReceiveMonthsUpdates canReceiveMonthsUpdates) {
+    public void addListener(CanReceiveMonthsUpdates canReceiveMonthsUpdates) {
         announcer.addListener(canReceiveMonthsUpdates);
+    }
+
+    @Override
+    public void removeListener(CanReceiveMonthsUpdates canReceiveMonthsUpdates) {
     }
 
     @Override
