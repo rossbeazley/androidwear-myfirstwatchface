@@ -11,7 +11,7 @@ import uk.co.rossbeazley.wear.ticktock.CanBeTicked;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
-public class LateObservationOfDaysTest implements CanBeObservedForChangesToDays.CanReceiveDaysUpdates {
+public class LateObservationOfDaysTest implements CanReceiveDaysUpdates {
 
     String timeComponentString;
     private Calendar aTimeWithFirstDayOfMonth;

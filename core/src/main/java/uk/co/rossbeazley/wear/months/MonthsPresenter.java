@@ -5,7 +5,7 @@ package uk.co.rossbeazley.wear.months;
 */
 public class MonthsPresenter {
     public MonthsPresenter(CanBeObservedForChangesToMonths months, final MonthView view) {
-        months.observe(new CanBeObservedForChangesToMonths.CanReceiveMonthsUpdates() {
+        months.observe(new CanReceiveMonthsUpdates() {
             @Override
             public void monthsUpdate(Month month) {
                 view.showMonthString(month.toString());

@@ -5,7 +5,7 @@ package uk.co.rossbeazley.wear.days;
 */
 public class DaysPresenter {
     public DaysPresenter(CanBeObservedForChangesToDays days, final DaysView daysView) {
-        days.observe(new CanBeObservedForChangesToDays.CanReceiveDaysUpdates() {
+        days.observe(new CanReceiveDaysUpdates() {
             @Override
             public void daysUpdate(Day to) {
                 daysView.showDaysString(to.toOrdinalString());

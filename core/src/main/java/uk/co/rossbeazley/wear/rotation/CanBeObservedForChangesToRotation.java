@@ -6,7 +6,4 @@ package uk.co.rossbeazley.wear.rotation;
 public interface CanBeObservedForChangesToRotation {
     void observe(CanReceiveRotationUpdates canReceiveRotationUpdates);
 
-    interface CanReceiveRotationUpdates {
-        void rotationUpdate(Orientation to);
-    }
 }

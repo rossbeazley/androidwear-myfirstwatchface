@@ -7,6 +7,7 @@ import com.google.android.gms.wearable.Wearable;
 
 import uk.co.rossbeazley.wear.android.gsm.GoogleWearApiConnection;
 import uk.co.rossbeazley.wear.rotation.CanBeObservedForChangesToRotation;
+import uk.co.rossbeazley.wear.rotation.CanReceiveRotationUpdates;
 import uk.co.rossbeazley.wear.rotation.Orientation;
 
 class OrientationPersistence implements GoogleWearApiConnection.ConnectedApiClient {
@@ -20,7 +21,7 @@ class OrientationPersistence implements GoogleWearApiConnection.ConnectedApiClie
 
     @Override
     public void invoke(final GoogleApiClient gac) {
-        canBeObservedForChangesToRotation.observe(new CanBeObservedForChangesToRotation.CanReceiveRotationUpdates() {
+        canBeObservedForChangesToRotation.observe(new CanReceiveRotationUpdates() {
             @Override
             public void rotationUpdate(Orientation to) {
                 PutDataMapRequest dataMap = PutDataMapRequest.create("/" + rotation_path);

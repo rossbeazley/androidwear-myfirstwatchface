@@ -3,8 +3,6 @@ package uk.co.rossbeazley.wear.days;
 import java.util.Calendar;
 
 import uk.co.rossbeazley.wear.Announcer;
-import uk.co.rossbeazley.wear.days.CanBeObservedForChangesToDays;
-import uk.co.rossbeazley.wear.days.Day;
 import uk.co.rossbeazley.wear.ticktock.CanBeTicked;
 
 /**

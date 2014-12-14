@@ -6,7 +6,4 @@ package uk.co.rossbeazley.wear.months;
 public interface CanBeObservedForChangesToMonths {
     void observe(CanReceiveMonthsUpdates canReceiveMonthsUpdates);
 
-    interface CanReceiveMonthsUpdates {
-        void monthsUpdate(Month to);
-    }
 }

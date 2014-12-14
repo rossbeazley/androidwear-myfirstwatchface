@@ -1,6 +1,5 @@
 package uk.co.rossbeazley.wear.rotation;
 
-import org.junit.Before;
 import org.junit.Test;
 
 import uk.co.rossbeazley.wear.Core;
@@ -16,7 +15,7 @@ public class OrientationLateObservationTest {
     public void theOneWhereWeAreToldOrientationIsSouth() {
         Core core = new Core(Orientation.south());
         CanBeObservedForChangesToRotation rotation = core.canBeObservedForChangesToRotation;
-        rotation.observe(new CanBeObservedForChangesToRotation.CanReceiveRotationUpdates() {
+        rotation.observe(new CanReceiveRotationUpdates() {
             @Override
             public void rotationUpdate(Orientation to) {
                 degreesRotation = to.degrees();

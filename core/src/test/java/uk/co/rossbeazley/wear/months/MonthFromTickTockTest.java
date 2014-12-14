@@ -14,7 +14,7 @@ import static org.junit.Assert.assertThat;
 /**
  * Created by beazlr02 on 20/11/2014.
  */
-public class MonthFromTickTockTest implements CanBeObservedForChangesToMonths.CanReceiveMonthsUpdates {
+public class MonthFromTickTockTest implements CanReceiveMonthsUpdates {
 
 
     private CanBeTicked months;

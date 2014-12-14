@@ -12,7 +12,7 @@ import uk.co.rossbeazley.wear.ticktock.CanBeTicked;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
-public class LateObservationOfMinutesTest implements CanBeObservedForChangesToMinutes.CanReceiveMinutesUpdates {
+public class LateObservationOfMinutesTest implements CanReceiveMinutesUpdates {
 
     String timeComponentString;
     private Calendar aTimeWithNineMinutes;

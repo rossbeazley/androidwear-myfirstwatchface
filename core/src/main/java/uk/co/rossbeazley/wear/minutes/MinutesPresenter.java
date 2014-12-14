@@ -5,7 +5,7 @@ import uk.co.rossbeazley.wear.ui.Disposable;
 
 public class MinutesPresenter implements Disposable {
 
-    private final CanBeObservedForChangesToMinutes.CanReceiveMinutesUpdates updateView;
+    private final CanReceiveMinutesUpdates updateView;
     private final CanBeObservedForChangesToMinutes canBeObservedForChangesToMinutes;
 
     public interface MinutesView {
@@ -14,7 +14,7 @@ public class MinutesPresenter implements Disposable {
 
     public MinutesPresenter(final CanBeObservedForChangesToMinutes canBeObservedForChangesToMinutes, final MinutesView view) {
         this.canBeObservedForChangesToMinutes = canBeObservedForChangesToMinutes;
-        updateView = new CanBeObservedForChangesToMinutes.CanReceiveMinutesUpdates() {
+        updateView = new CanReceiveMinutesUpdates() {
             @Override
             public void minutesUpdate(Sexagesimal to) {
                 view.showMinutesString(to.base10String());

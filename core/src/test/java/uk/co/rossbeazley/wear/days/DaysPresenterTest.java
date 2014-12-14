@@ -7,7 +7,7 @@ import static org.junit.Assert.assertThat;
 
 public class DaysPresenterTest {
     private String dateString;
-    private CanBeObservedForChangesToDays.CanReceiveDaysUpdates daysChange;
+    private CanReceiveDaysUpdates daysChange;
 
     @Test
     public void theOneWhereTheDayUpdates() {

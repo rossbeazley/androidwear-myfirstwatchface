@@ -1,6 +1,5 @@
 package uk.co.rossbeazley.wear.rotation;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
 import uk.co.rossbeazley.wear.Core;
@@ -17,7 +16,7 @@ public class RotationRehydrationTest {
     public void createCoreAtRotation(Orientation orientation) {
         core = new Core(orientation);
         rotation = core.canBeObservedForChangesToRotation;
-        rotation.observe(new CanBeObservedForChangesToRotation.CanReceiveRotationUpdates() {
+        rotation.observe(new CanReceiveRotationUpdates() {
             @Override
             public void rotationUpdate(Orientation to) {
                 degreesRotation = to.degrees();
