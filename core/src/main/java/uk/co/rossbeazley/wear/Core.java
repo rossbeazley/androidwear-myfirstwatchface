@@ -22,7 +22,7 @@ public class Core {
     public final CanBeObservedForChangesToDays canBeObservedForChangesToDays;
     public final CanBeObservedForChangesToHours canBeObservedForChangesToHours;
     public final CanBeObserved<CanReceiveMinutesUpdates> canBeObservedForChangesToMinutes;
-    public final CanBeObserved<CanReceiveSecondsUpdates> canBeObserved;
+    public final CanBeObserved<CanReceiveSecondsUpdates> canBeObservedForChangesToSeconds;
 
     public final CanBeTicked canBeTicked;
 
@@ -43,7 +43,7 @@ public class Core {
 
         final Announcer<CanReceiveSecondsUpdates> to = Announcer.to(CanReceiveSecondsUpdates.class);
         seconds = new Seconds(to.announce());
-        canBeObserved = to;
+        canBeObservedForChangesToSeconds = to;
 
         minutes = new MinutesFromTick();
         canBeObservedForChangesToMinutes = minutes;

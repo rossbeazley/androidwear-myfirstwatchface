@@ -25,7 +25,7 @@ class AndroidSecondsView implements SecondsPresenter.SecondsView {
     }
 
     public static Disposable createSecondsView(Core core, View views) {
-        CanBeObserved<CanReceiveSecondsUpdates> seconds = core.canBeObserved;
+        CanBeObserved<CanReceiveSecondsUpdates> seconds = core.canBeObservedForChangesToSeconds;
         AndroidSecondsView secondsview = new AndroidSecondsView(views);
         return new SecondsPresenter(seconds, secondsview);
     }

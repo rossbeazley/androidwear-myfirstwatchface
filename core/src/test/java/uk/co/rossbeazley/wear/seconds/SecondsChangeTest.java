@@ -29,7 +29,7 @@ public class SecondsChangeTest implements CanReceiveSecondsUpdates {
     public void setUp() throws Exception {
         core = new Core();
         secondsToTick = core.canBeTicked;
-        core.canBeObserved.addListener(this);
+        core.canBeObservedForChangesToSeconds.addListener(this);
 
         aTimeWithNineSeconds = Calendar.getInstance();
         aTimeWithNineSeconds.set(Calendar.SECOND, 9);
@@ -65,7 +65,7 @@ public class SecondsChangeTest implements CanReceiveSecondsUpdates {
     public void theOneWhereWeStopObserving() {
         secondsToTick.tick(aTimeWithNineSeconds);
         timeComponentString = "RESET";
-        core.canBeObserved.removeListener(this);
+        core.canBeObservedForChangesToSeconds.removeListener(this);
         Calendar aDifferentTime = (Calendar) aTimeWithNineSeconds.clone();
         aDifferentTime.roll(Calendar.SECOND, true);
         secondsToTick.tick(aDifferentTime);
