@@ -4,7 +4,6 @@ import uk.co.rossbeazley.wear.days.CanBeObservedForChangesToDays;
 import uk.co.rossbeazley.wear.days.DaysFromTick;
 import uk.co.rossbeazley.wear.hours.CanBeObservedForChangesToHours;
 import uk.co.rossbeazley.wear.hours.HoursFromTick;
-import uk.co.rossbeazley.wear.minutes.CanBeObservedForChangesToMinutes;
 import uk.co.rossbeazley.wear.minutes.CanReceiveMinutesUpdates;
 import uk.co.rossbeazley.wear.minutes.MinutesFromTick;
 import uk.co.rossbeazley.wear.months.CanBeObservedForChangesToMonths;
@@ -22,7 +21,7 @@ public class Core {
     public final CanBeObservedForChangesToMonths canBeObservedForChangesToMonths;
     public final CanBeObservedForChangesToDays canBeObservedForChangesToDays;
     public final CanBeObservedForChangesToHours canBeObservedForChangesToHours;
-    public final CanBeObservedForChangesToMinutes<CanReceiveMinutesUpdates> canBeObservedForChangesToMinutes;
+    public final CanBeObserved<CanReceiveMinutesUpdates> canBeObservedForChangesToMinutes;
     public final CanBeObserved<CanReceiveSecondsUpdates> canBeObserved;
 
     public final CanBeTicked canBeTicked;

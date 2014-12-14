@@ -2,6 +2,7 @@ package uk.co.rossbeazley.wear.minutes;
 
 import org.junit.Test;
 
+import uk.co.rossbeazley.wear.CanBeObserved;
 import uk.co.rossbeazley.wear.Sexagesimal;
 
 import static org.hamcrest.Matchers.is;
@@ -18,7 +19,7 @@ public class MinutesPresenterTest {
         assertThat(view.timeComponentString, is("10"));
     }
 
-    private class Minutes implements CanBeObservedForChangesToMinutes<CanReceiveMinutesUpdates> {
+    private class Minutes implements CanBeObserved<CanReceiveMinutesUpdates> {
         private CanReceiveMinutesUpdates observer;
 
         @Override public void addListener(CanReceiveMinutesUpdates canReceiveSecondsUpdates) {

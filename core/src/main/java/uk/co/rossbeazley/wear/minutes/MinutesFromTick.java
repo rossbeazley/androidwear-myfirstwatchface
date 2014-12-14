@@ -3,10 +3,11 @@ package uk.co.rossbeazley.wear.minutes;
 import java.util.Calendar;
 
 import uk.co.rossbeazley.wear.Announcer;
+import uk.co.rossbeazley.wear.CanBeObserved;
 import uk.co.rossbeazley.wear.Sexagesimal;
 import uk.co.rossbeazley.wear.ticktock.CanBeTicked;
 
-public class MinutesFromTick implements CanBeObservedForChangesToMinutes<CanReceiveMinutesUpdates>, CanBeTicked {
+public class MinutesFromTick implements CanBeObserved<CanReceiveMinutesUpdates>, CanBeTicked {
     private final Announcer<CanReceiveMinutesUpdates> canReceiveMinutesUpdates;
     private Sexagesimal current;
 

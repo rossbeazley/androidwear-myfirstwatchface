@@ -3,9 +3,9 @@ package uk.co.rossbeazley.wear.android.ui;
 import android.view.View;
 import android.widget.TextView;
 
+import uk.co.rossbeazley.wear.CanBeObserved;
 import uk.co.rossbeazley.wear.Core;
 import uk.co.rossbeazley.wear.android.R;
-import uk.co.rossbeazley.wear.minutes.CanBeObservedForChangesToMinutes;
 import uk.co.rossbeazley.wear.minutes.CanReceiveMinutesUpdates;
 import uk.co.rossbeazley.wear.minutes.MinutesPresenter;
 
@@ -23,7 +23,7 @@ class AndroidMinutesView implements MinutesPresenter.MinutesView {
     }
 
     public static void createMinutesView(Core core, View views) {
-        CanBeObservedForChangesToMinutes<CanReceiveMinutesUpdates> minutes = core.canBeObservedForChangesToMinutes;
+        CanBeObserved<CanReceiveMinutesUpdates> minutes = core.canBeObservedForChangesToMinutes;
         MinutesPresenter.MinutesView minutesView = new AndroidMinutesView(views);
         new MinutesPresenter(minutes, minutesView);
     }
