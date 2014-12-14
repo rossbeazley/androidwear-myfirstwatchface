@@ -1,7 +1,7 @@
 package uk.co.rossbeazley.wear.days;
 
-public interface CanBeObservedForChangesToDays<T> {
-    void addListener(T canReceiveSecondsUpdates);
-    void removeListener(T canReceiveSecondsUpdates);
+import uk.co.rossbeazley.wear.CanBeObserved;
+
+public interface CanBeObservedForChangesToDays<T> extends CanBeObserved<T>{
 
 }
