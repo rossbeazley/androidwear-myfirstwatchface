@@ -7,29 +7,19 @@ import uk.co.rossbeazley.wear.CanBeObserved;
 import uk.co.rossbeazley.wear.HourBase24;
 import uk.co.rossbeazley.wear.ticktock.CanBeTicked;
 
-public class HoursFromTick implements CanBeObserved<CanReceiveHoursUpdates>,CanBeTicked {
+public class HoursFromTick implements CanBeTicked {
 
     final private Announcer<CanReceiveHoursUpdates> announcer;
     private HourBase24 current;
 
-    public HoursFromTick() {
-        announcer = Announcer.to(CanReceiveHoursUpdates.class);
+    public HoursFromTick(Announcer<CanReceiveHoursUpdates> canReceiveHoursUpdatesAnnouncer) {
+        announcer = canReceiveHoursUpdatesAnnouncer;
         announcer.registerProducer(new Announcer.Producer<CanReceiveHoursUpdates>() {
             @Override
             public void observed(CanReceiveHoursUpdates observer) {
                 if(current!=null) observer.hoursUpdate(current);
             }
         });
-    }
-
-    @Override
-    public void addListener(CanReceiveHoursUpdates canReceiveHoursUpdates) {
-        announcer.addListener(canReceiveHoursUpdates);
-    }
-
-    @Override
-    public void removeListener(CanReceiveHoursUpdates canReceiveHoursUpdates) {
-
     }
 
     @Override
