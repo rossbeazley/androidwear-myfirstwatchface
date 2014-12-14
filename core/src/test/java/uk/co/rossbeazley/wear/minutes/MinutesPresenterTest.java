@@ -21,12 +21,12 @@ public class MinutesPresenterTest {
     private class Minutes implements CanBeObservedForChangesToMinutes {
         private CanReceiveMinutesUpdates observer;
 
-        @Override public void observe(CanReceiveMinutesUpdates canReceiveSecondsUpdates) {
+        @Override public void addListener(CanReceiveMinutesUpdates canReceiveSecondsUpdates) {
             observer = canReceiveSecondsUpdates;
         }
 
         @Override
-        public void unObserve(CanReceiveMinutesUpdates canReceiveSecondsUpdates) {
+        public void removeListener(CanReceiveMinutesUpdates canReceiveSecondsUpdates) {
 
         }
     }

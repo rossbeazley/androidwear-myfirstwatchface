@@ -20,12 +20,12 @@ public class MinutesPresenter implements Disposable {
                 view.showMinutesString(to.base10String());
             }
         };
-        canBeObservedForChangesToMinutes.observe(updateView);
+        canBeObservedForChangesToMinutes.addListener(updateView);
     }
 
     @Override
     public void dispose() {
-        canBeObservedForChangesToMinutes.unObserve(updateView);
+        canBeObservedForChangesToMinutes.removeListener(updateView);
     }
 
 }

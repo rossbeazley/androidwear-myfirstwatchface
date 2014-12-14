@@ -32,7 +32,7 @@ public class LateObservationOfMinutesTest implements CanReceiveMinutesUpdates {
     @Test
     public void theOneWhereTheMinutesUpdateBeforeObservation() {
         minutes.tick(aTimeWithNineMinutes);
-        core.canBeObservedForChangesToMinutes.observe(this);
+        core.canBeObservedForChangesToMinutes.addListener(this);
         assertThat(timeComponentString, is("09"));
     }
 

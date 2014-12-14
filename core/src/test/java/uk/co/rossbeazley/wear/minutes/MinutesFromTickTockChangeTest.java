@@ -25,7 +25,7 @@ public class MinutesFromTickTockChangeTest implements CanReceiveMinutesUpdates {
 
         aTimeWithNineMinutes = Calendar.getInstance();
         aTimeWithNineMinutes.set(Calendar.MINUTE, 9);
-        core.canBeObservedForChangesToMinutes.observe(this);
+        core.canBeObservedForChangesToMinutes.addListener(this);
         this.minutes = core.canBeTicked;
     }
 

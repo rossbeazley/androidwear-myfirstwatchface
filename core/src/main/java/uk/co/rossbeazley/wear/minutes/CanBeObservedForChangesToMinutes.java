@@ -1,11 +1,10 @@
 package uk.co.rossbeazley.wear.minutes;
 
-/**
-* Created by rdlb on 15/11/14.
-*/
-public interface CanBeObservedForChangesToMinutes {
-    void observe(CanReceiveMinutesUpdates canReceiveMinutesUpdates);
+import uk.co.rossbeazley.wear.CanBeObserved;
 
-    void unObserve(CanReceiveMinutesUpdates canReceiveSecondsUpdates);
+public interface CanBeObservedForChangesToMinutes extends CanBeObserved<CanReceiveMinutesUpdates> {
+    void addListener(CanReceiveMinutesUpdates canReceiveMinutesUpdates);
+
+    void removeListener(CanReceiveMinutesUpdates canReceiveSecondsUpdates);
 
 }

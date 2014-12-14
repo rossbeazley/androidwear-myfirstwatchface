@@ -22,12 +22,12 @@ public class MinutesFromTick implements CanBeObservedForChangesToMinutes, CanBeT
     }
 
     @Override
-    public void observe(CanReceiveMinutesUpdates canReceiveMinutesUpdates) {
+    public void addListener(CanReceiveMinutesUpdates canReceiveMinutesUpdates) {
         this.canReceiveMinutesUpdates.addListener(canReceiveMinutesUpdates);
     }
 
     @Override
-    public void unObserve(CanReceiveMinutesUpdates canReceiveSecondsUpdates) {
+    public void removeListener(CanReceiveMinutesUpdates canReceiveSecondsUpdates) {
 
     }
 
