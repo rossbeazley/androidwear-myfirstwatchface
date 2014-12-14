@@ -24,7 +24,7 @@ public class DaysFromTickTockTest implements CanReceiveDaysUpdates {
 
         aTimeWithFirstDayOfMonth = Calendar.getInstance();
         aTimeWithFirstDayOfMonth.set(Calendar.DAY_OF_MONTH, 1);
-        core.canBeObservedForChangesToDays.observe(this);
+        core.canBeObservedForChangesToDays.addListener(this);
         this.days = core.canBeTicked;
     }
 

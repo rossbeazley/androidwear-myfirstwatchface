@@ -24,8 +24,13 @@ public class DaysFromTick implements CanBeObservedForChangesToDays, CanBeTicked 
     }
 
     @Override
-    public void observe(CanReceiveDaysUpdates canReceiveSecondsUpdates) {
+    public void addListener(CanReceiveDaysUpdates canReceiveSecondsUpdates) {
         announcer.addListener(canReceiveSecondsUpdates);
+    }
+
+    @Override
+    public void removeListener(CanReceiveDaysUpdates canReceiveSecondsUpdates) {
+
     }
 
     @Override

@@ -20,8 +20,13 @@ public class DaysPresenterTest {
 
         CanBeObservedForChangesToDays days = new CanBeObservedForChangesToDays() {
             @Override
-            public void observe(CanReceiveDaysUpdates canReceiveDaysUpdates) {
+            public void addListener(CanReceiveDaysUpdates canReceiveDaysUpdates) {
                 DaysPresenterTest.this.daysChange = canReceiveDaysUpdates;
+            }
+
+            @Override
+            public void removeListener(CanReceiveDaysUpdates canReceiveSecondsUpdates) {
+
             }
         };
 

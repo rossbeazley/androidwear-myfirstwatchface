@@ -30,7 +30,7 @@ public class LateObservationOfDaysTest implements CanReceiveDaysUpdates {
     @Test
     public void theOneWhereTheDayChangesBeforeObservation() {
         days.tick(aTimeWithFirstDayOfMonth);
-        core.canBeObservedForChangesToDays.observe(this);
+        core.canBeObservedForChangesToDays.addListener(this);
         assertThat(timeComponentString,is("1st"));
     }
 
