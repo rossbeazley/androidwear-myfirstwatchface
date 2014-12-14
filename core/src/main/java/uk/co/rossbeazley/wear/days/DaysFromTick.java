@@ -8,7 +8,7 @@ import uk.co.rossbeazley.wear.ticktock.CanBeTicked;
 /**
 * Created by beazlr02 on 20/11/2014.
 */
-public class DaysFromTick implements CanBeObservedForChangesToDays, CanBeTicked {
+public class DaysFromTick implements CanBeObservedForChangesToDays<CanReceiveDaysUpdates>, CanBeTicked {
 
     private final Announcer<CanReceiveDaysUpdates> announcer;
     private Day current;

@@ -7,6 +7,7 @@ import android.widget.TextView;
 import uk.co.rossbeazley.wear.Core;
 import uk.co.rossbeazley.wear.android.R;
 import uk.co.rossbeazley.wear.days.CanBeObservedForChangesToDays;
+import uk.co.rossbeazley.wear.days.CanReceiveDaysUpdates;
 import uk.co.rossbeazley.wear.days.DaysPresenter;
 import uk.co.rossbeazley.wear.months.MonthsPresenter;
 
@@ -38,7 +39,7 @@ class AndroidDayMonthView implements DaysPresenter.DaysView, MonthsPresenter.Mon
     }
 
     public static void createMonthDaysView(Core core, View view) {
-        CanBeObservedForChangesToDays days = core.canBeObservedForChangesToDays;
+        CanBeObservedForChangesToDays<CanReceiveDaysUpdates> days = core.canBeObservedForChangesToDays;
         AndroidDayMonthView androidDayMonthView = new AndroidDayMonthView(view);
         new DaysPresenter(days, androidDayMonthView);
         new MonthsPresenter(core.canBeObservedForChangesToMonths, androidDayMonthView);
