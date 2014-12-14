@@ -4,7 +4,7 @@ package uk.co.rossbeazley.wear.months;
 * Created by beazlr02 on 25/11/2014.
 */
 public class MonthsPresenter {
-    public MonthsPresenter(CanBeObservedForChangesToMonths months, final MonthView view) {
+    public MonthsPresenter(CanBeObservedForChangesToMonths<CanReceiveMonthsUpdates> months, final MonthView view) {
         months.addListener(new CanReceiveMonthsUpdates() {
             @Override
             public void monthsUpdate(Month month) {

@@ -8,7 +8,7 @@ import uk.co.rossbeazley.wear.ticktock.CanBeTicked;
 /**
 * Created by beazlr02 on 20/11/2014.
 */
-public class MonthsFromTick implements CanBeObservedForChangesToMonths, CanBeTicked {
+public class MonthsFromTick implements CanBeObservedForChangesToMonths<CanReceiveMonthsUpdates>, CanBeTicked {
 
     final private Announcer<CanReceiveMonthsUpdates> announcer;
     private Month current;

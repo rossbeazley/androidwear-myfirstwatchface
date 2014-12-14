@@ -25,7 +25,7 @@ public class MonthsPresenterTest {
     }
 
 
-    private static class FakeMonths implements CanBeObservedForChangesToMonths {
+    private static class FakeMonths implements CanBeObservedForChangesToMonths<CanReceiveMonthsUpdates> {
         private CanReceiveMonthsUpdates canReceiveMonthUpdates;
 
         @Override
