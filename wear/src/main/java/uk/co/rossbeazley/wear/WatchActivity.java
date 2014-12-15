@@ -8,5 +8,12 @@ public class WatchActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_watch_face);
+        //createFragmentNavigationFramework();
+    }
+
+    private void createFragmentNavigationFramework() {
+        getFragmentManager()
+                .beginTransaction()
+                .replace(R.layout.activity_my_watch_face, new WatchFaceView());
     }
 }

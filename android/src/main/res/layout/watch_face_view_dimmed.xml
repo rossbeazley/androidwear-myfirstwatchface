@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<uk.co.rossbeazley.wear.android.ui.WatchFaceViewDimmed xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/black"
+    android:id="@+id/watch_face_view">
+
+    <TextView
+        android:id="@+id/date"
+        android:textSize="16sp"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/watch_time_container"
+        android:textColor="#aaaaaa"
+        android:gravity="center"
+        tools:text="29th December"
+        />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/watch_time_container"
+        android:layout_centerInParent="true"
+        >
+
+    <TextView
+        android:id="@+id/watch_time"
+        android:textSize="80sp"
+        android:fontFamily="sans-serif-thin"
+        android:layout_weight="0.5"
+        android:textColor="#aaaaaa"
+        android:layout_height="wrap_content"
+        android:layout_width="-1dp"
+        android:gravity="end"
+        tools:text="11"
+        />
+
+    <TextView
+        android:id="@+id/watch_time_mins"
+        android:textSize="80sp"
+        android:fontFamily="sans-serif-thin"
+        android:layout_weight="0.5"
+        android:textColor="#aaaaaa"
+        android:layout_height="wrap_content"
+        android:layout_width="-1dp"
+        android:gravity="start"
+        tools:text="23"
+        />
+
+    </LinearLayout>
+
+
+</uk.co.rossbeazley.wear.android.ui.WatchFaceViewDimmed>
