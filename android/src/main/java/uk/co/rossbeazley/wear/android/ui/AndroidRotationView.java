@@ -7,6 +7,7 @@ import android.view.View;
 import uk.co.rossbeazley.wear.Core;
 import uk.co.rossbeazley.wear.android.R;
 import uk.co.rossbeazley.wear.rotation.RotationPresenter;
+import uk.co.rossbeazley.wear.ui.Disposable;
 
 class AndroidRotationView implements RotationPresenter.RotationView {
     private final View inflatedViews;
@@ -26,8 +27,8 @@ class AndroidRotationView implements RotationPresenter.RotationView {
         });
     }
 
-    public static void createRotationView(Core core, View inflatedViews) {
+    public static Disposable createRotationView(Core core, View inflatedViews) {
         AndroidRotationView view = new AndroidRotationView(inflatedViews);
-        new RotationPresenter(view, core.canBeObservedForChangesToRotation);
+        return new RotationPresenter(view, core.canBeObservedForChangesToRotation);
     }
 }

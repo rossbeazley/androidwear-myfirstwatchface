@@ -9,6 +9,7 @@ import uk.co.rossbeazley.wear.Core;
 import uk.co.rossbeazley.wear.android.R;
 import uk.co.rossbeazley.wear.hours.CanReceiveHoursUpdates;
 import uk.co.rossbeazley.wear.hours.HoursPresenter;
+import uk.co.rossbeazley.wear.ui.Disposable;
 
 class AndroidHoursView implements HoursPresenter.HoursView {
     private SetTextOnMainThread setTextOnMainThread;
@@ -23,9 +24,9 @@ class AndroidHoursView implements HoursPresenter.HoursView {
         setTextOnMainThread.to(newHour);
     }
 
-    public static void createHoursView(Core core, View views) {
+    public static Disposable createHoursView(Core core, View views) {
         CanBeObserved<CanReceiveHoursUpdates> hours = core.canBeObservedForChangesToHours;
         AndroidHoursView hoursView = new AndroidHoursView(views);
-        new HoursPresenter(hours, hoursView);
+        return new HoursPresenter(hours, hoursView);
     }
 }

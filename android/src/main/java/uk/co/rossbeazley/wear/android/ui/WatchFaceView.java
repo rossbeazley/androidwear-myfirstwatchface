@@ -31,10 +31,10 @@ public class WatchFaceView extends RelativeLayout {
 
         Core core = Core.instance();
         disposables.addListener(AndroidSecondsView.createSecondsView(core, this));
-        AndroidMinutesView.createMinutesView(core, this);
-        AndroidHoursView.createHoursView(core, this);
-        AndroidDayMonthView.createMonthDaysView(core, this);
-        AndroidRotationView.createRotationView(core, this);
+        disposables.addListener(AndroidMinutesView.createMinutesView(core, this));
+        disposables.addListener(AndroidHoursView.createHoursView(core, this));
+        disposables.addListener(AndroidDayMonthView.createMonthDaysView(core, this));
+        disposables.addListener(AndroidRotationView.createRotationView(core, this));
     }
 
     @Override

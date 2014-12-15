@@ -8,6 +8,7 @@ import uk.co.rossbeazley.wear.Core;
 import uk.co.rossbeazley.wear.android.R;
 import uk.co.rossbeazley.wear.minutes.CanReceiveMinutesUpdates;
 import uk.co.rossbeazley.wear.minutes.MinutesPresenter;
+import uk.co.rossbeazley.wear.ui.Disposable;
 
 class AndroidMinutesView implements MinutesPresenter.MinutesView {
     private SetTextOnMainThread setTextOnMainThread;
@@ -22,9 +23,9 @@ class AndroidMinutesView implements MinutesPresenter.MinutesView {
         setTextOnMainThread.to(minuteString);
     }
 
-    public static void createMinutesView(Core core, View views) {
+    public static Disposable createMinutesView(Core core, View views) {
         CanBeObserved<CanReceiveMinutesUpdates> minutes = core.canBeObservedForChangesToMinutes;
         MinutesPresenter.MinutesView minutesView = new AndroidMinutesView(views);
-        new MinutesPresenter(minutes, minutesView);
+        return new MinutesPresenter(minutes, minutesView);
     }
 }

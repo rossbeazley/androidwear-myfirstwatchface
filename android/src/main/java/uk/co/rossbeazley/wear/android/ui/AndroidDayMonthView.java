@@ -10,6 +10,7 @@ import uk.co.rossbeazley.wear.android.R;
 import uk.co.rossbeazley.wear.days.CanReceiveDaysUpdates;
 import uk.co.rossbeazley.wear.days.DaysPresenter;
 import uk.co.rossbeazley.wear.months.MonthsPresenter;
+import uk.co.rossbeazley.wear.ui.Disposable;
 
 class AndroidDayMonthView implements DaysPresenter.DaysView, MonthsPresenter.MonthView {
 
@@ -38,10 +39,17 @@ class AndroidDayMonthView implements DaysPresenter.DaysView, MonthsPresenter.Mon
         update();
     }
 
-    public static void createMonthDaysView(Core core, View view) {
+    public static Disposable createMonthDaysView(Core core, View view) {
         CanBeObserved<CanReceiveDaysUpdates> days = core.canBeObservedForChangesToDays;
         AndroidDayMonthView androidDayMonthView = new AndroidDayMonthView(view);
-        new DaysPresenter(days, androidDayMonthView);
-        new MonthsPresenter(core.canBeObservedForChangesToMonths, androidDayMonthView);
+        final DaysPresenter dp = new DaysPresenter(days, androidDayMonthView);
+        final MonthsPresenter mp = new MonthsPresenter(core.canBeObservedForChangesToMonths, androidDayMonthView);
+        return new Disposable() {
+            @Override
+            public void dispose() {
+                dp.dispose();
+                mp.dispose();
+            }
+        };
     }
 }
