@@ -6,7 +6,6 @@ import org.junit.Test;
 import java.util.Calendar;
 
 import uk.co.rossbeazley.wear.Core;
-import uk.co.rossbeazley.wear.HourBase24;
 import uk.co.rossbeazley.wear.ticktock.CanBeTicked;
 
 import static org.hamcrest.Matchers.is;

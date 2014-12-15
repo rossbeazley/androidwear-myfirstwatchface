@@ -3,8 +3,6 @@ package uk.co.rossbeazley.wear.hours;
 import java.util.Calendar;
 
 import uk.co.rossbeazley.wear.Announcer;
-import uk.co.rossbeazley.wear.CanBeObserved;
-import uk.co.rossbeazley.wear.HourBase24;
 import uk.co.rossbeazley.wear.ticktock.CanBeTicked;
 
 public class HoursFromTick implements CanBeTicked {
