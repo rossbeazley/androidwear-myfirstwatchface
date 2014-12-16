@@ -1,4 +1,4 @@
-package com.examples.myfirstwatchface;
+package uk.co.rossbeazley.wear.android.ui;
 
 public interface WatchFace {
     /**

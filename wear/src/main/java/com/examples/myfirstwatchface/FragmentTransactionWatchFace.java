@@ -3,6 +3,8 @@ package com.examples.myfirstwatchface;
 import android.app.Fragment;
 import android.app.FragmentManager;
 
+import uk.co.rossbeazley.wear.android.ui.WatchFace;
+
 class FragmentTransactionWatchFace implements WatchFace {
     private final FragmentManager fragmentManager;
 
