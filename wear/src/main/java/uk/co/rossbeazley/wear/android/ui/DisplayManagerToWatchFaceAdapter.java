@@ -3,20 +3,19 @@ package uk.co.rossbeazley.wear.android.ui;
 import android.hardware.display.DisplayManager;
 import android.view.Display;
 
-import uk.co.rossbeazley.wear.android.ui.WatchFace;
-
 public class DisplayManagerToWatchFaceAdapter implements DisplayManager.DisplayListener {
-    private final WatchFace watchFace;
+    private final WatchFaceUINavigation watchFaceUINavigation;
     private final DisplayManager displayManager;
 
-    public DisplayManagerToWatchFaceAdapter(WatchFace watchFace, DisplayManager displayManager) {
-        this.watchFace = watchFace;
+    public DisplayManagerToWatchFaceAdapter(WatchFaceUINavigation watchFaceUINavigation, DisplayManager displayManager) {
+        this.watchFaceUINavigation = watchFaceUINavigation;
         this.displayManager = displayManager;
+        this.displayManager.registerDisplayListener(this, null);
     }
 
     @Override
     public void onDisplayRemoved(int displayId) {
-        this.watchFace.removed();
+        this.watchFaceUINavigation.removed();
     }
 
     @Override
@@ -28,16 +27,20 @@ public class DisplayManagerToWatchFaceAdapter implements DisplayManager.DisplayL
     public void onDisplayChanged(int displayId) {
         switch(this.displayManager.getDisplay(displayId).getState()){
             case Display.STATE_DOZING:
-                this.watchFace.screenDim();
+                this.watchFaceUINavigation.screenDim();
                 break;
             case Display.STATE_OFF:
-                this.watchFace.screenOff();
+                this.watchFaceUINavigation.screenOff();
                 break;
             default:
                 //  Not really sure what to so about Display.STATE_UNKNOWN, so
                 //  we'll treat it as if the screen is normal.
-                this.watchFace.screenAwake();
+                this.watchFaceUINavigation.screenAwake();
                 break;
         }
+    }
+
+    public void tearDown() {
+        this.displayManager.unregisterDisplayListener(this);
     }
 }

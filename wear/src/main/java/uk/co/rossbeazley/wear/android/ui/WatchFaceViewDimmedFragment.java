@@ -9,11 +9,11 @@ import android.view.ViewGroup;
 
 import uk.co.rossbeazley.wear.R;
 
-public class WatchFaceViewActive extends Fragment {
+public class WatchFaceViewDimmedFragment extends Fragment {
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.activity_my_watch_face,container,false);
+        return inflater.inflate(R.layout.watch_face_dimmed,container,false);
     }
 }

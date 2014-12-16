@@ -7,12 +7,12 @@ import android.os.Bundle;
 
 import uk.co.rossbeazley.wear.R;
 import uk.co.rossbeazley.wear.android.ui.DisplayManagerToWatchFaceAdapter;
-import uk.co.rossbeazley.wear.android.ui.FragmentTransactionWatchFace;
+import uk.co.rossbeazley.wear.android.ui.FragmentTransactionWatchFaceUINavigation;
 
 
 public class MyWatchFaceActivity extends Activity {
 
-    private FragmentTransactionWatchFace watchFace;
+    private FragmentTransactionWatchFaceUINavigation watchFace;
     private DisplayManagerToWatchFaceAdapter displayListener;
     private DisplayManager displayManager;
 
@@ -23,7 +23,7 @@ public class MyWatchFaceActivity extends Activity {
         displayManager = (DisplayManager) getSystemService(Context.DISPLAY_SERVICE);
         displayListener = new DisplayManagerToWatchFaceAdapter(watchFace,displayManager);
         displayManager.registerDisplayListener(displayListener, null);
-        watchFace = new FragmentTransactionWatchFace(getFragmentManager());
+        watchFace = new FragmentTransactionWatchFaceUINavigation(getFragmentManager());
 
         setContentView(R.layout.activity_my_watch_face);
     }

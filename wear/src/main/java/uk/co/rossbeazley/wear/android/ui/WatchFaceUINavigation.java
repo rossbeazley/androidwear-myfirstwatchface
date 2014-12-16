@@ -1,6 +1,6 @@
 package uk.co.rossbeazley.wear.android.ui;
 
-public interface WatchFace {
+public interface WatchFaceUINavigation {
     /**
      * Used to detect when the watch is dimming.<br/>
      * Remember to make gray-scale versions of your watch face so they won't burn
