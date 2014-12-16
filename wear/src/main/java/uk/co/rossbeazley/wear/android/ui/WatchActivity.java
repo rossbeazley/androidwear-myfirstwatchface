@@ -16,6 +16,6 @@ public class WatchActivity extends Activity {
     private void createFragmentNavigationFramework() {
         getFragmentManager()
                 .beginTransaction()
-                .replace(R.layout.activity_my_watch_face, new WatchFaceView());
+                .replace(R.layout.activity_my_watch_face, new WatchFaceViewActive());
     }
 }

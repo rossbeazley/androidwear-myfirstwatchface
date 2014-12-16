@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 
 import uk.co.rossbeazley.wear.R;
 
-public class WatchFaceView extends Fragment {
+public class WatchFaceViewActive extends Fragment {
 
     @Nullable
     @Override
