@@ -5,7 +5,9 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:weightSum="1"
-    android:background="@android:color/white">
+    android:background="@android:color/white"
+    android:id="@+id/rotate_container"
+    >
 
 
     <TextView

@@ -40,7 +40,7 @@ public class Rotate extends Activity {
 
     private void createView() {
         setContentView(R.layout.roate);
-        findViewById(R.id.button2).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.rotate_container).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Rotate.this.nodes.sendMessage();
