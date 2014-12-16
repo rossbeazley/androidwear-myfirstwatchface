@@ -27,14 +27,17 @@ public class DisplayManagerToWatchFaceAdapter implements DisplayManager.DisplayL
     public void onDisplayChanged(int displayId) {
         switch(this.displayManager.getDisplay(displayId).getState()){
             case Display.STATE_DOZING:
+                System.out.println("============== SCREEN DIM");
                 this.watchFaceUINavigation.screenDim();
                 break;
             case Display.STATE_OFF:
+                System.out.println("============== SCREEN OFF");
                 this.watchFaceUINavigation.screenOff();
                 break;
             default:
                 //  Not really sure what to so about Display.STATE_UNKNOWN, so
                 //  we'll treat it as if the screen is normal.
+                System.out.println("============== SCREEN AWAKE");
                 this.watchFaceUINavigation.screenAwake();
                 break;
         }

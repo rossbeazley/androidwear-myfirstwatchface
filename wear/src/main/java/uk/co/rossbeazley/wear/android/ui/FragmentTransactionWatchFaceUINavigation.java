@@ -36,4 +36,11 @@ public class FragmentTransactionWatchFaceUINavigation implements WatchFaceUINavi
     public void screenOff(){
         showFragment(new WatchFaceViewDimmedFragment());
     }
+
+    public void defaultState() {
+        this.fragmentManager
+                .beginTransaction()
+                .add(R.id.watch_container, new WatchFaceViewActiveFragment())
+                .commit();
+    }
 }
