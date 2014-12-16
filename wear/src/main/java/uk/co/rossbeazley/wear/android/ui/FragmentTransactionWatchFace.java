@@ -1,11 +1,11 @@
-package com.examples.myfirstwatchface;
+package uk.co.rossbeazley.wear.android.ui;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
 
 import uk.co.rossbeazley.wear.android.ui.WatchFace;
 
-class FragmentTransactionWatchFace implements WatchFace {
+public class FragmentTransactionWatchFace implements WatchFace {
     private final FragmentManager fragmentManager;
 
     public FragmentTransactionWatchFace(FragmentManager fragmentManager) {

@@ -1,11 +1,11 @@
-package com.examples.myfirstwatchface;
+package uk.co.rossbeazley.wear.android.ui;
 
 import android.hardware.display.DisplayManager;
 import android.view.Display;
 
 import uk.co.rossbeazley.wear.android.ui.WatchFace;
 
-class DisplayManagerToWatchFaceAdapter implements DisplayManager.DisplayListener {
+public class DisplayManagerToWatchFaceAdapter implements DisplayManager.DisplayListener {
     private final WatchFace watchFace;
     private final DisplayManager displayManager;
 

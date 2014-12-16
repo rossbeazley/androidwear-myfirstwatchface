@@ -6,6 +6,8 @@ import android.hardware.display.DisplayManager;
 import android.os.Bundle;
 
 import uk.co.rossbeazley.wear.R;
+import uk.co.rossbeazley.wear.android.ui.DisplayManagerToWatchFaceAdapter;
+import uk.co.rossbeazley.wear.android.ui.FragmentTransactionWatchFace;
 
 
 public class MyWatchFaceActivity extends Activity {
