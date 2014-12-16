@@ -1,4 +1,4 @@
-package uk.co.rossbeazley.wear;
+package uk.co.rossbeazley.wear.android.ui;
 
 import android.app.Fragment;
 import android.os.Bundle;
@@ -7,11 +7,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class WatchFaceView extends Fragment {
+import uk.co.rossbeazley.wear.R;
+
+public class WatchFaceViewDimmed extends Fragment {
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.activity_my_watch_face,container,false);
+        return inflater.inflate(R.layout.watch_face_dimmed,container,false);
     }
 }

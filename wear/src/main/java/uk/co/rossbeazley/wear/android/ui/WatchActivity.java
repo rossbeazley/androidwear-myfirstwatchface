@@ -1,7 +1,9 @@
-package uk.co.rossbeazley.wear;
+package uk.co.rossbeazley.wear.android.ui;
 
 import android.app.Activity;
 import android.os.Bundle;
+
+import uk.co.rossbeazley.wear.*;
 
 public class WatchActivity extends Activity {
     @Override
