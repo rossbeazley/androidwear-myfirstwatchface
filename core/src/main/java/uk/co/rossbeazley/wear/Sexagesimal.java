@@ -26,11 +26,4 @@ public class Sexagesimal {
         return obj != null && ((Sexagesimal) obj).value == value;
     }
 
-    public Sexagesimal increment() {
-        return Sexagesimal.fromBase10( value+1 );
-    }
-
-    public boolean isLessThan(Sexagesimal other) {
-        return value < other.value;
-    }
 }

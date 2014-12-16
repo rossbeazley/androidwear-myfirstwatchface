@@ -1,4 +1,4 @@
-package uk.co.rossbeazley.wear;
+package uk.co.rossbeazley.wear.hours;
 
 import java.text.DecimalFormat;
 
