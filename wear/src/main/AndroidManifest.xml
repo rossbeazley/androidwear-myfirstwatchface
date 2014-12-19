@@ -6,7 +6,7 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/ic_launcher"
+        android:icon="@drawable/watchface_preview"
         android:label="@string/app_name"
         android:theme="@android:style/Theme.DeviceDefault"
         android:name="uk.co.rossbeazley.App">
@@ -18,7 +18,7 @@
             android:allowEmbedded="true"
             android:label="@string/app_name"
             android:screenOrientation="portrait">
-            <meta-data android:name="com.google.android.clockwork.home.preview" android:resource="@drawable/ic_launcher" />
+            <meta-data android:name="com.google.android.clockwork.home.preview" android:resource="@drawable/watchface_preview" />
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="com.google.android.clockwork.home.category.HOME_BACKGROUND" />
