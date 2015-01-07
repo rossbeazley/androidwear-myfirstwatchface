@@ -11,8 +11,7 @@
 
 
         <activity
-            android:name=".Rotate"
-            android:allowEmbedded="true" >
+            android:name=".Rotate">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
