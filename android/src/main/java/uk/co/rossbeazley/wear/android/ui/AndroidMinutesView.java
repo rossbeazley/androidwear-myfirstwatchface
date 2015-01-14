@@ -12,15 +12,16 @@ import uk.co.rossbeazley.wear.ui.Disposable;
 
 class AndroidMinutesView implements MinutesPresenter.MinutesView {
     private SetTextOnMainThread setTextOnMainThread;
+    public final TextView textView;
 
     public AndroidMinutesView(View view) {
-        TextView textView = (TextView) view.findViewById(R.id.watch_time_mins);
-        setTextOnMainThread = new SetTextOnMainThread(textView);
+        textView = (TextView) view.findViewById(R.id.watch_time_mins);
+        setTextOnMainThread = new SetTextOnMainThread();
     }
 
     @Override
     public void showMinutesString(final String minuteString) {
-        setTextOnMainThread.to(minuteString);
+        setTextOnMainThread.updateTextView(minuteString, textView);
     }
 
     public static Disposable createMinutesView(Core core, View views) {

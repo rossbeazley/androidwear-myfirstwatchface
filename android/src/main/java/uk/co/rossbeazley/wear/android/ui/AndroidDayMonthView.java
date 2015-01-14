@@ -17,10 +17,11 @@ class AndroidDayMonthView implements DaysPresenter.DaysView, MonthsPresenter.Mon
     private final SetTextOnMainThread setTextOnMainThread;
     private String days;
     private String months;
+    public final TextView textView;
 
     public AndroidDayMonthView(View inflatedViews) {
-        TextView textView = (TextView) inflatedViews.findViewById(R.id.date);
-        setTextOnMainThread = new SetTextOnMainThread(textView);
+        textView = (TextView) inflatedViews.findViewById(R.id.date);
+        setTextOnMainThread = new SetTextOnMainThread();
     }
 
     @Override
@@ -30,7 +31,7 @@ class AndroidDayMonthView implements DaysPresenter.DaysView, MonthsPresenter.Mon
     }
 
     private void update() {
-        setTextOnMainThread.to(days + " " + months);
+        setTextOnMainThread.updateTextView(days + " " + months, textView);
     }
 
     @Override

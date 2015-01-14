@@ -10,15 +10,15 @@ import uk.co.rossbeazley.wear.rotation.RotationPresenter;
 import uk.co.rossbeazley.wear.ui.Disposable;
 
 class AndroidRotationView implements RotationPresenter.RotationView {
-    private final View inflatedViews;
+    public final View view;
 
     public AndroidRotationView(View inflatedViews) {
-        this.inflatedViews = inflatedViews;
+        view = inflatedViews.findViewById(R.id.watch_face_view);
     }
 
     @Override
     public void rotateToDegrees(final float degreesRotation) {
-        final View view = inflatedViews.findViewById(R.id.watch_face_view);
+
 //        view.post(new Runnable() {
 //            @Override
 //            public void run() {

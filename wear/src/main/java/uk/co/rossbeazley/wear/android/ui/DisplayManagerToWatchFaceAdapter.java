@@ -35,7 +35,7 @@ public class DisplayManagerToWatchFaceAdapter implements DisplayManager.DisplayL
                 this.watchFaceUINavigation.screenOff();
                 break;
             default:
-                //  Not really sure what to so about Display.STATE_UNKNOWN, so
+                //  Not really sure what updateTextView so about Display.STATE_UNKNOWN, so
                 //  we'll treat it as if the screen is normal.
                 System.out.println("============== SCREEN AWAKE");
                 this.watchFaceUINavigation.screenAwake();

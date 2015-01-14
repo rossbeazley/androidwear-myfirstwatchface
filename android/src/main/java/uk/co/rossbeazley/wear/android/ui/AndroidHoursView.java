@@ -13,15 +13,16 @@ import uk.co.rossbeazley.wear.ui.Disposable;
 
 class AndroidHoursView implements HoursPresenter.HoursView {
     private SetTextOnMainThread setTextOnMainThread;
+    public final TextView textView;
 
     public AndroidHoursView(View view) {
-        TextView textView = (TextView) view.findViewById(R.id.watch_time);
-        setTextOnMainThread = new SetTextOnMainThread(textView);
+        textView = (TextView) view.findViewById(R.id.watch_time);
+        setTextOnMainThread = new SetTextOnMainThread();
     }
 
     @Override
     public void showHoursString(final String newHour) {
-        setTextOnMainThread.to(newHour);
+        setTextOnMainThread.updateTextView(newHour, textView);
     }
 
     public static Disposable createHoursView(Core core, View views) {

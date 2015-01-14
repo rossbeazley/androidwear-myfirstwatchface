@@ -13,15 +13,16 @@ import uk.co.rossbeazley.wear.ui.Disposable;
 
 class AndroidSecondsView implements SecondsPresenter.SecondsView {
     private SetTextOnMainThread setTextOnMainThread;
+    public final TextView textView;
 
     public AndroidSecondsView(View inflatedViews) {
-        TextView textView = (TextView) inflatedViews.findViewById(R.id.watch_time_secs);
-        setTextOnMainThread = new SetTextOnMainThread(textView);
+        textView = (TextView) inflatedViews.findViewById(R.id.watch_time_secs);
+        setTextOnMainThread = new SetTextOnMainThread();
     }
 
     @Override
     public void showSecondsString(final String newSeconds) {
-        setTextOnMainThread.to(newSeconds);
+        setTextOnMainThread.updateTextView(newSeconds, textView);
     }
 
     public static Disposable createSecondsView(Core core, View views) {
