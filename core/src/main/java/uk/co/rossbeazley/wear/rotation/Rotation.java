@@ -7,17 +7,17 @@ public class Rotation implements CanBeRotated, uk.co.rossbeazley.wear.CanBeObser
     Orientation orientation;
     Announcer<CanReceiveRotationUpdates> rotationUpdates;
 
-    public Rotation() {
-        this(Orientation.north());
+    public Rotation(Announcer<CanReceiveRotationUpdates> to) {
+        this(Orientation.north(), to);
     }
 
-    public Rotation(final Orientation orientation) {
+    public Rotation(final Orientation orientation, Announcer<CanReceiveRotationUpdates> to) {
         this.orientation = orientation;
-        rotationUpdates = Announcer.to(CanReceiveRotationUpdates.class);
+        rotationUpdates = to;
         rotationUpdates.registerProducer(new Announcer.Producer<CanReceiveRotationUpdates>() {
             @Override
             public void observed(CanReceiveRotationUpdates observer) {
-                observer.rotationUpdate(orientation);
+                observer.rotationUpdate(Rotation.this.orientation);
             }
         });
     }

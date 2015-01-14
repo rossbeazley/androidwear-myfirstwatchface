@@ -13,11 +13,9 @@ import uk.co.rossbeazley.wear.Sexagesimal;
 import uk.co.rossbeazley.wear.seconds.CanReceiveSecondsUpdates;
 import uk.co.rossbeazley.wear.ui.Disposable;
 
-public class WatchFaceView extends RelativeLayout {
+public class WatchFaceView extends RelativeLayout implements Disposable {
 
     private Announcer<Disposable> disposables = Announcer.to(Disposable.class);
-    private ToInvalidate rotateEngine;
-
 
     public WatchFaceView(Context context) {
         super(context);
@@ -46,49 +44,11 @@ public class WatchFaceView extends RelativeLayout {
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
+        dispose();
+    }
+
+    public void dispose() {
         disposables.announce().dispose();
     }
 
-    @Override
-    public void requestLayout() {
-        System.out.println("requestLayout");
-        invalidateService();
-        super.requestLayout();
-    }
-
-    public ViewParent invalidateChildInParent(final int[] location, final Rect dirty) {
-        System.out.println("invalidate child in parent");
-        invalidateService();
-        return super.invalidateChildInParent(location, dirty);
-    }
-
-    private void invalidateService() {
-        if (rotateEngine != null) {
-            rotateEngine.invalidate();
-        }
-    }
-
-    public void attachService(ToInvalidate rotateEngine) {
-
-        this.rotateEngine = rotateEngine;
-
-//        Core.instance().canBeObservedForChangesToSeconds.addListener(new CanReceiveSecondsUpdates() {
-//            @Override
-//            public void secondsUpdate(Sexagesimal to) {
-//                WatchFaceView.this.invalidateService();
-//            }
-//        });
-
-    }
-
-    @Override
-    public void invalidate() {
-        System.out.println("invalidate");
-        invalidateService();
-        super.invalidate();
-    }
-
-    public static interface ToInvalidate {
-        public void invalidate();
-    }
 }

@@ -8,7 +8,7 @@ import uk.co.rossbeazley.wear.Announcer;
 import uk.co.rossbeazley.wear.Core;
 import uk.co.rossbeazley.wear.ui.Disposable;
 
-public class WatchFaceViewDimmed extends RelativeLayout {
+public class WatchFaceViewDimmed extends RelativeLayout implements Disposable {
 
     private Announcer<Disposable> disposables = Announcer.to(Disposable.class);
 
@@ -37,8 +37,12 @@ public class WatchFaceViewDimmed extends RelativeLayout {
     }
 
     @Override
-    protected void onDetachedFromWindow() {
+    public void onDetachedFromWindow() {
         super.onDetachedFromWindow();
+        dispose();
+    }
+
+    public void dispose() {
         disposables.announce().dispose();
     }
 }

@@ -19,12 +19,14 @@ class AndroidRotationView implements RotationPresenter.RotationView {
     @Override
     public void rotateToDegrees(final float degreesRotation) {
         final View view = inflatedViews.findViewById(R.id.watch_face_view);
-        view.post(new Runnable() {
-            @Override
-            public void run() {
-                view.animate().rotation(degreesRotation);
-            }
-        });
+//        view.post(new Runnable() {
+//            @Override
+//            public void run() {
+//                view.animate().rotation(degreesRotation);
+//            }
+//        });
+        view.setRotation(degreesRotation);
+        System.out.println("ROTATE " + degreesRotation);
     }
 
     public static Disposable createRotationView(Core core, View inflatedViews) {

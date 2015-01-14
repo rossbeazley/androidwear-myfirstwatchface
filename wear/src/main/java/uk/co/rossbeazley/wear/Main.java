@@ -21,6 +21,7 @@ public class Main {
 
 
     public Main(final Context context) {
+        System.out.println("MAIN CONSTRUCT INIT");
         final Core core = Core.init();
         //Debug.waitForDebugger();
         TickTock.createTickTock(core.canBeTicked);

@@ -35,6 +35,7 @@ public class Core {
 
 
     public Core(Orientation orientation) {
+        System.out.println("CORE INIT");
         Seconds seconds;
         MinutesFromTick minutes;
         HoursFromTick hours;
@@ -65,9 +66,10 @@ public class Core {
                 .addListeners(seconds, minutes, hours, days, months)
                 .announce();
 
-        Rotation rotation = new Rotation(orientation);
+        Announcer<CanReceiveRotationUpdates> canReceiveRotationUpdatesAnnouncer = Announcer.to(CanReceiveRotationUpdates.class);
+        Rotation rotation = new Rotation(orientation, canReceiveRotationUpdatesAnnouncer);
         canBeRotated = rotation;
-        canBeObservedForChangesToRotation = rotation;
+        canBeObservedForChangesToRotation = canReceiveRotationUpdatesAnnouncer;
     }
 
     private static Core instance;

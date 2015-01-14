@@ -26,4 +26,19 @@ public class OrientationLateObservationTest {
         assertThat(degreesRotation, is(180.0f));
     }
 
+    @Test
+    public void weObserveAfterARotation() {
+        Core core = new Core(Orientation.south());
+        CanBeObserved<CanReceiveRotationUpdates> rotation = core.canBeObservedForChangesToRotation;
+        core.canBeRotated.right();
+        rotation.addListener(new CanReceiveRotationUpdates() {
+            @Override
+            public void rotationUpdate(Orientation to) {
+                degreesRotation = to.degrees();
+            }
+        });
+
+        assertThat(degreesRotation, is(270.0f));
+    }
+
 }
