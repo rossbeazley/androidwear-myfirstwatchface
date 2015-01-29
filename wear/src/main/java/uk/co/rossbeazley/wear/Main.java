@@ -10,6 +10,7 @@ import uk.co.rossbeazley.wear.ticktock.TickTock;
 public class Main {
 
     private static Main instance;
+    public final TickTock tickTock;
 
     public static Main instance() {
         return instance;
@@ -24,7 +25,7 @@ public class Main {
         System.out.println("MAIN CONSTRUCT INIT");
         final Core core = Core.init();
         //Debug.waitForDebugger();
-        TickTock.createTickTock(core.canBeTicked);
+        tickTock = TickTock.createTickTock(core.canBeTicked);
         RestoreRotationSPIKE loadOrientationFromPersistentStore = new RestoreRotationSPIKE();
         loadOrientationFromPersistentStore.observe(new RotateWatchFace(core));
         loadOrientationFromPersistentStore.observe(new BindRotationMessageAdapter(context, core));

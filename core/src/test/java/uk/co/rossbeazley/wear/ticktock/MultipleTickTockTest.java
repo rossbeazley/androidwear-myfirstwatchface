@@ -42,8 +42,9 @@ public class MultipleTickTockTest implements CanBeTicked {
         }
 
         @Override
-        public void scheduleAtFixedRate(Runnable command, long period, TimeUnit unit) {
+        public Cancelable scheduleAtFixedRate(Runnable command, long period, TimeUnit unit) {
             this.command = command;
+            return null;
         }
 
         @Override

@@ -36,7 +36,7 @@ class RestoreRotationSPIKE implements GoogleWearApiConnection.ConnectedApiClient
 
     @Override
     public void invoke(final GoogleApiClient gac) {
-        System.out.println("RESTORED ROTATION invoke");
+        System.out.println("RESTORED ROTATION drawToBounds");
         // load rotation
         Wearable.NodeApi.getLocalNode(gac).setResultCallback(new ResultCallback<NodeApi.GetLocalNodeResult>() {
             @Override
