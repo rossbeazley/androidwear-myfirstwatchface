@@ -91,7 +91,6 @@ public class WatchFaceService extends CanvasWatchFaceService {
                 canvas.setMatrix(matrix);
                 watchFaceView.draw(canvas);
                 canvas.restore();
-                System.out.println("ONDRAW" + bounds.width() + ":" + bounds.height() + ";" + widthSpec + ":" + heightSpec);
             }
 
             public void toAmbient() {

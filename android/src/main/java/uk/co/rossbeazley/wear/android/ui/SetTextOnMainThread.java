@@ -9,11 +9,9 @@ class SetTextOnMainThread {
              @Override
              public void run() {
                  textView.setText(text);
-                 System.out.println("SET text MT:" + text);
              }
          });
         textView.setText(text);
-        System.out.println("SET text " + text);
         textView.invalidate();
     }
 }
