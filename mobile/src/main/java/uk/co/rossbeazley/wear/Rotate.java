@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -107,6 +108,11 @@ public class Rotate extends Activity {
                         public void onConnectionFailed(ConnectionResult connectionResult) {
                             nodes=empty;
                             Log.d("WATCH",connectionResult.toString());
+                            try {
+                                Toast.makeText(context,"Failed to conenct to google play services " + connectionResult.toString(),Toast.LENGTH_LONG).show();
+                            } catch (Exception e) {
+                                Log.e("WATCH","toasting error",e);
+                            }
                         }
                     })
                     .build();
