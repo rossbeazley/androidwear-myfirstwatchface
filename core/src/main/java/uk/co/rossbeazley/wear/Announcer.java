@@ -6,11 +6,12 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /** nicked from GOOS, modifed by me*/
 public class Announcer<T> implements CanBeObserved<T> {
     private final T proxy;
-    private final List<T> listeners = new ArrayList<T>();
+    private final List<T> listeners = new CopyOnWriteArrayList<T>();
     private Producer<T> producer;
 
 

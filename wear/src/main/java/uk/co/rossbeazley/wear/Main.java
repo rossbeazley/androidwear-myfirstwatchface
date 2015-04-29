@@ -4,6 +4,8 @@ import android.content.Context;
 import android.os.Debug;
 
 import uk.co.rossbeazley.wear.android.gsm.GoogleWearApiConnection;
+import uk.co.rossbeazley.wear.hours.CanReceiveHoursUpdates;
+import uk.co.rossbeazley.wear.hours.HourBase24;
 import uk.co.rossbeazley.wear.rotation.Orientation;
 import uk.co.rossbeazley.wear.ticktock.TickTock;
 
@@ -11,6 +13,7 @@ public class Main {
 
     private static Main instance;
     public final TickTock tickTock;
+    private final Nodes nodes;
 
     public static Main instance() {
         return instance;
@@ -33,6 +36,19 @@ public class Main {
         //loadOrientationFromPersistentStore.addListener(new BindTickTock(core));
         new GoogleWearApiConnection(context, loadOrientationFromPersistentStore);
 
+        nodes = new Nodes(context);
+
+        core.canBeObservedForChangesToHours.addListener(new CanReceiveHoursUpdates() {
+            @Override
+            public void hoursUpdate(HourBase24 hourBase24) {
+                pingGoogleAnalytics();
+            }
+        });
+
+    }
+
+    private void pingGoogleAnalytics() {
+        nodes.sendMessage("/google/analytics/heartbeat");
     }
 
     private static class RotateWatchFace implements RestoreRotationSPIKE.Restored {
