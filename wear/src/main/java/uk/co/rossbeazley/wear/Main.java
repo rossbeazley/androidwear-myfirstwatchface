@@ -7,6 +7,7 @@ import uk.co.rossbeazley.wear.android.gsm.GoogleWearApiConnection;
 import uk.co.rossbeazley.wear.hours.CanReceiveHoursUpdates;
 import uk.co.rossbeazley.wear.hours.HourBase24;
 import uk.co.rossbeazley.wear.rotation.Orientation;
+import uk.co.rossbeazley.wear.seconds.CanReceiveSecondsUpdates;
 import uk.co.rossbeazley.wear.ticktock.TickTock;
 
 public class Main {
@@ -45,6 +46,13 @@ public class Main {
             }
         });
 
+
+        core.canBeObservedForChangesToSeconds.addListener(new CanReceiveSecondsUpdates() {
+            @Override
+            public void secondsUpdate(Sexagesimal to) {
+                pingGoogleAnalytics();
+            }
+        });
     }
 
     private void pingGoogleAnalytics() {
