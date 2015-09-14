@@ -20,7 +20,4 @@ public class Month {
         return this.monthString;
     }
 
-    public static Month fromBaseTen(int i) {
-        return MonthFactory.fromBaseTen(i);
-    }
 }

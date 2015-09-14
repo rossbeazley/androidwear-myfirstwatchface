@@ -12,56 +12,56 @@ public class MonthsTest {
 
     @Test
     public void firstMonthIsJanuary() {
-        assertThat(Month.fromBaseTen(1).toString(),is("January"));
+        assertThat(MonthFactory.fromBaseTen(1).toString(),is("January"));
     }
 
     @Test
     public void secondMonthIsFebruary() {
-        assertThat(Month.fromBaseTen(2).toString(),is("February"));
+        assertThat(MonthFactory.fromBaseTen(2).toString(),is("February"));
     }
 
     @Test
     public void forthMonthIsApril() {
-        assertThat(Month.fromBaseTen(4).toString(),is("April"));
+        assertThat(MonthFactory.fromBaseTen(4).toString(),is("April"));
     }
 
     @Test
     public void fifthMonthIsMay() {
-        assertThat(Month.fromBaseTen(5).toString(),is("May"));
+        assertThat(MonthFactory.fromBaseTen(5).toString(),is("May"));
     }
 
     @Test
     public void sixthMonthIsJune() {
-        assertThat(Month.fromBaseTen(6).toString(),is("June"));
+        assertThat(MonthFactory.fromBaseTen(6).toString(),is("June"));
     }
 
     @Test
     public void seventhMonthIsJuly() {
-        assertThat(Month.fromBaseTen(7).toString(),is("July"));
+        assertThat(MonthFactory.fromBaseTen(7).toString(),is("July"));
     }
 
     @Test
     public void eighthMonthIsAugust() {
-        assertThat(Month.fromBaseTen(8).toString(),is("August"));
+        assertThat(MonthFactory.fromBaseTen(8).toString(),is("August"));
     }
 
     @Test
     public void ninthMonthIsSeptember() {
-        assertThat(Month.fromBaseTen(9).toString(),is("September"));
+        assertThat(MonthFactory.fromBaseTen(9).toString(),is("September"));
     }
 
     @Test
     public void tenthMonthIsOctober() {
-        assertThat(Month.fromBaseTen(10).toString(),is("October"));
+        assertThat(MonthFactory.fromBaseTen(10).toString(),is("October"));
     }
 
     @Test
     public void eleventhMonthIsNovember() {
-        assertThat(Month.fromBaseTen(11).toString(),is("November"));
+        assertThat(MonthFactory.fromBaseTen(11).toString(),is("November"));
     }
 
     @Test
     public void twelthMonthIsDecember() {
-        assertThat(Month.fromBaseTen(12).toString(),is("December"));
+        assertThat(MonthFactory.fromBaseTen(12).toString(),is("December"));
     }
 }
