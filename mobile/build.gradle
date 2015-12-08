@@ -23,6 +23,6 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     wearApp project(':wear')
-    compile 'com.google.android.gms:play-services-wearable:6.1.71'
+    compile 'com.google.android.gms:play-services-wearable:8.3.0'
     compile project(':android')
 }
