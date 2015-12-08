@@ -2,8 +2,10 @@ package uk.co.rossbeazley.wear.android.ui;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Rect;
+import android.support.annotation.NonNull;
 import android.support.wearable.watchface.CanvasWatchFaceService;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,7 +44,16 @@ public class WatchFaceService extends CanvasWatchFaceService {
         @Override
         public void onDraw(Canvas canvas, Rect bounds) {
             super.onDraw(canvas, bounds);
-            watchView.drawToBounds(canvas, bounds);
+            Rect drawToBounds = adjustDrawingAreaForAnyNotificationCards(bounds);
+            watchView.drawToBounds(canvas, drawToBounds);
+        }
+
+        @NonNull
+        private Rect adjustDrawingAreaForAnyNotificationCards(Rect bounds) {
+            Rect peekCardPosition = getPeekCardPosition();
+            Rect drawToBounds = new Rect(bounds);
+            drawToBounds.bottom = drawToBounds.bottom + (peekCardPosition.top-peekCardPosition.bottom);
+            return drawToBounds;
         }
 
         @Override
@@ -78,14 +89,22 @@ public class WatchFaceService extends CanvasWatchFaceService {
         }
 
         private class WatchView {
+
+            private int color;
+
             public WatchView() {
+
+                color = Color.WHITE;
             }
 
             public void drawToBounds(Canvas canvas, Rect bounds) {
+                canvas.drawColor(color);
+
                 int widthSpec = View.MeasureSpec.makeMeasureSpec(bounds.width(), View.MeasureSpec.EXACTLY);
                 int heightSpec = View.MeasureSpec.makeMeasureSpec(bounds.height(), View.MeasureSpec.EXACTLY);
                 watchFaceView.measure(widthSpec, heightSpec);
                 watchFaceView.layout(0, 0, bounds.width(), bounds.height());
+
                 Matrix matrix = watchFaceView.getMatrix();
                 canvas.save();
                 canvas.setMatrix(matrix);
@@ -94,11 +113,15 @@ public class WatchFaceService extends CanvasWatchFaceService {
             }
 
             public void toAmbient() {
+
+                color = Color.BLACK;
                 tearDownView();
                 inflatePassiveView(context);
             }
 
             public void toActive() {
+
+                color = Color.WHITE;
                 tearDownView();
                 inflateActiveView(context);
             }

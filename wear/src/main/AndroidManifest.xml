@@ -37,6 +37,11 @@
             android:taskAffinity=""
             android:permission="android.permission.BIND_WALLPAPER" >
             <meta-data
+                android:name=
+                    "uk.co.rossbeazley.wear.companionConfigurationAction"
+                android:value=
+                    "uk.co.rossbeazley.wear.CONFIG_DIGITAL" />
+            <meta-data
                 android:name="android.service.wallpaper"
                 android:resource="@xml/watch_face" />
             <meta-data

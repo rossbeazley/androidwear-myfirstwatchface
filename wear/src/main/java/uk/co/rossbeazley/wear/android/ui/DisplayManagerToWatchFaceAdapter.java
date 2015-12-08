@@ -26,7 +26,7 @@ public class DisplayManagerToWatchFaceAdapter implements DisplayManager.DisplayL
     @Override
     public void onDisplayChanged(int displayId) {
         switch(this.displayManager.getDisplay(displayId).getState()){
-            case Display.STATE_DOZING:
+            case Display.STATE_DOZE:
                 System.out.println("============== SCREEN DIM");
                 this.watchFaceUINavigation.screenDim();
                 break;
