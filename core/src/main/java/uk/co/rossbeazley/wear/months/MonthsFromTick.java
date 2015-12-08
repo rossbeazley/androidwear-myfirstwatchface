@@ -3,7 +3,6 @@ package uk.co.rossbeazley.wear.months;
 import java.util.Calendar;
 
 import uk.co.rossbeazley.wear.Announcer;
-import uk.co.rossbeazley.wear.CanBeObserved;
 import uk.co.rossbeazley.wear.ticktock.CanBeTicked;
 
 /**
@@ -27,7 +26,7 @@ public class MonthsFromTick implements CanBeTicked {
     @Override
     public void tick(Calendar to) {
         int monthInt = to.get(Calendar.MONTH) + 1;
-        Month month = Month.fromBaseTen(monthInt);
+        Month month = MonthFactory.fromBaseTen(monthInt);
         tick(month);
     }
 

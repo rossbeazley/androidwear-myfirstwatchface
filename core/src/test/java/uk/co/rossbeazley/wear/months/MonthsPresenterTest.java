@@ -21,7 +21,7 @@ public class MonthsPresenterTest {
 
         new MonthsPresenter(months, view);
 
-        months.canReceiveMonthUpdates.monthsUpdate(Month.fromBaseTen(3));
+        months.canReceiveMonthUpdates.monthsUpdate(MonthFactory.fromBaseTen(3));
 
         assertThat(view.monthString, is("March"));
     }

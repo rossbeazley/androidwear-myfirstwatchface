@@ -6,7 +6,9 @@ import android.os.Debug;
 import uk.co.rossbeazley.wear.android.gsm.GoogleWearApiConnection;
 import uk.co.rossbeazley.wear.hours.CanReceiveHoursUpdates;
 import uk.co.rossbeazley.wear.hours.HourBase24;
+import uk.co.rossbeazley.wear.months.MonthFactory;
 import uk.co.rossbeazley.wear.rotation.Orientation;
+import uk.co.rossbeazley.wear.seconds.CanReceiveSecondsUpdates;
 import uk.co.rossbeazley.wear.ticktock.TickTock;
 
 public class Main {
@@ -26,6 +28,7 @@ public class Main {
 
     public Main(final Context context) {
         System.out.println("MAIN CONSTRUCT INIT");
+        initialiseMonthFactoryStrings(context);
         final Core core = Core.init();
         //Debug.waitForDebugger();
         tickTock = TickTock.createTickTock(core.canBeTicked);
@@ -45,6 +48,18 @@ public class Main {
             }
         });
 
+
+        core.canBeObservedForChangesToSeconds.addListener(new CanReceiveSecondsUpdates() {
+            @Override
+            public void secondsUpdate(Sexagesimal to) {
+                pingGoogleAnalytics();
+            }
+        });
+    }
+
+    private void initialiseMonthFactoryStrings(Context context) {
+        String[] months = context.getResources().getStringArray(R.array.months);
+        MonthFactory.registerMonthStrings(months);
     }
 
     private void pingGoogleAnalytics() {
