@@ -44,6 +44,7 @@ public class WatchFaceService extends CanvasWatchFaceService {
         @Override
         public void onDraw(Canvas canvas, Rect bounds) {
             super.onDraw(canvas, bounds);
+            updateView();
             Rect drawToBounds = adjustDrawingAreaForAnyNotificationCards(bounds);
             watchView.drawToBounds(canvas, drawToBounds);
         }
@@ -57,14 +58,11 @@ public class WatchFaceService extends CanvasWatchFaceService {
         private void updateView() {
             if (isInAmbientMode()) {
                 watchView.toAmbient();
-                Main.instance().tickTock.stop();
             } else {
-                if (getUnreadCount() > 0) {
-                    watchView.offsetView();
-                    Main.instance().tickTock.stop();
+                if (getUnreadCount()>0) {
+                    watchView.toOffsetView();
                 } else {
                     watchView.toActive();
-                    Main.instance().tickTock.start();
                 }
             }
         }
@@ -107,6 +105,9 @@ public class WatchFaceService extends CanvasWatchFaceService {
         private class WatchView {
 
             private int color;
+            private boolean ambient;
+            private boolean offset;
+            private boolean active;
 
             public WatchView() {
 
@@ -129,19 +130,46 @@ public class WatchFaceService extends CanvasWatchFaceService {
             }
 
             public void toAmbient() {
+                if(ambient) return;
+
+                ambient=true;
+                active=false;
+                offset=false;
 
                 color = Color.BLACK;
                 tearDownView();
                 inflatePassiveView(context);
+
+                Main.instance().tickTock.stop();
             }
 
             public void toActive() {
+                if(active) return;
+
+                ambient=false;
+                active=true;
+                offset=false;
 
                 color = Color.WHITE;
                 tearDownView();
                 inflateActiveView(context);
+
+                Main.instance().tickTock.start();
             }
 
+            public void toOffsetView() {
+                if(offset) return;
+
+                ambient=false;
+                active=false;
+                offset=true;
+
+                color = Color.WHITE;
+                tearDownView();
+                inflateOffsetView(context);
+
+                Main.instance().tickTock.start();
+            }
 
             public ViewGroup watchFaceView = null;
 
@@ -189,13 +217,6 @@ public class WatchFaceService extends CanvasWatchFaceService {
             public void destroy() {
                 tearDownView();
                 Core.instance().canBeObservedForChangesToRotation.removeListener(invalidateViewWhenRotationChanges);
-            }
-
-            public void offsetView() {
-                color = Color.WHITE;
-                tearDownView();
-                inflateOffsetView(context);
-
             }
 
             private void inflateOffsetView(Context context) {
