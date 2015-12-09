@@ -39,7 +39,7 @@ public class Nodes {
 
     private Listable nodes = empty;
 
-    Nodes(Context context) {
+    public Nodes(Context context) {
         this.context = context.getApplicationContext();
         gac = connectToPlayServices();
     }

@@ -48,11 +48,32 @@ public class WatchFaceService extends CanvasWatchFaceService {
             watchView.drawToBounds(canvas, drawToBounds);
         }
 
+        @Override
+        public void onUnreadCountChanged(int count) {
+
+            updateView();
+        }
+
+        private void updateView() {
+            if (isInAmbientMode()) {
+                watchView.toAmbient();
+                Main.instance().tickTock.stop();
+            } else {
+                if (getUnreadCount() > 0) {
+                    watchView.offsetView();
+                    Main.instance().tickTock.stop();
+                } else {
+                    watchView.toActive();
+                    Main.instance().tickTock.start();
+                }
+            }
+        }
+
         @NonNull
         private Rect adjustDrawingAreaForAnyNotificationCards(Rect bounds) {
             Rect peekCardPosition = getPeekCardPosition();
             Rect drawToBounds = new Rect(bounds);
-            drawToBounds.bottom = drawToBounds.bottom + (peekCardPosition.top-peekCardPosition.bottom);
+            drawToBounds.bottom = drawToBounds.bottom + (peekCardPosition.top - peekCardPosition.bottom);
             return drawToBounds;
         }
 
@@ -66,19 +87,14 @@ public class WatchFaceService extends CanvasWatchFaceService {
         @Override
         public void onAmbientModeChanged(boolean inAmbientMode) {
             super.onAmbientModeChanged(inAmbientMode);
-            if(inAmbientMode) {
-                watchView.toAmbient();
-                Main.instance().tickTock.stop();
-            } else {
-                watchView.toActive();
-                Main.instance().tickTock.start();
-            }
+           updateView();
         }
 
 
         @Override
         public void onVisibilityChanged(boolean visible) {
             super.onVisibilityChanged(visible);
+            updateView();
         }
 
         @Override
@@ -127,7 +143,6 @@ public class WatchFaceService extends CanvasWatchFaceService {
             }
 
 
-
             public ViewGroup watchFaceView = null;
 
             public final CanReceiveSecondsUpdates invalidateViewWhenSecondsChange = new CanReceiveSecondsUpdates() {
@@ -151,7 +166,7 @@ public class WatchFaceService extends CanvasWatchFaceService {
 
             private void tearDownView() {
                 if (watchFaceView != null) {
-                    ((Disposable)watchFaceView).dispose();
+                    ((Disposable) watchFaceView).dispose();
                 }
                 Core.instance().canBeObservedForChangesToMinutes.removeListener(invalidateViewWhenMinutesChange);
                 Core.instance().canBeObservedForChangesToSeconds.removeListener(invalidateViewWhenSecondsChange);
@@ -159,21 +174,34 @@ public class WatchFaceService extends CanvasWatchFaceService {
 
 
             private void inflateActiveView(Context watchFaceService) {
-                LayoutInflater li = (LayoutInflater)watchFaceService.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                watchFaceView = (ViewGroup) li.inflate(R.layout.watch_face_view,null);
+                LayoutInflater li = (LayoutInflater) watchFaceService.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                watchFaceView = (ViewGroup) li.inflate(R.layout.watch_face_view, null);
                 Core.instance().canBeObservedForChangesToSeconds.addListener(invalidateViewWhenSecondsChange);
 
             }
 
             private void inflatePassiveView(Context watchFaceService) {
-                LayoutInflater li = (LayoutInflater)watchFaceService.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                watchFaceView = (ViewGroup) li.inflate(R.layout.watch_face_view_dimmed,null);
+                LayoutInflater li = (LayoutInflater) watchFaceService.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                watchFaceView = (ViewGroup) li.inflate(R.layout.watch_face_view_dimmed, null);
                 Core.instance().canBeObservedForChangesToMinutes.addListener(invalidateViewWhenMinutesChange);
             }
 
             public void destroy() {
                 tearDownView();
                 Core.instance().canBeObservedForChangesToRotation.removeListener(invalidateViewWhenRotationChanges);
+            }
+
+            public void offsetView() {
+                color = Color.WHITE;
+                tearDownView();
+                inflateOffsetView(context);
+
+            }
+
+            private void inflateOffsetView(Context context) {
+                LayoutInflater li = LayoutInflater.from(context);
+                watchFaceView = (ViewGroup) li.inflate(R.layout.watch_face_view_offset, null);
+                Core.instance().canBeObservedForChangesToMinutes.addListener(invalidateViewWhenMinutesChange);
             }
         }
     }

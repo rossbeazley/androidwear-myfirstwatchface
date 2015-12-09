@@ -24,6 +24,7 @@
         android:layout_height="120dp"
         android:src="@drawable/rotate_right_arrow"
         android:layout_gravity="center"
+        android:alpha="0.7"
         />
 
 
