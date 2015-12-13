@@ -17,7 +17,10 @@ public class TickTock {
             @Override
             public void run() {
                 for(CanBeTicked tock :tocks) {
-                    tock.tick(timeSource.time());
+                    try {
+                        tock.tick(timeSource.time());
+                    } catch (Exception ignored) {
+                    }
                 }
             }
         };
