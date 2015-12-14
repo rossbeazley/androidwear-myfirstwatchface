@@ -26,10 +26,8 @@ public class WatchFaceService extends CanvasWatchFaceService {
 
         private final Context context;
         public WatchViewRoot watchViewRoot;
-        private Rect currentPeekCardPosition;
 
         RotateEngine(Context context) {
-
             this.context = context;
         }
 
@@ -45,15 +43,14 @@ public class WatchFaceService extends CanvasWatchFaceService {
         @Override
         public void onDraw(Canvas canvas, Rect bounds) {
             log("on draw");
-            Rect drawToBounds = adjustDrawingAreaForAnyNotificationCards(bounds, currentPeekCardPosition);
-            watchViewRoot.drawToBounds(canvas, drawToBounds);
+            watchViewRoot.drawToBounds(canvas, bounds);
             log("done draw");
         }
 
         @Override
         public void onPeekCardPositionUpdate(Rect rect) {
             log("onPeekCardPositionUpdate");
-            currentPeekCardPosition = rect;
+            watchViewRoot.storeCurrentPeekCardPosition(rect);
             updateView();
         }
 
@@ -61,7 +58,6 @@ public class WatchFaceService extends CanvasWatchFaceService {
         @Override
         public void onUnreadCountChanged(int count) {
             log("onUnreadCountChanged");
-            onPeekCardPositionUpdate(count==0?new Rect(0,0,0,0):getPeekCardPosition());
             updateView();
         }
 
@@ -130,13 +126,7 @@ public class WatchFaceService extends CanvasWatchFaceService {
             watchViewRoot.destroy();
         }
 
-
     }
 
-    @NonNull
-    private static Rect adjustDrawingAreaForAnyNotificationCards(Rect bounds, Rect peekCardPosition) {
-        if(peekCardPosition!=null) bounds.bottom = bounds.bottom + (peekCardPosition.top - peekCardPosition.bottom);
-        return bounds;
-    }
 
 }

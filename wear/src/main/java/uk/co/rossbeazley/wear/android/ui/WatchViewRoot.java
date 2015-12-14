@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Rect;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 
@@ -26,6 +27,7 @@ class WatchViewRoot {
     private boolean active;
     private Context context;
     private final WatchFaceService.CanInvalidateWatchFaceView canInvalidateWatchFaceView;
+    private Rect currentPeekCardPosition;
 
     public WatchViewRoot(Context context, WatchFaceService.CanInvalidateWatchFaceView canInvalidateWatchFaceView) {
         this.context = context;
@@ -34,8 +36,21 @@ class WatchViewRoot {
         color = Color.WHITE;
     }
 
+
+    @NonNull
+    private static Rect adjustDrawingAreaForAnyNotificationCards(Rect bounds, Rect peekCardPosition) {
+        Rect rtn = new Rect();
+        rtn.set(bounds);
+        if(peekCardPosition!=null) rtn.bottom = bounds.bottom + (peekCardPosition.top - peekCardPosition.bottom);
+        return rtn;
+    }
+
     public void drawToBounds(Canvas canvas, Rect bounds) {
         if(watchFaceView==null) return;
+
+        if(offset) {
+            bounds = adjustDrawingAreaForAnyNotificationCards(bounds, currentPeekCardPosition);
+        }
 
         canvas.drawColor(color);
 
@@ -80,6 +95,8 @@ class WatchViewRoot {
         ambient = false;
         active = true;
         offset = false;
+
+        currentPeekCardPosition = null;
 
         color = Color.WHITE;
         tearDownView();
@@ -179,5 +196,9 @@ class WatchViewRoot {
         offset = false;
 
         //  tearDownView();
+    }
+
+    public void storeCurrentPeekCardPosition(Rect currentPeekCardPosition) {
+        this.currentPeekCardPosition = currentPeekCardPosition;
     }
 }
