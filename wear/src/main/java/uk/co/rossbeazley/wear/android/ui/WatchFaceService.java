@@ -48,6 +48,7 @@ public class WatchFaceService extends CanvasWatchFaceService {
         public void onDraw(Canvas canvas, Rect bounds) {
             log("on draw");
             watchViewRoot.drawToBounds(canvas, bounds);
+            //log(getPeekCardPosition().toString());
             log("done draw");
         }
 
@@ -71,7 +72,7 @@ public class WatchFaceService extends CanvasWatchFaceService {
                 if (isInAmbientMode()) {
                     watchViewRoot.toAmbient();
                 } else {
-                    if (getUnreadCount() > 0) {
+                    if (cardsShowing()) {
                         watchViewRoot.toOffsetView();
                     } else {
                         watchViewRoot.toActive();
@@ -81,6 +82,14 @@ public class WatchFaceService extends CanvasWatchFaceService {
             } else {
                 watchViewRoot.toInvisible();
             }
+        }
+
+        private boolean cardsShowing() {
+            return getUnreadCount() > 0 || noneZeroRect(getPeekCardPosition());
+        }
+
+        private boolean noneZeroRect(Rect rect) {
+            return rect.top!=0 || rect.bottom!=0 || rect.left!=0 || rect.right!=0;
         }
 
         @Override
