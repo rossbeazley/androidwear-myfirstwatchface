@@ -22,7 +22,11 @@ public class WatchFaceService extends CanvasWatchFaceService {
         void postInvalidate();
     }
 
-    class RotateEngine extends CanvasWatchFaceService.Engine implements WatchFaceService.CanInvalidateWatchFaceView {
+    public interface CanLog {
+        void log(String msg);
+    }
+
+    class RotateEngine extends CanvasWatchFaceService.Engine implements WatchFaceService.CanInvalidateWatchFaceView, WatchFaceService.CanLog {
 
         private final Context context;
         public WatchViewRoot watchViewRoot;
@@ -36,7 +40,7 @@ public class WatchFaceService extends CanvasWatchFaceService {
             log("on create");
             super.onCreate(holder);
 
-            watchViewRoot = new WatchViewRoot(context, this);
+            watchViewRoot = new WatchViewRoot(context, this, this);
             watchViewRoot.toActive();
         }
 
@@ -91,7 +95,7 @@ public class WatchFaceService extends CanvasWatchFaceService {
             super.postInvalidate();
         }
 
-        private void log(String msg) {
+        public void log(String msg) {
             //System.out.println("RWF " + msg);
         }
 

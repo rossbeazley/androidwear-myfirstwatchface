@@ -14,8 +14,6 @@ import uk.co.rossbeazley.wear.Main;
 import uk.co.rossbeazley.wear.R;
 import uk.co.rossbeazley.wear.Sexagesimal;
 import uk.co.rossbeazley.wear.minutes.CanReceiveMinutesUpdates;
-import uk.co.rossbeazley.wear.rotation.CanReceiveRotationUpdates;
-import uk.co.rossbeazley.wear.rotation.Orientation;
 import uk.co.rossbeazley.wear.seconds.CanReceiveSecondsUpdates;
 import uk.co.rossbeazley.wear.ui.Disposable;
 
@@ -27,11 +25,13 @@ class WatchViewRoot {
     private boolean active;
     private Context context;
     private final WatchFaceService.CanInvalidateWatchFaceView canInvalidateWatchFaceView;
+    private final WatchFaceService.CanLog logger;
     private Rect currentPeekCardPosition;
 
-    public WatchViewRoot(Context context, WatchFaceService.CanInvalidateWatchFaceView canInvalidateWatchFaceView) {
+    public WatchViewRoot(Context context, WatchFaceService.CanInvalidateWatchFaceView canInvalidateWatchFaceView, WatchFaceService.CanLog logger) {
         this.context = context;
         this.canInvalidateWatchFaceView = canInvalidateWatchFaceView;
+        this.logger = logger;
 
         color = Color.WHITE;
     }
@@ -66,15 +66,11 @@ class WatchViewRoot {
         canvas.restore();
     }
 
-    private void log(String msg) {
-        //System.out.println("RWF " + msg);
-    }
-
     public void toAmbient() {
-        log("maybeToAmbient");
+        logger.log("maybeToAmbient");
         if (ambient) return;
 
-        log("entered ambient");
+        logger.log("entered ambient");
 
         ambient = true;
         active = false;
@@ -88,10 +84,10 @@ class WatchViewRoot {
     }
 
     public void toActive() {
-        log("maybeToActive");
+        logger.log("maybeToActive");
         if (active) return;
 
-        log("entered active");
+        logger.log("entered active");
         ambient = false;
         active = true;
         offset = false;
@@ -103,14 +99,14 @@ class WatchViewRoot {
         inflateActiveView();
 
         Main.instance().tickTock.start();
-        log("done toActive");
+        logger.log("done toActive");
     }
 
     public void toOffsetView() {
-        log("maybeToOffsetView");
+        logger.log("maybeToOffsetView");
         if (offset) return;
 
-        log("entered offsetView");
+        logger.log("entered offsetView");
         ambient = false;
         active = false;
         offset = true;
@@ -140,19 +136,12 @@ class WatchViewRoot {
         }
     };
 
-    public final CanReceiveRotationUpdates invalidateViewWhenRotationChanges = new CanReceiveRotationUpdates() {
-        @Override
-        public void rotationUpdate(Orientation to) {
-            canInvalidateWatchFaceView.postInvalidate();
-        }
-    };
-
     private void tearDownView() {
-        log("tearDownView");
+        logger.log("tearDownView");
         if (watchFaceView != null) {
             ((Disposable) watchFaceView).dispose();
             watchFaceView=null;
-            log("disposed");
+            logger.log("disposed");
         }
         Core.instance().canBeObservedForChangesToMinutes.removeListener(invalidateViewWhenMinutesChange);
         Core.instance().canBeObservedForChangesToSeconds.removeListener(invalidateViewWhenSecondsChange);
@@ -160,7 +149,7 @@ class WatchViewRoot {
 
 
     private void inflateActiveView() {
-        log("inflateActiveView");
+        logger.log("inflateActiveView");
         LayoutInflater li = LayoutInflater.from(context);
         watchFaceView = li.inflate(R.layout.watch_face_view, null);
         Core.instance().canBeObservedForChangesToSeconds.addListener(invalidateViewWhenSecondsChange);
@@ -168,14 +157,14 @@ class WatchViewRoot {
     }
 
     private void inflatePassiveView() {
-        log("inflatePassiveView");
+        logger.log("inflatePassiveView");
         LayoutInflater li = LayoutInflater.from(context);
         watchFaceView = li.inflate(R.layout.watch_face_view_dimmed, null);
         Core.instance().canBeObservedForChangesToMinutes.addListener(invalidateViewWhenMinutesChange);
     }
 
     private void inflateOffsetView() {
-        log("inflateOffsetView");
+        logger.log("inflateOffsetView");
         LayoutInflater li = LayoutInflater.from(context);
         watchFaceView = li.inflate(R.layout.watch_face_view_offset, null);
         Core.instance().canBeObservedForChangesToMinutes.addListener(invalidateViewWhenMinutesChange);
@@ -183,19 +172,16 @@ class WatchViewRoot {
 
 
     public void destroy() {
-        log("destroy");
+        logger.log("destroy");
         tearDownView();
-        //Core.instance().canBeObservedForChangesToRotation.removeListener(invalidateViewWhenRotationChanges);
     }
 
     public void toInvisible() {
-        log("toInvisible");
+        logger.log("toInvisible");
         Main.instance().tickTock.stop();
         ambient = false;
         active = false;
         offset = false;
-
-        //  tearDownView();
     }
 
     public void storeCurrentPeekCardPosition(Rect currentPeekCardPosition) {
