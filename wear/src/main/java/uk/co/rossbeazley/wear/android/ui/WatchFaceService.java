@@ -85,7 +85,8 @@ public class WatchFaceService extends CanvasWatchFaceService {
         }
 
         private boolean cardsShowing() {
-            return getUnreadCount() > 0 || noneZeroRect(getPeekCardPosition());
+            return noneZeroRect(getPeekCardPosition());
+//            return getUnreadCount() > 0 || noneZeroRect(getPeekCardPosition());
         }
 
         private boolean noneZeroRect(Rect rect) {
