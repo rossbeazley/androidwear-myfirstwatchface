@@ -120,6 +120,27 @@ class WatchViewRoot {
 
     }
 
+
+    public void destroy() {
+        logger.log("destroy");
+        tearDownView();
+    }
+
+    /**
+
+     Extract interface with
+
+     toAmbient
+     toActive
+     toOffsetView
+     destroy
+     measure
+     layout
+     draw
+
+
+    */
+
     public View watchFaceView = null;
 
     public final CanReceiveSecondsUpdates invalidateViewWhenSecondsChange = new CanReceiveSecondsUpdates() {
@@ -171,10 +192,6 @@ class WatchViewRoot {
     }
 
 
-    public void destroy() {
-        logger.log("destroy");
-        tearDownView();
-    }
 
     public void toInvisible() {
         logger.log("toInvisible");
