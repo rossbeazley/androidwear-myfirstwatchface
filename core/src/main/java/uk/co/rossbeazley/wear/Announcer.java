@@ -35,11 +35,8 @@ public class Announcer<T> implements CanBeObserved<T> {
 
     @Override
     public void addListener(T listener) {
-        System.out.println("ADD LISTENER " +listeners.size());
         listeners.add(listener);
-        System.out.println("ADD LISTENER " +listeners.size());
         producer.observed(listener);
-        System.out.println("ADD LISTENER " +listeners.size());
     }
 
     public Announcer<T> addListeners(T... listeners) {

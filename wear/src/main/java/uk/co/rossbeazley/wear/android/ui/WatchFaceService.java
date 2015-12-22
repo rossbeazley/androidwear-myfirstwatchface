@@ -3,7 +3,6 @@ package uk.co.rossbeazley.wear.android.ui;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Rect;
-import android.support.annotation.NonNull;
 import android.support.wearable.watchface.CanvasWatchFaceService;
 import android.view.SurfaceHolder;
 
@@ -18,15 +17,11 @@ public class WatchFaceService extends CanvasWatchFaceService {
         return new RotateEngine(getApplicationContext());
     }
 
-    public interface CanInvalidateWatchFaceView {
-        void postInvalidate();
-    }
-
     public interface CanLog {
         void log(String msg);
     }
 
-    class RotateEngine extends CanvasWatchFaceService.Engine implements WatchFaceService.CanInvalidateWatchFaceView, WatchFaceService.CanLog {
+    class RotateEngine extends CanvasWatchFaceService.Engine implements WatchView.RedrawOnInvalidate, WatchFaceService.CanLog {
 
         private final Context context;
         public WatchViewRoot watchViewRoot;
