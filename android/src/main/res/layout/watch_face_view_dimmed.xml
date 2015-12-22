@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<uk.co.rossbeazley.wear.android.ui.WatchFaceViewDimmed xmlns:android="http://schemas.android.com/apk/res/android"
+<uk.co.rossbeazley.wear.android.ui.WatchFaceView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -45,5 +45,17 @@
 
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/watch_time_secs"
+        android:textSize="36sp"
+        android:visibility="gone"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/watch_time_container"
+        android:textColor="#f3f3f3"
+        android:gravity="center"
+        tools:text="03"
+        />
 
-</uk.co.rossbeazley.wear.android.ui.WatchFaceViewDimmed>
+
+</uk.co.rossbeazley.wear.android.ui.WatchFaceView>
