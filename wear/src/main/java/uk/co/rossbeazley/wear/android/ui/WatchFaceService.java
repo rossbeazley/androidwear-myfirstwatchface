@@ -36,14 +36,14 @@ public class WatchFaceService extends CanvasWatchFaceService {
             super.onCreate(holder);
 
             watchViewRoot = new WatchViewRoot(context, this);
-            watchViewRoot.toActive();
+
+            updateView();
         }
 
         @Override
         public void onDraw(Canvas canvas, Rect bounds) {
             log("on draw");
             watchViewRoot.drawToBounds(canvas, bounds);
-            //log(getPeekCardPosition().toString());
             log("done draw");
         }
 
@@ -85,7 +85,7 @@ public class WatchFaceService extends CanvasWatchFaceService {
         }
 
         private boolean noneZeroRect(Rect rect) {
-            return rect.top!=0 || rect.bottom!=0 || rect.left!=0 || rect.right!=0;
+            return (rect.top + rect.bottom + rect.left + rect.right) != 0;
         }
 
         @Override
@@ -109,9 +109,8 @@ public class WatchFaceService extends CanvasWatchFaceService {
         public void onTimeTick() {
             log("onTimeTick");
             super.onTimeTick();
-            Core.instance().canBeTicked.tick(Calendar.getInstance());
             updateView();
-
+            Core.instance().canBeTicked.tick(Calendar.getInstance());
         }
 
         @Override

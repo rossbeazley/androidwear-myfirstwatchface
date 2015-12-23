@@ -51,67 +51,34 @@ class InflatingWatchView extends FrameLayout implements WatchView {
 
     @Override
     public void toAmbient() {
-        logger.log("maybeToAmbient");
-        if (ambient) return;
-
-        logger.log("entered ambient");
-
-        ambient = true;
-        active = false;
-        offset = false;
-
         color = Color.BLACK;
         tearDownView();
         inflatePassiveView();
-
         Main.instance().tickTock.stop();
     }
 
     @Override
     public void toActive() {
-        logger.log("maybeToActive");
-        if (active) return;
-
-        logger.log("entered active");
-        ambient = false;
-        active = true;
-        offset = false;
-
         color = Color.WHITE;
         tearDownView();
         inflateActiveView();
-
         Main.instance().tickTock.start();
         logger.log("done toActive");
     }
 
     @Override
     public void toOffsetView() {
-        logger.log("maybeToOffsetView");
-        if (offset) return;
-
-        logger.log("entered offsetView");
-        ambient = false;
-        active = false;
-        offset = true;
-
         color = Color.WHITE;
         tearDownView();
         inflateOffsetView();
-
         Main.instance().tickTock.start();
-
-
     }
 
     @Override
     public void toInvisible() {
         logger.log("toInvisible");
         Main.instance().tickTock.stop();
-
-        ambient = false;
-        active = false;
-        offset = false;
+        Core.instance().canBeObservedForChangesToMinutes.addListener(invalidateViewWhenMinutesChange);
     }
 
     @Override
@@ -139,7 +106,6 @@ class InflatingWatchView extends FrameLayout implements WatchView {
         int watch_face_view = R.layout.watch_face_view;
         inflateLayout(watch_face_view);
         Core.instance().canBeObservedForChangesToSeconds.addListener(invalidateViewWhenSecondsChange);
-
     }
 
     private void inflatePassiveView() {
@@ -158,10 +124,6 @@ class InflatingWatchView extends FrameLayout implements WatchView {
         LayoutInflater li = LayoutInflater.from(getContext());
         li.inflate(layoutId, this);
     }
-
-
-
-
 
     public final CanReceiveSecondsUpdates invalidateViewWhenSecondsChange = new CanReceiveSecondsUpdates() {
         @Override
