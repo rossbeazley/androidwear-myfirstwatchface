@@ -14,27 +14,33 @@ import android.widget.FrameLayout;
 
 class WatchViewRoot extends FrameLayout {
 
-    private int color;
-    private boolean ambient;
-    private boolean offset;
-    private boolean active;
+    private int colour;
+
     private WatchView.RedrawOnInvalidate redrawOnInvalidate;
-    private WatchFaceService.CanLog logger;
     private Rect currentPeekCardPosition;
     private WatchView watchView;
 
-    public WatchViewRoot(Context context, WatchView.RedrawOnInvalidate redrawOnInvalidate, WatchFaceService.CanLog logger) {
+    private WatchViewState watchViewState;
+
+
+    public WatchViewRoot(Context context, WatchView.RedrawOnInvalidate redrawOnInvalidate) {
         this(context);
+
         this.redrawOnInvalidate = redrawOnInvalidate;
-        this.logger = logger;
 
-        color = Color.WHITE;
+        colour = Color.WHITE;
 
-        View inflatingWatchView = new InflatingWatchView(context);
-        addView(inflatingWatchView);
+        View inflatingWatchView = createWatchView(context);
+        this.addView(inflatingWatchView);
         watchView = (WatchView) inflatingWatchView;
         watchView.registerInvalidator(redrawOnInvalidate);
-        watchView.toActive();
+        watchViewState = new WatchViewState(watchView);
+        this.toActive();
+    }
+
+    @NonNull
+    private View createWatchView(Context context) {
+        return new InflatingWatchView(context);
     }
 
     public WatchViewRoot(Context context) {
@@ -59,16 +65,21 @@ class WatchViewRoot extends FrameLayout {
     private static Rect adjustDrawingAreaForAnyNotificationCards(Rect bounds, Rect peekCardPosition) {
         Rect rtn = new Rect();
         rtn.set(bounds);
-        if(peekCardPosition!=null) rtn.bottom = bounds.bottom + (peekCardPosition.top - peekCardPosition.bottom);
+
+        if (peekCardPosition != null) {
+            rtn.bottom = bounds.bottom + (peekCardPosition.top - peekCardPosition.bottom);
+        }
+
         return rtn;
     }
 
+
     public void drawToBounds(Canvas canvas, Rect bounds) {
-        if(getChildCount()==0) return;
+        if (getChildCount() == 0) return;
 
         bounds = adjustDrawingAreaForAnyNotificationCards(bounds, currentPeekCardPosition);
 
-        canvas.drawColor(color);
+        canvas.drawColor(colour); //reset canvas to base colour
 
         int widthSpec = View.MeasureSpec.makeMeasureSpec(bounds.width(), View.MeasureSpec.EXACTLY);
         int heightSpec = View.MeasureSpec.makeMeasureSpec(bounds.height(), View.MeasureSpec.EXACTLY);
@@ -83,19 +94,19 @@ class WatchViewRoot extends FrameLayout {
     }
 
     public void toAmbient() {
-        watchView.toAmbient();
+        watchViewState.toAmbient();
     }
 
     public void toActive() {
-        watchView.toActive();
+        watchViewState.toActive();
     }
 
     public void toOffsetView() {
-        watchView.toOffsetView();
+        watchViewState.toOffsetView();
     }
 
     public void toInvisible() {
-        watchView.toInvisible();
+        watchViewState.toInvisible();
     }
 
     public void destroy() {
@@ -123,3 +134,4 @@ class WatchViewRoot extends FrameLayout {
     }
 
 }
+

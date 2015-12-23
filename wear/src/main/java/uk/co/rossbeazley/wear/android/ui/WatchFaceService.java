@@ -35,7 +35,7 @@ public class WatchFaceService extends CanvasWatchFaceService {
             log("on create");
             super.onCreate(holder);
 
-            watchViewRoot = new WatchViewRoot(context, this, this);
+            watchViewRoot = new WatchViewRoot(context, this);
             watchViewRoot.toActive();
         }
 
@@ -110,7 +110,8 @@ public class WatchFaceService extends CanvasWatchFaceService {
             log("onTimeTick");
             super.onTimeTick();
             Core.instance().canBeTicked.tick(Calendar.getInstance());
-            invalidate();
+            updateView();
+
         }
 
         @Override

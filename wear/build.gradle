@@ -26,4 +26,5 @@ dependencies {
     compile 'com.google.android.gms:play-services-wearable:8.3.0'
     compile project(':core')
     compile project(':android')
+    testCompile 'junit:junit:4.12'
 }

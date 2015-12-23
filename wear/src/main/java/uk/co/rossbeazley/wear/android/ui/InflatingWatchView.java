@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.os.Build;
+import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -31,9 +32,6 @@ class InflatingWatchView extends FrameLayout implements WatchView {
         }
     };
 
-    private Rect currentPeekCardPosition;
-
-
     public InflatingWatchView(Context context) {
         super(context);
     }
@@ -50,16 +48,6 @@ class InflatingWatchView extends FrameLayout implements WatchView {
     public InflatingWatchView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
     }
-
-
-    @NonNull
-    private static Rect adjustDrawingAreaForAnyNotificationCards(Rect bounds, Rect peekCardPosition) {
-        Rect rtn = new Rect();
-        rtn.set(bounds);
-        if(peekCardPosition!=null) rtn.bottom = bounds.bottom + (peekCardPosition.top - peekCardPosition.bottom);
-        return rtn;
-    }
-
 
     @Override
     public void toAmbient() {
@@ -89,8 +77,6 @@ class InflatingWatchView extends FrameLayout implements WatchView {
         active = true;
         offset = false;
 
-        currentPeekCardPosition = null;
-
         color = Color.WHITE;
         tearDownView();
         inflateActiveView();
@@ -118,6 +104,20 @@ class InflatingWatchView extends FrameLayout implements WatchView {
 
     }
 
+    @Override
+    public void toInvisible() {
+        logger.log("toInvisible");
+        Main.instance().tickTock.stop();
+
+        ambient = false;
+        active = false;
+        offset = false;
+    }
+
+    @Override
+    public void registerInvalidator(RedrawOnInvalidate redrawOnInvalidate) {
+        this.redrawOnInvalidate = redrawOnInvalidate;
+    }
 
     @Override
     protected void onDetachedFromWindow() {
@@ -125,6 +125,42 @@ class InflatingWatchView extends FrameLayout implements WatchView {
         super.onDetachedFromWindow();
         tearDownView();
     }
+
+    private void tearDownView() {
+        logger.log("tearDownView");
+        this.removeAllViews();
+        Core.instance().canBeObservedForChangesToMinutes.removeListener(invalidateViewWhenMinutesChange);
+        Core.instance().canBeObservedForChangesToSeconds.removeListener(invalidateViewWhenSecondsChange);
+    }
+
+
+    private void inflateActiveView() {
+        logger.log("inflateActiveView");
+        int watch_face_view = R.layout.watch_face_view;
+        inflateLayout(watch_face_view);
+        Core.instance().canBeObservedForChangesToSeconds.addListener(invalidateViewWhenSecondsChange);
+
+    }
+
+    private void inflatePassiveView() {
+        logger.log("inflatePassiveView");
+        inflateLayout(R.layout.watch_face_view_dimmed);
+        Core.instance().canBeObservedForChangesToMinutes.addListener(invalidateViewWhenMinutesChange);
+    }
+
+    private void inflateOffsetView() {
+        logger.log("inflateOffsetView");
+        inflateLayout(R.layout.watch_face_view_offset);
+        Core.instance().canBeObservedForChangesToMinutes.addListener(invalidateViewWhenMinutesChange);
+    }
+
+    private void inflateLayout(@LayoutRes int layoutId) {
+        LayoutInflater li = LayoutInflater.from(getContext());
+        li.inflate(layoutId, this);
+    }
+
+
+
 
 
     public final CanReceiveSecondsUpdates invalidateViewWhenSecondsChange = new CanReceiveSecondsUpdates() {
@@ -141,50 +177,4 @@ class InflatingWatchView extends FrameLayout implements WatchView {
         }
     };
 
-    private void tearDownView() {
-        logger.log("tearDownView");
-        this.removeAllViews();
-        Core.instance().canBeObservedForChangesToMinutes.removeListener(invalidateViewWhenMinutesChange);
-        Core.instance().canBeObservedForChangesToSeconds.removeListener(invalidateViewWhenSecondsChange);
-    }
-
-
-    private void inflateActiveView() {
-        logger.log("inflateActiveView");
-        LayoutInflater li = LayoutInflater.from(getContext());
-        li.inflate(R.layout.watch_face_view, this);
-        Core.instance().canBeObservedForChangesToSeconds.addListener(invalidateViewWhenSecondsChange);
-
-    }
-
-    private void inflatePassiveView() {
-        logger.log("inflatePassiveView");
-        LayoutInflater li = LayoutInflater.from(getContext());
-        li.inflate(R.layout.watch_face_view_dimmed, this);
-        Core.instance().canBeObservedForChangesToMinutes.addListener(invalidateViewWhenMinutesChange);
-    }
-
-    private void inflateOffsetView() {
-        logger.log("inflateOffsetView");
-        LayoutInflater li = LayoutInflater.from(getContext());
-                li.inflate(R.layout.watch_face_view_offset, this);
-        Core.instance().canBeObservedForChangesToMinutes.addListener(invalidateViewWhenMinutesChange);
-    }
-
-
-
-    @Override
-    public void toInvisible() {
-        logger.log("toInvisible");
-        Main.instance().tickTock.stop();
-
-        ambient = false;
-        active = false;
-        offset = false;
-    }
-
-    @Override
-    public void registerInvalidator(RedrawOnInvalidate redrawOnInvalidate) {
-        this.redrawOnInvalidate = redrawOnInvalidate;
-    }
 }
