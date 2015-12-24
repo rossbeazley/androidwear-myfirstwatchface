@@ -73,15 +73,14 @@ public class WatchFaceService extends CanvasWatchFaceService {
                         watchViewRoot.toActive();
                     }
                 }
-                invalidate();
             } else {
                 watchViewRoot.toInvisible();
             }
+            invalidate();
         }
 
         private boolean cardsShowing() {
             return noneZeroRect(getPeekCardPosition());
-//            return getUnreadCount() > 0 || noneZeroRect(getPeekCardPosition());
         }
 
         private boolean noneZeroRect(Rect rect) {
@@ -108,15 +107,14 @@ public class WatchFaceService extends CanvasWatchFaceService {
         @Override
         public void onTimeTick() {
             log("onTimeTick");
-            super.onTimeTick();
             updateView();
-            Core.instance().canBeTicked.tick(Calendar.getInstance());
+            Core.instance().canBeTicked.tick(Calendar.getInstance()); //TODO get rid of this line, or determine if I should forward the message
+            onSurfaceRedrawNeeded(getSurfaceHolder());
         }
 
         @Override
         public void onAmbientModeChanged(boolean inAmbientMode) {
             log("onAmbientModeChanged");
-            super.onAmbientModeChanged(inAmbientMode);
             updateView();
         }
 
