@@ -2,9 +2,12 @@ package uk.co.rossbeazley.wear.android.ui;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Rect;
+import android.support.annotation.NonNull;
 import android.support.wearable.watchface.CanvasWatchFaceService;
 import android.view.SurfaceHolder;
+import android.view.View;
 
 import java.util.Calendar;
 
@@ -25,6 +28,8 @@ public class WatchFaceService extends CanvasWatchFaceService {
 
         private final Context context;
         public WatchViewRoot watchViewRoot;
+        WatchView watchView;
+        private WatchViewState watchViewState;
 
         RotateEngine(Context context) {
             this.context = context;
@@ -37,8 +42,24 @@ public class WatchFaceService extends CanvasWatchFaceService {
 
             watchViewRoot = new WatchViewRoot(context, this);
 
+            View inflatingWatchView = createWatchView(context);
+            watchViewRoot.addView(inflatingWatchView);
+
+            watchView = (WatchView) inflatingWatchView;
+            watchView.registerInvalidator(this);
+
+            watchViewState = new WatchViewState(watchView);
+            watchViewState.toActive();
+
             updateView();
         }
+
+
+        @NonNull
+        private View createWatchView(Context context) {
+            return new InflatingWatchView(context);
+        }
+
 
         @Override
         public void onDraw(Canvas canvas, Rect bounds) {
@@ -65,16 +86,19 @@ public class WatchFaceService extends CanvasWatchFaceService {
             log("updateView");
             if(isVisible()) {
                 if (isInAmbientMode()) {
-                    watchViewRoot.toAmbient();
+                    watchViewState.toAmbient();
+                    watchViewRoot.colour = Color.BLACK;
                 } else {
+
+                    watchViewRoot.colour = Color.WHITE;
                     if (cardsShowing()) {
-                        watchViewRoot.toOffsetView();
+                        watchViewState.toOffsetView();
                     } else {
-                        watchViewRoot.toActive();
+                        watchViewState.toActive();
                     }
                 }
             } else {
-                watchViewRoot.toInvisible();
+                watchViewState.toInvisible();
             }
             invalidate();
         }

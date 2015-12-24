@@ -14,13 +14,11 @@ import android.widget.FrameLayout;
 
 class WatchViewRoot extends FrameLayout {
 
-    private int colour;
+    public int colour;
 
     private WatchView.RedrawOnInvalidate redrawOnInvalidate;
     private Rect currentPeekCardPosition;
-    private WatchView watchView;
 
-    private WatchViewState watchViewState;
 
 
     public WatchViewRoot(Context context, WatchView.RedrawOnInvalidate redrawOnInvalidate) {
@@ -29,19 +27,8 @@ class WatchViewRoot extends FrameLayout {
         this.redrawOnInvalidate = redrawOnInvalidate;
 
         colour = Color.WHITE;
-
-        View inflatingWatchView = createWatchView(context);
-        this.addView(inflatingWatchView);
-        watchView = (WatchView) inflatingWatchView;
-        watchView.registerInvalidator(redrawOnInvalidate);
-        watchViewState = new WatchViewState(watchView);
-        this.toActive();
     }
 
-    @NonNull
-    private View createWatchView(Context context) {
-        return new InflatingWatchView(context);
-    }
 
     public WatchViewRoot(Context context) {
         super(context);
@@ -91,22 +78,6 @@ class WatchViewRoot extends FrameLayout {
         canvas.setMatrix(matrix);
         this.draw(canvas);
         canvas.restore();
-    }
-
-    public void toAmbient() {
-        watchViewState.toAmbient();
-    }
-
-    public void toActive() {
-        watchViewState.toActive();
-    }
-
-    public void toOffsetView() {
-        watchViewState.toOffsetView();
-    }
-
-    public void toInvisible() {
-        watchViewState.toInvisible();
     }
 
     public void destroy() {
