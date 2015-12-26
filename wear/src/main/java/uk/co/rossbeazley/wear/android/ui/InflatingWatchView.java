@@ -20,10 +20,6 @@ import uk.co.rossbeazley.wear.seconds.CanReceiveSecondsUpdates;
 
 class InflatingWatchView extends FrameLayout implements WatchView {
 
-    private int color;
-    private boolean ambient;
-    private boolean offset;
-    private boolean active;
     private RedrawOnInvalidate redrawOnInvalidate;
     private WatchFaceService.CanLog logger = new WatchFaceService.CanLog() {
         @Override
@@ -51,7 +47,6 @@ class InflatingWatchView extends FrameLayout implements WatchView {
 
     @Override
     public void toAmbient() {
-        color = Color.BLACK;
         tearDownView();
         inflatePassiveView();
         Main.instance().tickTock.stop();
@@ -59,7 +54,6 @@ class InflatingWatchView extends FrameLayout implements WatchView {
 
     @Override
     public void toActive() {
-        color = Color.WHITE;
         tearDownView();
         inflateActiveView();
         Main.instance().tickTock.start();
@@ -68,7 +62,6 @@ class InflatingWatchView extends FrameLayout implements WatchView {
 
     @Override
     public void toOffsetView() {
-        color = Color.WHITE;
         tearDownView();
         inflateOffsetView();
         Main.instance().tickTock.start();
@@ -117,7 +110,7 @@ class InflatingWatchView extends FrameLayout implements WatchView {
     private void inflateOffsetView() {
         logger.log("inflateOffsetView");
         inflateLayout(R.layout.watch_face_view_offset);
-        Core.instance().canBeObservedForChangesToMinutes.addListener(invalidateViewWhenMinutesChange);
+        Core.instance().canBeObservedForChangesToSeconds.addListener(invalidateViewWhenSecondsChange);
     }
 
     private void inflateLayout(@LayoutRes int layoutId) {
