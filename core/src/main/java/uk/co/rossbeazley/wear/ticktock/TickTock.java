@@ -44,8 +44,16 @@ public class TickTock {
     }
 
     public void start() {
+        newTimer(200, TimeUnit.MILLISECONDS);
+    }
+
+    public void startLowResolution() {
+        newTimer(1, TimeUnit.SECONDS);
+    }
+
+    private void newTimer(int period, TimeUnit timeUnit) {
         cancelable.cancel();
-        cancelable = executor.scheduleAtFixedRate(tick,200, TimeUnit.MILLISECONDS);
+        cancelable = executor.scheduleAtFixedRate(tick, period, timeUnit);
     }
 
     private static class NullCancelable implements NarrowScheduledExecutorService.Cancelable {

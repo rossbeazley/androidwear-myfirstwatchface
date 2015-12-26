@@ -11,6 +11,8 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.FrameLayout;
 
+import java.util.Calendar;
+
 import uk.co.rossbeazley.wear.Core;
 import uk.co.rossbeazley.wear.Main;
 import uk.co.rossbeazley.wear.R;
@@ -49,7 +51,7 @@ class InflatingWatchView extends FrameLayout implements WatchView {
     public void toAmbient() {
         tearDownView();
         inflatePassiveView();
-        Main.instance().tickTock.stop();
+        Main.instance().tickTock.startLowResolution();
     }
 
     @Override
@@ -70,13 +72,18 @@ class InflatingWatchView extends FrameLayout implements WatchView {
     @Override
     public void toInvisible() {
         logger.log("toInvisible");
-        Main.instance().tickTock.stop();
+        Main.instance().tickTock.startLowResolution();
         Core.instance().canBeObservedForChangesToMinutes.addListener(invalidateViewWhenMinutesChange);
     }
 
     @Override
     public void registerInvalidator(RedrawOnInvalidate redrawOnInvalidate) {
         this.redrawOnInvalidate = redrawOnInvalidate;
+    }
+
+    @Override
+    public void timeTick(Calendar instance) {
+        Core.instance().canBeTicked.tick(instance);
     }
 
     @Override

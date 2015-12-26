@@ -132,7 +132,7 @@ public class WatchFaceService extends CanvasWatchFaceService {
         public void onTimeTick() {
             log("onTimeTick");
             updateView();
-            Core.instance().canBeTicked.tick(Calendar.getInstance()); //TODO get rid of this line, or determine if I should forward the message
+            watchView.timeTick(Calendar.getInstance());
             onSurfaceRedrawNeeded(getSurfaceHolder());
         }
 

@@ -1,5 +1,7 @@
 package uk.co.rossbeazley.wear.android.ui;
 
+import java.util.Calendar;
+
 class WatchViewState implements WatchView {
     private final WatchView watchView;
 
@@ -39,6 +41,11 @@ class WatchViewState implements WatchView {
     public void registerInvalidator(RedrawOnInvalidate redrawOnInvalidate) {
     }
 
+    @Override
+    public void timeTick(Calendar instance) {
+
+    }
+
     private static class BaseWatchView implements WatchView {
         protected final WatchViewState watchViewRoot;
 
@@ -74,6 +81,11 @@ class WatchViewState implements WatchView {
         public void registerInvalidator(RedrawOnInvalidate redrawOnInvalidate) {
 
         }
+
+        @Override
+        public void timeTick(Calendar instance) {
+
+        }
     }
 
     private static class ActiveWatchView extends BaseWatchView {
@@ -84,6 +96,11 @@ class WatchViewState implements WatchView {
 
         @Override
         public void toActive() {
+
+        }
+
+        @Override
+        public void timeTick(Calendar instance) {
 
         }
     }
@@ -97,6 +114,11 @@ class WatchViewState implements WatchView {
         @Override
         public void toAmbient() {
         }
+
+        @Override
+        public void timeTick(Calendar instance) {
+
+        }
     }
 
     private static class OffsetWatchView extends BaseWatchView {
@@ -108,6 +130,11 @@ class WatchViewState implements WatchView {
         public void toOffsetView() {
 
         }
+
+        @Override
+        public void timeTick(Calendar instance) {
+
+        }
     }
 
     private static class AmbientWatchView extends BaseWatchView {
@@ -117,6 +144,11 @@ class WatchViewState implements WatchView {
 
         @Override
         public void toAmbient() {
+
+        }
+
+        @Override
+        public void timeTick(Calendar instance) {
 
         }
     }

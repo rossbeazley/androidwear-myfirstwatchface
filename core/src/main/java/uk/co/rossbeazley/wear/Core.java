@@ -75,6 +75,7 @@ public class Core {
     private static Core instance;
 
     public static Core instance() {
+        if(instance==null) instance = new Core();
         return instance;
     }
 
