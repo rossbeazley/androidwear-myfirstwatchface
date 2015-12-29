@@ -7,7 +7,7 @@ public interface WatchView {
 
     void toActive();
 
-    void toOffsetView();
+    void toActiveOffset();
 
     void toInvisible();
 

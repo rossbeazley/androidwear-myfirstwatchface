@@ -63,7 +63,7 @@ class InflatingWatchView extends FrameLayout implements WatchView {
     }
 
     @Override
-    public void toOffsetView() {
+    public void toActiveOffset() {
         tearDownView();
         inflateOffsetView();
         Main.instance().tickTock.start();

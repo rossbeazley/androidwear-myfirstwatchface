@@ -11,8 +11,6 @@ import android.view.View;
 
 import java.util.Calendar;
 
-import uk.co.rossbeazley.wear.Core;
-
 public class WatchFaceService extends CanvasWatchFaceService {
 
     @Override
@@ -89,10 +87,9 @@ public class WatchFaceService extends CanvasWatchFaceService {
                     watchViewState.toAmbient();
                     watchViewRoot.colour = Color.BLACK;
                 } else {
-
                     watchViewRoot.colour = Color.WHITE;
                     if (cardsShowing()) {
-                        watchViewState.toOffsetView();
+                        watchViewState.toActiveOffset();
                     } else {
                         watchViewState.toActive();
                     }
@@ -146,15 +143,15 @@ public class WatchFaceService extends CanvasWatchFaceService {
         @Override
         public void onVisibilityChanged(boolean visible) {
             log("onVisibilityChanged " + visible);
-            super.onVisibilityChanged(visible);
             updateView();
+            super.onVisibilityChanged(visible);
         }
 
         @Override
         public void onDestroy() {
             log("onDestroy");
-            super.onDestroy();
             watchViewRoot.destroy();
+            super.onDestroy();
         }
 
     }

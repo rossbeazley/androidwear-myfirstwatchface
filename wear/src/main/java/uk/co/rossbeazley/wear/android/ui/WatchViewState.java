@@ -29,8 +29,8 @@ class WatchViewState implements WatchView {
         currentStrategy.toActive();
     }
 
-    public void toOffsetView() {
-        currentStrategy.toOffsetView();
+    public void toActiveOffset() {
+        currentStrategy.toActiveOffset();
     }
 
     public void toInvisible() {
@@ -66,9 +66,9 @@ class WatchViewState implements WatchView {
         }
 
         @Override
-        public void toOffsetView() {
+        public void toActiveOffset() {
             watchViewRoot.currentStrategy = watchViewRoot.offset;
-            watchViewRoot.watchView.toOffsetView();
+            watchViewRoot.watchView.toActiveOffset();
         }
 
         @Override
@@ -127,7 +127,7 @@ class WatchViewState implements WatchView {
         }
 
         @Override
-        public void toOffsetView() {
+        public void toActiveOffset() {
 
         }
 

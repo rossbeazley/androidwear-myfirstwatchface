@@ -1,5 +1,7 @@
 package uk.co.rossbeazley.wear;
 
+import uk.co.rossbeazley.wear.colour.CanReceiveColourUpdates;
+import uk.co.rossbeazley.wear.colour.Colours;
 import uk.co.rossbeazley.wear.days.CanReceiveDaysUpdates;
 import uk.co.rossbeazley.wear.days.DaysFromTick;
 import uk.co.rossbeazley.wear.hours.CanReceiveHoursUpdates;
@@ -23,9 +25,9 @@ public class Core {
     public final CanBeObserved<CanReceiveHoursUpdates> canBeObservedForChangesToHours;
     public final CanBeObserved<CanReceiveMinutesUpdates> canBeObservedForChangesToMinutes;
     public final CanBeObserved<CanReceiveSecondsUpdates> canBeObservedForChangesToSeconds;
+    public final CanBeObserved<CanReceiveColourUpdates> canBeObservedForChangesToColour;
 
     public final CanBeTicked canBeTicked;
-
     public final CanBeRotated canBeRotated;
     public final CanBeObserved<CanReceiveRotationUpdates> canBeObservedForChangesToRotation;
 
@@ -70,6 +72,16 @@ public class Core {
         Rotation rotation = new Rotation(orientation, canReceiveRotationUpdatesAnnouncer);
         canBeRotated = rotation;
         canBeObservedForChangesToRotation = canReceiveRotationUpdatesAnnouncer;
+
+        Announcer<CanReceiveColourUpdates> colourUpdates = Announcer.to(CanReceiveColourUpdates.class);
+        canBeObservedForChangesToColour = colourUpdates;
+        colourUpdates.registerProducer(new Announcer.Producer<CanReceiveColourUpdates>() {
+            @Override
+            public void observed(CanReceiveColourUpdates observer) {
+                Colours to = new Colours(Colours.Colour.WHITE);
+                observer.colourUpdate(to);
+            }
+        });
     }
 
     private static Core instance;
