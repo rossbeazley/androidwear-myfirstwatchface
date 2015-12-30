@@ -30,6 +30,7 @@ public class Core {
     public final CanBeTicked canBeTicked;
     public final CanBeRotated canBeRotated;
     public final CanBeObserved<CanReceiveRotationUpdates> canBeObservedForChangesToRotation;
+    public CanBeColoured canBeColoured;
 
     public Core() {
         this(Orientation.north());
@@ -43,6 +44,7 @@ public class Core {
         HoursFromTick hours;
         DaysFromTick days;
         MonthsFromTick months;
+
 
         final Announcer<CanReceiveSecondsUpdates> canReceiveSecondsUpdatesAnnouncer = Announcer.to(CanReceiveSecondsUpdates.class);
         seconds = new Seconds(canReceiveSecondsUpdatesAnnouncer.announce());
@@ -73,7 +75,7 @@ public class Core {
         canBeRotated = rotation;
         canBeObservedForChangesToRotation = canReceiveRotationUpdatesAnnouncer;
 
-        Announcer<CanReceiveColourUpdates> colourUpdates = Announcer.to(CanReceiveColourUpdates.class);
+        final Announcer<CanReceiveColourUpdates> colourUpdates = Announcer.to(CanReceiveColourUpdates.class);
         canBeObservedForChangesToColour = colourUpdates;
         colourUpdates.registerProducer(new Announcer.Producer<CanReceiveColourUpdates>() {
             @Override
@@ -82,6 +84,14 @@ public class Core {
                 observer.colourUpdate(to);
             }
         });
+
+
+        canBeColoured = new CanBeColoured() {
+            @Override
+            public void background(Colours.Colour colour) {
+                colourUpdates.announce().colourUpdate(new Colours(colour));
+            }
+        };
     }
 
     private static Core instance;

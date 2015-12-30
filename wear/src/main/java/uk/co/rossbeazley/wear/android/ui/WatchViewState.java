@@ -46,6 +46,11 @@ class WatchViewState implements WatchView {
 
     }
 
+    @Override
+    public int background() {
+        return 0;
+    }
+
     private static class BaseWatchView implements WatchView {
         protected final WatchViewState watchViewRoot;
 
@@ -86,6 +91,11 @@ class WatchViewState implements WatchView {
         public void timeTick(Calendar instance) {
 
         }
+
+        @Override
+        public int background() {
+            return 0;
+        }
     }
 
     private static class ActiveWatchView extends BaseWatchView {
@@ -103,6 +113,11 @@ class WatchViewState implements WatchView {
         public void timeTick(Calendar instance) {
 
         }
+
+        @Override
+        public int background() {
+            return 0;
+        }
     }
 
     private static class InvisibleWatchView extends BaseWatchView {
@@ -118,6 +133,11 @@ class WatchViewState implements WatchView {
         @Override
         public void timeTick(Calendar instance) {
 
+        }
+
+        @Override
+        public int background() {
+            return 0;
         }
     }
 
@@ -135,6 +155,11 @@ class WatchViewState implements WatchView {
         public void timeTick(Calendar instance) {
 
         }
+
+        @Override
+        public int background() {
+            return 0;
+        }
     }
 
     private static class AmbientWatchView extends BaseWatchView {
@@ -150,6 +175,11 @@ class WatchViewState implements WatchView {
         @Override
         public void timeTick(Calendar instance) {
 
+        }
+
+        @Override
+        public int background() {
+            return 0;
         }
     }
 

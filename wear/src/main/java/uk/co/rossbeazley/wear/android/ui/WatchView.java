@@ -15,6 +15,8 @@ public interface WatchView {
 
     void timeTick(Calendar instance);
 
+    int background();
+
     interface RedrawOnInvalidate {
         void postInvalidate();
     }

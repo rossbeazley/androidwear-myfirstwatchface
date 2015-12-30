@@ -87,7 +87,8 @@ public class WatchFaceService extends CanvasWatchFaceService {
                     watchViewState.toAmbient();
                     watchViewRoot.colour = Color.BLACK;
                 } else {
-                    watchViewRoot.colour = Color.WHITE;
+//                    watchViewRoot.colour = Color.WHITE;
+                    watchViewRoot.colour = watchView.background();
                     if (cardsShowing()) {
                         watchViewState.toActiveOffset();
                     } else {

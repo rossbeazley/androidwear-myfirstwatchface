@@ -13,7 +13,7 @@ public class Colours {
     }
 
     public static class Colour {
-        public static final Colour BLACK = new Colour(0);
+        public static final Colour BLACK = new Colour(0xFF000000);
         public static final Colour WHITE = new Colour(0xffffffff);
 
 
@@ -35,6 +35,10 @@ public class Colours {
             String unpadded = Integer.toHexString(colourIntValue);
             String padded = "00000000".substring(unpadded.length()) + unpadded;
             return "0x" + padded;
+        }
+
+        public int toInt() {
+            return colourIntValue;
         }
     }
 }

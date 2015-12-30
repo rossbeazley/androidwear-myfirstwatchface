@@ -33,4 +33,12 @@ public class BackgroundColour {
     public void coreDefaultsToWhite() {
         assertThat(backgroundColour,is(Colours.Colour.WHITE));
     }
+
+    @Test
+    public void canChangeColour() {
+
+        core.canBeColoured.background(Colours.Colour.BLACK);
+
+        assertThat(backgroundColour,is(Colours.Colour.BLACK));
+    }
 }

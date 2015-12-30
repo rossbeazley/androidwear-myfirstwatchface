@@ -16,6 +16,7 @@ import com.google.android.gms.wearable.Wearable;
 import java.util.List;
 
 import uk.co.rossbeazley.wear.android.gsm.GoogleWearApiConnection;
+import uk.co.rossbeazley.wear.colour.Colours;
 import uk.co.rossbeazley.wear.rotation.Orientation;
 
 public class Rotate extends Activity {
@@ -39,6 +40,7 @@ public class Rotate extends Activity {
                 Rotate.this.nodes.sendMessage("/face/rotate/right");
             }
         });
+
     }
 
 
