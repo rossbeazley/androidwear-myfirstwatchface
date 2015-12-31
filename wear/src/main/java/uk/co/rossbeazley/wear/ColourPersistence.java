@@ -6,23 +6,24 @@ import com.google.android.gms.wearable.PutDataRequest;
 import com.google.android.gms.wearable.Wearable;
 
 import uk.co.rossbeazley.wear.android.gsm.GoogleWearApiConnection;
-import uk.co.rossbeazley.wear.rotation.CanReceiveRotationUpdates;
-import uk.co.rossbeazley.wear.rotation.Orientation;
+import uk.co.rossbeazley.wear.colour.CanReceiveColourUpdates;
+import uk.co.rossbeazley.wear.colour.Colours;
 
 class ColourPersistence implements GoogleWearApiConnection.ConnectedApiClient {
     public final static String key = "COLOR";
     public final static String path = "colour";
-    private CanBeObserved<CanReceiveRotationUpdates> canBeObservedForChangesToRotation;
+    private CanBeObserved<CanReceiveColourUpdates> canReceiveColourUpdatesCanBeObserved;
 
-    public ColourPersistence(CanBeObserved<CanReceiveRotationUpdates> canBeObservedForChangesToRotation) {
-        this.canBeObservedForChangesToRotation = canBeObservedForChangesToRotation;
+    public ColourPersistence(CanBeObserved<CanReceiveColourUpdates> canReceiveColourUpdatesCanBeObserved) {
+        this.canReceiveColourUpdatesCanBeObserved = canReceiveColourUpdatesCanBeObserved;
     }
 
     @Override
     public void invoke(final GoogleApiClient gac) {
-        canBeObservedForChangesToRotation.addListener(new CanReceiveRotationUpdates() {
+        canReceiveColourUpdatesCanBeObserved.addListener(new CanReceiveColourUpdates() {
             @Override
-            public void rotationUpdate(Orientation to) {
+            public void colourUpdate(Colours to) {
+
                 PutDataMapRequest dataMap = PutDataMapRequest.create("/" + path);
                 dataMap.getDataMap().putString(key, "");
                 PutDataRequest request = dataMap.asPutDataRequest();

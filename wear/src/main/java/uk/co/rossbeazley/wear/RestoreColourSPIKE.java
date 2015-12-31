@@ -1,5 +1,6 @@
 package uk.co.rossbeazley.wear;
 
+import android.graphics.Color;
 import android.net.Uri;
 
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -12,6 +13,7 @@ import com.google.android.gms.wearable.NodeApi;
 import com.google.android.gms.wearable.Wearable;
 
 import uk.co.rossbeazley.wear.android.gsm.GoogleWearApiConnection;
+import uk.co.rossbeazley.wear.colour.Colours;
 import uk.co.rossbeazley.wear.rotation.Orientation;
 
 /**
@@ -20,7 +22,7 @@ import uk.co.rossbeazley.wear.rotation.Orientation;
 class RestoreColourSPIKE implements GoogleWearApiConnection.ConnectedApiClient {
 
     public static interface Restored {
-        void to(Orientation orientation);
+        void to(Colours colours);
     }
 
     private Announcer<Restored> announcer;
@@ -44,7 +46,7 @@ class RestoreColourSPIKE implements GoogleWearApiConnection.ConnectedApiClient {
                 Uri requestUri = new Uri.Builder()
                                         .scheme("wear")
                                         .authority(getLocalNodeResult.getNode().getId())
-                                        .path(OrientationPersistence.rotation_path)
+                                        .path(ColourPersistence.path)
                                         .build();
                 PendingResult<DataApi.DataItemResult> pendingResult;
                 pendingResult = Wearable.DataApi.getDataItem(gac, requestUri);
@@ -55,15 +57,15 @@ class RestoreColourSPIKE implements GoogleWearApiConnection.ConnectedApiClient {
                         try {
                             DataItem dataItem = dataItemResult.getDataItem();
                             DataMapItem map = DataMapItem.fromDataItem(dataItem);
-                            float degreesAsFloat = map.getDataMap().getFloat(OrientationPersistence.rotation_key);
-                            Orientation from = Orientation.from(degreesAsFloat);
+                            int colourAsInt = map.getDataMap().getInt(ColourPersistence.key);
+                            Colours from = new Colours(new Colours.Colour(colourAsInt));
                             System.out.println(from);
-                            System.out.println("RESTORED ROTATION announcing ");
+                            System.out.println("RESTORED Colour announcing ");
                             announcer.announce().to(from);
                         } catch (Exception ignored) {
                             ignored.printStackTrace();
-                            System.out.println("RESTORED ROTATION announcing ");
-                            announcer.announce().to(Orientation.north());
+                            System.out.println("RESTORED Colour announcing ");
+                            announcer.announce().to(new Colours(Colours.Colour.WHITE));
                         }
                     }
                 });

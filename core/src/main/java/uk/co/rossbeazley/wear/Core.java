@@ -25,12 +25,13 @@ public class Core {
     public final CanBeObserved<CanReceiveHoursUpdates> canBeObservedForChangesToHours;
     public final CanBeObserved<CanReceiveMinutesUpdates> canBeObservedForChangesToMinutes;
     public final CanBeObserved<CanReceiveSecondsUpdates> canBeObservedForChangesToSeconds;
-    public final CanBeObserved<CanReceiveColourUpdates> canBeObservedForChangesToColour;
+    public CanBeObserved<CanReceiveColourUpdates> canBeObservedForChangesToColour;
 
     public final CanBeTicked canBeTicked;
     public final CanBeRotated canBeRotated;
     public final CanBeObserved<CanReceiveRotationUpdates> canBeObservedForChangesToRotation;
     public CanBeColoured canBeColoured;
+    private Colours currentBackgroundColour;
 
     public Core() {
         this(Orientation.north());
@@ -75,13 +76,17 @@ public class Core {
         canBeRotated = rotation;
         canBeObservedForChangesToRotation = canReceiveRotationUpdatesAnnouncer;
 
+        setupColourSubsystem();
+        currentBackgroundColour = new Colours(Colours.Colour.WHITE);
+    }
+
+    private void setupColourSubsystem() {
         final Announcer<CanReceiveColourUpdates> colourUpdates = Announcer.to(CanReceiveColourUpdates.class);
         canBeObservedForChangesToColour = colourUpdates;
         colourUpdates.registerProducer(new Announcer.Producer<CanReceiveColourUpdates>() {
             @Override
             public void observed(CanReceiveColourUpdates observer) {
-                Colours to = new Colours(Colours.Colour.WHITE);
-                observer.colourUpdate(to);
+                observer.colourUpdate(currentBackgroundColour);
             }
         });
 
@@ -89,7 +94,8 @@ public class Core {
         canBeColoured = new CanBeColoured() {
             @Override
             public void background(Colours.Colour colour) {
-                colourUpdates.announce().colourUpdate(new Colours(colour));
+                currentBackgroundColour  = new Colours(colour);
+                colourUpdates.announce().colourUpdate(currentBackgroundColour);
             }
         };
     }
