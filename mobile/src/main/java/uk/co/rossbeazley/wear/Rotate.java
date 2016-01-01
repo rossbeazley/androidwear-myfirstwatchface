@@ -16,6 +16,7 @@ import com.google.android.gms.wearable.Wearable;
 import java.util.List;
 
 import uk.co.rossbeazley.wear.android.gsm.GoogleWearApiConnection;
+import uk.co.rossbeazley.wear.colour.CanReceiveColourUpdates;
 import uk.co.rossbeazley.wear.colour.Colours;
 import uk.co.rossbeazley.wear.rotation.Orientation;
 
@@ -41,6 +42,33 @@ public class Rotate extends Activity {
             }
         });
 
+        Core.instance().canBeObservedForChangesToColour.addListener(new CanReceiveColourUpdates() {
+            @Override
+            public void colourUpdate(Colours to) {
+                findViewById(R.id.rotate_container).setBackgroundColor(to.background().toInt());
+            }
+        });
+
+        findViewById(R.id.rotate_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Core.instance().canBeRotated.right();
+            }
+        });
+
+        findViewById(R.id.black_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Core.instance().canBeColoured.background(Colours.Colour.BLACK);
+            }
+        });
+
+        findViewById(R.id.white_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Core.instance().canBeColoured.background(Colours.Colour.WHITE);
+            }
+        });
     }
 
 

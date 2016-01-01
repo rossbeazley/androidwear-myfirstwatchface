@@ -62,11 +62,12 @@ class WatchViewRoot extends FrameLayout {
 
 
     public void drawToBounds(Canvas canvas, Rect bounds) {
-        if (getChildCount() == 0) return;
-
-        bounds = adjustDrawingAreaForAnyNotificationCards(bounds, currentPeekCardPosition);
 
         canvas.drawColor(colour); //reset canvas to base colour
+
+        if (getChildCount() == 0) return; //fast exit
+
+        bounds = adjustDrawingAreaForAnyNotificationCards(bounds, currentPeekCardPosition);
 
         int widthSpec = View.MeasureSpec.makeMeasureSpec(bounds.width(), View.MeasureSpec.EXACTLY);
         int heightSpec = View.MeasureSpec.makeMeasureSpec(bounds.height(), View.MeasureSpec.EXACTLY);
@@ -86,17 +87,17 @@ class WatchViewRoot extends FrameLayout {
 
     @Override
     public void invalidate() {
-        this.redrawOnInvalidate.postInvalidate();
+        this.redrawOnInvalidate.forceInvalidate();
     }
 
     @Override
     public void postInvalidate() {
-        this.redrawOnInvalidate.postInvalidate();
+        this.redrawOnInvalidate.forceInvalidate();
     }
 
     @Override
     public void postInvalidateOnAnimation() {
-        this.redrawOnInvalidate.postInvalidate();
+        this.redrawOnInvalidate.forceInvalidate();
     }
 
 

@@ -33,18 +33,18 @@
         android:layout_height="30dp"
         android:id="@+id/black_button"
         android:src="@drawable/black_button"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="15dp"
-        android:layout_gravity="top|center_horizontal"
+        android:layout_marginRight="45dp"
+        android:layout_marginBottom="27dp"
+        android:layout_gravity="bottom|center_horizontal"
         />
 
     <ImageView android:layout_width="60dp"
         android:layout_height="30dp"
         android:id="@+id/white_button"
         android:src="@drawable/white_button"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="15dp"
-        android:layout_gravity="top|center_horizontal"
+        android:layout_marginLeft="45dp"
+        android:layout_marginBottom="27dp"
+        android:layout_gravity="bottom|center_horizontal"
         />
 
 </FrameLayout>

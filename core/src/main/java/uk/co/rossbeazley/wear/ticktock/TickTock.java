@@ -48,7 +48,7 @@ public class TickTock {
     }
 
     public void startLowResolution() {
-        newTimer(1, TimeUnit.MINUTES);
+        newTimer(30, TimeUnit.SECONDS);
     }
 
     private void newTimer(int period, TimeUnit timeUnit) {

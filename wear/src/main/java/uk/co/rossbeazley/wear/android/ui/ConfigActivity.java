@@ -38,33 +38,42 @@ public class ConfigActivity extends Activity {
     }
 
     private void createView() {
+        Main.instance().tickTock.start();
         setContentView(R.layout.rotate);
-        findViewById(R.id.rotate_button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Core.instance().canBeRotated.right();
-            }
-        });
-        findViewById(R.id.black_button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Core.instance().canBeColoured.background(Colours.Colour.BLACK);
-            }
-        });
-        findViewById(R.id.white_button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Core.instance().canBeColoured.background(Colours.Colour.WHITE);
-            }
-        });
+
         Core.instance().canBeObservedForChangesToColour.addListener(new CanReceiveColourUpdates() {
             @Override
             public void colourUpdate(Colours to) {
                 findViewById(R.id.rotate_container).setBackgroundColor(to.background().toInt());
             }
         });
+
+        findViewById(R.id.rotate_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Core.instance().canBeRotated.right();
+            }
+        });
+
+        findViewById(R.id.black_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Core.instance().canBeColoured.background(Colours.Colour.BLACK);
+            }
+        });
+
+        findViewById(R.id.white_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Core.instance().canBeColoured.background(Colours.Colour.WHITE);
+            }
+        });
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
 
     private static class RotationToDegreesMessage implements GoogleWearApiConnection.ConnectedApiClient {
         @Override

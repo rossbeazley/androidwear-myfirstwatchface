@@ -87,7 +87,6 @@ public class WatchFaceService extends CanvasWatchFaceService {
                     watchViewState.toAmbient();
                     watchViewRoot.colour = Color.BLACK;
                 } else {
-//                    watchViewRoot.colour = Color.WHITE;
                     watchViewRoot.colour = watchView.background();
                     if (cardsShowing()) {
                         watchViewState.toActiveOffset();
@@ -116,13 +115,14 @@ public class WatchFaceService extends CanvasWatchFaceService {
         }
 
         @Override
-        public void postInvalidate() {
+        public void forceInvalidate() {
             log("postInvalidate");
-            super.postInvalidate();
+            invalidate();
+            onSurfaceRedrawNeeded(getSurfaceHolder());
         }
 
         public void log(String msg) {
-            //System.out.println("RWF " + msg);
+            System.out.println("RWF " + System.currentTimeMillis() + ":" + msg);
         }
 
 

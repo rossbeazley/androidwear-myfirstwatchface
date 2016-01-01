@@ -25,7 +25,7 @@ class ColourPersistence implements GoogleWearApiConnection.ConnectedApiClient {
             public void colourUpdate(Colours to) {
 
                 PutDataMapRequest dataMap = PutDataMapRequest.create("/" + path);
-                dataMap.getDataMap().putString(key, "");
+                dataMap.getDataMap().putInt(key, to.background().toInt());
                 PutDataRequest request = dataMap.asPutDataRequest();
                 Wearable.DataApi.putDataItem(gac, request);
             }

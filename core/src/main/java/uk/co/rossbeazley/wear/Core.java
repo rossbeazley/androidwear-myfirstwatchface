@@ -39,7 +39,6 @@ public class Core {
 
 
     public Core(Orientation orientation) {
-        System.out.println("CORE INIT");
         Seconds seconds;
         MinutesFromTick minutes;
         HoursFromTick hours;
@@ -76,8 +75,8 @@ public class Core {
         canBeRotated = rotation;
         canBeObservedForChangesToRotation = canReceiveRotationUpdatesAnnouncer;
 
-        setupColourSubsystem();
         currentBackgroundColour = new Colours(Colours.Colour.WHITE);
+        setupColourSubsystem();
     }
 
     private void setupColourSubsystem() {
