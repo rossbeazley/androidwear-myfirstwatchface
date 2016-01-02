@@ -84,8 +84,8 @@ public class WatchFaceService extends CanvasWatchFaceService {
             log("updateView");
             if(isVisible()) {
                 if (isInAmbientMode()) {
-                    watchViewState.toAmbient();
                     watchViewRoot.colour = Color.BLACK;
+                    watchViewState.toAmbient();
                 } else {
                     watchViewRoot.colour = watchView.background();
                     if (cardsShowing()) {
@@ -95,9 +95,10 @@ public class WatchFaceService extends CanvasWatchFaceService {
                     }
                 }
             } else {
+                watchViewRoot.colour = Color.BLACK;
                 watchViewState.toInvisible();
             }
-            invalidate();
+            postInvalidate();
         }
 
         private boolean cardsShowing() {
@@ -109,6 +110,12 @@ public class WatchFaceService extends CanvasWatchFaceService {
         }
 
         @Override
+        public void postInvalidate() {
+            log("postInvalidate");
+            super.postInvalidate();
+        }
+
+        @Override
         public void invalidate() {
             log("invalidate");
             super.invalidate();
@@ -117,7 +124,7 @@ public class WatchFaceService extends CanvasWatchFaceService {
         @Override
         public void forceInvalidate() {
             log("postInvalidate");
-            invalidate();
+            postInvalidate();
             onSurfaceRedrawNeeded(getSurfaceHolder());
         }
 
@@ -154,6 +161,8 @@ public class WatchFaceService extends CanvasWatchFaceService {
             watchViewRoot.destroy();
             super.onDestroy();
         }
+
+
 
     }
 

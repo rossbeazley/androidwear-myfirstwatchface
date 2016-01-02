@@ -21,12 +21,24 @@ class WatchViewRoot extends FrameLayout {
 
 
 
-    public WatchViewRoot(Context context, WatchView.RedrawOnInvalidate redrawOnInvalidate) {
+    public WatchViewRoot(Context context, final WatchView.RedrawOnInvalidate redrawOnInvalidate) {
         this(context);
 
         this.redrawOnInvalidate = redrawOnInvalidate;
 
         colour = Color.WHITE;
+
+        this.setOnHierarchyChangeListener(new OnHierarchyChangeListener() {
+            @Override
+            public void onChildViewAdded(View parent, View child) {
+                redrawOnInvalidate.postInvalidate();
+            }
+
+            @Override
+            public void onChildViewRemoved(View parent, View child) {
+                redrawOnInvalidate.postInvalidate();
+            }
+        });
     }
 
 
@@ -87,17 +99,17 @@ class WatchViewRoot extends FrameLayout {
 
     @Override
     public void invalidate() {
-        this.redrawOnInvalidate.forceInvalidate();
+        this.redrawOnInvalidate.postInvalidate();
     }
 
     @Override
     public void postInvalidate() {
-        this.redrawOnInvalidate.forceInvalidate();
+        this.redrawOnInvalidate.postInvalidate();
     }
 
     @Override
     public void postInvalidateOnAnimation() {
-        this.redrawOnInvalidate.forceInvalidate();
+        this.redrawOnInvalidate.postInvalidate();
     }
 
 

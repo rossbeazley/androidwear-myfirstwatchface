@@ -19,6 +19,6 @@ public interface WatchView {
 
     interface RedrawOnInvalidate {
         void forceInvalidate();
-        void invalidate();
+        void postInvalidate();
     }
 }

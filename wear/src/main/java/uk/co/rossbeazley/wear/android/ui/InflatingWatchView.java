@@ -16,6 +16,8 @@ import uk.co.rossbeazley.wear.R;
 import uk.co.rossbeazley.wear.Sexagesimal;
 import uk.co.rossbeazley.wear.colour.CanReceiveColourUpdates;
 import uk.co.rossbeazley.wear.colour.Colours;
+import uk.co.rossbeazley.wear.hours.CanReceiveHoursUpdates;
+import uk.co.rossbeazley.wear.hours.HourBase24;
 import uk.co.rossbeazley.wear.minutes.CanReceiveMinutesUpdates;
 import uk.co.rossbeazley.wear.seconds.CanReceiveSecondsUpdates;
 
@@ -49,16 +51,16 @@ class InflatingWatchView extends FrameLayout implements WatchView {
 
     @Override
     public void toAmbient() {
+        Main.instance().tickTock.startLowResolution();
         inflateDarkView();
-        Core.instance().canBeObservedForChangesToMinutes.addListener(invalidateViewWhenMinutesChange);
-        Main.instance().tickTock.stop();
+        secondsActive = true;
     }
 
     @Override
     public void toActive() {
         Main.instance().tickTock.start();
         inflateFullView();
-        Core.instance().canBeObservedForChangesToSeconds.addListener(invalidateViewWhenSecondsChange);
+        secondsActive = true;
         logger.log("done toActive");
     }
 
@@ -66,21 +68,32 @@ class InflatingWatchView extends FrameLayout implements WatchView {
     public void toActiveOffset() {
         Main.instance().tickTock.start();
         inflateOffsetView();
-        Core.instance().canBeObservedForChangesToSeconds.addListener(invalidateViewWhenSecondsChange);
-
+        secondsActive = true;
+        logger.log("done toActiveOffset");
     }
 
     @Override
     public void toInvisible() {
         logger.log("toInvisible");
         Main.instance().tickTock.startLowResolution();
-        inflateFullView();
-        Core.instance().canBeObservedForChangesToMinutes.addListener(forceInvalidateViewWhenMinutesChange);
+        clearListeners();
+        tearDownView();
+        secondsActive=false;
+//        redrawOnInvalidate.postInvalidate();
+//        Core.instance().canBeObservedForChangesToMinutes.addListener(forceInvalidateViewWhenMinutesChange);
     }
 
     @Override
     public void registerInvalidator(RedrawOnInvalidate redrawOnInvalidate) {
         this.redrawOnInvalidate = redrawOnInvalidate;
+
+        {
+            Core.instance().canBeObservedForChangesToColour.addListener(colourUpdates);
+            Core.instance().canBeObservedForChangesToSeconds.addListener(invalidateViewWhenSecondsChange);
+            Core.instance().canBeObservedForChangesToMinutes.addListener(invalidateViewWhenMinutesChange);
+            Core.instance().canBeObservedForChangesToHours.addListener(invalidateViewWhenHoursChange);
+
+        }
     }
 
     @Override
@@ -97,12 +110,12 @@ class InflatingWatchView extends FrameLayout implements WatchView {
     protected void onDetachedFromWindow() {
         logger.log("destroy");
         tearDownView();
-        Core.instance().canBeObservedForChangesToColour.removeListener(colourUpdates);
         super.onDetachedFromWindow();
     }
 
     private void tearDownView() {
         logger.log("tearDownView");
+        currentLayout = 0;
         this.removeAllViews();
     }
 
@@ -129,6 +142,7 @@ class InflatingWatchView extends FrameLayout implements WatchView {
             tearDownView();
             LayoutInflater li = LayoutInflater.from(getContext());
             li.inflate(layoutId, this);
+//            redrawOnInvalidate.postInvalidate();
             logger.log("inflate complete");
         } else {
             logger.log("Not over inflating");
@@ -136,36 +150,42 @@ class InflatingWatchView extends FrameLayout implements WatchView {
     }
 
     private void clearListeners() {
-        Core.instance().canBeObservedForChangesToMinutes.removeListener(invalidateViewWhenMinutesChange);
-        Core.instance().canBeObservedForChangesToMinutes.removeListener(forceInvalidateViewWhenMinutesChange);
-        Core.instance().canBeObservedForChangesToSeconds.removeListener(invalidateViewWhenSecondsChange);
+//        Core.instance().canBeObservedForChangesToMinutes.removeListener(invalidateViewWhenMinutesChange);
+//        Core.instance().canBeObservedForChangesToMinutes.removeListener(forceInvalidateViewWhenMinutesChange);
+//        Core.instance().canBeObservedForChangesToSeconds.removeListener(invalidateViewWhenSecondsChange);
     }
 
+    private boolean secondsActive;
     public final CanReceiveSecondsUpdates invalidateViewWhenSecondsChange = new CanReceiveSecondsUpdates() {
         @Override
         public void secondsUpdate(Sexagesimal to) {
-            redrawOnInvalidate.invalidate();
+            if(secondsActive) redrawOnInvalidate.postInvalidate();
         }
     };
 
     public final CanReceiveMinutesUpdates invalidateViewWhenMinutesChange = new CanReceiveMinutesUpdates() {
         @Override
         public void minutesUpdate(Sexagesimal to) {
-            redrawOnInvalidate.invalidate();
+            if(secondsActive) redrawOnInvalidate.postInvalidate();
+        }
+    };
+
+    public final CanReceiveHoursUpdates invalidateViewWhenHoursChange = new CanReceiveHoursUpdates() {
+        @Override
+        public void hoursUpdate(HourBase24 hourBase24) {
+            if(secondsActive) redrawOnInvalidate.postInvalidate();
         }
     };
 
     public final CanReceiveMinutesUpdates forceInvalidateViewWhenMinutesChange = new CanReceiveMinutesUpdates() {
         @Override
         public void minutesUpdate(Sexagesimal to) {
-            redrawOnInvalidate.forceInvalidate();
+            if(secondsActive) redrawOnInvalidate.forceInvalidate();
         }
     };
 
     public final MyCanReceiveColourUpdates colourUpdates = new MyCanReceiveColourUpdates();
-    {
-        Core.instance().canBeObservedForChangesToColour.addListener(colourUpdates);
-    }
+
     private static class MyCanReceiveColourUpdates implements CanReceiveColourUpdates {
         public Colours.Colour background;
 
