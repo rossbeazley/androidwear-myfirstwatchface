@@ -81,6 +81,8 @@ class WatchViewRoot extends FrameLayout {
 
         bounds = adjustDrawingAreaForAnyNotificationCards(bounds, currentPeekCardPosition);
 
+        invalidate();
+
         int widthSpec = View.MeasureSpec.makeMeasureSpec(bounds.width(), View.MeasureSpec.EXACTLY);
         int heightSpec = View.MeasureSpec.makeMeasureSpec(bounds.height(), View.MeasureSpec.EXACTLY);
         this.measure(widthSpec, heightSpec);
@@ -96,22 +98,6 @@ class WatchViewRoot extends FrameLayout {
     public void destroy() {
         removeAllViews();
     }
-
-    @Override
-    public void invalidate() {
-        this.redrawOnInvalidate.postInvalidate();
-    }
-
-    @Override
-    public void postInvalidate() {
-        this.redrawOnInvalidate.postInvalidate();
-    }
-
-    @Override
-    public void postInvalidateOnAnimation() {
-        this.redrawOnInvalidate.postInvalidate();
-    }
-
 
     public void storeCurrentPeekCardPosition(Rect currentPeekCardPosition) {
         this.currentPeekCardPosition = currentPeekCardPosition;

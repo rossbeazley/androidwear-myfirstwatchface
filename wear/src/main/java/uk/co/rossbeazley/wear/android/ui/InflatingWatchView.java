@@ -53,14 +53,14 @@ class InflatingWatchView extends FrameLayout implements WatchView {
     public void toAmbient() {
         Main.instance().tickTock.startLowResolution();
         inflateDarkView();
-        secondsActive = true;
+        invalidateCanvasOnViewChanges = true;
     }
 
     @Override
     public void toActive() {
         Main.instance().tickTock.start();
         inflateFullView();
-        secondsActive = true;
+        invalidateCanvasOnViewChanges = true;
         logger.log("done toActive");
     }
 
@@ -68,7 +68,7 @@ class InflatingWatchView extends FrameLayout implements WatchView {
     public void toActiveOffset() {
         Main.instance().tickTock.start();
         inflateOffsetView();
-        secondsActive = true;
+        invalidateCanvasOnViewChanges = true;
         logger.log("done toActiveOffset");
     }
 
@@ -76,11 +76,8 @@ class InflatingWatchView extends FrameLayout implements WatchView {
     public void toInvisible() {
         logger.log("toInvisible");
         Main.instance().tickTock.startLowResolution();
-        clearListeners();
-        tearDownView();
-        secondsActive=false;
-//        redrawOnInvalidate.postInvalidate();
-//        Core.instance().canBeObservedForChangesToMinutes.addListener(forceInvalidateViewWhenMinutesChange);
+        inflateFullView();
+        invalidateCanvasOnViewChanges = false;
     }
 
     @Override
@@ -98,7 +95,7 @@ class InflatingWatchView extends FrameLayout implements WatchView {
 
     @Override
     public void timeTick(Calendar instance) {
-        Core.instance().canBeTicked.tick(instance);
+        //Core.instance().canBeTicked.tick(instance);
     }
 
     @Override
@@ -136,51 +133,43 @@ class InflatingWatchView extends FrameLayout implements WatchView {
     }
 
     private void inflateLayout(@LayoutRes int layoutId) {
-        clearListeners();
         if(currentLayout!=layoutId) {
-            this.currentLayout = layoutId;
             tearDownView();
+            this.currentLayout = layoutId;
             LayoutInflater li = LayoutInflater.from(getContext());
             li.inflate(layoutId, this);
-//            redrawOnInvalidate.postInvalidate();
             logger.log("inflate complete");
         } else {
             logger.log("Not over inflating");
         }
     }
 
-    private void clearListeners() {
-//        Core.instance().canBeObservedForChangesToMinutes.removeListener(invalidateViewWhenMinutesChange);
-//        Core.instance().canBeObservedForChangesToMinutes.removeListener(forceInvalidateViewWhenMinutesChange);
-//        Core.instance().canBeObservedForChangesToSeconds.removeListener(invalidateViewWhenSecondsChange);
-    }
-
-    private boolean secondsActive;
+    private boolean invalidateCanvasOnViewChanges;
     public final CanReceiveSecondsUpdates invalidateViewWhenSecondsChange = new CanReceiveSecondsUpdates() {
         @Override
         public void secondsUpdate(Sexagesimal to) {
-            if(secondsActive) redrawOnInvalidate.postInvalidate();
+            if(invalidateCanvasOnViewChanges) redrawOnInvalidate.postInvalidate();
         }
     };
 
     public final CanReceiveMinutesUpdates invalidateViewWhenMinutesChange = new CanReceiveMinutesUpdates() {
         @Override
         public void minutesUpdate(Sexagesimal to) {
-            if(secondsActive) redrawOnInvalidate.postInvalidate();
+            if(invalidateCanvasOnViewChanges) redrawOnInvalidate.postInvalidate();
         }
     };
 
     public final CanReceiveHoursUpdates invalidateViewWhenHoursChange = new CanReceiveHoursUpdates() {
         @Override
         public void hoursUpdate(HourBase24 hourBase24) {
-            if(secondsActive) redrawOnInvalidate.postInvalidate();
+            if(invalidateCanvasOnViewChanges) redrawOnInvalidate.postInvalidate();
         }
     };
 
     public final CanReceiveMinutesUpdates forceInvalidateViewWhenMinutesChange = new CanReceiveMinutesUpdates() {
         @Override
         public void minutesUpdate(Sexagesimal to) {
-            if(secondsActive) redrawOnInvalidate.forceInvalidate();
+            if(invalidateCanvasOnViewChanges) redrawOnInvalidate.forceInvalidate();
         }
     };
 

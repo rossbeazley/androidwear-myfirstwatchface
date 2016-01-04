@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Rect;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.wearable.watchface.CanvasWatchFaceService;
 import android.view.SurfaceHolder;
@@ -112,19 +113,30 @@ public class WatchFaceService extends CanvasWatchFaceService {
         @Override
         public void postInvalidate() {
             log("postInvalidate");
+
             super.postInvalidate();
         }
 
         @Override
         public void invalidate() {
             log("invalidate");
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    doInvalidate();
+                }
+            },10);
+        }
+
+        void doInvalidate() {
+
             super.invalidate();
         }
 
         @Override
         public void forceInvalidate() {
             log("postInvalidate");
-            postInvalidate();
+            invalidate();
             onSurfaceRedrawNeeded(getSurfaceHolder());
         }
 

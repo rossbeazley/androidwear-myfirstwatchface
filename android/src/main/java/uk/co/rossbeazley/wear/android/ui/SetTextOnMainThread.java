@@ -9,6 +9,7 @@ class SetTextOnMainThread {
              @Override
              public void run() {
                  textView.setText(text);
+                 textView.invalidate();
              }
          });
         textView.setText(text);
