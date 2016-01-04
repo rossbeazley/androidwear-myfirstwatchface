@@ -2,6 +2,7 @@ package uk.co.rossbeazley.wear.android.ui;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.graphics.Canvas;
 import android.os.Build;
 import android.support.annotation.LayoutRes;
 import android.util.AttributeSet;
@@ -47,6 +48,12 @@ class InflatingWatchView extends FrameLayout implements WatchView {
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public InflatingWatchView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
+    }
+
+    @Override
+    protected void onDraw(Canvas canvas) {
+        Core.instance().canBeTicked.tick(Calendar.getInstance());
+        super.onDraw(canvas);
     }
 
     @Override
