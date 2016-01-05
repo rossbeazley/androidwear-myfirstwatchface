@@ -11,6 +11,7 @@ import uk.co.rossbeazley.wear.ticktock.CanBeTicked;
 public class MonthsFromTick implements CanBeTicked {
 
     final private Announcer<CanReceiveMonthsUpdates> announcer;
+    private final CanReceiveMonthsUpdates announce;
     private Month current;
 
     public MonthsFromTick(Announcer<CanReceiveMonthsUpdates> canReceiveMonthsUpdatesAnnouncer) {
@@ -21,6 +22,7 @@ public class MonthsFromTick implements CanBeTicked {
                 if(current!=null) observer.monthsUpdate(current);
             }
         });
+        announce = announcer.announce();
     }
 
     @Override
@@ -35,7 +37,7 @@ public class MonthsFromTick implements CanBeTicked {
     }
 
     private Month update(Month to) {
-        announcer.announce().monthsUpdate(to);
+        announce.monthsUpdate(to);
         return to;
     }
 }

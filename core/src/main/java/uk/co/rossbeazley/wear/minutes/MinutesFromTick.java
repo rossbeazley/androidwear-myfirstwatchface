@@ -9,6 +9,7 @@ import uk.co.rossbeazley.wear.ticktock.CanBeTicked;
 
 public class MinutesFromTick implements CanBeTicked {
     private final Announcer<CanReceiveMinutesUpdates> canReceiveMinutesUpdates;
+    private final CanReceiveMinutesUpdates announce;
     private Sexagesimal current;
 
     public MinutesFromTick(Announcer<CanReceiveMinutesUpdates> canReceiveMinutesUpdatesAnnouncer) {
@@ -20,6 +21,7 @@ public class MinutesFromTick implements CanBeTicked {
                 if(current!=null) observer.minutesUpdate(current);
             }
         });
+        announce = canReceiveMinutesUpdates.announce();
     }
 
     @Override
@@ -34,7 +36,7 @@ public class MinutesFromTick implements CanBeTicked {
     }
 
     private Sexagesimal change(Sexagesimal to) {
-        canReceiveMinutesUpdates.announce().minutesUpdate(to);
+        announce.minutesUpdate(to);
         return to;
     }
 }

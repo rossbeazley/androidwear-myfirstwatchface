@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
+import android.graphics.Paint;
 import android.graphics.Rect;
 import android.os.Build;
 import android.support.annotation.NonNull;
@@ -18,7 +19,7 @@ class WatchViewRoot extends FrameLayout {
 
     private WatchView.RedrawOnInvalidate redrawOnInvalidate;
     private Rect currentPeekCardPosition;
-
+    private boolean invisible;
 
 
     public WatchViewRoot(Context context, final WatchView.RedrawOnInvalidate redrawOnInvalidate) {
@@ -77,7 +78,7 @@ class WatchViewRoot extends FrameLayout {
 
         canvas.drawColor(colour); //reset canvas to base colour
 
-        if (getChildCount() == 0) return; //fast exit
+        if (getChildCount() == 0 && isVisible()) return; //fast exit
 
         bounds = adjustDrawingAreaForAnyNotificationCards(bounds, currentPeekCardPosition);
 
@@ -95,6 +96,10 @@ class WatchViewRoot extends FrameLayout {
         canvas.restore();
     }
 
+    private boolean isVisible() {
+        return !invisible;
+    }
+
     public void destroy() {
         removeAllViews();
     }
@@ -103,5 +108,19 @@ class WatchViewRoot extends FrameLayout {
         this.currentPeekCardPosition = currentPeekCardPosition;
     }
 
+    public void toInvisible() {
+        invisible=true;
+        colour = Color.BLACK;
+    }
+
+    public void toVisibile(int background) {
+        invisible = false;
+        colour = background;
+    }
+
+    public void toAmbient() {
+        invisible = false;
+        colour = Color.BLACK;
+    }
 }
 

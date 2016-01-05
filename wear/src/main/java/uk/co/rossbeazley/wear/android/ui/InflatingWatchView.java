@@ -83,7 +83,9 @@ class InflatingWatchView extends FrameLayout implements WatchView {
     public void toInvisible() {
         logger.log("toInvisible");
         Main.instance().tickTock.startLowResolution();
-        inflateFullView();
+//        currentLayout = 0;
+//        removeAllViews();
+//        invalidate();
         invalidateCanvasOnViewChanges = false;
     }
 
@@ -170,13 +172,6 @@ class InflatingWatchView extends FrameLayout implements WatchView {
         @Override
         public void hoursUpdate(HourBase24 hourBase24) {
             if(invalidateCanvasOnViewChanges) redrawOnInvalidate.postInvalidate();
-        }
-    };
-
-    public final CanReceiveMinutesUpdates forceInvalidateViewWhenMinutesChange = new CanReceiveMinutesUpdates() {
-        @Override
-        public void minutesUpdate(Sexagesimal to) {
-            if(invalidateCanvasOnViewChanges) redrawOnInvalidate.forceInvalidate();
         }
     };
 

@@ -46,27 +46,29 @@ public class Main {
         tickTock = TickTock.createTickTock(core.canBeTicked);
         RestoreRotationSPIKE loadOrientationFromPersistentStore = new RestoreRotationSPIKE();
         loadOrientationFromPersistentStore.observe(new RotateWatchFace(core));
-        loadOrientationFromPersistentStore.observe(new BindRotationMessageAdapter(context, core));
-        loadOrientationFromPersistentStore.observe(new BindRotationPersistence(context, core));
+//        loadOrientationFromPersistentStore.observe(new BindRotationMessageAdapter(context, core));
+//        loadOrientationFromPersistentStore.observe(new BindRotationPersistence(context, core));
         //loadOrientationFromPersistentStore.addListener(new BindTickTock(core));
         new GoogleWearApiConnection(context, loadOrientationFromPersistentStore);
 
+        new GoogleWearApiConnection(context, new RotationWhenDataItemUpdates());
+
         nodes = new Nodes(context);
 
-        core.canBeObservedForChangesToHours.addListener(new CanReceiveHoursUpdates() {
-            @Override
-            public void hoursUpdate(HourBase24 hourBase24) {
-                pingGoogleAnalytics();
-            }
-        });
-
-
-        core.canBeObservedForChangesToSeconds.addListener(new CanReceiveSecondsUpdates() {
-            @Override
-            public void secondsUpdate(Sexagesimal to) {
-                pingGoogleAnalytics();
-            }
-        });
+//        core.canBeObservedForChangesToHours.addListener(new CanReceiveHoursUpdates() {
+//            @Override
+//            public void hoursUpdate(HourBase24 hourBase24) {
+//                pingGoogleAnalytics();
+//            }
+//        });
+//
+//
+//        core.canBeObservedForChangesToSeconds.addListener(new CanReceiveSecondsUpdates() {
+//            @Override
+//            public void secondsUpdate(Sexagesimal to) {
+//                pingGoogleAnalytics();
+//            }
+//        });
     }
 
     private void initialiseMonthFactoryStrings(Context context) {

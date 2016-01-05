@@ -37,12 +37,12 @@ class RestoreColourSPIKE implements GoogleWearApiConnection.ConnectedApiClient {
 
     @Override
     public void invoke(final GoogleApiClient gac) {
-        System.out.println("RESTORED ROTATION drawToBounds");
+//        System.out.println("RESTORED ROTATION drawToBounds");
         // load rotation
         Wearable.NodeApi.getLocalNode(gac).setResultCallback(new ResultCallback<NodeApi.GetLocalNodeResult>() {
             @Override
             public void onResult(NodeApi.GetLocalNodeResult getLocalNodeResult) {
-                System.out.println("RESTORED ROTATION got local node");
+//                System.out.println("RESTORED ROTATION got local node");
                 Uri requestUri = new Uri.Builder()
                                         .scheme("wear")
                                         .authority(getLocalNodeResult.getNode().getId())
@@ -53,7 +53,7 @@ class RestoreColourSPIKE implements GoogleWearApiConnection.ConnectedApiClient {
                 pendingResult.setResultCallback(new ResultCallback<DataApi.DataItemResult>() {
                     @Override
                     public void onResult(DataApi.DataItemResult dataItemResult) {
-                        System.out.println("RESTORED ROTATION got data item");
+//                        System.out.println("RESTORED ROTATION got data item");
                         try {
                             DataItem dataItem = dataItemResult.getDataItem();
                             DataMapItem map = DataMapItem.fromDataItem(dataItem);

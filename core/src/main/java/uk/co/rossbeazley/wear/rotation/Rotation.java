@@ -6,6 +6,7 @@ public class Rotation implements CanBeRotated, uk.co.rossbeazley.wear.CanBeObser
 
     Orientation orientation;
     Announcer<CanReceiveRotationUpdates> rotationUpdates;
+    private CanReceiveRotationUpdates announce;
 
     public Rotation(Announcer<CanReceiveRotationUpdates> to) {
         this(Orientation.north(), to);
@@ -20,6 +21,8 @@ public class Rotation implements CanBeRotated, uk.co.rossbeazley.wear.CanBeObser
                 observer.rotationUpdate(Rotation.this.orientation);
             }
         });
+
+        announce = rotationUpdates.announce();
     }
 
     @Override
@@ -40,6 +43,6 @@ public class Rotation implements CanBeRotated, uk.co.rossbeazley.wear.CanBeObser
     @Override
     public void to(Orientation newOrientation) {
         orientation = newOrientation;
-        rotationUpdates.announce().rotationUpdate(orientation);
+        announce.rotationUpdate(orientation);
     }
 }

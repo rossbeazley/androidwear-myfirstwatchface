@@ -29,18 +29,11 @@ public class Rotate extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         nodes = new Nodes(this);
-        new GoogleWearApiConnection(this, new RotationToDegreesMessage());
         createView();
     }
 
     private void createView() {
         setContentView(R.layout.rotate);
-        findViewById(R.id.rotate_container).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Rotate.this.nodes.sendMessage("/face/rotate/right");
-            }
-        });
 
         Core.instance().canBeObservedForChangesToColour.addListener(new CanReceiveColourUpdates() {
             @Override
@@ -52,7 +45,7 @@ public class Rotate extends Activity {
         findViewById(R.id.rotate_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Core.instance().canBeRotated.right();
+                Rotate.this.nodes.sendMessage("/face/rotate/right");
             }
         });
 
@@ -72,23 +65,4 @@ public class Rotate extends Activity {
     }
 
 
-    private static class RotationToDegreesMessage implements GoogleWearApiConnection.ConnectedApiClient {
-        @Override
-        public void invoke(GoogleApiClient gac) {
-            Wearable.DataApi.addListener(gac,new DataApi.DataListener() {
-                @Override
-                public void onDataChanged(DataEventBuffer dataEvents) {
-                    final List<DataEvent> events = FreezableUtils.freezeIterable(dataEvents);
-                    for (DataEvent event : events) {
-                        Uri uri = event.getDataItem().getUri();
-                        if(uri.getPath().contains("count")) {
-                            DataMapItem map = DataMapItem.fromDataItem(event.getDataItem());
-                            float degreesAsFloat = map.getDataMap().getFloat("ROTATION");
-                            Core.instance().canBeRotated.to(Orientation.from(degreesAsFloat));
-                        }
-                    }
-                }
-            });
-        }
-    }
 }

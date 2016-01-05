@@ -67,7 +67,7 @@ public class Core {
         canBeObservedForChangesToMonths = canReceiveMonthsUpdatesAnnouncer;
 
         canBeTicked = Announcer.to(CanBeTicked.class)
-                .addListeners(seconds, minutes, hours, days, months)
+                .addListeners(months, days, hours, minutes, seconds)
                 .announce();
 
         Announcer<CanReceiveRotationUpdates> canReceiveRotationUpdatesAnnouncer = Announcer.to(CanReceiveRotationUpdates.class);

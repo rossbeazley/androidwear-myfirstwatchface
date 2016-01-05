@@ -14,11 +14,17 @@ public class TickTock {
         this.executor = executor;
         cancelable = new NullCancelable();
         tick = new Runnable() {
+            public Calendar lastTime = Calendar.getInstance();
+
             @Override
             public void run() {
                 for(CanBeTicked tock :tocks) {
                     try {
-                        tock.tick(timeSource.time());
+                        Calendar time = timeSource.time();
+                        long timeSinceLast = time.getTime().getTime() - lastTime.getTime().getTime();
+                        System.out.println("TickTick " + Thread.currentThread().getName() + " time since last: " + timeSinceLast);
+                        tock.tick(time);
+                        lastTime = time;
                     } catch (Exception ignored) {
                     }
                 }

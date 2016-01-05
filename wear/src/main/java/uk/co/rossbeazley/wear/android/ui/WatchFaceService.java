@@ -85,10 +85,10 @@ public class WatchFaceService extends CanvasWatchFaceService {
             log("updateView");
             if(isVisible()) {
                 if (isInAmbientMode()) {
-                    watchViewRoot.colour = Color.BLACK;
+                    watchViewRoot.toAmbient();
                     watchViewState.toAmbient();
                 } else {
-                    watchViewRoot.colour = watchView.background();
+                    watchViewRoot.toVisibile(watchView.background());
                     if (cardsShowing()) {
                         watchViewState.toActiveOffset();
                     } else {
@@ -96,8 +96,9 @@ public class WatchFaceService extends CanvasWatchFaceService {
                     }
                 }
             } else {
-                watchViewRoot.colour = Color.BLACK;
+                watchViewRoot.toInvisible();
                 watchViewState.toInvisible();
+                forceInvalidate();
             }
             postInvalidate();
         }
@@ -125,7 +126,7 @@ public class WatchFaceService extends CanvasWatchFaceService {
                 public void run() {
                     doInvalidate();
                 }
-            },10);
+            },3);
         }
 
         void doInvalidate() {
