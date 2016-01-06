@@ -14,15 +14,30 @@
 
         <meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />
 
-
         <activity
             android:name=".Rotate">
 
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name=
+                    "uk.co.rossbeazley.wear.CONFIG_DIGITAL" />
+                <category android:name=
+                    "com.google.android.wearable.watchface.category.COMPANION_CONFIGURATION" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+
+        <service android:name=".DataRepository" >
+            <intent-filter>
+                <!-- listeners receive events that match the action and data filters -->
+
+                <action android:name="com.google.android.gms.wearable.BIND_LISTENER" />
+                <action android:name="com.google.android.gms.wearable.MESSAGE_RECEIVED" />
+                <action android:name="com.google.android.gms.wearable.DATA_CHANGED" />
+                <action android:name="com.google.android.gms.wearable.CAPABILITY_CHANGED" />
+                <action android:name="com.google.android.gms.wearable.CHANNEL_EVENT" />
+            </intent-filter>
+        </service>
+
     </application>
 
 </manifest>

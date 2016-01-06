@@ -2,24 +2,15 @@ package uk.co.rossbeazley.wear.android.ui;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Matrix;
+import android.graphics.Color;
 import android.graphics.Rect;
+import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.wearable.watchface.CanvasWatchFaceService;
-import android.view.LayoutInflater;
+import android.view.SurfaceHolder;
 import android.view.View;
-import android.view.ViewGroup;
 
 import java.util.Calendar;
-
-import uk.co.rossbeazley.wear.Core;
-import uk.co.rossbeazley.wear.Main;
-import uk.co.rossbeazley.wear.R;
-import uk.co.rossbeazley.wear.Sexagesimal;
-import uk.co.rossbeazley.wear.minutes.CanReceiveMinutesUpdates;
-import uk.co.rossbeazley.wear.rotation.CanReceiveRotationUpdates;
-import uk.co.rossbeazley.wear.rotation.Orientation;
-import uk.co.rossbeazley.wear.seconds.CanReceiveSecondsUpdates;
-import uk.co.rossbeazley.wear.ui.Disposable;
 
 public class WatchFaceService extends CanvasWatchFaceService {
 
@@ -28,130 +19,165 @@ public class WatchFaceService extends CanvasWatchFaceService {
         return new RotateEngine(getApplicationContext());
     }
 
-    class RotateEngine extends CanvasWatchFaceService.Engine {
+    public interface CanLog {
+        void log(String msg);
+    }
+
+    class RotateEngine extends CanvasWatchFaceService.Engine implements WatchView.RedrawOnInvalidate, WatchFaceService.CanLog {
 
         private final Context context;
-        public final WatchView watchView;
+        public WatchViewRoot watchViewRoot;
+        WatchView watchView;
+        private WatchViewState watchViewState;
 
         RotateEngine(Context context) {
             this.context = context;
-            watchView = new WatchView();
-            watchView.toActive();
         }
+
+        @Override
+        public void onCreate(SurfaceHolder holder) {
+            log("on create");
+            super.onCreate(holder);
+
+            watchViewRoot = new WatchViewRoot(context, this);
+
+            View inflatingWatchView = createWatchView(context);
+            watchViewRoot.addView(inflatingWatchView);
+
+            watchView = (WatchView) inflatingWatchView;
+            watchView.registerInvalidator(this);
+
+            watchViewState = new WatchViewState(watchView);
+            watchViewState.toActive();
+
+            updateView();
+        }
+
+
+        @NonNull
+        private View createWatchView(Context context) {
+            return new InflatingWatchView(context);
+        }
+
 
         @Override
         public void onDraw(Canvas canvas, Rect bounds) {
-            super.onDraw(canvas, bounds);
-            watchView.drawToBounds(canvas, bounds);
+            log("on draw");
+            watchViewRoot.drawToBounds(canvas, bounds);
+            log("done draw");
         }
 
         @Override
-        public void onTimeTick() {
-            super.onTimeTick();
-            Core.instance().canBeTicked.tick(Calendar.getInstance());
+        public void onPeekCardPositionUpdate(Rect rect) {
+            log("onPeekCardPositionUpdate");
+            watchViewRoot.storeCurrentPeekCardPosition(rect);
+            updateView();
+        }
+
+
+        @Override
+        public void onUnreadCountChanged(int count) {
+            log("onUnreadCountChanged");
+            updateView();
+        }
+
+        private void updateView() {
+            log("updateView");
+            if(isVisible()) {
+                if (isInAmbientMode()) {
+                    watchViewRoot.toAmbient();
+                    watchViewState.toAmbient();
+                } else {
+                    watchViewRoot.toVisibile(watchView.background());
+                    if (cardsShowing()) {
+                        watchViewState.toActiveOffset();
+                    } else {
+                        watchViewState.toActive();
+                    }
+                }
+            } else {
+                watchViewRoot.toInvisible();
+                watchViewState.toInvisible();
+                forceInvalidate();
+            }
+            postInvalidate();
+        }
+
+        private boolean cardsShowing() {
+            return noneZeroRect(getPeekCardPosition());
+        }
+
+        private boolean noneZeroRect(Rect rect) {
+            return (rect.top + rect.bottom + rect.left + rect.right) != 0;
+        }
+
+        @Override
+        public void postInvalidate() {
+            log("postInvalidate");
+
+            super.postInvalidate();
+        }
+
+        @Override
+        public void invalidate() {
+            log("invalidate");
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    doInvalidate();
+                }
+            },3);
+        }
+
+        void doInvalidate() {
+
+            super.invalidate();
+        }
+
+        @Override
+        public void forceInvalidate() {
+            log("postInvalidate");
             invalidate();
+            onSurfaceRedrawNeeded(getSurfaceHolder());
+        }
+
+        public void log(String msg) {
+            System.out.println("RWF " + System.currentTimeMillis() + ":" + msg);
+        }
+
+
+        @Override
+        public void onTimeTick() {
+            log("onTimeTick");
+            updateView();
+            watchView.timeTick(Calendar.getInstance());
+            onSurfaceRedrawNeeded(getSurfaceHolder());
         }
 
         @Override
         public void onAmbientModeChanged(boolean inAmbientMode) {
-            super.onAmbientModeChanged(inAmbientMode);
-            if(inAmbientMode) {
-                watchView.toAmbient();
-                Main.instance().tickTock.stop();
-            } else {
-                watchView.toActive();
-                Main.instance().tickTock.start();
-            }
+            log("onAmbientModeChanged");
+            updateView();
         }
 
 
         @Override
         public void onVisibilityChanged(boolean visible) {
+            log("onVisibilityChanged " + visible);
+            updateView();
             super.onVisibilityChanged(visible);
         }
 
         @Override
         public void onDestroy() {
+            log("onDestroy");
+            watchViewRoot.destroy();
             super.onDestroy();
-            watchView.destroy();
-
         }
 
-        private class WatchView {
-            public WatchView() {
-            }
-
-            public void drawToBounds(Canvas canvas, Rect bounds) {
-                int widthSpec = View.MeasureSpec.makeMeasureSpec(bounds.width(), View.MeasureSpec.EXACTLY);
-                int heightSpec = View.MeasureSpec.makeMeasureSpec(bounds.height(), View.MeasureSpec.EXACTLY);
-                watchFaceView.measure(widthSpec, heightSpec);
-                watchFaceView.layout(0, 0, bounds.width(), bounds.height());
-                Matrix matrix = watchFaceView.getMatrix();
-                canvas.save();
-                canvas.setMatrix(matrix);
-                watchFaceView.draw(canvas);
-                canvas.restore();
-            }
-
-            public void toAmbient() {
-                tearDownView();
-                inflatePassiveView(context);
-            }
-
-            public void toActive() {
-                tearDownView();
-                inflateActiveView(context);
-            }
 
 
-
-            public ViewGroup watchFaceView = null;
-
-            public final CanReceiveSecondsUpdates invalidateViewWhenSecondsChange = new CanReceiveSecondsUpdates() {
-                @Override
-                public void secondsUpdate(Sexagesimal to) {
-                    invalidate();
-                }
-            };
-            public final CanReceiveMinutesUpdates invalidateViewWhenMinutesChange = new CanReceiveMinutesUpdates() {
-                @Override
-                public void minutesUpdate(Sexagesimal to) {
-                    invalidate();
-                }
-            };
-            public final CanReceiveRotationUpdates invalidateViewWhenRotationChanges = new CanReceiveRotationUpdates() {
-                @Override
-                public void rotationUpdate(Orientation to) {
-                    invalidate();
-                }
-            };
-
-            private void tearDownView() {
-                if (watchFaceView != null) {
-                    ((Disposable)watchFaceView).dispose();
-                }
-                Core.instance().canBeObservedForChangesToMinutes.removeListener(invalidateViewWhenMinutesChange);
-                Core.instance().canBeObservedForChangesToSeconds.removeListener(invalidateViewWhenSecondsChange);
-            }
-
-
-            private void inflateActiveView(Context watchFaceService) {
-                LayoutInflater li = (LayoutInflater)watchFaceService.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                watchFaceView = (ViewGroup) li.inflate(R.layout.watch_face_view,null);
-                Core.instance().canBeObservedForChangesToSeconds.addListener(invalidateViewWhenSecondsChange);
-
-            }
-
-            private void inflatePassiveView(Context watchFaceService) {
-                LayoutInflater li = (LayoutInflater)watchFaceService.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                watchFaceView = (ViewGroup) li.inflate(R.layout.watch_face_view_dimmed,null);
-                Core.instance().canBeObservedForChangesToMinutes.addListener(invalidateViewWhenMinutesChange);
-            }
-
-            public void destroy() {
-                tearDownView();
-                Core.instance().canBeObservedForChangesToRotation.removeListener(invalidateViewWhenRotationChanges);
-            }
-        }
     }
+
+
 }

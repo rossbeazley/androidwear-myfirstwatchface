@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Debug;
 
 import uk.co.rossbeazley.wear.android.gsm.GoogleWearApiConnection;
+import uk.co.rossbeazley.wear.colour.Colours;
 import uk.co.rossbeazley.wear.hours.CanReceiveHoursUpdates;
 import uk.co.rossbeazley.wear.hours.HourBase24;
 import uk.co.rossbeazley.wear.months.MonthFactory;
@@ -30,31 +31,44 @@ public class Main {
         System.out.println("MAIN CONSTRUCT INIT");
         initialiseMonthFactoryStrings(context);
         final Core core = Core.init();
+
+        RestoreColourSPIKE colourRestore = new RestoreColourSPIKE();
+        colourRestore.observe(new RestoreColourSPIKE.Restored() {
+            @Override
+            public void to(Colours colours) {
+                Core.instance().canBeColoured.background(colours.background());
+            }
+        });
+        new GoogleWearApiConnection(context, colourRestore);
+        new GoogleWearApiConnection(context, new ColourPersistence(Core.instance().canBeObservedForChangesToColour));
+
         //Debug.waitForDebugger();
         tickTock = TickTock.createTickTock(core.canBeTicked);
         RestoreRotationSPIKE loadOrientationFromPersistentStore = new RestoreRotationSPIKE();
         loadOrientationFromPersistentStore.observe(new RotateWatchFace(core));
-        loadOrientationFromPersistentStore.observe(new BindRotationMessageAdapter(context, core));
-        loadOrientationFromPersistentStore.observe(new BindRotationPersistence(context, core));
+//        loadOrientationFromPersistentStore.observe(new BindRotationMessageAdapter(context, core));
+//        loadOrientationFromPersistentStore.observe(new BindRotationPersistence(context, core));
         //loadOrientationFromPersistentStore.addListener(new BindTickTock(core));
         new GoogleWearApiConnection(context, loadOrientationFromPersistentStore);
 
+        new GoogleWearApiConnection(context, new RotationWhenDataItemUpdates());
+
         nodes = new Nodes(context);
 
-        core.canBeObservedForChangesToHours.addListener(new CanReceiveHoursUpdates() {
-            @Override
-            public void hoursUpdate(HourBase24 hourBase24) {
-                pingGoogleAnalytics();
-            }
-        });
-
-
-        core.canBeObservedForChangesToSeconds.addListener(new CanReceiveSecondsUpdates() {
-            @Override
-            public void secondsUpdate(Sexagesimal to) {
-                pingGoogleAnalytics();
-            }
-        });
+//        core.canBeObservedForChangesToHours.addListener(new CanReceiveHoursUpdates() {
+//            @Override
+//            public void hoursUpdate(HourBase24 hourBase24) {
+//                pingGoogleAnalytics();
+//            }
+//        });
+//
+//
+//        core.canBeObservedForChangesToSeconds.addListener(new CanReceiveSecondsUpdates() {
+//            @Override
+//            public void secondsUpdate(Sexagesimal to) {
+//                pingGoogleAnalytics();
+//            }
+//        });
     }
 
     private void initialiseMonthFactoryStrings(Context context) {
@@ -63,7 +77,7 @@ public class Main {
     }
 
     private void pingGoogleAnalytics() {
-        nodes.sendMessage("/google/analytics/heartbeat");
+        //nodes.sendMessage("/google/analytics/heartbeat");
     }
 
     private static class RotateWatchFace implements RestoreRotationSPIKE.Restored {

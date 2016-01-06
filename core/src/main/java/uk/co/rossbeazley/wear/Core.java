@@ -1,5 +1,7 @@
 package uk.co.rossbeazley.wear;
 
+import uk.co.rossbeazley.wear.colour.CanReceiveColourUpdates;
+import uk.co.rossbeazley.wear.colour.Colours;
 import uk.co.rossbeazley.wear.days.CanReceiveDaysUpdates;
 import uk.co.rossbeazley.wear.days.DaysFromTick;
 import uk.co.rossbeazley.wear.hours.CanReceiveHoursUpdates;
@@ -23,11 +25,13 @@ public class Core {
     public final CanBeObserved<CanReceiveHoursUpdates> canBeObservedForChangesToHours;
     public final CanBeObserved<CanReceiveMinutesUpdates> canBeObservedForChangesToMinutes;
     public final CanBeObserved<CanReceiveSecondsUpdates> canBeObservedForChangesToSeconds;
+    public CanBeObserved<CanReceiveColourUpdates> canBeObservedForChangesToColour;
 
     public final CanBeTicked canBeTicked;
-
     public final CanBeRotated canBeRotated;
     public final CanBeObserved<CanReceiveRotationUpdates> canBeObservedForChangesToRotation;
+    public CanBeColoured canBeColoured;
+    private Colours currentBackgroundColour;
 
     public Core() {
         this(Orientation.north());
@@ -35,12 +39,12 @@ public class Core {
 
 
     public Core(Orientation orientation) {
-        System.out.println("CORE INIT");
         Seconds seconds;
         MinutesFromTick minutes;
         HoursFromTick hours;
         DaysFromTick days;
         MonthsFromTick months;
+
 
         final Announcer<CanReceiveSecondsUpdates> canReceiveSecondsUpdatesAnnouncer = Announcer.to(CanReceiveSecondsUpdates.class);
         seconds = new Seconds(canReceiveSecondsUpdatesAnnouncer.announce());
@@ -63,18 +67,42 @@ public class Core {
         canBeObservedForChangesToMonths = canReceiveMonthsUpdatesAnnouncer;
 
         canBeTicked = Announcer.to(CanBeTicked.class)
-                .addListeners(seconds, minutes, hours, days, months)
+                .addListeners(months, days, hours, minutes, seconds)
                 .announce();
 
         Announcer<CanReceiveRotationUpdates> canReceiveRotationUpdatesAnnouncer = Announcer.to(CanReceiveRotationUpdates.class);
         Rotation rotation = new Rotation(orientation, canReceiveRotationUpdatesAnnouncer);
         canBeRotated = rotation;
         canBeObservedForChangesToRotation = canReceiveRotationUpdatesAnnouncer;
+
+        currentBackgroundColour = new Colours(Colours.Colour.WHITE);
+        setupColourSubsystem();
+    }
+
+    private void setupColourSubsystem() {
+        final Announcer<CanReceiveColourUpdates> colourUpdates = Announcer.to(CanReceiveColourUpdates.class);
+        canBeObservedForChangesToColour = colourUpdates;
+        colourUpdates.registerProducer(new Announcer.Producer<CanReceiveColourUpdates>() {
+            @Override
+            public void observed(CanReceiveColourUpdates observer) {
+                observer.colourUpdate(currentBackgroundColour);
+            }
+        });
+
+
+        canBeColoured = new CanBeColoured() {
+            @Override
+            public void background(Colours.Colour colour) {
+                currentBackgroundColour  = new Colours(colour);
+                colourUpdates.announce().colourUpdate(currentBackgroundColour);
+            }
+        };
     }
 
     private static Core instance;
 
     public static Core instance() {
+        if(instance==null) instance = new Core();
         return instance;
     }
 

@@ -11,6 +11,7 @@ import uk.co.rossbeazley.wear.ticktock.CanBeTicked;
 public class DaysFromTick implements CanBeTicked {
 
     private final Announcer<CanReceiveDaysUpdates> announcer;
+    private final CanReceiveDaysUpdates announce;
     private Day current;
 
     public DaysFromTick(Announcer<CanReceiveDaysUpdates> canReceiveDaysUpdatesAnnouncer) {
@@ -21,6 +22,7 @@ public class DaysFromTick implements CanBeTicked {
                 if(current!=null) observer.daysUpdate(current);
             }
         });
+        announce = announcer.announce();
     }
 
     @Override
@@ -35,7 +37,7 @@ public class DaysFromTick implements CanBeTicked {
     }
 
     private Day change(Day day) {
-        announcer.announce().daysUpdate(day);
+        announce.daysUpdate(day);
         return day;
     }
 }

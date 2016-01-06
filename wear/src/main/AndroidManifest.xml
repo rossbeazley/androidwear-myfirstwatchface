@@ -18,13 +18,28 @@
 
         <meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />
 
-
         <service
             android:name=".android.ui.WatchFaceService"
             android:label="@string/app_name"
             android:allowEmbedded="true"
             android:taskAffinity=""
             android:permission="android.permission.BIND_WALLPAPER" >
+
+            <meta-data android:name="watchFaceViewClass" android:value="uk.co.rossbeazley.wear.android.ui.InflatingWatchView" />
+            <!--<meta-data android:name="watchFaceViewLayout" android:value="@layout/watch_face_view" />-->
+
+            <meta-data
+                android:name=
+                    "com.google.android.wearable.watchface.companionConfigurationAction"
+                android:value=
+                    "uk.co.rossbeazley.wear.CONFIG_DIGITAL" />
+            <!-- wearable configuration activity -->
+            <meta-data
+                android:name=
+                    "com.google.android.wearable.watchface.wearableConfigurationAction"
+                android:value=
+                    "uk.co.rossbeazley.wear.CONFIG_DIGITAL" />
+
             <meta-data
                 android:name="android.service.wallpaper"
                 android:resource="@xml/watch_face" />
@@ -41,6 +56,19 @@
                         "com.google.android.wearable.watchface.category.WATCH_FACE" />
             </intent-filter>
         </service>
+
+
+        <activity
+            android:name=".android.ui.ConfigActivity">
+
+            <intent-filter>
+                <action android:name=
+                    "uk.co.rossbeazley.wear.CONFIG_DIGITAL" />
+                <category android:name=
+                    "com.google.android.wearable.watchface.category.WEARABLE_CONFIGURATION" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
 
     </application>
 

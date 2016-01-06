@@ -39,7 +39,7 @@ public class Nodes {
 
     private Listable nodes = empty;
 
-    Nodes(Context context) {
+    public Nodes(Context context) {
         this.context = context.getApplicationContext();
         gac = connectToPlayServices();
     }
@@ -84,9 +84,12 @@ public class Nodes {
 
     public void sendMessage(final String messagePathString) {
 
+        System.out.println("SENDing MSG " + messagePathString);
         Runnable runnable = new Runnable() {
             public void run() {
-                for(Node node : nodes()) {
+                List<Node> nodes = nodes();
+                System.out.println("Got nodes " + nodes.size());
+                for(Node node : nodes) {
                     byte[] b = new byte[0];
                     Wearable.MessageApi.sendMessage(gac,node.getId(), messagePathString,b);
                 }
