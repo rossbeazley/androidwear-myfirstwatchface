@@ -88,7 +88,7 @@ public class WatchFaceService extends CanvasWatchFaceService {
                     watchViewRoot.toAmbient();
                     watchViewState.toAmbient();
                 } else {
-                    watchViewRoot.toVisibile(watchView.background());
+                    watchViewRoot.toVisibile(watchView);
                     if (cardsShowing()) {
                         watchViewState.toActiveOffset();
                     } else {
@@ -142,7 +142,7 @@ public class WatchFaceService extends CanvasWatchFaceService {
         }
 
         public void log(String msg) {
-            System.out.println("RWF " + System.currentTimeMillis() + ":" + msg);
+//            System.out.println("RWF " + System.currentTimeMillis() + ":" + msg);
         }
 
 

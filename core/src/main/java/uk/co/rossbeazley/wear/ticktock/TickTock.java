@@ -22,7 +22,7 @@ public class TickTock {
                     try {
                         Calendar time = timeSource.time();
                         long timeSinceLast = time.getTime().getTime() - lastTime.getTime().getTime();
-                        System.out.println("TickTick " + Thread.currentThread().getName() + " time since last: " + timeSinceLast);
+//                        System.out.println("TickTick " + Thread.currentThread().getName() + " time since last: " + timeSinceLast);
                         tock.tick(time);
                         lastTime = time;
                     } catch (Exception ignored) {

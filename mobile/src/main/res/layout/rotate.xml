@@ -24,7 +24,7 @@
         android:layout_height="200dp"
         android:layout_marginLeft="100dp"
         android:background="@color/white"
-        android:src="@drawable/white_button"
+        android:id="@+id/white_button"
         android:layout_gravity="center"
         >
         <include layout="@layout/watch_face_view"/>

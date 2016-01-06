@@ -28,7 +28,7 @@ class InflatingWatchView extends FrameLayout implements WatchView {
     private WatchFaceService.CanLog logger = new WatchFaceService.CanLog() {
         @Override
         public void log(String msg) {
-            System.out.println("InflatingWatchView " + msg);
+//            System.out.println("InflatingWatchView " + msg);
         }
     };
     private int currentLayout;
@@ -83,9 +83,6 @@ class InflatingWatchView extends FrameLayout implements WatchView {
     public void toInvisible() {
         logger.log("toInvisible");
         Main.instance().tickTock.startLowResolution();
-//        currentLayout = 0;
-//        removeAllViews();
-//        invalidate();
         invalidateCanvasOnViewChanges = false;
     }
 
@@ -94,10 +91,11 @@ class InflatingWatchView extends FrameLayout implements WatchView {
         this.redrawOnInvalidate = redrawOnInvalidate;
 
         {
-            Core.instance().canBeObservedForChangesToColour.addListener(colourUpdates);
+            Core.instance().canBeObservedForChangesToColour.addListener(invalidateWhenColourChages);
             Core.instance().canBeObservedForChangesToSeconds.addListener(invalidateViewWhenSecondsChange);
             Core.instance().canBeObservedForChangesToMinutes.addListener(invalidateViewWhenMinutesChange);
             Core.instance().canBeObservedForChangesToHours.addListener(invalidateViewWhenHoursChange);
+
 
         }
     }
@@ -154,6 +152,7 @@ class InflatingWatchView extends FrameLayout implements WatchView {
     }
 
     private boolean invalidateCanvasOnViewChanges;
+
     public final CanReceiveSecondsUpdates invalidateViewWhenSecondsChange = new CanReceiveSecondsUpdates() {
         @Override
         public void secondsUpdate(Sexagesimal to) {
@@ -164,6 +163,13 @@ class InflatingWatchView extends FrameLayout implements WatchView {
     public final CanReceiveMinutesUpdates invalidateViewWhenMinutesChange = new CanReceiveMinutesUpdates() {
         @Override
         public void minutesUpdate(Sexagesimal to) {
+            if(invalidateCanvasOnViewChanges) redrawOnInvalidate.postInvalidate();
+        }
+    };
+
+    public final CanReceiveColourUpdates invalidateWhenColourChages = new CanReceiveColourUpdates() {
+        @Override
+        public void colourUpdate(Colours to) {
             if(invalidateCanvasOnViewChanges) redrawOnInvalidate.postInvalidate();
         }
     };
@@ -183,6 +189,11 @@ class InflatingWatchView extends FrameLayout implements WatchView {
         @Override
         public void colourUpdate(Colours to) {
             this.background = to.background();
+
         }
+    }
+
+    {
+        Core.instance().canBeObservedForChangesToColour.addListener(colourUpdates);
     }
 }

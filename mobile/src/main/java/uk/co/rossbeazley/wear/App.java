@@ -14,7 +14,6 @@ public class App extends Application {
         String[] months = this.getResources().getStringArray(R.array.months);
         MonthFactory.registerMonthStrings(months);
         Core.init();
-        TickTock.createTickTock(Core.instance().canBeTicked);
 
     }
 

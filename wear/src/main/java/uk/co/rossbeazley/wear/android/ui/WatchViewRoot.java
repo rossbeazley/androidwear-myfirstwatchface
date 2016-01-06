@@ -13,13 +13,14 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.FrameLayout;
 
-class WatchViewRoot extends FrameLayout {
+import java.util.Calendar;
 
-    public int colour;
+class WatchViewRoot extends FrameLayout {
 
     private WatchView.RedrawOnInvalidate redrawOnInvalidate;
     private Rect currentPeekCardPosition;
     private boolean invisible;
+    private WatchView background;
 
 
     public WatchViewRoot(Context context, final WatchView.RedrawOnInvalidate redrawOnInvalidate) {
@@ -27,7 +28,7 @@ class WatchViewRoot extends FrameLayout {
 
         this.redrawOnInvalidate = redrawOnInvalidate;
 
-        colour = Color.WHITE;
+        this.background = new WhiteWatchView();
 
         this.setOnHierarchyChangeListener(new OnHierarchyChangeListener() {
             @Override
@@ -76,7 +77,7 @@ class WatchViewRoot extends FrameLayout {
 
     public void drawToBounds(Canvas canvas, Rect bounds) {
 
-        canvas.drawColor(colour); //reset canvas to base colour
+        canvas.drawColor(background.background()); //reset canvas to base colour
 
         if (getChildCount() == 0 && isVisible()) return; //fast exit
 
@@ -110,17 +111,90 @@ class WatchViewRoot extends FrameLayout {
 
     public void toInvisible() {
         invisible=true;
-        colour = Color.BLACK;
+        background = new BlackWatchView();
     }
 
-    public void toVisibile(int background) {
+    public void toVisibile(WatchView background) {
         invisible = false;
-        colour = background;
+        this.background = background;
     }
 
     public void toAmbient() {
         invisible = false;
-        colour = Color.BLACK;
+        background = new BlackWatchView();
+    }
+
+    private static class BlackWatchView implements WatchView {
+        @Override
+        public void toAmbient() {
+
+        }
+
+        @Override
+        public void toActive() {
+
+        }
+
+        @Override
+        public void toActiveOffset() {
+
+        }
+
+        @Override
+        public void toInvisible() {
+
+        }
+
+        @Override
+        public void registerInvalidator(RedrawOnInvalidate redrawOnInvalidate) {
+
+        }
+
+        @Override
+        public void timeTick(Calendar instance) {
+
+        }
+
+        @Override
+        public int background() {
+            return Color.BLACK;
+        }
+    }
+    private static class WhiteWatchView implements WatchView {
+        @Override
+        public void toAmbient() {
+
+        }
+
+        @Override
+        public void toActive() {
+
+        }
+
+        @Override
+        public void toActiveOffset() {
+
+        }
+
+        @Override
+        public void toInvisible() {
+
+        }
+
+        @Override
+        public void registerInvalidator(RedrawOnInvalidate redrawOnInvalidate) {
+
+        }
+
+        @Override
+        public void timeTick(Calendar instance) {
+
+        }
+
+        @Override
+        public int background() {
+            return Color.WHITE;
+        }
     }
 }
 
