@@ -35,13 +35,6 @@ public class Rotate extends Activity {
     private void createView() {
         setContentView(R.layout.rotate);
 
-        Core.instance().canBeObservedForChangesToColour.addListener(new CanReceiveColourUpdates() {
-            @Override
-            public void colourUpdate(Colours to) {
-                findViewById(R.id.rotate_container).setBackgroundColor(to.background().toInt());
-            }
-        });
-
         findViewById(R.id.rotate_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -52,14 +45,14 @@ public class Rotate extends Activity {
         findViewById(R.id.black_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Core.instance().canBeColoured.background(Colours.Colour.BLACK);
+                Rotate.this.nodes.sendMessage("/face/colour/black");
             }
         });
 
         findViewById(R.id.white_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Core.instance().canBeColoured.background(Colours.Colour.WHITE);
+                Rotate.this.nodes.sendMessage("/face/colour/white");
             }
         });
     }

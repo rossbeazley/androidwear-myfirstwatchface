@@ -46,29 +46,16 @@ public class Main {
         tickTock = TickTock.createTickTock(core.canBeTicked);
         RestoreRotationSPIKE loadOrientationFromPersistentStore = new RestoreRotationSPIKE();
         loadOrientationFromPersistentStore.observe(new RotateWatchFace(core));
-//        loadOrientationFromPersistentStore.observe(new BindRotationMessageAdapter(context, core));
-//        loadOrientationFromPersistentStore.observe(new BindRotationPersistence(context, core));
+        loadOrientationFromPersistentStore.observe(new BindRotationMessageAdapter(context, core));
+        loadOrientationFromPersistentStore.observe(new BindColourMessageAdapter(context, core));
+        loadOrientationFromPersistentStore.observe(new BindRotationPersistence(context, core));
         //loadOrientationFromPersistentStore.addListener(new BindTickTock(core));
         new GoogleWearApiConnection(context, loadOrientationFromPersistentStore);
 
-        new GoogleWearApiConnection(context, new RotationWhenDataItemUpdates());
+        //new GoogleWearApiConnection(context, new RotationWhenDataItemUpdates());
 
         nodes = new Nodes(context);
 
-//        core.canBeObservedForChangesToHours.addListener(new CanReceiveHoursUpdates() {
-//            @Override
-//            public void hoursUpdate(HourBase24 hourBase24) {
-//                pingGoogleAnalytics();
-//            }
-//        });
-//
-//
-//        core.canBeObservedForChangesToSeconds.addListener(new CanReceiveSecondsUpdates() {
-//            @Override
-//            public void secondsUpdate(Sexagesimal to) {
-//                pingGoogleAnalytics();
-//            }
-//        });
     }
 
     private void initialiseMonthFactoryStrings(Context context) {
@@ -76,9 +63,6 @@ public class Main {
         MonthFactory.registerMonthStrings(months);
     }
 
-    private void pingGoogleAnalytics() {
-        //nodes.sendMessage("/google/analytics/heartbeat");
-    }
 
     private static class RotateWatchFace implements RestoreRotationSPIKE.Restored {
         private final Core core;
@@ -90,6 +74,21 @@ public class Main {
         @Override
         public void to(Orientation orientation) {
             core.canBeRotated.to(orientation);
+        }
+    }
+
+    private static class BindColourMessageAdapter implements RestoreRotationSPIKE.Restored {
+        private final Context context;
+        private final Core core;
+
+        public BindColourMessageAdapter(Context context, Core core) {
+            this.context = context;
+            this.core = core;
+        }
+
+        @Override
+        public void to(Orientation orientation) {
+            new GoogleWearApiConnection(context, new ColourMessage(core.canBeColoured));
         }
     }
 
