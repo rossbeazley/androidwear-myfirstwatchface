@@ -27,13 +27,9 @@ import uk.co.rossbeazley.wear.rotation.Orientation;
 public class ConfigActivity extends Activity {
 
 
-    private Nodes nodes = null;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        nodes = new Nodes(this);
-        new GoogleWearApiConnection(this, new RotationToDegreesMessage());
         createView();
     }
 
@@ -41,7 +37,8 @@ public class ConfigActivity extends Activity {
         Main.instance().tickTock.start();
         setContentView(R.layout.rotate);
 
-        Core.instance().canBeObservedForChangesToColour.addListener(new CanReceiveColourUpdates() {
+        final Core core = Core.instance();
+        core.canBeObservedForChangesToColour.addListener(new CanReceiveColourUpdates() {
             @Override
             public void colourUpdate(Colours to) {
                 findViewById(R.id.rotate_container).setBackgroundColor(to.background().toInt());
@@ -51,47 +48,23 @@ public class ConfigActivity extends Activity {
         findViewById(R.id.rotate_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Core.instance().canBeRotated.right();
+                core.canBeRotated.right();
             }
         });
 
         findViewById(R.id.black_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Core.instance().canBeColoured.background(Colours.Colour.BLACK);
+                core.canBeColoured.background(Colours.Colour.BLACK);
             }
         });
 
         findViewById(R.id.white_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Core.instance().canBeColoured.background(Colours.Colour.WHITE);
+                core.canBeColoured.background(Colours.Colour.WHITE);
             }
         });
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-    }
-
-    private static class RotationToDegreesMessage implements GoogleWearApiConnection.ConnectedApiClient {
-        @Override
-        public void invoke(GoogleApiClient gac) {
-            Wearable.DataApi.addListener(gac,new DataApi.DataListener() {
-                @Override
-                public void onDataChanged(DataEventBuffer dataEvents) {
-                    final List<DataEvent> events = FreezableUtils.freezeIterable(dataEvents);
-                    for (DataEvent event : events) {
-                        Uri uri = event.getDataItem().getUri();
-                        if(uri.getPath().contains("count")) {
-                            DataMapItem map = DataMapItem.fromDataItem(event.getDataItem());
-                            float degreesAsFloat = map.getDataMap().getFloat("ROTATION");
-                            Core.instance().canBeRotated.to(Orientation.from(degreesAsFloat));
-                        }
-                    }
-                }
-            });
-        }
-    }
 }
