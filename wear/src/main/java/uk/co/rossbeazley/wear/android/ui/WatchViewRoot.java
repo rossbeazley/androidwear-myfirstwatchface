@@ -18,7 +18,6 @@ import java.util.Calendar;
 class WatchViewRoot extends FrameLayout {
 
     private Rect currentPeekCardPosition;
-    private boolean invisible;
 
     private WatchViewState watchViewState;
 
@@ -70,7 +69,7 @@ class WatchViewRoot extends FrameLayout {
 
         canvas.drawColor(watchViewState.background()); //reset canvas to base colour
 
-        if (getChildCount() == 0 && watchViewState.isVisible()) return; //fast exit
+        if (getChildCount() == 0 || !watchViewState.isVisible()) return; //fast exit //TODO invert isVisible boolean
 
         bounds = adjustDrawingAreaForAnyNotificationCards(bounds, currentPeekCardPosition);
 
@@ -88,10 +87,6 @@ class WatchViewRoot extends FrameLayout {
         canvas.restore();
     }
 
-    private boolean isVisible() {
-        return !invisible;
-    }
-
     public void destroy() {
         removeAllViews();
     }
@@ -101,22 +96,18 @@ class WatchViewRoot extends FrameLayout {
     }
 
     public void toInvisible() {
-        invisible=true;
         watchViewState.toInvisible();
     }
 
     public void toActiveOffset() {
-        invisible = false;
         watchViewState.toActiveOffset();
     }
 
     public void toAmbient() {
-        invisible = false;
         watchViewState.toAmbient();
     }
 
     public void toActive() {
-        invisible = false;
         watchViewState.toActive();
     }
 

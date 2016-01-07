@@ -41,16 +41,17 @@ class WatchViewState implements WatchView {
 
     @Override
     public void registerInvalidator(RedrawOnInvalidate redrawOnInvalidate) {
+        currentStrategy.registerInvalidator(redrawOnInvalidate);
     }
 
     @Override
     public void timeTick(Calendar instance) {
-
+        currentStrategy.timeTick(instance);
     }
 
     @Override
     public int background() {
-        return 0;
+        return currentStrategy.background();
     }
 
     public boolean isVisible() {
@@ -119,6 +120,11 @@ class WatchViewState implements WatchView {
         public void toActive() {
 
         }
+
+        @Override
+        public boolean isVisibile() {
+            return true;
+        }
     }
 
     private static class InvisibleWatchView extends BaseWatchView {
@@ -146,6 +152,11 @@ class WatchViewState implements WatchView {
         public void toActiveOffset() {
 
         }
+
+        @Override
+        public boolean isVisibile() {
+            return true;
+        }
     }
 
     private static class AmbientWatchView extends BaseWatchView {
@@ -157,6 +168,12 @@ class WatchViewState implements WatchView {
         public void toAmbient() {
 
         }
+
+        @Override
+        public boolean isVisibile() {
+            return true;
+        }
+
         @Override
         public int background() {
             return Color.BLACK;

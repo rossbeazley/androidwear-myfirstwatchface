@@ -141,7 +141,7 @@ public class WatchFaceService extends CanvasWatchFaceService {
             log("onTimeTick");
             updateView();
             watchViewRoot.timeTick(Calendar.getInstance());
-            invalidate();
+            doInvalidate();
         }
 
         @Override

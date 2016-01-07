@@ -13,7 +13,7 @@ class AndroidRotationView implements RotationPresenter.RotationView {
     public final View view;
 
     public AndroidRotationView(View inflatedViews) {
-        view = inflatedViews.findViewById(R.id.watch_face_view);
+        view = inflatedViews;
     }
 
     @Override
