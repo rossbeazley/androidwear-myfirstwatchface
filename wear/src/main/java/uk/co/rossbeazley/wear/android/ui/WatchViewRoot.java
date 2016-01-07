@@ -3,9 +3,7 @@ package uk.co.rossbeazley.wear.android.ui;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Matrix;
-import android.graphics.Paint;
 import android.graphics.Rect;
 import android.os.Build;
 import android.support.annotation.NonNull;
@@ -17,13 +15,16 @@ import java.util.Calendar;
 
 class WatchViewRoot extends FrameLayout {
 
+    private WatchFaceService.CanLog logger;
     private Rect currentPeekCardPosition;
 
     private WatchViewState watchViewState;
 
 
-    public WatchViewRoot(Context context, final WatchView.RedrawOnInvalidate redrawOnInvalidate) {
+    public WatchViewRoot(Context context, final WatchView.RedrawOnInvalidate redrawOnInvalidate, final WatchFaceService.CanLog logger) {
         this(context);
+        this.logger = logger;
+
         this.setOnHierarchyChangeListener(new OnHierarchyChangeListener() {
             @Override
             public void onChildViewAdded(View parent, View child) {
@@ -56,12 +57,15 @@ class WatchViewRoot extends FrameLayout {
     }
 
 
+
+    private final Rect adjustedBounds = new Rect();
     @NonNull
-    private static Rect adjustDrawingAreaForAnyNotificationCards(Rect bounds, Rect peekCardPosition) {
-         if (peekCardPosition != null) {
-            bounds.bottom = bounds.bottom + (peekCardPosition.top - peekCardPosition.bottom);
+    private Rect adjustDrawingAreaForAnyNotificationCards(Rect bounds, Rect peekCardPosition) {
+        adjustedBounds.set(bounds);
+        if (peekCardPosition != null) {
+            adjustedBounds.bottom = bounds.bottom + (peekCardPosition.top - peekCardPosition.bottom);
         }
-        return bounds;
+        return adjustedBounds;
     }
 
 
@@ -69,22 +73,35 @@ class WatchViewRoot extends FrameLayout {
 
         canvas.drawColor(watchViewState.background()); //reset canvas to base colour
 
-        if (getChildCount() == 0 || !watchViewState.isVisible()) return; //fast exit //TODO invert isVisible boolean
+        if (getChildCount() == 0 || !watchViewState.isVisible()) {
+            logger.log("RWF fast exit from draw " + getChildCount() + watchViewState.isVisible());
+            return; //fast exit //TODO invert isVisible boolean
+        }
 
         bounds = adjustDrawingAreaForAnyNotificationCards(bounds, currentPeekCardPosition);
 
         invalidate();
 
-        int widthSpec = View.MeasureSpec.makeMeasureSpec(bounds.width(), View.MeasureSpec.EXACTLY);
-        int heightSpec = View.MeasureSpec.makeMeasureSpec(bounds.height(), View.MeasureSpec.EXACTLY);
-        this.measure(widthSpec, heightSpec);
-        this.layout(0, 0, bounds.width(), bounds.height());
+        measureAndLayout(bounds);
 
+        translateAndDrawToCanvas(canvas);
+
+        logger.log("RWF " + watchViewState.toString());
+    }
+
+    private void translateAndDrawToCanvas(Canvas canvas) {
         Matrix matrix = this.getMatrix();
         canvas.save();
         canvas.setMatrix(matrix);
         this.draw(canvas);
         canvas.restore();
+    }
+
+    private void measureAndLayout(Rect bounds) {
+        int widthSpec = MeasureSpec.makeMeasureSpec(bounds.width(), MeasureSpec.EXACTLY);
+        int heightSpec = MeasureSpec.makeMeasureSpec(bounds.height(), MeasureSpec.EXACTLY);
+        this.measure(widthSpec, heightSpec);
+        this.layout(0, 0, bounds.width(), bounds.height());
     }
 
     public void destroy() {
@@ -108,6 +125,7 @@ class WatchViewRoot extends FrameLayout {
     }
 
     public void toActive() {
+        currentPeekCardPosition=null;
         watchViewState.toActive();
     }
 

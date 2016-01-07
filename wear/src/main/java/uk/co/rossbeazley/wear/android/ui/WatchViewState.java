@@ -23,6 +23,11 @@ class WatchViewState implements WatchView {
 
     }
 
+    @Override
+    public String toString() {
+        return currentStrategy.getClass().getSimpleName();
+    }
+
     public void toAmbient() {
         currentStrategy.toAmbient();
     }
@@ -117,9 +122,7 @@ class WatchViewState implements WatchView {
         }
 
         @Override
-        public void toActive() {
-
-        }
+        public void toActive() { }
 
         @Override
         public boolean isVisibile() {
@@ -134,8 +137,7 @@ class WatchViewState implements WatchView {
         }
 
         @Override
-        public void toInvisible() {
-        }
+        public void toInvisible() { }
 
         @Override
         public boolean isVisibile() {

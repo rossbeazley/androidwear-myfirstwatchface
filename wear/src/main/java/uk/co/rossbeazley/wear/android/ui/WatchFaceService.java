@@ -27,7 +27,6 @@ public class WatchFaceService extends CanvasWatchFaceService {
         private final Context context;
         public WatchViewRoot watchViewRoot;
 
-        private WatchViewState watchViewState;
 
         RotateEngine(Context context) {
             this.context = context;
@@ -38,7 +37,7 @@ public class WatchFaceService extends CanvasWatchFaceService {
             log("on create");
             super.onCreate(holder);
 
-            watchViewRoot = new WatchViewRoot(context, this);
+            watchViewRoot = new WatchViewRoot(context, this, (CanLog)this);
 
             View inflatingWatchView = createWatchView(context);
             watchViewRoot.registerView(inflatingWatchView, (WatchView.RedrawOnInvalidate)this);
@@ -63,7 +62,6 @@ public class WatchFaceService extends CanvasWatchFaceService {
         @Override
         public void onPeekCardPositionUpdate(Rect rect) {
             log("onPeekCardPositionUpdate");
-            watchViewRoot.storeCurrentPeekCardPosition(rect);
             updateView();
         }
 
@@ -81,6 +79,7 @@ public class WatchFaceService extends CanvasWatchFaceService {
                     watchViewRoot.toAmbient();
                 } else {
                     if (cardsShowing()) {
+                        watchViewRoot.storeCurrentPeekCardPosition(getPeekCardPosition());
                         watchViewRoot.toActiveOffset();
                     } else {
                         watchViewRoot.toActive();
@@ -104,7 +103,6 @@ public class WatchFaceService extends CanvasWatchFaceService {
         @Override
         public void postInvalidate() {
             log("postInvalidate");
-
             super.postInvalidate();
         }
 
@@ -120,19 +118,18 @@ public class WatchFaceService extends CanvasWatchFaceService {
         }
 
         void doInvalidate() {
-
             super.invalidate();
         }
 
         @Override
         public void forceInvalidate() {
             log("postInvalidate");
-            invalidate();
+            doInvalidate();
             onSurfaceRedrawNeeded(getSurfaceHolder());
         }
 
         public void log(String msg) {
-//            System.out.println("RWF " + System.currentTimeMillis() + ":" + msg);
+            System.out.println("RWF " + System.currentTimeMillis() + ":" + msg);
         }
 
 
@@ -153,9 +150,9 @@ public class WatchFaceService extends CanvasWatchFaceService {
 
         @Override
         public void onVisibilityChanged(boolean visible) {
+            super.onVisibilityChanged(visible);
             log("onVisibilityChanged " + visible);
             updateView();
-            super.onVisibilityChanged(visible);
         }
 
         @Override

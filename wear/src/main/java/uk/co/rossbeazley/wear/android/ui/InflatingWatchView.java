@@ -28,7 +28,7 @@ class InflatingWatchView extends FrameLayout implements WatchView {
     private WatchFaceService.CanLog logger = new WatchFaceService.CanLog() {
         @Override
         public void log(String msg) {
-//            System.out.println("InflatingWatchView " + msg);
+            System.out.println("InflatingWatchView " + msg);
         }
     };
     private int currentLayout;
@@ -83,21 +83,17 @@ class InflatingWatchView extends FrameLayout implements WatchView {
     public void toInvisible() {
         logger.log("toInvisible");
         Main.instance().tickTock.stop();
+        tearDownView();
         invalidateCanvasOnViewChanges = false;
     }
 
     @Override
     public void registerInvalidator(RedrawOnInvalidate redrawOnInvalidate) {
         this.redrawOnInvalidate = redrawOnInvalidate;
-
-        {
-            Core.instance().canBeObservedForChangesToColour.addListener(invalidateWhenColourChages);
-            Core.instance().canBeObservedForChangesToSeconds.addListener(invalidateViewWhenSecondsChange);
-            Core.instance().canBeObservedForChangesToMinutes.addListener(invalidateViewWhenMinutesChange);
-            Core.instance().canBeObservedForChangesToHours.addListener(invalidateViewWhenHoursChange);
-
-
-        }
+        Core.instance().canBeObservedForChangesToColour.addListener(invalidateWhenColourChages);
+        Core.instance().canBeObservedForChangesToSeconds.addListener(invalidateViewWhenSecondsChange);
+        Core.instance().canBeObservedForChangesToMinutes.addListener(invalidateViewWhenMinutesChange);
+        Core.instance().canBeObservedForChangesToHours.addListener(invalidateViewWhenHoursChange);
     }
 
     @Override
@@ -140,7 +136,7 @@ class InflatingWatchView extends FrameLayout implements WatchView {
     }
 
     private void inflateLayout(@LayoutRes int layoutId) {
-        if(currentLayout!=layoutId) {
+        if (currentLayout != layoutId) {
             tearDownView();
             this.currentLayout = layoutId;
             LayoutInflater li = LayoutInflater.from(getContext());
@@ -156,28 +152,28 @@ class InflatingWatchView extends FrameLayout implements WatchView {
     public final CanReceiveSecondsUpdates invalidateViewWhenSecondsChange = new CanReceiveSecondsUpdates() {
         @Override
         public void secondsUpdate(Sexagesimal to) {
-            if(invalidateCanvasOnViewChanges) redrawOnInvalidate.postInvalidate();
+            if (invalidateCanvasOnViewChanges) redrawOnInvalidate.postInvalidate();
         }
     };
 
     public final CanReceiveMinutesUpdates invalidateViewWhenMinutesChange = new CanReceiveMinutesUpdates() {
         @Override
         public void minutesUpdate(Sexagesimal to) {
-            if(invalidateCanvasOnViewChanges) redrawOnInvalidate.postInvalidate();
+            if (invalidateCanvasOnViewChanges) redrawOnInvalidate.postInvalidate();
         }
     };
 
     public final CanReceiveColourUpdates invalidateWhenColourChages = new CanReceiveColourUpdates() {
         @Override
         public void colourUpdate(Colours to) {
-            if(invalidateCanvasOnViewChanges) redrawOnInvalidate.postInvalidate();
+            if (invalidateCanvasOnViewChanges) redrawOnInvalidate.postInvalidate();
         }
     };
 
     public final CanReceiveHoursUpdates invalidateViewWhenHoursChange = new CanReceiveHoursUpdates() {
         @Override
         public void hoursUpdate(HourBase24 hourBase24) {
-            if(invalidateCanvasOnViewChanges) redrawOnInvalidate.postInvalidate();
+            if (invalidateCanvasOnViewChanges) redrawOnInvalidate.postInvalidate();
         }
     };
 
