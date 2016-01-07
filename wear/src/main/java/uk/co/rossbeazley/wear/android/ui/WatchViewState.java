@@ -1,15 +1,17 @@
 package uk.co.rossbeazley.wear.android.ui;
 
+import android.graphics.Color;
+
 import java.util.Calendar;
 
 class WatchViewState implements WatchView {
     private final WatchView watchView;
 
-    private WatchView currentStrategy;
-    private WatchView offset;
-    private WatchView active;
-    private WatchView ambiet;
-    private WatchView invisible;
+    private BaseWatchView currentStrategy;
+    private BaseWatchView offset;
+    private BaseWatchView active;
+    private BaseWatchView ambiet;
+    private BaseWatchView invisible;
 
     public WatchViewState(WatchView watchView) {
         this.watchView = watchView;
@@ -51,6 +53,11 @@ class WatchViewState implements WatchView {
         return 0;
     }
 
+    public boolean isVisible() {
+        return currentStrategy.isVisibile();
+    }
+
+
     private static class BaseWatchView implements WatchView {
         protected final WatchViewState watchViewRoot;
 
@@ -84,17 +91,21 @@ class WatchViewState implements WatchView {
 
         @Override
         public void registerInvalidator(RedrawOnInvalidate redrawOnInvalidate) {
-
+            watchViewRoot.watchView.registerInvalidator(redrawOnInvalidate);
         }
 
         @Override
         public void timeTick(Calendar instance) {
-
+            watchViewRoot.watchView.timeTick(instance);
         }
 
         @Override
         public int background() {
-            return 0;
+            return watchViewRoot.watchView.background();
+        }
+
+        public boolean isVisibile() {
+            return false;
         }
     }
 
@@ -108,16 +119,6 @@ class WatchViewState implements WatchView {
         public void toActive() {
 
         }
-
-        @Override
-        public void timeTick(Calendar instance) {
-
-        }
-
-        @Override
-        public int background() {
-            return 0;
-        }
     }
 
     private static class InvisibleWatchView extends BaseWatchView {
@@ -127,17 +128,12 @@ class WatchViewState implements WatchView {
         }
 
         @Override
-        public void toAmbient() {
-        }
-
-        @Override
-        public void timeTick(Calendar instance) {
-
+        public void toInvisible() {
         }
 
         @Override
         public int background() {
-            return 0;
+            return Color.BLACK;
         }
     }
 
@@ -150,16 +146,6 @@ class WatchViewState implements WatchView {
         public void toActiveOffset() {
 
         }
-
-        @Override
-        public void timeTick(Calendar instance) {
-
-        }
-
-        @Override
-        public int background() {
-            return 0;
-        }
     }
 
     private static class AmbientWatchView extends BaseWatchView {
@@ -171,15 +157,9 @@ class WatchViewState implements WatchView {
         public void toAmbient() {
 
         }
-
-        @Override
-        public void timeTick(Calendar instance) {
-
-        }
-
         @Override
         public int background() {
-            return 0;
+            return Color.BLACK;
         }
     }
 

@@ -17,19 +17,14 @@ import java.util.Calendar;
 
 class WatchViewRoot extends FrameLayout {
 
-    private WatchView.RedrawOnInvalidate redrawOnInvalidate;
     private Rect currentPeekCardPosition;
     private boolean invisible;
-    private WatchView background;
+
+    private WatchViewState watchViewState;
 
 
     public WatchViewRoot(Context context, final WatchView.RedrawOnInvalidate redrawOnInvalidate) {
         this(context);
-
-        this.redrawOnInvalidate = redrawOnInvalidate;
-
-        this.background = new WhiteWatchView();
-
         this.setOnHierarchyChangeListener(new OnHierarchyChangeListener() {
             @Override
             public void onChildViewAdded(View parent, View child) {
@@ -64,22 +59,18 @@ class WatchViewRoot extends FrameLayout {
 
     @NonNull
     private static Rect adjustDrawingAreaForAnyNotificationCards(Rect bounds, Rect peekCardPosition) {
-        Rect rtn = new Rect();
-        rtn.set(bounds);
-
-        if (peekCardPosition != null) {
-            rtn.bottom = bounds.bottom + (peekCardPosition.top - peekCardPosition.bottom);
+         if (peekCardPosition != null) {
+            bounds.bottom = bounds.bottom + (peekCardPosition.top - peekCardPosition.bottom);
         }
-
-        return rtn;
+        return bounds;
     }
 
 
     public void drawToBounds(Canvas canvas, Rect bounds) {
 
-        canvas.drawColor(background.background()); //reset canvas to base colour
+        canvas.drawColor(watchViewState.background()); //reset canvas to base colour
 
-        if (getChildCount() == 0 && isVisible()) return; //fast exit
+        if (getChildCount() == 0 && watchViewState.isVisible()) return; //fast exit
 
         bounds = adjustDrawingAreaForAnyNotificationCards(bounds, currentPeekCardPosition);
 
@@ -111,90 +102,34 @@ class WatchViewRoot extends FrameLayout {
 
     public void toInvisible() {
         invisible=true;
-        background = new BlackWatchView();
+        watchViewState.toInvisible();
     }
 
-    public void toVisibile(WatchView background) {
+    public void toActiveOffset() {
         invisible = false;
-        this.background = background;
+        watchViewState.toActiveOffset();
     }
 
     public void toAmbient() {
         invisible = false;
-        background = new BlackWatchView();
+        watchViewState.toAmbient();
     }
 
-    private static class BlackWatchView implements WatchView {
-        @Override
-        public void toAmbient() {
-
-        }
-
-        @Override
-        public void toActive() {
-
-        }
-
-        @Override
-        public void toActiveOffset() {
-
-        }
-
-        @Override
-        public void toInvisible() {
-
-        }
-
-        @Override
-        public void registerInvalidator(RedrawOnInvalidate redrawOnInvalidate) {
-
-        }
-
-        @Override
-        public void timeTick(Calendar instance) {
-
-        }
-
-        @Override
-        public int background() {
-            return Color.BLACK;
-        }
+    public void toActive() {
+        invisible = false;
+        watchViewState.toActive();
     }
-    private static class WhiteWatchView implements WatchView {
-        @Override
-        public void toAmbient() {
 
-        }
-
-        @Override
-        public void toActive() {
-
-        }
-
-        @Override
-        public void toActiveOffset() {
-
-        }
-
-        @Override
-        public void toInvisible() {
-
-        }
-
-        @Override
-        public void registerInvalidator(RedrawOnInvalidate redrawOnInvalidate) {
-
-        }
-
-        @Override
-        public void timeTick(Calendar instance) {
-
-        }
-
-        @Override
-        public int background() {
-            return Color.WHITE;
-        }
+    public void registerView(View watchViewImpl, WatchView.RedrawOnInvalidate redrawOnInvalidate) {
+        this.addView(watchViewImpl);
+        this.watchViewState = new WatchViewState((WatchView) watchViewImpl);
+        this.watchViewState.registerInvalidator(redrawOnInvalidate);
+        this.watchViewState.toActive();
     }
+
+    public void timeTick(Calendar instance) {
+        watchViewState.timeTick(instance);
+    }
+
 }
 

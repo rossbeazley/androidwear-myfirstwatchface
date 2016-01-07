@@ -2,7 +2,6 @@ package uk.co.rossbeazley.wear.android.ui;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Rect;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -27,7 +26,7 @@ public class WatchFaceService extends CanvasWatchFaceService {
 
         private final Context context;
         public WatchViewRoot watchViewRoot;
-        WatchView watchView;
+
         private WatchViewState watchViewState;
 
         RotateEngine(Context context) {
@@ -42,13 +41,7 @@ public class WatchFaceService extends CanvasWatchFaceService {
             watchViewRoot = new WatchViewRoot(context, this);
 
             View inflatingWatchView = createWatchView(context);
-            watchViewRoot.addView(inflatingWatchView);
-
-            watchView = (WatchView) inflatingWatchView;
-            watchView.registerInvalidator(this);
-
-            watchViewState = new WatchViewState(watchView);
-            watchViewState.toActive();
+            watchViewRoot.registerView(inflatingWatchView, (WatchView.RedrawOnInvalidate)this);
 
             updateView();
         }
@@ -86,18 +79,15 @@ public class WatchFaceService extends CanvasWatchFaceService {
             if(isVisible()) {
                 if (isInAmbientMode()) {
                     watchViewRoot.toAmbient();
-                    watchViewState.toAmbient();
                 } else {
-                    watchViewRoot.toVisibile(watchView);
                     if (cardsShowing()) {
-                        watchViewState.toActiveOffset();
+                        watchViewRoot.toActiveOffset();
                     } else {
-                        watchViewState.toActive();
+                        watchViewRoot.toActive();
                     }
                 }
             } else {
                 watchViewRoot.toInvisible();
-                watchViewState.toInvisible();
                 forceInvalidate();
             }
             postInvalidate();
@@ -150,8 +140,8 @@ public class WatchFaceService extends CanvasWatchFaceService {
         public void onTimeTick() {
             log("onTimeTick");
             updateView();
-            watchView.timeTick(Calendar.getInstance());
-            onSurfaceRedrawNeeded(getSurfaceHolder());
+            watchViewRoot.timeTick(Calendar.getInstance());
+            invalidate();
         }
 
         @Override
