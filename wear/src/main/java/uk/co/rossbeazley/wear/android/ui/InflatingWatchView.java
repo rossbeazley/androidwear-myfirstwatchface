@@ -58,33 +58,33 @@ class InflatingWatchView extends FrameLayout implements WatchView {
 
     @Override
     public void toAmbient() {
+        invalidateCanvasOnViewChanges = true;
         Main.instance().tickTock.stop();
         inflateDarkView();
-        invalidateCanvasOnViewChanges = true;
     }
 
     @Override
     public void toActive() {
+        invalidateCanvasOnViewChanges = true;
         Main.instance().tickTock.start();
         inflateFullView();
-        invalidateCanvasOnViewChanges = true;
         logger.log("done toActive");
     }
 
     @Override
     public void toActiveOffset() {
+        invalidateCanvasOnViewChanges = true;
         Main.instance().tickTock.start();
         inflateOffsetView();
-        invalidateCanvasOnViewChanges = true;
         logger.log("done toActiveOffset");
     }
 
     @Override
     public void toInvisible() {
+        invalidateCanvasOnViewChanges = true;
         logger.log("toInvisible");
-        Main.instance().tickTock.stop();
         tearDownView();
-        invalidateCanvasOnViewChanges = false;
+        Main.instance().tickTock.stop();
     }
 
     @Override

@@ -31,6 +31,27 @@ public class AnnouncerTest {
         assertThat(observer, is(notified));
     }
 
+    @Test
+    public void theOneWhereABadListenerBreaksTheAnnouncement() {
+        Announcer<CanBeUpdated> announcer = Announcer.to(CanBeUpdated.class);
+
+        announcer.addListener(new CanBeUpdated() {
+            @Override
+            public void update(String newValue) {
+                throw new RuntimeException("Test throws exception on purpose");
+            }
+        });
+        announcer.addListener(new CanBeUpdated() {
+            @Override
+            public void update(String newValue) {
+                observer = newValue;
+            }
+        });
+
+        announcer.announce().update(notified);
+        assertThat(observer, is(notified));
+    }
+
     private interface CanBeUpdated {
         public void update(String newValue);
     }

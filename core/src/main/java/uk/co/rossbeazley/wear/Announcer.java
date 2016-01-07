@@ -8,7 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-/** nicked from GOOS, modifed by me*/
+/**
+ * nicked from GOOS, modifed by me
+ */
 public class Announcer<T> implements CanBeObserved<T> {
     private final T proxy;
     private final List<T> listeners = new CopyOnWriteArrayList<T>();
@@ -40,7 +42,7 @@ public class Announcer<T> implements CanBeObserved<T> {
     }
 
     public Announcer<T> addListeners(T... listeners) {
-        for(T t : listeners) {
+        for (T t : listeners) {
             addListener(t);
         }
         return this;
@@ -56,28 +58,30 @@ public class Announcer<T> implements CanBeObserved<T> {
     }
 
     private void announce(Method m, Object[] args) {
-        for (T listener : listeners) {
-        try {
+        for (T listener : listeners)
+        {
+            try
+            {
 
                 m.invoke(listener, args);
 
-        }
-        catch (IllegalAccessException e) {
-            throw new IllegalArgumentException("could not to listener", e);
-        }
-        catch (InvocationTargetException e) {
-            Throwable cause = e.getCause();
+            }
+            catch (IllegalAccessException e)
+            {
+                throw new IllegalArgumentException("could not to listener", e);
+            }
+            catch (InvocationTargetException e)
+            {
+                Throwable cause = e.getCause();
 
-            if (cause instanceof RuntimeException) {
-                throw (RuntimeException)cause;
+                if (cause instanceof RuntimeException) {
+                    //throw (RuntimeException) cause;
+                } else if (cause instanceof Error) {
+                    //throw (Error) cause;
+                } else {
+                    throw new UnsupportedOperationException("listener threw exception", cause);
+                }
             }
-            else if (cause instanceof Error) {
-                throw (Error)cause;
-            }
-            else {
-                throw new UnsupportedOperationException("listener threw exception", cause);
-            }
-        }
         }
     }
 
