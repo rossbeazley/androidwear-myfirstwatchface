@@ -58,7 +58,7 @@ class InflatingWatchView extends FrameLayout implements WatchView {
 
     @Override
     public void toAmbient() {
-        Main.instance().tickTock.startLowResolution();
+        Main.instance().tickTock.stop();
         inflateDarkView();
         invalidateCanvasOnViewChanges = true;
     }
@@ -82,7 +82,7 @@ class InflatingWatchView extends FrameLayout implements WatchView {
     @Override
     public void toInvisible() {
         logger.log("toInvisible");
-        Main.instance().tickTock.startLowResolution();
+        Main.instance().tickTock.stop();
         invalidateCanvasOnViewChanges = false;
     }
 
@@ -102,7 +102,7 @@ class InflatingWatchView extends FrameLayout implements WatchView {
 
     @Override
     public void timeTick(Calendar instance) {
-        //Core.instance().canBeTicked.tick(instance);
+        Core.instance().canBeTicked.tick(instance);
     }
 
     @Override

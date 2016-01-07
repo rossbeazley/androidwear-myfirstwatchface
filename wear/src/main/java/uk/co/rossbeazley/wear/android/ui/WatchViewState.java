@@ -106,7 +106,7 @@ class WatchViewState implements WatchView {
         }
 
         public boolean isVisibile() {
-            return false;
+            return true;
         }
     }
 
@@ -135,6 +135,11 @@ class WatchViewState implements WatchView {
 
         @Override
         public void toInvisible() {
+        }
+
+        @Override
+        public boolean isVisibile() {
+            return false;
         }
 
         @Override
