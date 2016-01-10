@@ -26,7 +26,6 @@ class AndroidRotationView implements RotationPresenter.RotationView {
 //            }
 //        });
         view.setRotation(degreesRotation);
-        System.out.println("ROTATE " + degreesRotation);
     }
 
     public static Disposable createRotationView(Core core, View inflatedViews) {
