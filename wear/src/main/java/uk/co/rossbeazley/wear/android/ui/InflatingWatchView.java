@@ -51,12 +51,6 @@ class InflatingWatchView extends FrameLayout implements WatchView {
     }
 
     @Override
-    public void draw(Canvas canvas) {
-        Core.instance().canBeTicked.tick(Calendar.getInstance());
-        super.draw(canvas);
-    }
-
-    @Override
     public void toAmbient() {
         inflateDarkView();
         Main.instance().tickTock.stop();
@@ -133,7 +127,6 @@ class InflatingWatchView extends FrameLayout implements WatchView {
 
     private void inflateLayout(@LayoutRes int layoutId) {
         if (currentLayout != layoutId) {
-            Core.instance().canBeTicked.tick(Calendar.getInstance());
             tearDownView();
             LayoutInflater li = LayoutInflater.from(getContext());
             li.inflate(layoutId, this);

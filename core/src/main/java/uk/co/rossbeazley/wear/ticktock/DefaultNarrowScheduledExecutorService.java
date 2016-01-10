@@ -11,6 +11,7 @@ class DefaultNarrowScheduledExecutorService implements NarrowScheduledExecutorSe
 
     @Override
     public Cancelable scheduleAtFixedRate(Runnable command, long period, TimeUnit unit) {
+        command.run();
         final ScheduledFuture<?> result = service.scheduleAtFixedRate(command, 0, period, unit);
         return new Cancelable() {
             @Override
