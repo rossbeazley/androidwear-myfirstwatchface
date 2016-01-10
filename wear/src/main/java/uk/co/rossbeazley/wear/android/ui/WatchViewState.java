@@ -4,7 +4,7 @@ import android.graphics.Color;
 
 import java.util.Calendar;
 
-class WatchViewState implements WatchView {
+public class WatchViewState implements WatchView {
     private final WatchView watchView;
 
     private BaseWatchView currentStrategy;

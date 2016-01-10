@@ -28,7 +28,7 @@ class InflatingWatchView extends FrameLayout implements WatchView {
     private WatchFaceService.CanLog logger = new WatchFaceService.CanLog() {
         @Override
         public void log(String msg) {
-            System.out.println("InflatingWatchView " + msg);
+           // System.out.println("InflatingWatchView " + msg);
         }
     };
     private int currentLayout;
@@ -51,21 +51,19 @@ class InflatingWatchView extends FrameLayout implements WatchView {
     }
 
     @Override
-    protected void onDraw(Canvas canvas) {
+    public void draw(Canvas canvas) {
         Core.instance().canBeTicked.tick(Calendar.getInstance());
-        super.onDraw(canvas);
+        super.draw(canvas);
     }
 
     @Override
     public void toAmbient() {
-        invalidateCanvasOnViewChanges = true;
-        Main.instance().tickTock.stop();
         inflateDarkView();
+        Main.instance().tickTock.stop();
     }
 
     @Override
     public void toActive() {
-        invalidateCanvasOnViewChanges = true;
         Main.instance().tickTock.start();
         inflateFullView();
         logger.log("done toActive");
@@ -73,7 +71,6 @@ class InflatingWatchView extends FrameLayout implements WatchView {
 
     @Override
     public void toActiveOffset() {
-        invalidateCanvasOnViewChanges = true;
         Main.instance().tickTock.start();
         inflateOffsetView();
         logger.log("done toActiveOffset");
@@ -81,7 +78,6 @@ class InflatingWatchView extends FrameLayout implements WatchView {
 
     @Override
     public void toInvisible() {
-        invalidateCanvasOnViewChanges = true;
         logger.log("toInvisible");
         tearDownView();
         Main.instance().tickTock.stop();
@@ -137,17 +133,18 @@ class InflatingWatchView extends FrameLayout implements WatchView {
 
     private void inflateLayout(@LayoutRes int layoutId) {
         if (currentLayout != layoutId) {
+            Core.instance().canBeTicked.tick(Calendar.getInstance());
             tearDownView();
-            this.currentLayout = layoutId;
             LayoutInflater li = LayoutInflater.from(getContext());
             li.inflate(layoutId, this);
+            this.currentLayout = layoutId;
             logger.log("inflate complete");
         } else {
             logger.log("Not over inflating");
         }
     }
 
-    private boolean invalidateCanvasOnViewChanges;
+    private final boolean invalidateCanvasOnViewChanges = true;
 
     public final CanReceiveSecondsUpdates invalidateViewWhenSecondsChange = new CanReceiveSecondsUpdates() {
         @Override

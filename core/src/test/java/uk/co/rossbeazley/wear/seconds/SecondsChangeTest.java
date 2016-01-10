@@ -44,6 +44,15 @@ public class SecondsChangeTest implements CanReceiveSecondsUpdates {
     }
 
     @Test
+    public void theOneWhereTheSecondsUpdateThenWeAddObserver()
+    {
+        core.canBeObservedForChangesToSeconds.removeListener(this);
+        secondsToTick.tick(aTimeWithNineSeconds);
+        core.canBeObservedForChangesToSeconds.addListener(this);
+        assertThat(timeComponentString, is("09"));
+    }
+
+    @Test
     public void theOneWhereTheTimeDontUpdate() {
         secondsToTick.tick(aTimeWithNineSeconds);
         timeComponentString = "RESET";

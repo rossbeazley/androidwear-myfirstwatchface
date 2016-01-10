@@ -43,6 +43,7 @@ public class WatchFaceService extends CanvasWatchFaceService {
             watchViewRoot.registerView(inflatingWatchView, (WatchView.RedrawOnInvalidate)this);
 
             updateView();
+//            onSurfaceRedrawNeeded(holder);
         }
 
 
@@ -109,36 +110,26 @@ public class WatchFaceService extends CanvasWatchFaceService {
         @Override
         public void invalidate() {
             log("invalidate");
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    doInvalidate();
-                }
-            },3);
-        }
-
-        void doInvalidate() {
             super.invalidate();
         }
 
         @Override
         public void forceInvalidate() {
             log("postInvalidate");
-            doInvalidate();
+            invalidate();
             onSurfaceRedrawNeeded(getSurfaceHolder());
         }
 
         public void log(String msg) {
-            System.out.println("RWF " + System.currentTimeMillis() + ":" + msg);
+            //System.out.println("RWF " + System.currentTimeMillis() + ":" + msg);
         }
 
 
         @Override
         public void onTimeTick() {
             log("onTimeTick");
-            updateView();
             watchViewRoot.timeTick(Calendar.getInstance());
-            doInvalidate();
+            invalidate();
         }
 
         @Override

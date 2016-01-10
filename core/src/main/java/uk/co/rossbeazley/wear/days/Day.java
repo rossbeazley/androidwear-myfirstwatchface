@@ -30,15 +30,15 @@ public class Day {
 
         private final String ordinal;
 
-        private final String ST = "st", ND = "nd", RD = "rd", TH = "th";
-        private final String DEFAULT = TH;
+        private static final String ST = "st", ND = "nd", RD = "rd", TH = "th";
+        private static final String DEFAULT = TH;
+        private static final DefaultMap<Integer, String> lookupTable = new DefaultMap<Integer, String>(DEFAULT) {{
+            put(1, ST);  put(2, ND);  put(3, RD);
+            put(21, ST); put(22, ND); put(23, RD);
+            put(31, ST);
+        }};
 
         private Ordinal(int value) {
-            DefaultMap<Integer, String> lookupTable = new DefaultMap<Integer, String>(DEFAULT) {{
-                put(1, ST);  put(2, ND);  put(3, RD);
-                put(21, ST); put(22, ND); put(23, RD);
-                put(31, ST);
-            }};
             ordinal = lookupTable.get(value);
         }
 

@@ -9,12 +9,14 @@ import android.os.Build;
 import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.ViewParent;
 import android.widget.FrameLayout;
 
 import java.util.Calendar;
 
 class WatchViewRoot extends FrameLayout {
 
+    private WatchView.RedrawOnInvalidate redrawOnInvalidate;
     private WatchFaceService.CanLog logger;
     private Rect currentPeekCardPosition;
 
@@ -23,6 +25,7 @@ class WatchViewRoot extends FrameLayout {
 
     public WatchViewRoot(Context context, final WatchView.RedrawOnInvalidate redrawOnInvalidate, final WatchFaceService.CanLog logger) {
         this(context);
+        this.redrawOnInvalidate = redrawOnInvalidate;
         this.logger = logger;
 
         this.setOnHierarchyChangeListener(new OnHierarchyChangeListener() {
@@ -56,8 +59,6 @@ class WatchViewRoot extends FrameLayout {
         super(context, attrs, defStyleAttr, defStyleRes);
     }
 
-
-
     private final Rect adjustedBounds = new Rect();
     @NonNull
     private Rect adjustDrawingAreaForAnyNotificationCards(Rect bounds, Rect peekCardPosition) {
@@ -78,9 +79,9 @@ class WatchViewRoot extends FrameLayout {
             return; //fast exit //TODO invert isVisible boolean
         }
 
-        bounds = adjustDrawingAreaForAnyNotificationCards(bounds, currentPeekCardPosition);
-
         invalidate();
+
+        bounds = adjustDrawingAreaForAnyNotificationCards(bounds, currentPeekCardPosition);
 
         measureAndLayout(bounds);
 

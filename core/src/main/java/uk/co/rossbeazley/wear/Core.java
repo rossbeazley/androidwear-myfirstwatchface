@@ -47,7 +47,7 @@ public class Core {
 
 
         final Announcer<CanReceiveSecondsUpdates> canReceiveSecondsUpdatesAnnouncer = Announcer.to(CanReceiveSecondsUpdates.class);
-        seconds = new Seconds(canReceiveSecondsUpdatesAnnouncer.announce());
+        seconds = new Seconds(canReceiveSecondsUpdatesAnnouncer);
         canBeObservedForChangesToSeconds = canReceiveSecondsUpdatesAnnouncer;
 
         Announcer<CanReceiveMinutesUpdates> canReceiveMinutesUpdatesAnnouncer = Announcer.to(CanReceiveMinutesUpdates.class);
@@ -99,18 +99,16 @@ public class Core {
         };
     }
 
-    private static Core instance;
-
     public static Core instance() {
-        if(instance==null) instance = new Core();
-        return instance;
+        return Instance.instance;
     }
 
     public static Core init() {
-        return init(Orientation.north());
+        return Instance.instance;
     }
 
-    public static Core init(Orientation orientation) {
-        return (instance  = new Core(orientation));
+    public static class Instance {
+        public final static Core instance = new Core();
     }
+
 }
