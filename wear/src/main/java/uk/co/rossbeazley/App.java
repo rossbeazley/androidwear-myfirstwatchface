@@ -15,7 +15,7 @@ public class App extends Application {
 
     @Override
     public void onCreate() {
-        super.onCreate();
         Main.init(this);
+        super.onCreate();
     }
 }
