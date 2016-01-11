@@ -7,6 +7,7 @@ import android.content.pm.ServiceInfo;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.service.wallpaper.WallpaperService;
 import android.support.annotation.NonNull;
 import android.support.wearable.watchface.CanvasWatchFaceService;
 import android.view.Gravity;
@@ -21,7 +22,7 @@ import java.util.Calendar;
 public class WatchFaceService extends CanvasWatchFaceService {
 
     @Override
-    public Engine onCreateEngine() {
+    public CanvasWatchFaceService.Engine onCreateEngine() {
         return new RotateEngine(getApplicationContext());
     }
 
