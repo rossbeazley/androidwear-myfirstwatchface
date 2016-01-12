@@ -1,28 +1,18 @@
 package uk.co.rossbeazley.watchview;
 
-import android.content.ComponentName;
 import android.content.Context;
-import android.content.pm.PackageManager;
-import android.content.pm.ServiceInfo;
 import android.graphics.Canvas;
 import android.graphics.Rect;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.wearable.watchface.CanvasWatchFaceService;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.SurfaceHolder;
 import android.view.View;
 import android.widget.TextView;
 
-import java.lang.reflect.Constructor;
 import java.util.Calendar;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ScheduledFuture;
-import java.util.concurrent.TimeUnit;
 
 public class WatchFaceService extends CanvasWatchFaceService {
 
@@ -65,7 +55,7 @@ public class WatchFaceService extends CanvasWatchFaceService {
         @NonNull
         private WatchView.TimeTick createTimeTick() {
             final Handler handler = new Handler(Looper.myLooper());
-            return new HandlerTimeTick( handler);
+            return new HandlerTimeTick(this, handler);
         }
 
 
@@ -87,41 +77,11 @@ public class WatchFaceService extends CanvasWatchFaceService {
         }
 
         private View inflate(WatchViewRoot viewRoot) {
-            View rtn = null;
-            try {
-                ServiceInfo applicationInfo = getPackageManager().getServiceInfo(new ComponentName(viewRoot.getContext(), WatchFaceService.class), PackageManager.GET_META_DATA);
-                Bundle metaData = applicationInfo.metaData;
-                System.out.println("Going to try inflating");
-
-                int layoutId = metaData.getInt("watchFaceViewLayout");
-                System.out.println("Going to inflate " + layoutId);
-                LayoutInflater layoutInflater = LayoutInflater.from(viewRoot.getContext());
-                rtn = layoutInflater.inflate(layoutId, viewRoot, false);
-            } catch (Exception e) {
-
-            }
-
-            return rtn;
+            return new InflatedView(WatchFaceService.this, viewRoot).infate();
         }
 
         private View newViewClass(Context context) {
-            View rtn = null;
-            try {
-                ServiceInfo applicationInfo = getPackageManager().getServiceInfo(new ComponentName(context,WatchFaceService.class), PackageManager.GET_META_DATA);
-                Bundle metaData = applicationInfo.metaData;
-                String viewClass = metaData.getString("watchFaceViewClass");
-                if(viewClass==null) return rtn;
-
-                System.out.println("Going to construct" + viewClass);
-                Class<?> aClass = Class.forName(viewClass);
-                Class<Context> contextType = Context.class;
-                Constructor<?> constructor = aClass.getConstructor(contextType);
-                rtn = (View) constructor.newInstance(context);
-                log("Found" + aClass.getSimpleName());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return rtn;
+            return new ViewClass(WatchFaceService.this, this, context).construct();
         }
 
 
@@ -226,33 +186,6 @@ public class WatchFaceService extends CanvasWatchFaceService {
         }
 
 
-        private class HandlerTimeTick implements WatchView.TimeTick {
-            private final Handler handler;
-
-            public HandlerTimeTick(Handler handler) {
-                this.handler = handler;
-            }
-
-            @Override
-            public Cancelable scheduleTicks(final long period, final TimeUnit timeUnit) {
-                final Runnable tick = new Runnable() {
-                    @Override
-                    public void run() {
-                        RotateEngine.this.onTimeTick();
-                        handler.postDelayed(this, timeUnit.toMillis(period));
-                    }
-                };
-
-                handler.post(tick);
-
-                return new Cancelable() {
-                    @Override
-                    public void cancel() {
-                        handler.removeCallbacks(tick);
-                    }
-                };
-            }
-        }
     }
 
 
