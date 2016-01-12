@@ -1,4 +1,4 @@
-package uk.co.rossbeazley.wear.android.ui;
+package uk.co.rossbeazley.watchview;
 
 import android.annotation.TargetApi;
 import android.content.Context;
@@ -9,7 +9,6 @@ import android.os.Build;
 import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.view.View;
-import android.view.ViewParent;
 import android.widget.FrameLayout;
 
 import java.util.Calendar;
@@ -17,15 +16,17 @@ import java.util.Calendar;
 class WatchViewRoot extends FrameLayout {
 
     private WatchView.RedrawOnInvalidate redrawOnInvalidate;
+    private WatchView.TimeTick timeTick;
     private WatchFaceService.CanLog logger;
     private Rect currentPeekCardPosition;
 
     private WatchViewState watchViewState;
 
 
-    public WatchViewRoot(Context context, final WatchView.RedrawOnInvalidate redrawOnInvalidate, final WatchFaceService.CanLog logger) {
+    public WatchViewRoot(Context context, final WatchView.RedrawOnInvalidate redrawOnInvalidate, WatchView.TimeTick timeTick, final WatchFaceService.CanLog logger) {
         this(context);
         this.redrawOnInvalidate = redrawOnInvalidate;
+        this.timeTick = timeTick;
         this.logger = logger;
 
         this.setOnHierarchyChangeListener(new OnHierarchyChangeListener() {
@@ -133,7 +134,7 @@ class WatchViewRoot extends FrameLayout {
     public void registerView(View watchViewImpl, WatchView.RedrawOnInvalidate redrawOnInvalidate) {
         this.addView(watchViewImpl);
         this.watchViewState = new WatchViewState((WatchView) watchViewImpl);
-        this.watchViewState.registerInvalidator(redrawOnInvalidate);
+        this.watchViewState.registerServices(redrawOnInvalidate, timeTick);
         this.watchViewState.toActive();
     }
 

@@ -1,4 +1,4 @@
-package uk.co.rossbeazley.wear.android.ui;
+package uk.co.rossbeazley.watchview;
 
 import android.graphics.Color;
 
@@ -45,8 +45,8 @@ public class WatchViewState implements WatchView {
     }
 
     @Override
-    public void registerInvalidator(RedrawOnInvalidate redrawOnInvalidate) {
-        currentStrategy.registerInvalidator(redrawOnInvalidate);
+    public void registerServices(RedrawOnInvalidate redrawOnInvalidate, TimeTick timeTick) {
+        currentStrategy.registerServices(redrawOnInvalidate, timeTick);
     }
 
     @Override
@@ -96,8 +96,8 @@ public class WatchViewState implements WatchView {
         }
 
         @Override
-        public void registerInvalidator(RedrawOnInvalidate redrawOnInvalidate) {
-            watchViewRoot.watchView.registerInvalidator(redrawOnInvalidate);
+        public void registerServices(RedrawOnInvalidate redrawOnInvalidate, TimeTick timeTick) {
+            watchViewRoot.watchView.registerServices(redrawOnInvalidate, timeTick);
         }
 
         @Override

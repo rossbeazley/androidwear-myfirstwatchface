@@ -2,7 +2,6 @@ package uk.co.rossbeazley.wear.android.ui;
 
 import android.annotation.TargetApi;
 import android.content.Context;
-import android.graphics.Canvas;
 import android.os.Build;
 import android.support.annotation.LayoutRes;
 import android.util.AttributeSet;
@@ -10,9 +9,11 @@ import android.view.LayoutInflater;
 import android.widget.FrameLayout;
 
 import java.util.Calendar;
+import java.util.concurrent.TimeUnit;
 
+import uk.co.rossbeazley.watchview.WatchFaceService;
+import uk.co.rossbeazley.watchview.WatchView;
 import uk.co.rossbeazley.wear.Core;
-import uk.co.rossbeazley.wear.Main;
 import uk.co.rossbeazley.wear.R;
 import uk.co.rossbeazley.wear.Sexagesimal;
 import uk.co.rossbeazley.wear.colour.CanReceiveColourUpdates;
@@ -25,6 +26,7 @@ import uk.co.rossbeazley.wear.seconds.CanReceiveSecondsUpdates;
 class InflatingWatchView extends FrameLayout implements WatchView {
 
     private RedrawOnInvalidate redrawOnInvalidate;
+    private TimeTick timeTick ;
     private WatchFaceService.CanLog logger = new WatchFaceService.CanLog() {
         @Override
         public void log(String msg) {
@@ -32,6 +34,7 @@ class InflatingWatchView extends FrameLayout implements WatchView {
         }
     };
     private int currentLayout;
+    private TimeTick.Cancelable currentTicks = TimeTick.Cancelable.NULL;
 
     public InflatingWatchView(Context context) {
         super(context);
@@ -53,19 +56,19 @@ class InflatingWatchView extends FrameLayout implements WatchView {
     @Override
     public void toAmbient() {
         inflateDarkView();
-        Main.instance().tickTock.stop();
+        currentTicks.cancel();
     }
 
     @Override
     public void toActive() {
-        Main.instance().tickTock.start();
+        currentTicks = timeTick.scheduleTicks(200, TimeUnit.MILLISECONDS);
         inflateFullView();
         logger.log("done toActive");
     }
 
     @Override
     public void toActiveOffset() {
-        Main.instance().tickTock.start();
+        currentTicks = timeTick.scheduleTicks(200, TimeUnit.MILLISECONDS);
         inflateOffsetView();
         logger.log("done toActiveOffset");
     }
@@ -74,12 +77,13 @@ class InflatingWatchView extends FrameLayout implements WatchView {
     public void toInvisible() {
         logger.log("toInvisible");
         tearDownView();
-        Main.instance().tickTock.stop();
+        currentTicks.cancel();
     }
 
     @Override
-    public void registerInvalidator(RedrawOnInvalidate redrawOnInvalidate) {
+    public void registerServices(RedrawOnInvalidate redrawOnInvalidate, TimeTick timeTick) {
         this.redrawOnInvalidate = redrawOnInvalidate;
+        this.timeTick = timeTick;
         Core.instance().canBeObservedForChangesToColour.addListener(invalidateWhenColourChages);
         Core.instance().canBeObservedForChangesToSeconds.addListener(invalidateViewWhenSecondsChange);
         Core.instance().canBeObservedForChangesToMinutes.addListener(invalidateViewWhenMinutesChange);

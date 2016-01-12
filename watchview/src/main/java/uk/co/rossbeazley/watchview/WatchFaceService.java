@@ -1,4 +1,4 @@
-package uk.co.rossbeazley.wear.android.ui;
+package uk.co.rossbeazley.watchview;
 
 import android.content.ComponentName;
 import android.content.Context;
@@ -7,7 +7,8 @@ import android.content.pm.ServiceInfo;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.os.Bundle;
-import android.service.wallpaper.WallpaperService;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.wearable.watchface.CanvasWatchFaceService;
 import android.view.Gravity;
@@ -18,6 +19,10 @@ import android.widget.TextView;
 
 import java.lang.reflect.Constructor;
 import java.util.Calendar;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
 
 public class WatchFaceService extends CanvasWatchFaceService {
 
@@ -44,8 +49,9 @@ public class WatchFaceService extends CanvasWatchFaceService {
         public void onCreate(SurfaceHolder holder) {
             log("on create");
             super.onCreate(holder);
+            final WatchView.TimeTick timeTick = createTimeTick();
 
-            watchViewRoot = new WatchViewRoot(context, this, (CanLog)this);
+            watchViewRoot = new WatchViewRoot(context, this, timeTick, (CanLog)this);
 
             View inflatingWatchView = createWatchView(watchViewRoot);
 
@@ -54,6 +60,12 @@ public class WatchFaceService extends CanvasWatchFaceService {
             updateView();
 
 //            onSurfaceRedrawNeeded(holder);
+        }
+
+        @NonNull
+        private WatchView.TimeTick createTimeTick() {
+            final Handler handler = new Handler(Looper.myLooper());
+            return new HandlerTimeTick( handler);
         }
 
 
@@ -214,7 +226,33 @@ public class WatchFaceService extends CanvasWatchFaceService {
         }
 
 
+        private class HandlerTimeTick implements WatchView.TimeTick {
+            private final Handler handler;
 
+            public HandlerTimeTick(Handler handler) {
+                this.handler = handler;
+            }
+
+            @Override
+            public Cancelable scheduleTicks(final long period, final TimeUnit timeUnit) {
+                final Runnable tick = new Runnable() {
+                    @Override
+                    public void run() {
+                        RotateEngine.this.onTimeTick();
+                        handler.postDelayed(this, timeUnit.toMillis(period));
+                    }
+                };
+
+                handler.post(tick);
+
+                return new Cancelable() {
+                    @Override
+                    public void cancel() {
+                        handler.removeCallbacks(tick);
+                    }
+                };
+            }
+        }
     }
 
 
