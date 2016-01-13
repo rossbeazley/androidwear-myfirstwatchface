@@ -18,12 +18,12 @@ class HandlerTimeTick implements WatchView.TimeTick {
         final Runnable tick = new Runnable() {
             @Override
             public void run() {
-                rotateEngine.onTimeTick();
                 handler.postDelayed(this, timeUnit.toMillis(period));
+                rotateEngine.onTimeTick();
             }
         };
 
-        handler.post(tick);
+        tick.run();
 
         return new Cancelable() {
             @Override
