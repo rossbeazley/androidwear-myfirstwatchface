@@ -12,8 +12,6 @@ import android.view.SurfaceHolder;
 import android.view.View;
 import android.widget.TextView;
 
-import java.util.Calendar;
-
 public class WatchFaceService extends CanvasWatchFaceService {
 
     @Override
@@ -41,11 +39,11 @@ public class WatchFaceService extends CanvasWatchFaceService {
             super.onCreate(holder);
             final WatchView.TimeTick timeTick = createTimeTick();
 
-            watchViewRoot = new WatchViewRoot(context, this, timeTick, (CanLog)this);
+            watchViewRoot = new WatchViewRoot(context, this, timeTick, this);
 
             View inflatingWatchView = createWatchView(watchViewRoot);
 
-            watchViewRoot.registerView(inflatingWatchView, (WatchView.RedrawOnInvalidate)this);
+            watchViewRoot.registerView(inflatingWatchView, this);
 
             updateView();
 
@@ -160,7 +158,7 @@ public class WatchFaceService extends CanvasWatchFaceService {
         @Override
         public void onTimeTick() {
             log("onTimeTick");
-            watchViewRoot.timeTick(Calendar.getInstance());
+            watchViewRoot.timeTick();
             invalidate();
         }
 

@@ -14,13 +14,13 @@ class ViewClass {
     private WatchFaceService.RotateEngine rotateEngine;
     private Context context;
 
-    public ViewClass(WatchFaceService watchFaceService, WatchFaceService.RotateEngine rotateEngine, Context context) {
+    ViewClass(WatchFaceService watchFaceService, WatchFaceService.RotateEngine rotateEngine, Context context) {
         this.watchFaceService = watchFaceService;
         this.rotateEngine = rotateEngine;
         this.context = context;
     }
 
-    public View construct() {
+    View construct() {
         View rtn = null;
         try {
             ServiceInfo applicationInfo = watchFaceService.getPackageManager().getServiceInfo(new ComponentName(context,WatchFaceService.class), PackageManager.GET_META_DATA);

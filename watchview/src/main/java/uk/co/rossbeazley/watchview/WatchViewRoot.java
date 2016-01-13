@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 
 import java.util.Calendar;
+import java.util.concurrent.TimeUnit;
 
 class WatchViewRoot extends FrameLayout {
 
@@ -138,8 +139,8 @@ class WatchViewRoot extends FrameLayout {
         this.watchViewState.toActive();
     }
 
-    public void timeTick(Calendar instance) {
-        watchViewState.timeTick(instance);
+    public void timeTick() {
+        watchViewState.timeTick(System.currentTimeMillis(), TimeUnit.MILLISECONDS);
     }
 
 }

@@ -91,7 +91,9 @@ class InflatingWatchView extends FrameLayout implements WatchView {
     }
 
     @Override
-    public void timeTick(Calendar instance) {
+    public void timeTick(long duration, TimeUnit timeUnit) {
+        Calendar instance = Calendar.getInstance();
+        instance.setTimeInMillis(timeUnit.toMillis(duration));
         Core.instance().canBeTicked.tick(instance);
     }
 

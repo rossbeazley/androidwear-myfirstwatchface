@@ -11,12 +11,12 @@ class InflatedView {
     private WatchFaceService watchFaceService;
     private WatchViewRoot viewRoot;
 
-    public InflatedView(WatchFaceService watchFaceService, WatchViewRoot viewRoot) {
+    InflatedView(WatchFaceService watchFaceService, WatchViewRoot viewRoot) {
         this.watchFaceService = watchFaceService;
         this.viewRoot = viewRoot;
     }
 
-    public View infate() {
+    View infate() {
         View rtn = null;
         try {
             ServiceInfo applicationInfo = watchFaceService.getPackageManager().getServiceInfo(new ComponentName(viewRoot.getContext(), WatchFaceService.class), PackageManager.GET_META_DATA);

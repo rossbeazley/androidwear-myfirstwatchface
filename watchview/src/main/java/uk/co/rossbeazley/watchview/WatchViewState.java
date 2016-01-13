@@ -2,9 +2,9 @@ package uk.co.rossbeazley.watchview;
 
 import android.graphics.Color;
 
-import java.util.Calendar;
+import java.util.concurrent.TimeUnit;
 
-public class WatchViewState implements WatchView {
+class WatchViewState implements WatchView {
     private final WatchView watchView;
 
     private BaseWatchView currentStrategy;
@@ -13,7 +13,7 @@ public class WatchViewState implements WatchView {
     private BaseWatchView ambiet;
     private BaseWatchView invisible;
 
-    public WatchViewState(WatchView watchView) {
+    WatchViewState(WatchView watchView) {
         this.watchView = watchView;
 
         currentStrategy = invisible = new InvisibleWatchView(this);
@@ -50,8 +50,8 @@ public class WatchViewState implements WatchView {
     }
 
     @Override
-    public void timeTick(Calendar instance) {
-        currentStrategy.timeTick(instance);
+    public void timeTick(long duration, TimeUnit timeUnit) {
+        currentStrategy.timeTick(duration, timeUnit);
     }
 
     @Override
@@ -101,8 +101,8 @@ public class WatchViewState implements WatchView {
         }
 
         @Override
-        public void timeTick(Calendar instance) {
-            watchViewRoot.watchView.timeTick(instance);
+        public void timeTick(long duration, TimeUnit timeUnit) {
+            watchViewRoot.watchView.timeTick(duration, timeUnit);
         }
 
         @Override

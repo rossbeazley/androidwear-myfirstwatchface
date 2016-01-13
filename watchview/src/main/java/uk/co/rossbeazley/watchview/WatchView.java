@@ -1,5 +1,7 @@
 package uk.co.rossbeazley.watchview;
 
+import android.support.annotation.ColorInt;
+
 import java.util.Calendar;
 import java.util.concurrent.TimeUnit;
 
@@ -14,8 +16,9 @@ public interface WatchView {
 
     void registerServices(RedrawOnInvalidate redrawOnInvalidate, TimeTick timeTick);
 
-    void timeTick(Calendar instance);
+    void timeTick(long duration, TimeUnit timeUnit);
 
+    @ColorInt
     int background();
 
     interface RedrawOnInvalidate {
