@@ -34,7 +34,7 @@ class InflatingWatchView extends FrameLayout implements WatchView {
         }
     };
     private int currentLayout;
-    private TimeTick.Cancelable currentTicks = TimeTick.Cancelable.NULL;
+    private TimeTick.Tick currentTicks = TimeTick.Tick.NULL;
 
     public InflatingWatchView(Context context) {
         super(context);
@@ -56,19 +56,16 @@ class InflatingWatchView extends FrameLayout implements WatchView {
     @Override
     public void toAmbient() {
         inflateDarkView();
-        currentTicks.cancel();
     }
 
     @Override
     public void toActive() {
-        currentTicks = timeTick.scheduleTicks(200, TimeUnit.MILLISECONDS);
         inflateFullView();
         logger.log("done toActive");
     }
 
     @Override
     public void toActiveOffset() {
-        currentTicks = timeTick.scheduleTicks(200, TimeUnit.MILLISECONDS);
         inflateOffsetView();
         logger.log("done toActiveOffset");
     }
@@ -77,7 +74,6 @@ class InflatingWatchView extends FrameLayout implements WatchView {
     public void toInvisible() {
         logger.log("toInvisible");
         tearDownView();
-        currentTicks.cancel();
     }
 
     @Override
@@ -88,6 +84,8 @@ class InflatingWatchView extends FrameLayout implements WatchView {
         Core.instance().canBeObservedForChangesToSeconds.addListener(invalidateViewWhenSecondsChange);
         Core.instance().canBeObservedForChangesToMinutes.addListener(invalidateViewWhenMinutesChange);
         Core.instance().canBeObservedForChangesToHours.addListener(invalidateViewWhenHoursChange);
+
+        currentTicks = timeTick.scheduleTicks(200, TimeUnit.MILLISECONDS);
     }
 
     @Override

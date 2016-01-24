@@ -6,6 +6,7 @@ import java.util.concurrent.TimeUnit;
 
 class WatchViewState implements WatchView {
     private final WatchView watchView;
+    private final TimeTick timeTick;
 
     private BaseWatchView currentStrategy;
     private BaseWatchView offset;
@@ -13,8 +14,9 @@ class WatchViewState implements WatchView {
     private BaseWatchView ambiet;
     private BaseWatchView invisible;
 
-    WatchViewState(WatchView watchView) {
+    WatchViewState(WatchView watchView, TimeTick timeTick) {
         this.watchView = watchView;
+        this.timeTick = timeTick;
 
         currentStrategy = invisible = new InvisibleWatchView(this);
         active = new ActiveWatchView(this);
@@ -75,24 +77,28 @@ class WatchViewState implements WatchView {
         public void toAmbient() {
             watchViewRoot.currentStrategy = watchViewRoot.ambiet;
             watchViewRoot.watchView.toAmbient();
+            watchViewRoot.timeTick.stop();
         }
 
         @Override
         public void toActive() {
             watchViewRoot.currentStrategy = watchViewRoot.active;
             watchViewRoot.watchView.toActive();
+            watchViewRoot.timeTick.restart();
         }
 
         @Override
         public void toActiveOffset() {
             watchViewRoot.currentStrategy = watchViewRoot.offset;
             watchViewRoot.watchView.toActiveOffset();
+            watchViewRoot.timeTick.restart();
         }
 
         @Override
         public void toInvisible() {
             watchViewRoot.currentStrategy = watchViewRoot.invisible;
             watchViewRoot.watchView.toInvisible();
+            watchViewRoot.timeTick.stop();
         }
 
         @Override

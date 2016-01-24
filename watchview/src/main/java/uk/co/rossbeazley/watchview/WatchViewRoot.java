@@ -134,7 +134,7 @@ class WatchViewRoot extends FrameLayout {
 
     public void registerView(View watchViewImpl, WatchView.RedrawOnInvalidate redrawOnInvalidate) {
         this.addView(watchViewImpl);
-        this.watchViewState = new WatchViewState((WatchView) watchViewImpl);
+        this.watchViewState = new WatchViewState((WatchView) watchViewImpl, timeTick);
         this.watchViewState.registerServices(redrawOnInvalidate, timeTick);
         this.watchViewState.toActive();
     }

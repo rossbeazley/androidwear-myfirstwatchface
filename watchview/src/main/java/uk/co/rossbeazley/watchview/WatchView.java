@@ -2,7 +2,6 @@ package uk.co.rossbeazley.watchview;
 
 import android.support.annotation.ColorInt;
 
-import java.util.Calendar;
 import java.util.concurrent.TimeUnit;
 
 public interface WatchView {
@@ -27,17 +26,30 @@ public interface WatchView {
     }
 
     interface TimeTick {
-        Cancelable scheduleTicks(long period, TimeUnit timeUnit);
+        /**
+         * If you schedule any ticks, the current ticker is canceled before the new one is started.
+         * @param period
+         * @param timeUnit
+         * @return
+         */
+        Tick scheduleTicks(long period, TimeUnit timeUnit);
 
-        interface Cancelable {
-            void cancel();
+        void stop();
 
+        void restart();
 
-            Cancelable NULL = new Cancelable() {
+        interface Tick {
+            void stop();
+
+            Tick NULL = new Tick() {
                 @Override
-                public void cancel() {                }
+                public void stop() {}
+
+                @Override
+                public void start() {}
             };
 
+            void start();
         }
     }
 }
