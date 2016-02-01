@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.os.Bundle;
-import android.os.Debug;
 
 import uk.co.rossbeazley.wear.R;
 
@@ -23,7 +22,7 @@ public class ConfigActivity extends Activity {
 
         setContentView(R.layout.config_activity);
         FragmentManager fragmentManager = getFragmentManager();
-        navigationController = new NavigationController(fragmentManager, R.id.config_root_view);
+        navigationController = new FragmentNavigationController(fragmentManager, R.id.config_root_view);
         // if not restoring state
         if(savedInstanceState==null) {
             navigationController.defaultNavigation();

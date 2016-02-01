@@ -51,10 +51,11 @@
         android:id="@+id/next_navigation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text=">"
-        android:textSize="32sp"
+        android:text="M\nO\nR\nE"
+        android:textSize="18sp"
         android:textColor="@color/blue"
         android:layout_gravity="center_vertical|right"
-        android:layout_marginRight="10dp"/>
+        android:layout_marginRight="10dp"
+        android:textIsSelectable="false" />
 
 </FrameLayout>
