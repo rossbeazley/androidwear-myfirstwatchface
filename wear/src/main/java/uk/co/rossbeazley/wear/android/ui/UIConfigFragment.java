@@ -2,6 +2,7 @@ package uk.co.rossbeazley.wear.android.ui;
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.os.Debug;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,7 +14,9 @@ import uk.co.rossbeazley.wear.R;
 import uk.co.rossbeazley.wear.colour.CanReceiveColourUpdates;
 import uk.co.rossbeazley.wear.colour.Colours;
 
-public class UIConfigFragment extends Fragment {
+public class UIConfigFragment extends Fragment implements NeedsNavigationController {
+    private NavigationController navigationController;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -53,6 +56,19 @@ public class UIConfigFragment extends Fragment {
         });
 
 
+        view.findViewById(R.id.next_navigation).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                navigationController.toConfigOptionsList();
+            }
+        });
+
         return view;
+    }
+
+    @Override
+    public void attachNavigationController(NavigationController navigationController) {
+
+        this.navigationController = navigationController;
     }
 }
