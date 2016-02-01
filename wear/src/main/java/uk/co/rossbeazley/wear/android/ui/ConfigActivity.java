@@ -30,41 +30,11 @@ public class ConfigActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        createView();
-    }
-
-    private void createView() {
-        Main.instance().tickTock.start();
-        setContentView(R.layout.rotate);
-
-        final Core core = Core.instance();
-        core.canBeObservedForChangesToColour.addListener(new CanReceiveColourUpdates() {
-            @Override
-            public void colourUpdate(Colours to) {
-                findViewById(R.id.rotate_container).setBackgroundColor(to.background().toInt());
-            }
-        });
-
-        findViewById(R.id.rotate_button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                core.canBeRotated.right();
-            }
-        });
-
-        findViewById(R.id.black_button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                core.canBeColoured.background(Colours.Colour.BLACK);
-            }
-        });
-
-        findViewById(R.id.white_button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                core.canBeColoured.background(Colours.Colour.WHITE);
-            }
-        });
+        setContentView(R.layout.config_activity);
+        getFragmentManager()
+                .beginTransaction()
+                .add(R.id.config_root_view, new UIConfigFragment(), "DEFAULT")
+                .commit();
     }
 
 }
