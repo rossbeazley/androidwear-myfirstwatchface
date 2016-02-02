@@ -1,8 +1,7 @@
-package uk.co.rossbeazley.wear.android.ui;
+package uk.co.rossbeazley.wear.android.ui.config;
 
 import android.app.Fragment;
 import android.os.Bundle;
-import android.os.Debug;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;

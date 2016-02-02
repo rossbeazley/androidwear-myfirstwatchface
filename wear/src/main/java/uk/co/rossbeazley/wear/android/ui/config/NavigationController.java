@@ -1,4 +1,4 @@
-package uk.co.rossbeazley.wear.android.ui;
+package uk.co.rossbeazley.wear.android.ui.config;
 
 public interface NavigationController {
     void defaultNavigation();
