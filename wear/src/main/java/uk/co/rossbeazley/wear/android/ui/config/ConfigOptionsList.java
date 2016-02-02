@@ -21,4 +21,9 @@ public class ConfigOptionsList extends Fragment {
         textView.setGravity(Gravity.CENTER);
         return textView;
     }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        // make presenters, but need to cast :S
+    }
 }
