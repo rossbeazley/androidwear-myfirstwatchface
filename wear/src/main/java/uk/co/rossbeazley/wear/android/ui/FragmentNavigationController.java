@@ -4,11 +4,11 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 
 class FragmentNavigationController implements NavigationController {
-    private FragmentManager fragmentManager;
+    private FragmentManagerProvider fragmentManagerProvider;
     private int config_root_view;
 
-    public FragmentNavigationController(FragmentManager fragmentManager, int root_view) {
-        this.fragmentManager = fragmentManager;
+    public FragmentNavigationController(FragmentManagerProvider fragmentManagerProvider, int root_view) {
+        this.fragmentManagerProvider = fragmentManagerProvider;
         config_root_view = root_view;
     }
 
@@ -20,7 +20,7 @@ class FragmentNavigationController implements NavigationController {
     }
 
     private void pushFragment(Fragment fragment, String tag) {
-        fragmentManager
+        fragmentManager()
                 .beginTransaction()
                 .replace(config_root_view, fragment, tag)
                 .addToBackStack(tag)
@@ -33,5 +33,13 @@ class FragmentNavigationController implements NavigationController {
         ConfigOptionsList fragment = new ConfigOptionsList();
         String tag = "CONFIG_OPTIONS";
         pushFragment(fragment, tag);
+    }
+
+    private FragmentManager fragmentManager() {
+        return fragmentManagerProvider.getFragmentManager();
+    }
+
+    public static interface FragmentManagerProvider {
+        FragmentManager getFragmentManager();
     }
 }
