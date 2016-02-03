@@ -74,6 +74,9 @@ public class ConfigOptionsListWearViewTest {
         @Override
         public void showConfigItems(List<String> list) {
 
+            TextView textView = new TextView(getContext());
+            textView.setText("ANY");
+            addView(textView);
         }
     }
 
