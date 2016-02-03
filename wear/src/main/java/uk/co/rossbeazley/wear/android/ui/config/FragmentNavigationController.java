@@ -30,7 +30,7 @@ public class FragmentNavigationController implements NavigationController {
 
     @Override
     public void toConfigOptionsList() {
-        ConfigOptionsList fragment = new ConfigOptionsList();
+        ConfigOptionsListFragment fragment = new ConfigOptionsListFragment();
         String tag = "CONFIG_OPTIONS";
         pushFragment(fragment, tag);
     }

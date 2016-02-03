@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-public class ConfigOptionsList extends Fragment {
+public class ConfigOptionsListFragment extends Fragment {
 
     @Nullable
     @Override

@@ -8,7 +8,7 @@ import java.util.List;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 
-public class ConfigOptionsListTest {
+public class ConfigOptionsListPresenterTest {
 
     @Test
     public void presenterShowsTheConfigChoices() throws Exception {
@@ -54,7 +54,4 @@ public class ConfigOptionsListTest {
         List<String> configItemsList();
     }
 
-    private interface ConfigListView {
-        void showConfigItems(List<String> list);
-    }
 }

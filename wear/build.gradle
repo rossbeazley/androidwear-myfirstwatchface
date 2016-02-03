@@ -9,6 +9,8 @@ android {
         targetSdkVersion 23
         versionCode 23
         versionName '4.0'
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
@@ -26,4 +28,9 @@ dependencies {
     compile project(':android')
     testCompile 'junit:junit:4.12'
     compile project(':watchview')
+
+    androidTestCompile 'com.android.support:support-v13:23.1.1'
+    androidTestCompile 'junit:junit:4.12'
+    androidTestCompile 'com.android.support.test:runner:0.4.1'
+    androidTestCompile fileTree(include: ['*.jar'], dir: 'src/androidTest/libs')
 }
