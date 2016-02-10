@@ -6,10 +6,7 @@ import android.content.Context;
 import android.os.Build;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.Espresso;
-import android.support.test.espresso.NoMatchingViewException;
-import android.support.test.espresso.ViewAssertion;
 import android.support.test.espresso.matcher.ViewMatchers;
-import android.support.test.espresso.util.HumanReadables;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.rule.UiThreadTestRule;
 import android.support.test.runner.AndroidJUnit4;
@@ -22,10 +19,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
-import junit.framework.AssertionFailedError;
-
 import org.hamcrest.CustomTypeSafeMatcher;
-import org.hamcrest.Matcher;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -34,7 +28,6 @@ import org.junit.runner.Description;
 import org.junit.runner.RunWith;
 import org.junit.runners.model.Statement;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -90,7 +83,7 @@ public class ConfigOptionsListWearViewTest {
         configOptionsListWearView.showConfigItems(Arrays.asList("ANY", "ANY"));
 
         Espresso.onView(withId(R.id.view_under_test))
-                .check(has(2, withText("ANY")))
+                .check(DepthFirstChildCount.hasNumberOfChildrenMatching(2, withText("ANY")))
         ;
 
 
@@ -101,53 +94,11 @@ public class ConfigOptionsListWearViewTest {
         configOptionsListWearView.showConfigItems(Arrays.asList("ANY", "OLD"));
 
         Espresso.onView(withId(R.id.view_under_test))
-                .check(has(1, withText("ANY")))
-                .check(has(1, withText("OLD")))
+                .check(DepthFirstChildCount.hasNumberOfChildrenMatching(1, withText("ANY")))
+                .check(DepthFirstChildCount.hasNumberOfChildrenMatching(1, withText("OLD")))
         ;
 
 
-    }
-
-    public ViewAssertion has(final int numberOfChirlden, final Matcher<View> matching) {
-        return new ViewAssertion() {
-            @Override
-            public void check(View view, NoMatchingViewException noViewFoundException) {
-                if (view == null) {
-                    System.out.println("throwing null");
-                    throw new AssertionFailedError("No view to matched to count children of");
-                }
-
-                System.out.println("SELECTED VIEW ++++++++++++++++++" + HumanReadables.describe(view));
-
-                List<View> kids = new ArrayList<>();
-                if (view instanceof ViewGroup) {
-                    depthFirstSearch(view, kids);
-                }
-                if (kids.size() != numberOfChirlden) {
-                    String msg = HumanReadables.getViewHierarchyErrorMessage(view, kids, "Expected " + numberOfChirlden + " children matching " + matching + " but found " + kids.size(), " ###matching### ");
-                    System.out.println("Throwing " + msg);
-                    throw new AssertionFailedError(msg);
-                }
-            }
-
-            private void depthFirstSearch(View view, List<View> kids) {
-
-                ViewGroup rootView = (ViewGroup) view;
-                int childCount = rootView.getChildCount();
-                System.out.println("NUMBER OF KIDS " + childCount);
-                for (int i = childCount; i > 0; i--) {
-                    System.out.println(", checking " + (i - 1));
-                    View childAt = rootView.getChildAt(i - 1);
-
-                    if (childAt instanceof ViewGroup) {
-                        depthFirstSearch(childAt, kids);
-                    } else if (matching.matches(childAt)) {
-                        kids.add(childAt);
-                    }
-                }
-
-            }
-        };
     }
 
 
