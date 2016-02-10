@@ -33,6 +33,7 @@ import java.util.Collections;
 import java.util.List;
 
 import uk.co.rossbeazley.wear.R;
+import uk.co.rossbeazley.wear.android.ui.espressoMatchers.DepthFirstChildCount;
 
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
@@ -68,12 +69,10 @@ public class ConfigOptionsListWearViewTest {
 
         configOptionsListWearView.showConfigItems(Collections.singletonList("ANY"));
 
-        NumberOfMatches viewMatcher = new NumberOfMatches();
-        Espresso.onView(allOf(ViewMatchers.withText("ANY"), isDescendantOfA(withId(R.id.view_under_test))))
-                .check(matches(viewMatcher))
+        Espresso.onView(withId(R.id.view_under_test))
+                .check(DepthFirstChildCount.hasNumberOfChildrenMatching(1, withText("ANY")))
         ;
 
-        assertThat(viewMatcher.count(), is(1));
 
     }
 
@@ -184,23 +183,6 @@ public class ConfigOptionsListWearViewTest {
         }
     }
 
-    private static class NumberOfMatches extends CustomTypeSafeMatcher<View> {
-        private int count;
-
-        public NumberOfMatches() {
-            super("counts views");
-        }
-
-        @Override
-        protected boolean matchesSafely(View item) {
-            count++;
-            return true;
-        }
-
-        public int count() {
-            return count;
-        }
-    }
 
     private class TestContext implements TestRule {
 
