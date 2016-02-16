@@ -27,8 +27,6 @@ dependencies {
     compile project(':core')
     compile project(':android')
     compile project(':watchview')
-    compile 'com.google.android.support:wearable:1.1.0'
-    compile 'com.android.support:support-v13:23.1.1'
 
     testCompile 'junit:junit:4.12'
 
@@ -37,6 +35,9 @@ dependencies {
     androidTestCompile 'com.android.support.test:runner:0.4.1'
     androidTestCompile 'com.android.support.test:rules:0.4.1'
     androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.1'
+    androidTestCompile 'com.android.support.test.espresso:espresso-contrib:2.2.1'
+    androidTestCompile 'com.google.android.support:wearable:1.1.0'
+
     androidTestCompile fileTree(include: ['*.jar'], dir: 'src/androidTest/libs')
 
 }
