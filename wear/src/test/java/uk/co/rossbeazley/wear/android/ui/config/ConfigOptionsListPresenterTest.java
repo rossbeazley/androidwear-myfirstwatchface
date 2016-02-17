@@ -22,6 +22,12 @@ public class ConfigOptionsListPresenterTest {
         assertThat(listPresented,is(expectedList));
     }
 
+    @Test
+    public void presenterConfiguresSelectedChoice() {
+
+        //add click listener and then send configure to the configService
+    }
+
     private static class StubConfigService implements ConfigService {
         private final List<String> expectedList;
 

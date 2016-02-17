@@ -99,16 +99,17 @@ public class Core {
         };
     }
 
+
     public static Core instance() {
-        return Instance.instance;
+        return InstanceHolder.instance;
+    }
+
+    private static class InstanceHolder {
+        public static Core instance = new Core();
     }
 
     public static Core init() {
-        return Instance.instance;
-    }
-
-    public static class Instance {
-        public final static Core instance = new Core();
+        return InstanceHolder.instance;
     }
 
 }
