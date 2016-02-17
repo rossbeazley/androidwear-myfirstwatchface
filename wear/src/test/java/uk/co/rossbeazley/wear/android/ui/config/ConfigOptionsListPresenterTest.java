@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -13,16 +14,20 @@ public class ConfigOptionsListPresenterTest {
 
     private List<String> expectedList;
     private CapturingConfigListView configListView;
-    private StubConfigService configService;
+    private ConfigService configService;
     private StubStringPersistence stubStringPersistence;
 
     @Before
     public void build() {
         expectedList = Arrays.asList("one", "two", "three");
 
+        HashMap<String, List<String>> configItems = new HashMap<String, List<String>>() {{
+            put("configItems", expectedList);
+        }};
+
         configListView = new CapturingConfigListView();
-        stubStringPersistence = new StubStringPersistence(expectedList);
-        configService = new StubConfigService(stubStringPersistence);
+        stubStringPersistence = new StubStringPersistence(configItems);
+        configService = new ConfigService(stubStringPersistence);
         new ConfigOptionsPresenter(configService, configListView);
     }
 
@@ -38,23 +43,20 @@ public class ConfigOptionsListPresenterTest {
         assertThat(stubStringPersistence.queriedKey,is("two"));
     }
 
-    private static class StubConfigService implements ConfigService {
+    private static class ConfigService {
 
         private StringPersistence persistence;
 
-        public StubConfigService(StringPersistence persistence) {
-
+        public ConfigService(StringPersistence persistence) {
             this.persistence = persistence;
         }
 
-        @Override
         public void configure(String item) {
             persistence.hasKey(item);
         }
 
-        @Override
         public List<String> configItemsList() {
-            return persistence.stringsForKey("");
+            return persistence.stringsForKey("configItems");
         }
     }
 
@@ -85,11 +87,6 @@ public class ConfigOptionsListPresenterTest {
         }
     }
 
-    private interface ConfigService {
-        void configure(String item);
-        List<String> configItemsList();
-    }
-
     private interface StringPersistence {
 
         public List<String> stringsForKey(String key);
@@ -100,16 +97,16 @@ public class ConfigOptionsListPresenterTest {
     private class StubStringPersistence implements StringPersistence {
 
         public String queriedKey;
-        private List<String> expectedList;
 
-        public StubStringPersistence(List<String> expectedList) {
+        private HashMap<String, List<String>> map;
 
-            this.expectedList = expectedList;
+        public StubStringPersistence(HashMap<String, List<String>> map) {
+            this.map = map;
         }
 
         @Override
         public List<String> stringsForKey(String key) {
-            return expectedList;
+            return map.get(key);
         }
 
         @Override
