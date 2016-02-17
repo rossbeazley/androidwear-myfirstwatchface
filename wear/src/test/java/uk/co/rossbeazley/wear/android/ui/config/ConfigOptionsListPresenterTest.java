@@ -14,16 +14,16 @@ public class ConfigOptionsListPresenterTest {
     private List<String> expectedList;
     private CapturingConfigListView configListView;
     private StubConfigService configService;
+    private StubStringPersistence stubStringPersistence;
 
     @Before
     public void build() {
-        expectedList = Arrays.asList("one","two","three");
+        expectedList = Arrays.asList("one", "two", "three");
 
         configListView = new CapturingConfigListView();
-        configService = new StubConfigService(expectedList);
+        stubStringPersistence = new StubStringPersistence(expectedList);
+        configService = new StubConfigService(stubStringPersistence);
         new ConfigOptionsPresenter(configService, configListView);
-
-
     }
 
     @Test
@@ -35,25 +35,26 @@ public class ConfigOptionsListPresenterTest {
     @Test
     public void presenterConfiguresSelectedChoice() {
         configListView.listener.itemSelected("two");
-        assertThat(configService.configuredItem,is("two"));
+        assertThat(stubStringPersistence.queriedKey,is("two"));
     }
 
     private static class StubConfigService implements ConfigService {
-        private final List<String> expectedList;
-        public String configuredItem;
 
-        public StubConfigService(List<String> expectedList) {
-            this.expectedList = expectedList;
+        private StringPersistence persistence;
+
+        public StubConfigService(StringPersistence persistence) {
+
+            this.persistence = persistence;
         }
 
         @Override
         public void configure(String item) {
-            configuredItem = item;
+            persistence.hasKey(item);
         }
 
         @Override
         public List<String> configItemsList() {
-            return expectedList;
+            return persistence.stringsForKey("");
         }
     }
 
@@ -86,8 +87,34 @@ public class ConfigOptionsListPresenterTest {
 
     private interface ConfigService {
         void configure(String item);
-
         List<String> configItemsList();
     }
 
+    private interface StringPersistence {
+
+        public List<String> stringsForKey(String key);
+
+        void hasKey(String key);
+    }
+
+    private class StubStringPersistence implements StringPersistence {
+
+        public String queriedKey;
+        private List<String> expectedList;
+
+        public StubStringPersistence(List<String> expectedList) {
+
+            this.expectedList = expectedList;
+        }
+
+        @Override
+        public List<String> stringsForKey(String key) {
+            return expectedList;
+        }
+
+        @Override
+        public void hasKey(String key){
+            this.queriedKey = key;
+        }
+    }
 }
