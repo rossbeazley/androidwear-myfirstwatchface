@@ -11,6 +11,7 @@ import android.support.test.espresso.Espresso;
 import android.support.test.espresso.UiController;
 import android.support.test.espresso.ViewAction;
 import android.support.test.espresso.ViewInteraction;
+import android.support.test.espresso.action.ViewActions;
 import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.rule.UiThreadTestRule;
@@ -28,6 +29,7 @@ import android.widget.TextView;
 
 import org.hamcrest.Matcher;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestRule;
@@ -39,6 +41,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.CopyOnWriteArraySet;
 
 import uk.co.rossbeazley.wear.R;
 
@@ -48,6 +52,8 @@ import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertThat;
 import static uk.co.rossbeazley.wear.android.ui.espressoMatchers.DepthFirstChildCount.hasNumberOfChildrenMatching;
 
 
@@ -97,7 +103,6 @@ public class ConfigOptionsListWearViewTest {
                 .check(hasNumberOfChildrenMatching(1, withText("OLD")))
         ;
 
-
     }
 
 
@@ -114,18 +119,51 @@ public class ConfigOptionsListWearViewTest {
 
         configOptionsListWearView.showConfigItems(list);
 
-        ViewInteraction perform = Espresso.onView(withId(R.id.wearable_list))
+        Espresso.onView(withId(R.id.wearable_list))
                 .perform(scrollWearableListToPosition(4))
-                ;
-
-        SystemClock.sleep(300);
-        
-        perform.check(hasNumberOfChildrenMatching(1, withText("ANY4")))
+                .check(hasNumberOfChildrenMatching(1, withText("ANY4")))
         ;
 
     }
 
-    private ViewAction scrollWearableListToPosition(int i) {
+
+    @Test
+    public void theOneWhereWeSelectAnItem() {
+        configOptionsListWearView.showConfigItems(Arrays.asList("ANY1", "ANY2", "ANY3"));
+
+
+        CapturingListener capturingListener = new CapturingListener();
+        configOptionsListWearView.addListener(capturingListener);
+
+        Espresso.onView(withText("ANY1"))
+                .perform(ViewActions.click())
+                ;
+
+        assertThat(capturingListener.itemSelected, is("ANY1"));
+
+    }
+
+    @Test
+    public void theOneWhereWeSelectTheSecondItem() {
+        configOptionsListWearView.showConfigItems(Arrays.asList("ANY1", "ANY2", "ANY3"));
+
+
+        CapturingListener capturingListener = new CapturingListener();
+        configOptionsListWearView.addListener(capturingListener);
+
+        Espresso.onView(withId(R.id.wearable_list))
+                .perform(scrollWearableListToPosition(2));
+
+        Espresso.onView(withText("ANY2"))
+                .perform(ViewActions.click())
+                ;
+
+        assertThat(capturingListener.itemSelected, is("ANY2"));
+
+    }
+
+
+    static private ViewAction scrollWearableListToPosition(int i) {
         return new ScrollToPositionViewAction(i);
     }
 
@@ -151,7 +189,8 @@ public class ConfigOptionsListWearViewTest {
         public void perform(UiController uiController, View view) {
             WearableListView recyclerView = (WearableListView) view;
             recyclerView.smoothScrollToPosition(position);
-
+            uiController.loopMainThreadForAtLeast(100);
+            uiController.loopMainThreadUntilIdle();
         }
     }
 
@@ -173,10 +212,26 @@ public class ConfigOptionsListWearViewTest {
     public static class ConfigOptionsListWearView extends FrameLayout implements ConfigListView {
 
         private WearableListView wearableListView;
+        private CopyOnWriteArrayList<Listener> listeners;
 
         private void _ConfigOptionsListWearView() {
+            listeners = new CopyOnWriteArrayList<>();
             LayoutInflater.from(getContext()).inflate(R.layout.config_options_list_wear_view, this);
             wearableListView = (WearableListView) findViewById(R.id.wearable_list);
+            wearableListView.setClickListener(new WearableListView.ClickListener() {
+                @Override
+                public void onClick(WearableListView.ViewHolder viewHolder) {
+                    for (Listener listener : listeners) {
+                        TextView textView = (TextView) viewHolder.itemView;
+                        listener.itemSelected(String.valueOf(textView.getText()));
+                    }
+                }
+
+                @Override
+                public void onTopEmptyRegionClick() {
+
+                }
+            });
         }
 
 
@@ -205,7 +260,12 @@ public class ConfigOptionsListWearViewTest {
         @Override
         public void showConfigItems(List<String> list) {
             wearableListView.setAdapter(new Adapter(list));
-//            wearableListView.invalidate();
+
+        }
+
+        @Override
+        public void addListener(Listener listener) {
+            this.listeners.add(listener);
         }
 
         public static final class Adapter extends WearableListView.Adapter {
@@ -242,6 +302,15 @@ public class ConfigOptionsListWearViewTest {
 
             private final List<String> list;
 
+        }
+    }
+
+    private static class CapturingListener implements ConfigListView.Listener {
+        public String itemSelected;
+
+        @Override
+        public void itemSelected(String two) {
+            itemSelected = two;
         }
     }
 
