@@ -1,5 +1,7 @@
 package uk.co.rossbeazley.wear.android.ui.config;
 
+import android.view.View;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -25,10 +27,15 @@ public class ConfigOptionsListPresenterTest {
             put("configItems", expectedList);
         }};
 
-        configListView = new CapturingConfigListView();
         stubStringPersistence = new StubStringPersistence(configItems);
         configService = new ConfigService(stubStringPersistence);
-        new ConfigOptionsPresenter(configService, configListView);
+
+        ConfigOptionsListFragment configOptionsListFragment = new ConfigOptionsListFragment();
+        configOptionsListFragment.attachConfigService(configService);
+
+
+        configListView = new CapturingConfigListView();
+        configOptionsListFragment.onViewCreated(configListView, null);
     }
 
     @Test

@@ -11,19 +11,28 @@ import android.widget.TextView;
 
 public class ConfigOptionsListFragment extends Fragment {
 
+    private ConfigService configService;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        TextView textView = new TextView(container.getContext());
-        textView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-        textView.setText("CONFIG LIST");
-        textView.setTextSize(40);
-        textView.setGravity(Gravity.CENTER);
-        return textView;
+        ConfigOptionsListWearView configOptionsListWearView = new ConfigOptionsListWearView(container.getContext());
+        configOptionsListWearView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        return configOptionsListWearView;
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         // make presenters, but need to cast :S
+        onViewCreated((ConfigListView)view, savedInstanceState);
+    }
+
+    public void onViewCreated(ConfigListView view, Bundle savedInstanceState) {
+        // make presenters, but need to cast :S
+        new ConfigOptionsPresenter(configService, view);
+    }
+
+    public void attachConfigService(ConfigService configService) {
+        this.configService = configService;
     }
 }

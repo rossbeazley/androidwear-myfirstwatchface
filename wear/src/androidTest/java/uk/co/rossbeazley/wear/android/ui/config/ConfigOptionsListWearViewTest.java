@@ -1,10 +1,6 @@
 package uk.co.rossbeazley.wear.android.ui.config;
 
-import android.annotation.TargetApi;
-import android.app.Activity;
 import android.content.Context;
-import android.os.Build;
-import android.os.SystemClock;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.Espresso;
 //import android.support.test.espresso.contrib.RecyclerViewActions;
@@ -16,20 +12,12 @@ import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.rule.UiThreadTestRule;
 import android.support.test.runner.AndroidJUnit4;
-import android.support.v7.widget.LinearSmoothScroller;
-import android.support.v7.widget.RecyclerView;
 import android.support.wearable.view.WearableListView;
-import android.util.AttributeSet;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.FrameLayout;
-import android.widget.TextView;
 
 import org.hamcrest.Matcher;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestRule;
@@ -41,8 +29,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.concurrent.CopyOnWriteArraySet;
 
 import uk.co.rossbeazley.wear.R;
 
@@ -69,7 +55,7 @@ public class ConfigOptionsListWearViewTest {
 
     @Before
     public void startTestActivityWithUIUnderTestrrs() throws Throwable {
-        Activity activity = activityTestRule.getActivity();
+        TestActivity activity = activityTestRule.getActivity();
         createUI(activity);
     }
 
@@ -196,114 +182,18 @@ public class ConfigOptionsListWearViewTest {
 
 
 
-    private void createUI(final Activity activity) throws Throwable {
+    private void createUI(final TestActivity activity) throws Throwable {
         uiThreadTest.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                configOptionsListWearView = new ConfigOptionsListWearView(activity);
+                ConfigOptionsListFragment configOptionsListFragment = new ConfigOptionsListFragment();
+                configOptionsListWearView = (ConfigOptionsListWearView) configOptionsListFragment.onCreateView(LayoutInflater.from(activity),activity.rootFrameLayout,null);
                 configOptionsListWearView.setId(R.id.view_under_test);
-                configOptionsListWearView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
                 activity.setContentView(configOptionsListWearView);
             }
         });
     }
 
-
-    public static class ConfigOptionsListWearView extends FrameLayout implements ConfigListView {
-
-        private WearableListView wearableListView;
-        private CopyOnWriteArrayList<Listener> listeners;
-
-        private void _ConfigOptionsListWearView() {
-            listeners = new CopyOnWriteArrayList<>();
-            LayoutInflater.from(getContext()).inflate(R.layout.config_options_list_wear_view, this);
-            wearableListView = (WearableListView) findViewById(R.id.wearable_list);
-            wearableListView.setClickListener(new WearableListView.ClickListener() {
-                @Override
-                public void onClick(WearableListView.ViewHolder viewHolder) {
-                    for (Listener listener : listeners) {
-                        TextView textView = (TextView) viewHolder.itemView;
-                        listener.itemSelected(String.valueOf(textView.getText()));
-                    }
-                }
-
-                @Override
-                public void onTopEmptyRegionClick() {
-
-                }
-            });
-        }
-
-
-        public ConfigOptionsListWearView(Context context) {
-            super(context);
-            _ConfigOptionsListWearView();
-        }
-
-        public ConfigOptionsListWearView(Context context, AttributeSet attrs) {
-            super(context, attrs);
-            _ConfigOptionsListWearView();
-        }
-
-        public ConfigOptionsListWearView(Context context, AttributeSet attrs, int defStyleAttr) {
-            super(context, attrs, defStyleAttr);
-            _ConfigOptionsListWearView();
-        }
-
-        @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-        public ConfigOptionsListWearView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-            super(context, attrs, defStyleAttr, defStyleRes);
-
-            _ConfigOptionsListWearView();
-        }
-
-        @Override
-        public void showConfigItems(List<String> list) {
-            wearableListView.setAdapter(new Adapter(list));
-
-        }
-
-        @Override
-        public void addListener(Listener listener) {
-            this.listeners.add(listener);
-        }
-
-        public static final class Adapter extends WearableListView.Adapter {
-
-            @Override
-            public WearableListView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-                TextView textview = new TextView(parent.getContext());
-                textview.setText("---");
-                textview.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-                textview.setGravity(Gravity.CENTER);
-                return new WearableListView.ViewHolder(textview);
-            }
-
-            @Override
-            public void onBindViewHolder(WearableListView.ViewHolder holder, int position) {
-                TextView textView = (TextView) holder.itemView;
-                textView.setText(list.get(position));
-            }
-
-            @Override
-            public void onViewRecycled(WearableListView.ViewHolder holder) {
-                ((TextView)holder.itemView).setText("===");
-            }
-
-            @Override
-            public int getItemCount() {
-                return list.size();
-            }
-
-
-            public Adapter(List<String> list) {
-                this.list = list;
-            }
-
-            private final List<String> list;
-
-        }
-    }
 
     private static class CapturingListener implements ConfigListView.Listener {
         public String itemSelected;
