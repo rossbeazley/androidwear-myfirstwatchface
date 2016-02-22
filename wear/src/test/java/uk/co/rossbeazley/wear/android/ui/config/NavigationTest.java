@@ -2,6 +2,7 @@ package uk.co.rossbeazley.wear.android.ui.config;
 
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -28,19 +29,27 @@ public class NavigationTest {
         configService.configure("two");
 
         assertThat(navigation.screen, is("ConfigOptionsList"));
+
+        assertThat(navigation.journal, hasItems("defaultNavigation","ConfigOptionsList"));
     }
 
     private static class NavigationControllerJournal implements NavigationController {
-        public String screen;
+        private String screen = "UNKNOWN";
+        public List<String> journal = new ArrayList<>();
 
         @Override
         public void defaultNavigation() {
-            screen = "defaultNavigation";
+            pushScreen("defaultNavigation");
         }
 
         @Override
         public void toConfigOptionsList() {
-            screen = "ConfigOptionsList";
+            pushScreen("ConfigOptionsList");
+        }
+
+        public void pushScreen(String screen) {
+            this.screen = screen;
+            journal.add(screen);
         }
     }
 
@@ -57,6 +66,8 @@ public class NavigationTest {
 
                 }
             });
+
+            navigation.defaultNavigation();
         }
     }
 }
