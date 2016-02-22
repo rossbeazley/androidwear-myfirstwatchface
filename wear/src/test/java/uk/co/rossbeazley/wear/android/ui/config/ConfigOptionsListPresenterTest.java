@@ -1,7 +1,5 @@
 package uk.co.rossbeazley.wear.android.ui.config;
 
-import android.view.View;
-
 import org.junit.Before;
 import org.junit.Test;
 
@@ -10,10 +8,11 @@ import java.util.HashMap;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertThat;
 
 public class ConfigOptionsListPresenterTest {
 
+    private List<String> twoList;
     private List<String> expectedList;
     private CapturingConfigListView configListView;
     private ConfigService configService;
@@ -22,9 +21,10 @@ public class ConfigOptionsListPresenterTest {
     @Before
     public void build() {
         expectedList = Arrays.asList("one", "two", "three");
-
+        twoList = Arrays.asList("twoOne","twoTwo","twoThree","twoFour");
         HashMap<String, List<String>> configItems = new HashMap<String, List<String>>() {{
             put("configItems", expectedList);
+            put("two", twoList);
         }};
 
         stubStringPersistence = new StubStringPersistence(configItems);
@@ -45,9 +45,30 @@ public class ConfigOptionsListPresenterTest {
     }
 
     @Test
-    public void presenterConfiguresSelectedChoice() {
+    public void configServiceAnnouncesSelection() {
+        CapturingListener listener = new CapturingListener();
+        configService.addListener(listener);
         configListView.listener.itemSelected("two");
-        assertThat(stubStringPersistence.queriedKey,is("two"));
+        assertThat(listener.configuredItem, is("two"));
+    }
+
+
+    @Test
+    public void configServiceDosntAnnouncesSelectionIfNotAChoice() {
+        CapturingListener listener = new CapturingListener();
+        configService.addListener(listener);
+        configListView.listener.itemSelected("not in the list");
+        assertThat(listener.configuredItem, is("UNKNOWN"));
+    }
+
+    @Test
+    public void configServiceSharesKnowledgeAfterBadChoice() {
+        CapturingListener listener = new CapturingListener();
+        configService.addListener(listener);
+        String noneExistentKey = "not in the list";
+        configListView.listener.itemSelected(noneExistentKey);
+        ConfigService.Listener.KeyNotFound value = new ConfigService.Listener.KeyNotFound(noneExistentKey);
+        assertThat(listener.keyNotFoundMessage, is(value));
     }
 
     private static class CapturingConfigListView implements ConfigListView {
@@ -65,9 +86,22 @@ public class ConfigOptionsListPresenterTest {
         }
     }
 
-    private class StubStringPersistence implements StringPersistence {
+    private static class CapturingListener implements ConfigService.Listener {
+        public String configuredItem = "UNKNOWN";
+        public KeyNotFound keyNotFoundMessage;
 
-        public String queriedKey;
+        @Override
+        public void configuring(String item) {
+            this.configuredItem = item;
+        }
+
+        @Override
+        public void error(KeyNotFound keyNotFound) {
+            keyNotFoundMessage = keyNotFound;
+        }
+    }
+
+    private class StubStringPersistence implements StringPersistence {
 
         private HashMap<String, List<String>> map;
 
@@ -81,8 +115,8 @@ public class ConfigOptionsListPresenterTest {
         }
 
         @Override
-        public void hasKey(String key){
-            this.queriedKey = key;
+        public boolean hasKey(String key){
+            return map.containsKey(key);
         }
     }
 }

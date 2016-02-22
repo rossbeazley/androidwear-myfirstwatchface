@@ -9,5 +9,5 @@ interface StringPersistence {
 
     List<String> stringsForKey(String key);
 
-    void hasKey(String key);
+    boolean hasKey(String key);
 }
