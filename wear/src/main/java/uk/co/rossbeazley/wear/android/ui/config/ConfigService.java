@@ -50,6 +50,8 @@ class ConfigService {
         } else {
             listenerAnnouncer.announce().error(new Listener.KeyNotFound(item));
         }
+
+        //loads the current item into memory so the next method can have access to it
     }
 
     public List<String> configItemsList() {
