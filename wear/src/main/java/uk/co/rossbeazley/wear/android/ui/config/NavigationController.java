@@ -4,4 +4,6 @@ public interface NavigationController {
     void defaultNavigation();
 
     void toConfigOptionsList();
+
+    void toConfigOption();
 }

@@ -1,5 +1,6 @@
 package uk.co.rossbeazley.wear.android.ui.config;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -12,10 +13,13 @@ import static org.junit.Assert.assertThat;
 
 public class NavigationTest {
 
-    @Test
-    public void anOptionIsConfiguredAndTheConfigScreenIsShown() {
+    private NavigationControllerJournal navigation;
+    private ConfigService configService;
 
-        NavigationControllerJournal navigation = new NavigationControllerJournal();
+    @Before
+    public void buildWorld() {
+
+        navigation = new NavigationControllerJournal();
 
         HashMap<String, List<String>> configItems = new HashMap<String, List<String>>() {{
             put("configItems", Arrays.asList("one", "two", "three"));
@@ -23,18 +27,29 @@ public class NavigationTest {
         }};
 
         StubStringPersistence stubStringPersistence = new StubStringPersistence(configItems);
-        ConfigService configService = new ConfigService(stubStringPersistence);
+        configService = new ConfigService(stubStringPersistence);
         new UiNavigation(configService, navigation);
+    }
 
+    @Test
+    public void firstScreenShowIsConfigOptionsList() {
+        assertThat(navigation.screen, is(NavigationControllerJournal.CONFIG_OPTIONS_LIST));
+        assertThat(navigation.journal, hasItems(NavigationControllerJournal.CONFIG_OPTIONS_LIST));
+    }
+
+    @Test
+    public void anOptionIsConfiguredAndTheConfigScreenIsShown() {
         configService.configure("two");
-
-        assertThat(navigation.screen, is("ConfigOptionsList"));
-
-        assertThat(navigation.journal, hasItems("defaultNavigation","ConfigOptionsList"));
+        assertThat(navigation.screen, is(NavigationControllerJournal.CONFIG_OPTION));
+        assertThat(navigation.journal, hasItems(NavigationControllerJournal.CONFIG_OPTIONS_LIST, NavigationControllerJournal.CONFIG_OPTION));
     }
 
     private static class NavigationControllerJournal implements NavigationController {
-        private String screen = "UNKNOWN";
+        public static final String CONFIG_OPTIONS_LIST = "ConfigOptionsList";
+        public static final String CONFIG_OPTION = "ConfigOption";
+        public static final String UNKNOWN = "UNKNOWN";
+
+        private String screen = UNKNOWN;
         public List<String> journal = new ArrayList<>();
 
         @Override
@@ -44,7 +59,12 @@ public class NavigationTest {
 
         @Override
         public void toConfigOptionsList() {
-            pushScreen("ConfigOptionsList");
+            pushScreen(CONFIG_OPTIONS_LIST);
+        }
+
+        @Override
+        public void toConfigOption() {
+            pushScreen(CONFIG_OPTION);
         }
 
         public void pushScreen(String screen) {
@@ -58,7 +78,7 @@ public class NavigationTest {
             configService.addListener(new ConfigService.Listener() {
                 @Override
                 public void configuring(String item) {
-                    navigation.toConfigOptionsList();
+                    navigation.toConfigOption();
                 }
 
                 @Override
@@ -67,7 +87,7 @@ public class NavigationTest {
                 }
             });
 
-            navigation.defaultNavigation();
+            navigation.toConfigOptionsList();
         }
     }
 }

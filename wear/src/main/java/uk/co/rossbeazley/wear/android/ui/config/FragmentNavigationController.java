@@ -35,6 +35,11 @@ public class FragmentNavigationController implements NavigationController {
         pushFragment(fragment, tag);
     }
 
+    @Override
+    public void toConfigOption() {
+
+    }
+
     private FragmentManager fragmentManager() {
         return fragmentManagerProvider.getFragmentManager();
     }
