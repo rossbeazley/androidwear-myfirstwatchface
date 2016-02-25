@@ -1,6 +1,7 @@
 package uk.co.rossbeazley.wear.android.ui.config;
 
 import android.content.Context;
+import android.os.SystemClock;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.Espresso;
 //import android.support.test.espresso.contrib.RecyclerViewActions;
@@ -12,6 +13,7 @@ import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.rule.UiThreadTestRule;
 import android.support.test.runner.AndroidJUnit4;
+import android.support.v7.widget.RecyclerView;
 import android.support.wearable.view.WearableListView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,6 +31,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import uk.co.rossbeazley.wear.R;
 
@@ -37,6 +40,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.isAssignableFro
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
@@ -138,7 +142,7 @@ public class ConfigOptionsListWearViewTest {
         configOptionsListWearView.addListener(capturingListener);
 
         Espresso.onView(withId(R.id.wearable_list))
-                .perform(scrollWearableListToPosition(2));
+                .perform(scrollWearableListToPosition(1));
 
         Espresso.onView(withText("ANY2"))
                 .perform(ViewActions.click())
@@ -173,10 +177,39 @@ public class ConfigOptionsListWearViewTest {
 
         @Override
         public void perform(UiController uiController, View view) {
-            WearableListView recyclerView = (WearableListView) view;
-            recyclerView.smoothScrollToPosition(position);
-            uiController.loopMainThreadForAtLeast(100);
+            WearableListView wearableListView = (WearableListView) view;
+            MyOnScrollListener listener = new MyOnScrollListener();
+            wearableListView.addOnScrollListener(listener);
+            wearableListView.smoothScrollToPosition(position);
+            while(listener.notFinishedScrolling())
+            {
+                uiController.loopMainThreadForAtLeast(520);
+            }
             uiController.loopMainThreadUntilIdle();
+
+            wearableListView.removeOnScrollListener(listener);
+        }
+
+        private static class MyOnScrollListener implements WearableListView.OnScrollListener {
+            private int lastScrollState = -1;
+            private long MAX_WAIT = SECONDS.toMillis(1);
+            private long startTime = SystemClock.currentThreadTimeMillis();
+
+            @Override public void onScroll(int i) { }
+
+            @Override public void onAbsoluteScrollChange(int i) { }
+
+            @Override public void onScrollStateChanged(int i) {
+                lastScrollState = i;
+            }
+
+            @Override public void onCentralPositionChanged(int i) {  }
+
+            boolean notFinishedScrolling() {
+                boolean scrollState = lastScrollState != RecyclerView.SCROLL_STATE_IDLE;
+                boolean timedOut = (SystemClock.currentThreadTimeMillis() - startTime) > MAX_WAIT;
+                return !timedOut && scrollState;
+            }
         }
     }
 
