@@ -12,10 +12,10 @@ import uk.co.rossbeazley.wear.Announcer;
 class ConfigService {
 
     private final Announcer<Listener> listenerAnnouncer;
+    private String currentItemId;
 
-    public List<String>  selectedConfigOptions() {
-        //Decided to fake it till we make it here
-        return Arrays.asList("twoOne", "twoTwo", "twoThree", "twoFour");
+    public List<String> selectedConfigOptions() {
+        return persistence.stringsForKey(currentItemId);
     }
 
     public interface Listener {
@@ -27,7 +27,6 @@ class ConfigService {
             private final String noneExistentKey;
 
             public KeyNotFound(String noneExistentKey) {
-
                 this.noneExistentKey = noneExistentKey;
             }
 
@@ -52,6 +51,7 @@ class ConfigService {
 
     public void configure(String item) {
         if(persistence.hasKey(item)) {
+            this.currentItemId = item;
             listenerAnnouncer.announce().configuring(item);
         } else {
             listenerAnnouncer.announce().error(new Listener.KeyNotFound(item));

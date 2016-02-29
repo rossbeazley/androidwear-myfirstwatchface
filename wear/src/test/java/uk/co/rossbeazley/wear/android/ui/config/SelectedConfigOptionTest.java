@@ -10,12 +10,35 @@ import java.util.List;
 import static org.hamcrest.core.IsCollectionContaining.hasItems;
 import static org.junit.Assert.assertThat;
 
-public class ConfigOptionPresenterTest {
+public class SelectedConfigOptionTest {
+
+    @Test
+    public void
+    theOneWeRetrieveTheSelectedConfigOption() {
+
+        final String[] configItems = {"one", "two", "three"};
+        final String[] oneOptions = {"oneOne", "oneone", "oneThree", "oneFour"};
+        final String[] twoOptions = {"twoOne", "twoTwo", "twoThree", "twoFour"};
+        final String[] threeOptions = {"threeOne", "threethree", "threeThree", "threeFour"};
+        HashMap<String, List<String>> config = new HashMap<String, List<String>>() {{
+            put("configItems", Arrays.asList(configItems));
+            put("one", Arrays.asList(oneOptions));
+            put("two", Arrays.asList(twoOptions));
+            put("three", Arrays.asList(threeOptions));
+        }};
+
+        StubStringPersistence stubStringPersistence = new StubStringPersistence(config);
+        ConfigService configService = new ConfigService(stubStringPersistence);
+
+        configService.configure("one");
+
+        List<String> selectedConfigOptions = configService.selectedConfigOptions();
+        assertThat(selectedConfigOptions,hasItems(oneOptions));
+    }
 
     @Test
     public void
     theOneWhereWeDisplayTheSelectedConfigOption() {
-
 
         final String[] configItems = {"one", "two", "three"};
         final String[] expectedList = {"twoOne", "twoTwo", "twoThree", "twoFour"};
