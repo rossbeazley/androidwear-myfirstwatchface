@@ -1,5 +1,6 @@
 package uk.co.rossbeazley.wear.android.ui.config;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -11,6 +12,11 @@ import uk.co.rossbeazley.wear.Announcer;
 class ConfigService {
 
     private final Announcer<Listener> listenerAnnouncer;
+
+    public List<String>  selectedConfigOptions() {
+        //Decided to fake it till we make it here
+        return Arrays.asList("twoOne", "twoTwo", "twoThree", "twoFour");
+    }
 
     public interface Listener {
         void configuring(String item);

@@ -3,7 +3,7 @@ package uk.co.rossbeazley.wear.android.ui.config;
 import java.util.HashMap;
 import java.util.List;
 
-class StubStringPersistence implements StringPersistence {
+public class StubStringPersistence implements StringPersistence {
 
     private HashMap<String, List<String>> map;
 
