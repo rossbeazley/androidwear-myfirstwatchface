@@ -73,4 +73,6 @@ public class SelectedConfigOptionTest {
             presentedList = configOptions;
         }
     }
+
+    //TODO next up is the connected test for this view, need to extract interface and then implement
 }
