@@ -14,23 +14,14 @@ import static org.junit.Assert.assertThat;
 //TODO - rename configOptions as config items
 public class ConfigOptionsListPresenterTest {
 
-    private List<String> twoList;
-    private List<String> expectedList;
     private CapturingConfigListView configListView;
     private ConfigService configService;
-    private StubStringPersistence stubStringPersistence;
+    private TestConfigService testConfigService;
 
     @Before
     public void build() {
-        expectedList = Arrays.asList("one", "two", "three");
-        twoList = Arrays.asList("twoOne","twoTwo","twoThree","twoFour");
-        HashMap<String, List<String>> configItems = new HashMap<String, List<String>>() {{
-            put("configItems", expectedList);
-            put("two", twoList);
-        }};
-
-        stubStringPersistence = new StubStringPersistence(configItems);
-        configService = new ConfigService(stubStringPersistence);
+        testConfigService = new TestConfigService();
+        configService = testConfigService.build();
 
         ConfigOptionsListFragment configOptionsListFragment = new ConfigOptionsListFragment();
         configOptionsListFragment.attachConfigService(configService);
@@ -43,15 +34,16 @@ public class ConfigOptionsListPresenterTest {
     @Test
     public void presenterShowsTheConfigChoices() throws Exception {
         List<String> listPresented = configListView.presentedList;
-        assertThat(listPresented,is(expectedList));
+        assertThat(listPresented,is(testConfigService.expectedListOfConfigItems()));
     }
 
     @Test
     public void configServiceAnnouncesSelection() {
         CapturingListener listener = new CapturingListener();
         configService.addListener(listener);
-        configListView.listener.itemSelected("two");
-        assertThat(listener.configuredItem, is("two"));
+        String anyItem = testConfigService.anyItem();
+        configListView.listener.itemSelected(anyItem);
+        assertThat(listener.configuredItem, is(anyItem));
     }
 
 
@@ -103,4 +95,37 @@ public class ConfigOptionsListPresenterTest {
         }
     }
 
+    public static class TestConfigService {
+        private List<String> expectedList;
+        private List<String> twoList;
+        public StubStringPersistence stubStringPersistence;
+
+        public ConfigService configService;
+
+        public ConfigService build() {
+            expectedList = Arrays.asList("one", "two", "three");
+            twoList = Arrays.asList("twoOne","twoTwo","twoThree","twoFour");
+            HashMap<String, List<String>> configItems = new HashMap<String, List<String>>() {{
+                put("configItems", expectedListOfConfigItems());
+                put("two", expectedOptionsListForItem("two"));
+            }};
+
+            stubStringPersistence = new StubStringPersistence(configItems);
+            configService = new ConfigService(stubStringPersistence);
+
+            return configService;
+        }
+
+        public String anyItem() {
+            return "two";
+        }
+
+        public List<String> expectedListOfConfigItems() {
+            return expectedList;
+        }
+
+        public List<String> expectedOptionsListForItem(String forItem) {
+            return twoList;
+        }
+    }
 }
