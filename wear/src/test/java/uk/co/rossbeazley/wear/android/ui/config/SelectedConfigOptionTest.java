@@ -71,6 +71,14 @@ public class SelectedConfigOptionTest {
          *
          * the presenter would be responsible for mapping uiclick into the domain message
          * so there would be a generic uiclick listener, maybe viewActionListener
+         *
+         * In a way this is a more classical MVC arrangement with the view being composed
+         * of the P+V from MVP... The M is still the same, but where is the controller?
+         *
+         * With MVP as I do it, there is something I call a "navigation controller"
+         * this is responsible for bringing together the MVP triad.
+         *
+         * So here we have is Model-ViewPresenter-Controller.
          */
 
         public ConfigOptionPresenter(ConfigOptionView configOptionView, ConfigService configService) {
