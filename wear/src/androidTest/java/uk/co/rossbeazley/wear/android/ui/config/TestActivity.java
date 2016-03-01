@@ -16,4 +16,5 @@ public class TestActivity extends Activity {
         rootFrameLayout.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         setContentView(rootFrameLayout);
     }
+
 }

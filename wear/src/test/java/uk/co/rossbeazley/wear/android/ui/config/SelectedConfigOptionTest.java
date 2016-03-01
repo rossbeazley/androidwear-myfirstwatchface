@@ -2,7 +2,6 @@ package uk.co.rossbeazley.wear.android.ui.config;
 
 import org.junit.Test;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -61,14 +60,15 @@ public class SelectedConfigOptionTest {
     }
 
     private class ConfigOptionPresenter {
-        public ConfigOptionPresenter(CapturingConfigOptionView capturingConfigOptionView, ConfigService configService) {
-            capturingConfigOptionView.showConfigOptions(configService.selectedConfigOptions());
+        public ConfigOptionPresenter(ConfigOptionView configOptionView, ConfigService configService) {
+            configOptionView.showConfigOptions(configService.selectedConfigOptions());
         }
     }
 
-    private class CapturingConfigOptionView {
+    private class CapturingConfigOptionView implements ConfigOptionView {
         public List<String> presentedList;
 
+        @Override
         public void showConfigOptions(List<String> configOptions) {
             presentedList = configOptions;
         }
