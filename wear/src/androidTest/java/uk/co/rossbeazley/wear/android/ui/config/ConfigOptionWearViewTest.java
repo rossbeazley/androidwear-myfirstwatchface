@@ -37,7 +37,7 @@ import static uk.co.rossbeazley.wear.android.ui.espressoMatchers.DepthFirstChild
 @RunWith(AndroidJUnit4.class)
 public class ConfigOptionWearViewTest {
 
-    private ConfigOptionsWearView configOptionsWearView;
+    private ConfigOptionView configOptionsWearView;
 
     @Rule
     public ActivityTestRule<TestActivity> activityTestRule = new ActivityTestRule<>(TestActivity.class);
@@ -124,9 +124,9 @@ public class ConfigOptionWearViewTest {
             @Override
             public void run() {
                 ConfigOptionsWearView configOptionsWearView = new ConfigOptionsWearView(activity);
-                configOptionsWearView.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+                configOptionsWearView.setLayoutParams(new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT));
+                configOptionsWearView.setId(R.id.view_under_test);
                 ConfigOptionWearViewTest.this.configOptionsWearView = configOptionsWearView;
-                ConfigOptionWearViewTest.this.configOptionsWearView.setId(R.id.view_under_test);
                 activity.rootFrameLayout.addView(configOptionsWearView);
             }
         });
@@ -135,7 +135,7 @@ public class ConfigOptionWearViewTest {
     private class ConfigOptionsWearView extends FrameLayout implements ConfigOptionView {
 
         private WearableListView wearableListView;
-        private CapturingListener listener;
+        private Listener listener;
 
         void _ConfigOptionsWearView()
         {
@@ -182,17 +182,19 @@ public class ConfigOptionWearViewTest {
             wearableListView.setAdapter(new ConfigOptionsListWearView.Adapter(configOptions));
         }
 
-        public void addListener(CapturingListener capturingListener) {
-
+        @Override
+        public void addListener(Listener capturingListener) {
             listener = capturingListener;
         }
     }
 
-    private class CapturingListener {
+    private class CapturingListener implements ConfigOptionView.Listener {
         public String itemSelected;
 
         public void itemSelected(String text) {
             this.itemSelected = text;
         }
     }
+
+
 }
