@@ -93,7 +93,10 @@ public class SelectedConfigOptionTest {
         public void showConfigOptions(List<String> configOptions) {
             presentedList = configOptions;
         }
-    }
 
-    //TODO next up is the connected test for this view, need to extract interface and then implement
+        @Override
+        public void addListener(Listener capturingListener) {
+
+        }
+    }
 }
