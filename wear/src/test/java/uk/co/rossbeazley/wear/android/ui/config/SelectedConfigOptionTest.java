@@ -60,6 +60,15 @@ public class SelectedConfigOptionTest {
     }
 
     private class ConfigOptionPresenter {
+
+        /**
+         *
+         * maybe it would be a good idea to totally dumb down views so they just speak in terms of
+         * primitive data, the presenter is the thing that actually adapts the strings and things
+         * into domain objects, maybe it can speak in terms of uiclick and show string and read string
+         * it might make a number of view implementations more reusable, eg lists of items
+         */
+
         public ConfigOptionPresenter(ConfigOptionView configOptionView, ConfigService configService) {
             configOptionView.showConfigOptions(configService.selectedConfigOptions());
         }
