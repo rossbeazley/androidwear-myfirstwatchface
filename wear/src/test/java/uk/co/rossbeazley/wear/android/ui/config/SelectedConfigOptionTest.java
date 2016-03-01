@@ -67,6 +67,10 @@ public class SelectedConfigOptionTest {
          * primitive data, the presenter is the thing that actually adapts the strings and things
          * into domain objects, maybe it can speak in terms of uiclick and show string and read string
          * it might make a number of view implementations more reusable, eg lists of items
+         *
+         *
+         * the presenter would be responsible for mapping uiclick into the domain message
+         * so there would be a generic uiclick listener, maybe viewActionListener
          */
 
         public ConfigOptionPresenter(ConfigOptionView configOptionView, ConfigService configService) {
