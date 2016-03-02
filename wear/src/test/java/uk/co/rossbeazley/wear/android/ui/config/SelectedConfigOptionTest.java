@@ -1,5 +1,6 @@
 package uk.co.rossbeazley.wear.android.ui.config;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Arrays;
@@ -11,51 +12,35 @@ import static org.junit.Assert.assertThat;
 
 public class SelectedConfigOptionTest {
 
+    private TestConfigService testConfigService;
+    private ConfigService configService;
+
+    @Before
+    public void buildTestWorld() {
+
+        testConfigService = new TestConfigService();
+        configService = testConfigService.build();
+    }
+    
     @Test
     public void
     theOneWeRetrieveTheSelectedConfigOption() {
-
-        final String[] configItems = {"one", "two", "three"};
-        final String[] oneOptions = {"oneOne", "oneone", "oneThree", "oneFour"};
-        final String[] twoOptions = {"twoOne", "twoTwo", "twoThree", "twoFour"};
-        final String[] threeOptions = {"threeOne", "threethree", "threeThree", "threeFour"};
-        HashMap<String, List<String>> config = new HashMap<String, List<String>>() {{
-            put("configItems", Arrays.asList(configItems));
-            put("one", Arrays.asList(oneOptions));
-            put("two", Arrays.asList(twoOptions));
-            put("three", Arrays.asList(threeOptions));
-        }};
-
-        StubStringPersistence stubStringPersistence = new StubStringPersistence(config);
-        ConfigService configService = new ConfigService(stubStringPersistence);
-
-        configService.configure("one");
-
+        String anyItem = testConfigService.anyItem();
+        configService.configure(anyItem);
         List<String> selectedConfigOptions = configService.selectedConfigOptions();
-        assertThat(selectedConfigOptions,hasItems(oneOptions));
+        String[] allTheOnes = testConfigService.expectedOptionsListForItem(anyItem).toArray(new String[]{});
+        assertThat(selectedConfigOptions,hasItems(allTheOnes));
     }
 
     @Test
     public void
     theOneWhereWeDisplayTheSelectedConfigOption() {
-
-        final String[] configItems = {"one", "two", "three"};
-        final String[] expectedList = {"twoOne", "twoTwo", "twoThree", "twoFour"};
-        HashMap<String, List<String>> config = new HashMap<String, List<String>>() {{
-            put("configItems", Arrays.asList(configItems));
-            put("two", Arrays.asList(expectedList));
-        }};
-
-        StubStringPersistence stubStringPersistence = new StubStringPersistence(config);
-        ConfigService configService = new ConfigService(stubStringPersistence);
-
-        configService.configure("two");
-
-
+        String anyItem = testConfigService.anyItem();
+        configService.configure(anyItem);
         CapturingConfigOptionView capturingConfigOptionView = new CapturingConfigOptionView();
-
         new ConfigOptionPresenter(capturingConfigOptionView,configService);
-
+        List<String> two = testConfigService.expectedOptionsListForItem(anyItem);
+        String[] expectedList = two.toArray(new String[two.size()]);
         assertThat(capturingConfigOptionView.presentedList,hasItems(expectedList));
     }
 

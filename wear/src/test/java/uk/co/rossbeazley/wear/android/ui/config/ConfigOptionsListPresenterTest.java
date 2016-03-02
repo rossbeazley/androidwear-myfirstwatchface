@@ -3,8 +3,6 @@ package uk.co.rossbeazley.wear.android.ui.config;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -95,37 +93,4 @@ public class ConfigOptionsListPresenterTest {
         }
     }
 
-    public static class TestConfigService {
-        private List<String> expectedList;
-        private List<String> twoList;
-        public StubStringPersistence stubStringPersistence;
-
-        public ConfigService configService;
-
-        public ConfigService build() {
-            expectedList = Arrays.asList("one", "two", "three");
-            twoList = Arrays.asList("twoOne","twoTwo","twoThree","twoFour");
-            HashMap<String, List<String>> configItems = new HashMap<String, List<String>>() {{
-                put("configItems", expectedListOfConfigItems());
-                put("two", expectedOptionsListForItem("two"));
-            }};
-
-            stubStringPersistence = new StubStringPersistence(configItems);
-            configService = new ConfigService(stubStringPersistence);
-
-            return configService;
-        }
-
-        public String anyItem() {
-            return "two";
-        }
-
-        public List<String> expectedListOfConfigItems() {
-            return expectedList;
-        }
-
-        public List<String> expectedOptionsListForItem(String forItem) {
-            return twoList;
-        }
-    }
 }
