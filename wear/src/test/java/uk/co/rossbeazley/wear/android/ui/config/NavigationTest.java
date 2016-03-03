@@ -33,19 +33,19 @@ public class NavigationTest {
 
     @Test
     public void firstScreenShowIsConfigOptionsList() {
-        assertThat(navigation.screen, is(NavigationControllerJournal.CONFIG_OPTIONS_LIST));
-        assertThat(navigation.journal, hasItems(NavigationControllerJournal.CONFIG_OPTIONS_LIST));
+        assertThat(navigation.screen, is(NavigationControllerJournal.CONFIG_ITEMS_LIST));
+        assertThat(navigation.journal, hasItems(NavigationControllerJournal.CONFIG_ITEMS_LIST));
     }
 
     @Test
     public void anOptionIsConfiguredAndTheConfigScreenIsShown() {
         configService.configure("two");
         assertThat(navigation.screen, is(NavigationControllerJournal.CONFIG_OPTION));
-        assertThat(navigation.journal, hasItems(NavigationControllerJournal.CONFIG_OPTIONS_LIST, NavigationControllerJournal.CONFIG_OPTION));
+        assertThat(navigation.journal, hasItems(NavigationControllerJournal.CONFIG_ITEMS_LIST, NavigationControllerJournal.CONFIG_OPTION));
     }
 
     private static class NavigationControllerJournal implements NavigationController {
-        public static final String CONFIG_OPTIONS_LIST = "ConfigOptionsList";
+        public static final String CONFIG_ITEMS_LIST = "ConfigItemsList";
         public static final String CONFIG_OPTION = "ConfigOption";
         public static final String UNKNOWN = "UNKNOWN";
 
@@ -58,8 +58,8 @@ public class NavigationTest {
         }
 
         @Override
-        public void toConfigOptionsList() {
-            pushScreen(CONFIG_OPTIONS_LIST);
+        public void toConfigItemsList() {
+            pushScreen(CONFIG_ITEMS_LIST);
         }
 
         @Override
@@ -87,7 +87,7 @@ public class NavigationTest {
                 }
             });
 
-            navigation.toConfigOptionsList();
+            navigation.toConfigItemsList();
         }
     }
 }

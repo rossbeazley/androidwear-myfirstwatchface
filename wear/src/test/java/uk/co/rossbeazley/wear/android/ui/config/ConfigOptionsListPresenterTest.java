@@ -12,7 +12,7 @@ import static org.junit.Assert.assertThat;
 //TODO - rename configOptions as config items
 public class ConfigOptionsListPresenterTest {
 
-    private CapturingConfigListView configListView;
+    private CapturingConfigItemsListView configListView;
     private ConfigService configService;
     private TestConfigService testConfigService;
 
@@ -21,12 +21,12 @@ public class ConfigOptionsListPresenterTest {
         testConfigService = new TestConfigService();
         configService = testConfigService.build();
 
-        ConfigOptionsListFragment configOptionsListFragment = new ConfigOptionsListFragment();
-        configOptionsListFragment.attachConfigService(configService);
+        ConfigItemsListFragment configItemsListFragment = new ConfigItemsListFragment();
+        configItemsListFragment.attachConfigService(configService);
 
 
-        configListView = new CapturingConfigListView();
-        configOptionsListFragment.onViewCreated(configListView, null);
+        configListView = new CapturingConfigItemsListView();
+        configItemsListFragment.onViewCreated(configListView, null);
     }
 
     @Test
@@ -63,9 +63,9 @@ public class ConfigOptionsListPresenterTest {
         assertThat(listener.keyNotFoundMessage, is(value));
     }
 
-    private static class CapturingConfigListView implements ConfigListView {
+    private static class CapturingConfigItemsListView implements ConfigItemsListView {
         public List<String> presentedList;
-        public ConfigListView.Listener listener;
+        public ConfigItemsListView.Listener listener;
 
         @Override
         public void showConfigItems(List<String> list) {

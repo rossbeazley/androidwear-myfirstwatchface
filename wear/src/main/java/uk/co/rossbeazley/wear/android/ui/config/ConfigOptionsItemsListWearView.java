@@ -19,7 +19,7 @@ import uk.co.rossbeazley.wear.R;
 /**
  * Created by beazlr02 on 19/02/16.
  */
-public class ConfigOptionsListWearView extends FrameLayout implements ConfigListView {
+public class ConfigOptionsItemsListWearView extends FrameLayout implements ConfigItemsListView {
 
     private WearableListView wearableListView;
     private CopyOnWriteArrayList<Listener> listeners;
@@ -45,23 +45,23 @@ public class ConfigOptionsListWearView extends FrameLayout implements ConfigList
     }
 
 
-    public ConfigOptionsListWearView(Context context) {
+    public ConfigOptionsItemsListWearView(Context context) {
         super(context);
         _ConfigOptionsListWearView();
     }
 
-    public ConfigOptionsListWearView(Context context, AttributeSet attrs) {
+    public ConfigOptionsItemsListWearView(Context context, AttributeSet attrs) {
         super(context, attrs);
         _ConfigOptionsListWearView();
     }
 
-    public ConfigOptionsListWearView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public ConfigOptionsItemsListWearView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         _ConfigOptionsListWearView();
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public ConfigOptionsListWearView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public ConfigOptionsItemsListWearView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
 
         _ConfigOptionsListWearView();

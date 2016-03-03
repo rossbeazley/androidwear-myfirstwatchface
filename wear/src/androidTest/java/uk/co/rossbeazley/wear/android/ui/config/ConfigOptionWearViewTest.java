@@ -11,7 +11,6 @@ import android.support.test.runner.AndroidJUnit4;
 import android.support.wearable.view.WearableListView;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
-import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
@@ -179,7 +178,7 @@ public class ConfigOptionWearViewTest {
 
         @Override
         public void showConfigOptions(List<String> configOptions) {
-            wearableListView.setAdapter(new ConfigOptionsListWearView.Adapter(configOptions));
+            wearableListView.setAdapter(new ConfigOptionsItemsListWearView.Adapter(configOptions));
         }
 
         @Override

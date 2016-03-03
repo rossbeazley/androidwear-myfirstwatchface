@@ -58,7 +58,7 @@ public class UIConfigFragment extends Fragment implements NeedsNavigationControl
         view.findViewById(R.id.next_navigation).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                navigationController.toConfigOptionsList();
+                navigationController.toConfigItemsList();
             }
         });
 

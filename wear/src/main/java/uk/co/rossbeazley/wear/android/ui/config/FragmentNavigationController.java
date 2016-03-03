@@ -29,8 +29,8 @@ public class FragmentNavigationController implements NavigationController {
     }
 
     @Override
-    public void toConfigOptionsList() {
-        ConfigOptionsListFragment fragment = new ConfigOptionsListFragment();
+    public void toConfigItemsList() {
+        ConfigItemsListFragment fragment = new ConfigItemsListFragment();
         String tag = "CONFIG_OPTIONS";
         pushFragment(fragment, tag);
     }

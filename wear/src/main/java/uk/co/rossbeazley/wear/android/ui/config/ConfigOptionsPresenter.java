@@ -4,13 +4,13 @@ package uk.co.rossbeazley.wear.android.ui.config;
  * Created by beazlr02 on 19/02/16.
  */
 class ConfigOptionsPresenter {
-    public ConfigOptionsPresenter(final ConfigService configService, ConfigListView configListView) {
-        configListView.addListener(new ConfigListView.Listener() {
+    public ConfigOptionsPresenter(final ConfigService configService, ConfigItemsListView configItemsListView) {
+        configItemsListView.addListener(new ConfigItemsListView.Listener() {
             @Override
             public void itemSelected(String two) {
                 configService.configure(two);
             }
         });
-        configListView.showConfigItems(configService.configItemsList());
+        configItemsListView.showConfigItems(configService.configItemsList());
     }
 }

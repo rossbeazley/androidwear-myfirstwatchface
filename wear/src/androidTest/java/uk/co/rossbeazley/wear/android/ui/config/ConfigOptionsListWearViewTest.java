@@ -31,7 +31,7 @@ import static uk.co.rossbeazley.wear.android.ui.espressoMatchers.DepthFirstChild
 
 @RunWith(AndroidJUnit4.class)
 public class ConfigOptionsListWearViewTest {
-    private ConfigOptionsListWearView configOptionsListWearView;
+    private ConfigOptionsItemsListWearView configOptionsListWearView;
 
     @Rule
     public ActivityTestRule<TestActivity> activityTestRule = new ActivityTestRule<>(TestActivity.class);
@@ -117,8 +117,8 @@ public class ConfigOptionsListWearViewTest {
         uiThreadTest.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                ConfigOptionsListFragment configOptionsListFragment = new ConfigOptionsListFragment();
-                configOptionsListWearView = (ConfigOptionsListWearView) configOptionsListFragment.onCreateView(LayoutInflater.from(activity),activity.rootFrameLayout,null);
+                ConfigItemsListFragment configItemsListFragment = new ConfigItemsListFragment();
+                configOptionsListWearView = (ConfigOptionsItemsListWearView) configItemsListFragment.onCreateView(LayoutInflater.from(activity),activity.rootFrameLayout,null);
                 configOptionsListWearView.setId(R.id.view_under_test);
                 activity.setContentView(configOptionsListWearView);
             }
@@ -126,7 +126,7 @@ public class ConfigOptionsListWearViewTest {
     }
 
 
-    private static class CapturingListener implements ConfigListView.Listener {
+    private static class CapturingListener implements ConfigItemsListView.Listener {
         public String itemSelected;
 
         @Override
