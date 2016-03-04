@@ -10,7 +10,7 @@ import static org.junit.Assert.assertThat;
 
 //TODO - Warning, testing UI and core here. needs split in two
 //TODO - rename configOptions as config items
-public class ConfigOptionsListPresenterTest {
+public class ConfigItemsListPresenterTest {
 
     private CapturingConfigItemsListView configListView;
     private ConfigService configService;

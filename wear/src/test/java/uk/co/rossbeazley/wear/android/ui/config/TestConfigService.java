@@ -25,7 +25,13 @@ public class TestConfigService {
     public ConfigService build() {
 
 
-
+/**
+ * I need to change this to a list of domain objects.
+ * Then have a way of persisting the default options in the system
+ * it might seem more sensible to to introduce a item repo rather than a KV store
+ * Going to try not doing this thus keeping the persistence mechanism a secret
+ *
+ */
         expectedList = asList("one", "two", "three");
         oneList = asList("oneOne", "oneone", "oneThree", "oneFour");
         twoList = asList("twoOne", "twoTwo", "twoThree", "twoFour");
@@ -58,5 +64,11 @@ public class TestConfigService {
 
     public List<String> expectedOptionsListForItem(String forItem) {
         return configItems.get(forItem);
+    }
+
+    public String expectedOptionListForItem(String anyItem) {
+        List<String> strings = expectedOptionsListForItem(anyItem);
+        String expectedOption = strings.get(0);
+        return expectedOption;
     }
 }

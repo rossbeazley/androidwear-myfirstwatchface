@@ -19,14 +19,14 @@ import uk.co.rossbeazley.wear.R;
 /**
  * Created by beazlr02 on 19/02/16.
  */
-public class ConfigOptionsItemsListWearView extends FrameLayout implements ConfigItemsListView {
+public class ConfigItemsListWearView extends FrameLayout implements ConfigItemsListView {
 
     private WearableListView wearableListView;
     private CopyOnWriteArrayList<Listener> listeners;
 
     private void _ConfigOptionsListWearView() {
         listeners = new CopyOnWriteArrayList<>();
-        LayoutInflater.from(getContext()).inflate(R.layout.config_options_list_wear_view, this);
+        LayoutInflater.from(getContext()).inflate(R.layout.list_wear_view, this);
         wearableListView = (WearableListView) findViewById(R.id.wearable_list);
         wearableListView.setClickListener(new WearableListView.ClickListener() {
             @Override
@@ -45,23 +45,23 @@ public class ConfigOptionsItemsListWearView extends FrameLayout implements Confi
     }
 
 
-    public ConfigOptionsItemsListWearView(Context context) {
+    public ConfigItemsListWearView(Context context) {
         super(context);
         _ConfigOptionsListWearView();
     }
 
-    public ConfigOptionsItemsListWearView(Context context, AttributeSet attrs) {
+    public ConfigItemsListWearView(Context context, AttributeSet attrs) {
         super(context, attrs);
         _ConfigOptionsListWearView();
     }
 
-    public ConfigOptionsItemsListWearView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public ConfigItemsListWearView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         _ConfigOptionsListWearView();
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public ConfigOptionsItemsListWearView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public ConfigItemsListWearView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
 
         _ConfigOptionsListWearView();

@@ -31,7 +31,7 @@ import static uk.co.rossbeazley.wear.android.ui.espressoMatchers.DepthFirstChild
 
 @RunWith(AndroidJUnit4.class)
 public class ConfigOptionsListWearViewTest {
-    private ConfigOptionsItemsListWearView configOptionsListWearView;
+    private ConfigItemsListWearView configOptionsListWearView;
 
     @Rule
     public ActivityTestRule<TestActivity> activityTestRule = new ActivityTestRule<>(TestActivity.class);
@@ -118,7 +118,7 @@ public class ConfigOptionsListWearViewTest {
             @Override
             public void run() {
                 ConfigItemsListFragment configItemsListFragment = new ConfigItemsListFragment();
-                configOptionsListWearView = (ConfigOptionsItemsListWearView) configItemsListFragment.onCreateView(LayoutInflater.from(activity),activity.rootFrameLayout,null);
+                configOptionsListWearView = (ConfigItemsListWearView) configItemsListFragment.onCreateView(LayoutInflater.from(activity),activity.rootFrameLayout,null);
                 configOptionsListWearView.setId(R.id.view_under_test);
                 activity.setContentView(configOptionsListWearView);
             }

@@ -3,30 +3,31 @@ package uk.co.rossbeazley.wear.android.ui.config;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 
-import static org.hamcrest.core.IsCollectionContaining.hasItems;
+import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.assertThat;
 
-public class SelectedConfigOptionTest {
+public class SelectedConfigItemTest {
 
     private TestConfigService testConfigService;
     private ConfigService configService;
+    private String anyItem;
 
     @Before
     public void buildTestWorld() {
 
         testConfigService = new TestConfigService();
         configService = testConfigService.build();
+
+        anyItem = testConfigService.anyItem();
+
+        configService.configure(anyItem);
     }
     
     @Test
     public void
     theOneWeRetrieveTheSelectedConfigOption() {
-        String anyItem = testConfigService.anyItem();
-        configService.configure(anyItem);
         List<String> selectedConfigOptions = configService.selectedConfigOptions();
         String[] allTheOnes = testConfigService.expectedOptionsListForItem(anyItem).toArray(new String[]{});
         assertThat(selectedConfigOptions,hasItems(allTheOnes));
@@ -35,13 +36,23 @@ public class SelectedConfigOptionTest {
     @Test
     public void
     theOneWhereWeDisplayTheSelectedConfigOption() {
-        String anyItem = testConfigService.anyItem();
-        configService.configure(anyItem);
         CapturingConfigOptionView capturingConfigOptionView = new CapturingConfigOptionView();
         new ConfigOptionPresenter(capturingConfigOptionView,configService);
         List<String> two = testConfigService.expectedOptionsListForItem(anyItem);
         String[] expectedList = two.toArray(new String[two.size()]);
         assertThat(capturingConfigOptionView.presentedList,hasItems(expectedList));
+    }
+
+    @Test
+    public void
+    theOneWhereWeChooseAConfigItemOption() {
+
+        String expectedOption = testConfigService.expectedOptionListForItem(anyItem);
+        configService.choose(expectedOption);
+
+        String optionForItem = configService.optionForItem(anyItem);
+
+        assertThat(optionForItem,is(expectedOption));
     }
 
     private class ConfigOptionPresenter {

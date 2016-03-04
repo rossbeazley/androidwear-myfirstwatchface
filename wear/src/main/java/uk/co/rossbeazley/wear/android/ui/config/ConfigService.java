@@ -13,9 +13,19 @@ class ConfigService {
 
     private final Announcer<Listener> listenerAnnouncer;
     private String currentItemId;
+    private String expectedOption;
 
     public List<String> selectedConfigOptions() {
         return persistence.stringsForKey(currentItemId);
+    }
+
+    public void choose(String expectedOption) {
+
+        this.expectedOption = expectedOption;
+    }
+
+    public String optionForItem(String anyItem) {
+        return expectedOption;
     }
 
     public interface Listener {

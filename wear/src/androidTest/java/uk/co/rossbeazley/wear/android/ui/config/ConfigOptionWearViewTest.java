@@ -138,7 +138,7 @@ public class ConfigOptionWearViewTest {
 
         void _ConfigOptionsWearView()
         {
-            LayoutInflater.from(getContext()).inflate(R.layout.config_options_list_wear_view, this);
+            LayoutInflater.from(getContext()).inflate(R.layout.config_items_list_wear_view, this);
             wearableListView = (WearableListView) findViewById(R.id.wearable_list);
             wearableListView.setClickListener(new WearableListView.ClickListener() {
                 @Override
@@ -178,7 +178,7 @@ public class ConfigOptionWearViewTest {
 
         @Override
         public void showConfigOptions(List<String> configOptions) {
-            wearableListView.setAdapter(new ConfigOptionsItemsListWearView.Adapter(configOptions));
+            wearableListView.setAdapter(new ConfigItemsListWearView.Adapter(configOptions));
         }
 
         @Override

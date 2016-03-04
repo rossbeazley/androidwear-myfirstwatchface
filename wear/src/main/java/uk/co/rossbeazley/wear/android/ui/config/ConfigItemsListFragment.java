@@ -14,7 +14,7 @@ public class ConfigItemsListFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        ConfigOptionsItemsListWearView configOptionsListWearView = new ConfigOptionsItemsListWearView(container.getContext());
+        ConfigItemsListWearView configOptionsListWearView = new ConfigItemsListWearView(container.getContext());
         configOptionsListWearView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         return configOptionsListWearView;
     }
