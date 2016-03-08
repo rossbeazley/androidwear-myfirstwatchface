@@ -28,7 +28,7 @@ class ConfigService {
     public void initialiseDefaults(ConfigItem configItem) {
         String id = configItem.itemId();
         persistence.storeStringsForKey("configItems",asList(id));
-        persistence.storeStringsForKey(id, Collections.<String>emptyList());
+        persistence.storeStringsForKey(id, configItem.options());
     }
 
     public interface Listener {
