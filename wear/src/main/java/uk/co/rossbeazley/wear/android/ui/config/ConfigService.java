@@ -1,5 +1,6 @@
 package uk.co.rossbeazley.wear.android.ui.config;
 
+import java.util.Collections;
 import java.util.List;
 
 import uk.co.rossbeazley.wear.Announcer;
@@ -22,6 +23,12 @@ class ConfigService {
 
     public String optionForItem(String anyItem) {
         return persistence.stringsForKey(anyItem+"Choice").get(0);
+    }
+
+    public void initialiseDefaults(ConfigItem configItem) {
+        String id = configItem.itemId();
+        persistence.storeStringsForKey("configItems",asList(id));
+        persistence.storeStringsForKey(id, Collections.<String>emptyList());
     }
 
     public interface Listener {

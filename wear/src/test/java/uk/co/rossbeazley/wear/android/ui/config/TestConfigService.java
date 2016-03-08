@@ -16,7 +16,7 @@ public class TestConfigService {
     private List<String> twoList;
     private List<String> threeList;
 
-    public StubStringPersistence stubStringPersistence;
+    public HashMapPersistence hashMapPersistence;
     public ConfigService configService;
     private HashMap<String, List<String>> configItems;
 
@@ -56,8 +56,8 @@ public class TestConfigService {
             put("threeChoice", asList(threeChosen));
         }};
 
-        stubStringPersistence = new StubStringPersistence(configItems);
-        configService = new ConfigService(stubStringPersistence);
+        hashMapPersistence = new HashMapPersistence(configItems);
+        configService = new ConfigService(hashMapPersistence);
 
 
         random = new Random();

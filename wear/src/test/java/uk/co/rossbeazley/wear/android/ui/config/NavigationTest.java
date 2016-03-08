@@ -26,8 +26,8 @@ public class NavigationTest {
             put("two", Arrays.asList("twoOne", "twoTwo", "twoThree", "twoFour"));
         }};
 
-        StubStringPersistence stubStringPersistence = new StubStringPersistence(configItems);
-        configService = new ConfigService(stubStringPersistence);
+        HashMapPersistence hashMapPersistence = new HashMapPersistence(configItems);
+        configService = new ConfigService(hashMapPersistence);
         new UiNavigation(configService, navigation);
     }
 

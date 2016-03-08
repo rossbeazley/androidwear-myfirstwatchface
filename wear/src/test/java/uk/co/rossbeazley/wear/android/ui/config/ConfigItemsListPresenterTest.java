@@ -37,7 +37,7 @@ public class ConfigItemsListPresenterTest {
 
     @Test
     public void configServiceAnnouncesSelection() {
-        CapturingListener listener = new CapturingListener();
+        CapturingConfigServiceListener listener = new CapturingConfigServiceListener();
         configService.addListener(listener);
         String anyItem = testConfigService.anyItem();
         configListView.listener.itemSelected(anyItem);
@@ -47,7 +47,7 @@ public class ConfigItemsListPresenterTest {
 
     @Test
     public void configServiceDosntAnnouncesSelectionIfNotAChoice() {
-        CapturingListener listener = new CapturingListener();
+        CapturingConfigServiceListener listener = new CapturingConfigServiceListener();
         configService.addListener(listener);
         configListView.listener.itemSelected("not in the list");
         assertThat(listener.configuredItem, is("UNKNOWN"));
@@ -55,7 +55,7 @@ public class ConfigItemsListPresenterTest {
 
     @Test
     public void configServiceSharesKnowledgeAfterBadChoice() {
-        CapturingListener listener = new CapturingListener();
+        CapturingConfigServiceListener listener = new CapturingConfigServiceListener();
         configService.addListener(listener);
         String noneExistentKey = "not in the list";
         configListView.listener.itemSelected(noneExistentKey);
@@ -75,21 +75,6 @@ public class ConfigItemsListPresenterTest {
         @Override
         public void addListener(Listener listener) {
             this.listener = listener;
-        }
-    }
-
-    private static class CapturingListener implements ConfigService.Listener {
-        public String configuredItem = "UNKNOWN";
-        public KeyNotFound keyNotFoundMessage;
-
-        @Override
-        public void configuring(String item) {
-            this.configuredItem = item;
-        }
-
-        @Override
-        public void error(KeyNotFound keyNotFound) {
-            keyNotFoundMessage = keyNotFound;
         }
     }
 
