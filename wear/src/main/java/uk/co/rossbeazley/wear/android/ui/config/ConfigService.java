@@ -1,16 +1,11 @@
 package uk.co.rossbeazley.wear.android.ui.config;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 import uk.co.rossbeazley.wear.Announcer;
 
 import static java.util.Arrays.asList;
 
-/**
- * Created by beazlr02 on 19/02/16.
- */
 class ConfigService {
 
     private final Announcer<Listener> listenerAnnouncer;
