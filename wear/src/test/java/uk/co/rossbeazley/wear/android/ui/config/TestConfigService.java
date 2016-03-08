@@ -21,6 +21,9 @@ public class TestConfigService {
     private HashMap<String, List<String>> configItems;
 
     private Random random;
+    private String oneChosen;
+    private String twoChosen;
+    private String threeChosen;
 
     public ConfigService build() {
 
@@ -36,12 +39,21 @@ public class TestConfigService {
         oneList = asList("oneOne", "oneone", "oneThree", "oneFour");
         twoList = asList("twoOne", "twoTwo", "twoThree", "twoFour");
         threeList = asList("threeOne", "threethree", "threeThree", "threeFour");
+        oneChosen = "oneone";
+        twoChosen = "twotwo";
+        threeChosen = "threethree";
+
+
+
 
         configItems = new HashMap<String, List<String>>() {{
             put("configItems", expectedListOfConfigItems());
             put("one",oneList);
             put("two", twoList);
             put("three", threeList);
+            put("oneChoice",asList(oneChosen));
+            put("twoChoice",asList(twoChosen));
+            put("threeChoice", asList(threeChosen));
         }};
 
         stubStringPersistence = new StubStringPersistence(configItems);
@@ -70,5 +82,14 @@ public class TestConfigService {
         List<String> strings = expectedOptionsListForItem(anyItem);
         String expectedOption = strings.get(random.nextInt(strings.size()));
         return expectedOption;
+    }
+
+    public String aDifferentItem(String anyItem) {
+        String item = anyItem;
+        do {
+            item = anyItem();
+        }
+        while(anyItem.equals(item));
+        return item;
     }
 }

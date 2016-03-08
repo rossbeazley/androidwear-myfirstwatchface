@@ -6,6 +6,8 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import uk.co.rossbeazley.wear.Announcer;
 
+import static java.util.Arrays.asList;
+
 /**
  * Created by beazlr02 on 19/02/16.
  */
@@ -13,7 +15,6 @@ class ConfigService {
 
     private final Announcer<Listener> listenerAnnouncer;
     private String currentItemId;
-    private String expectedOption;
 
     public List<String> selectedConfigOptions() {
         return persistence.stringsForKey(currentItemId);
@@ -21,11 +22,11 @@ class ConfigService {
 
     public void choose(String expectedOption) {
 
-        this.expectedOption = expectedOption;
+        persistence.storeStringsForKey(currentItemId+"Choice",asList(expectedOption));
     }
 
     public String optionForItem(String anyItem) {
-        return expectedOption;
+        return persistence.stringsForKey(anyItem+"Choice").get(0);
     }
 
     public interface Listener {

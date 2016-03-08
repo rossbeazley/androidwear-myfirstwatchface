@@ -20,4 +20,9 @@ public class StubStringPersistence implements StringPersistence {
     public boolean hasKey(String key){
         return map.containsKey(key);
     }
+
+    @Override
+    public void storeStringsForKey(String currentItemId, List<String> strings) {
+        map.put(currentItemId,strings);
+    }
 }

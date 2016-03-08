@@ -55,6 +55,18 @@ public class SelectedConfigItemTest {
         assertThat(optionForItem,is(expectedOption));
     }
 
+    @Test
+    public void
+    theOneWhereWeChooseADifferentConfigItemOption() {
+
+        String expectedOption = testConfigService.expectedOptionListForItem(anyItem);
+        configService.choose(expectedOption);
+
+        String optionForItem = configService.optionForItem(testConfigService.aDifferentItem(anyItem));
+
+        assertThat(optionForItem,is(not(expectedOption)));
+    }
+
     private class ConfigOptionPresenter {
 
         /**

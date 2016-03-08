@@ -10,4 +10,6 @@ interface StringPersistence {
     List<String> stringsForKey(String key);
 
     boolean hasKey(String key);
+
+    void storeStringsForKey(String currentItemId, List<String> strings);
 }
