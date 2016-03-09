@@ -23,6 +23,8 @@ public class ConfigServiceDefaultDataTwoItemsTest {
     private String expectedItemID;
     private ConfigItem secondConfigItem;
     private String secondItemID;
+    private String secondDefaultOption;
+    private String defaultOption;
 
     @Test
     public void
@@ -45,6 +47,12 @@ public class ConfigServiceDefaultDataTwoItemsTest {
     }
 
 
+    @Test
+    public void
+    storesDefaultOptionsWithTwoConfigItems() {
+        assertThat(configService.optionForItem(expectedItemID),is(defaultOption));
+        assertThat(configService.optionForItem(secondItemID),is(secondDefaultOption));
+    }
 
     @Before
     public void buildTestWorld() {
@@ -59,12 +67,16 @@ public class ConfigServiceDefaultDataTwoItemsTest {
         expectedItemID = "itemId";
         ConfigItem configItem = new ConfigItem(expectedItemID);
         configItem.addOption("optionOne");
-        configItem.addOption("optionTwo");
+        defaultOption = "optionTwo";
+        configItem.addOption(defaultOption);
+        configItem.defaultOption(defaultOption);
 
         secondItemID = "itemId2";
         secondConfigItem = new ConfigItem(secondItemID);
-        secondConfigItem.addOption("2ndoptionOne");
+        secondDefaultOption = "2ndoptionOne";
+        secondConfigItem.addOption(secondDefaultOption);
         secondConfigItem.addOption("2ndoptionTwo");
+        secondConfigItem.defaultOption(secondDefaultOption);
         configService.initialiseDefaults(configItem, secondConfigItem);
 
 
