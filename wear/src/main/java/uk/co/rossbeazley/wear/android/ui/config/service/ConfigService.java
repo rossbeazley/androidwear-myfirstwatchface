@@ -21,8 +21,8 @@ public class ConfigService {
         persistence.storeStringsForKey(currentItemId + "Choice", asList(expectedOption));
     }
 
-    public String optionForItem(String anyItem) {
-        return persistence.stringsForKey(anyItem + "Choice").get(0);
+    public String optionForItem(String id) {
+        return persistence.stringsForKey(id + "Choice").get(0);
     }
 
     public void initialiseDefaults(ConfigItem... configItems) {
@@ -33,6 +33,7 @@ public class ConfigService {
             String id = configItem.itemId();
             IDs.add(id);
             persistence.storeStringsForKey(id, configItem.options());
+            persistence.storeStringsForKey(id + "Choice", asList(configItem.defaultOption()));
         }
         persistence.storeStringsForKey("configItems", IDs);
     }

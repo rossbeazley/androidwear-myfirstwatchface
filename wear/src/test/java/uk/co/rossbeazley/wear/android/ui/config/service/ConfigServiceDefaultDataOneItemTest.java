@@ -19,6 +19,7 @@ public class ConfigServiceDefaultDataOneItemTest {
     private CapturingConfigServiceListener capturingConfigServiceListener;
     private ConfigService configService;
     private String expectedItemID;
+    private String expectedDefaultOption;
 
     @Test
     public void
@@ -40,6 +41,12 @@ public class ConfigServiceDefaultDataOneItemTest {
         assertThat(configService.selectedConfigOptions(),hasItems("optionOne","optionTwo"));
     }
 
+    @Test
+    public void
+    theOneWhereWeGetTheDefaultOptionForOneItem() {
+        String option = configService.optionForItem(expectedItemID);
+        assertThat(option,is(expectedDefaultOption));
+    }
 
 
     @Before
@@ -53,9 +60,11 @@ public class ConfigServiceDefaultDataOneItemTest {
 
 
         expectedItemID = "itemId";
+        expectedDefaultOption = "optionTwo";
         ConfigItem configItem = new ConfigItem(expectedItemID);
         configItem.addOption("optionOne");
-        configItem.addOption("optionTwo");
+        configItem.addOption(expectedDefaultOption);
+        configItem.defaultOption(expectedDefaultOption);
         configService.initialiseDefaults(configItem);
 
 
