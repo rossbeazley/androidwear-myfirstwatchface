@@ -1,5 +1,6 @@
 package uk.co.rossbeazley.wear.android.ui.config;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -18,17 +19,23 @@ class ConfigService {
 
     public void choose(String expectedOption) {
 
-        persistence.storeStringsForKey(currentItemId+"Choice",asList(expectedOption));
+        persistence.storeStringsForKey(currentItemId + "Choice", asList(expectedOption));
     }
 
     public String optionForItem(String anyItem) {
-        return persistence.stringsForKey(anyItem+"Choice").get(0);
+        return persistence.stringsForKey(anyItem + "Choice").get(0);
     }
 
-    public void initialiseDefaults(ConfigItem configItem) {
-        String id = configItem.itemId();
-        persistence.storeStringsForKey("configItems",asList(id));
-        persistence.storeStringsForKey(id, configItem.options());
+    public void initialiseDefaults(ConfigItem... configItems) {
+
+
+        List<String> IDs = new ArrayList<>(configItems.length);
+        for (ConfigItem configItem : configItems) {
+            String id = configItem.itemId();
+            IDs.add(id);
+            persistence.storeStringsForKey(id, configItem.options());
+        }
+        persistence.storeStringsForKey("configItems", IDs);
     }
 
     public interface Listener {
@@ -50,9 +57,9 @@ class ConfigService {
 
             @Override
             public boolean equals(Object o) {
-                if( !(o instanceof KeyNotFound) ) return false;
+                if (!(o instanceof KeyNotFound)) return false;
                 KeyNotFound keyNotFound = (KeyNotFound) o;
-                boolean rtn = (keyNotFound.noneExistentKey)!=null ? keyNotFound.noneExistentKey.equals(noneExistentKey) : false;
+                boolean rtn = (keyNotFound.noneExistentKey) != null ? keyNotFound.noneExistentKey.equals(noneExistentKey) : false;
                 return rtn;
             }
         }
@@ -63,7 +70,7 @@ class ConfigService {
     }
 
     public void configure(String item) {
-        if(persistence.hasKey(item)) {
+        if (persistence.hasKey(item)) {
             this.currentItemId = item;
             listenerAnnouncer.announce().configuring(item);
         } else {

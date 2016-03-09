@@ -6,33 +6,37 @@ import org.junit.Test;
 import java.util.HashMap;
 import java.util.List;
 
-import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.CoreMatchers.hasItem;
+import static org.hamcrest.CoreMatchers.hasItems;
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
-public class ConfigServiceDefaultDataOneItemTest {
+public class ConfigServiceDefaultDataTwoItemsTest {
 
     private CapturingConfigServiceListener capturingConfigServiceListener;
     private ConfigService configService;
     private String expectedItemID;
+    private ConfigItem secondConfigItem;
+    private String secondItemID;
 
     @Test
     public void
-    theOneWhereWeInitialiseWithOneConfigItemAndGetTheListOfItems() {
-        assertThat(configService.configItemsList(),hasItem(expectedItemID));
+    theOneWhereWeInitialiseWithTwoConfigItem2AndGetTheListOfItems() {
+        assertThat(configService.configItemsList(),hasItems(secondItemID,expectedItemID));
     }
 
     @Test
     public void
-    theOneWhereWeConfigureWithOneConfigItem() {
+    theOneWhereWeConfigureWithTwoConfigItems() {
         configService.configure(expectedItemID);
         assertThat(capturingConfigServiceListener.configuredItem,is(expectedItemID));
     }
 
     @Test
     public void
-    theOneWhereWeGetTheOptionsWithOnConfigItem() {
-        configService.configure(expectedItemID);
-        assertThat(configService.selectedConfigOptions(),hasItems("optionOne","optionTwo"));
+    theOneWhereWeGetTheOptionsWithTwoConfigItems() {
+        configService.configure(secondItemID);
+        assertThat(configService.selectedConfigOptions(),hasItems("2ndoptionOne","2ndoptionTwo"));
     }
 
 
@@ -51,7 +55,12 @@ public class ConfigServiceDefaultDataOneItemTest {
         ConfigItem configItem = new ConfigItem(expectedItemID);
         configItem.addOption("optionOne");
         configItem.addOption("optionTwo");
-        configService.initialiseDefaults(configItem);
+
+        secondItemID = "itemId2";
+        secondConfigItem = new ConfigItem(secondItemID);
+        secondConfigItem.addOption("2ndoptionOne");
+        secondConfigItem.addOption("2ndoptionTwo");
+        configService.initialiseDefaults(configItem, secondConfigItem);
 
 
     }
