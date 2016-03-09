@@ -1,4 +1,4 @@
-package uk.co.rossbeazley.wear.android.ui.config;
+package uk.co.rossbeazley.wear.android.ui.config.ui;
 
 import android.annotation.TargetApi;
 import android.content.Context;
@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import uk.co.rossbeazley.wear.R;
+import uk.co.rossbeazley.wear.android.ui.config.ui.ConfigItemsListView;
 
 /**
  * Created by beazlr02 on 19/02/16.

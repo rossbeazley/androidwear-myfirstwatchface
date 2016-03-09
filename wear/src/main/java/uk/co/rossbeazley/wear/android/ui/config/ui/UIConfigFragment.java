@@ -1,4 +1,4 @@
-package uk.co.rossbeazley.wear.android.ui.config;
+package uk.co.rossbeazley.wear.android.ui.config.ui;
 
 import android.app.Fragment;
 import android.os.Bundle;
@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import uk.co.rossbeazley.wear.Core;
 import uk.co.rossbeazley.wear.Main;
 import uk.co.rossbeazley.wear.R;
+import uk.co.rossbeazley.wear.android.ui.config.ui.NavigationController;
+import uk.co.rossbeazley.wear.android.ui.config.ui.NeedsNavigationController;
 import uk.co.rossbeazley.wear.colour.CanReceiveColourUpdates;
 import uk.co.rossbeazley.wear.colour.Colours;
 

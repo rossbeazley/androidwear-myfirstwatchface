@@ -1,8 +1,8 @@
-package uk.co.rossbeazley.wear.android.ui.config;
+package uk.co.rossbeazley.wear.android.ui.config.ui;
 
 import java.util.List;
 
-interface ConfigItemsListView {
+public interface ConfigItemsListView {
     void showConfigItems(List<String> list);
 
     void addListener(Listener listener);

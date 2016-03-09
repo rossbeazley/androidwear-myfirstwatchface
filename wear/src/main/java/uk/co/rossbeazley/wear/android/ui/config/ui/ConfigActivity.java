@@ -1,4 +1,4 @@
-package uk.co.rossbeazley.wear.android.ui.config;
+package uk.co.rossbeazley.wear.android.ui.config.ui;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -6,9 +6,6 @@ import android.app.FragmentManager;
 import android.os.Bundle;
 
 import uk.co.rossbeazley.wear.R;
-import uk.co.rossbeazley.wear.android.ui.config.FragmentNavigationController;
-import uk.co.rossbeazley.wear.android.ui.config.NavigationController;
-import uk.co.rossbeazley.wear.android.ui.config.NeedsNavigationController;
 
 public class ConfigActivity extends Activity implements FragmentNavigationController.FragmentManagerProvider {
 

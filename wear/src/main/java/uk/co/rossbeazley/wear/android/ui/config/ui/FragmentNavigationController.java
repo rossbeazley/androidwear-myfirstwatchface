@@ -1,4 +1,4 @@
-package uk.co.rossbeazley.wear.android.ui.config;
+package uk.co.rossbeazley.wear.android.ui.config.ui;
 
 import android.app.Fragment;
 import android.app.FragmentManager;

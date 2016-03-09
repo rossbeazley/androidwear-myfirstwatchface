@@ -5,6 +5,9 @@ import org.junit.Test;
 
 import java.util.List;
 
+import uk.co.rossbeazley.wear.android.ui.config.service.ConfigService;
+import uk.co.rossbeazley.wear.android.ui.config.ui.ConfigOptionView;
+
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.assertThat;
 

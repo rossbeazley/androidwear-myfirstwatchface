@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
+import uk.co.rossbeazley.wear.android.ui.config.service.ConfigService;
+
 import static java.util.Arrays.asList;
 
 /**

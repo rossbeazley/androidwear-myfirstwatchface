@@ -1,4 +1,4 @@
-package uk.co.rossbeazley.wear.android.ui.config;
+package uk.co.rossbeazley.wear.android.ui.config.ui;
 
 import android.annotation.TargetApi;
 import android.content.Context;
@@ -25,6 +25,7 @@ import java.util.Collections;
 import java.util.List;
 
 import uk.co.rossbeazley.wear.R;
+import uk.co.rossbeazley.wear.android.ui.config.TestActivity;
 import uk.co.rossbeazley.wear.android.ui.espressoMatchers.ScrollToPositionViewAction;
 
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
@@ -138,7 +139,7 @@ public class ConfigOptionWearViewTest {
 
         void _ConfigOptionsWearView()
         {
-            LayoutInflater.from(getContext()).inflate(R.layout.config_items_list_wear_view, this);
+            LayoutInflater.from(getContext()).inflate(R.layout.list_wear_view, this);
             wearableListView = (WearableListView) findViewById(R.id.wearable_list);
             wearableListView.setClickListener(new WearableListView.ClickListener() {
                 @Override

@@ -1,14 +1,13 @@
-package uk.co.rossbeazley.wear.android.ui.config;
+package uk.co.rossbeazley.wear.android.ui.config.service;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import uk.co.rossbeazley.wear.Announcer;
 
 import static java.util.Arrays.asList;
 
-class ConfigService {
+public class ConfigService {
 
     private final Announcer<Listener> listenerAnnouncer;
     private String currentItemId;
@@ -65,7 +64,7 @@ class ConfigService {
         }
     }
 
-    void addListener(Listener listener) {
+    public void addListener(Listener listener) {
         listenerAnnouncer.addListener(listener);
     }
 

@@ -1,11 +1,8 @@
-package uk.co.rossbeazley.wear.android.ui.config;
+package uk.co.rossbeazley.wear.android.ui.config.service;
 
 import java.util.List;
 
-/**
- * Created by beazlr02 on 19/02/16.
- */
-interface StringPersistence {
+public interface StringPersistence {
 
     List<String> stringsForKey(String key);
 

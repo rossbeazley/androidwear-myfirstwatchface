@@ -12,16 +12,23 @@ tint colour
 
 Next steps:
 
-1. remove duplication in view rendering,
- - collapse interfaces into one
- - make presenters adapt UI interaction into domain events
- - have only one concrete impl (and only one test)
-
-2. remove connascence of algorithm from TDB and persistence tier.
+1. remove connascence of algorithm from TDB and persistence tier.
  - introduce a store defaults operation (constructor?)
  - write tests to ensure defaults are persisted correctly
  - replace impl in TDB to use this new mechanism
  - change persistence interface to talk in terms of a Single String not a list (maybe not a smart move, less adaptive to change?)
+
+
+todo:
+ - allow persisting of choices
+ - dont overwrite values if re-initialising
+ - ConfigItemsListPresenterTest needs seperating out core service test
+
+
+2. remove duplication in view rendering,
+ - collapse interfaces into one
+ - make presenters adapt UI interaction into domain events
+ - have only one concrete impl (and only one test)
 
 3. introduce a tighter domain model that has objects with:
  - config ID

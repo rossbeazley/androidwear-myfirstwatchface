@@ -1,10 +1,15 @@
-package uk.co.rossbeazley.wear.android.ui.config;
+package uk.co.rossbeazley.wear.android.ui.config.service;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.HashMap;
 import java.util.List;
+
+import uk.co.rossbeazley.wear.android.ui.config.CapturingConfigServiceListener;
+import uk.co.rossbeazley.wear.android.ui.config.HashMapPersistence;
+import uk.co.rossbeazley.wear.android.ui.config.service.ConfigItem;
+import uk.co.rossbeazley.wear.android.ui.config.service.ConfigService;
 
 import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.CoreMatchers.hasItems;

@@ -1,4 +1,4 @@
-package uk.co.rossbeazley.wear.android.ui.config;
+package uk.co.rossbeazley.wear.android.ui.config.ui;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -7,6 +7,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+
+import uk.co.rossbeazley.wear.android.ui.config.HashMapPersistence;
+import uk.co.rossbeazley.wear.android.ui.config.service.ConfigService;
+import uk.co.rossbeazley.wear.android.ui.config.ui.NavigationController;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.assertThat;
