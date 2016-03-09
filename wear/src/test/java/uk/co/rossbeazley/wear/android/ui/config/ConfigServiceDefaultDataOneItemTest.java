@@ -9,43 +9,33 @@ import java.util.List;
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.assertThat;
 
-public class ConfigServiceDefaultDataTest {
+public class ConfigServiceDefaultDataOneItemTest {
 
     private CapturingConfigServiceListener capturingConfigServiceListener;
     private ConfigService configService;
+    private String expectedItemID;
 
     @Test
     public void
     theOneWhereWeInitialiseWithOneConfigItemAndGetTheListOfItems() {
-
-        String expectedItem = "itemId";
-        ConfigItem configItem = new ConfigItem(expectedItem);
-        configService.initialiseDefaults(configItem);
-        assertThat(configService.configItemsList(),hasItem(expectedItem));
+        assertThat(configService.configItemsList(),hasItem(expectedItemID));
     }
 
     @Test
     public void
     theOneWhereWeConfigureWithOneConfigItem() {
-
-        String expectedItem = "itemId";
-        configService.initialiseDefaults(new ConfigItem(expectedItem));
-        configService.configure(expectedItem);
-        assertThat(capturingConfigServiceListener.configuredItem,is(expectedItem));
+        configService.configure(expectedItemID);
+        assertThat(capturingConfigServiceListener.configuredItem,is(expectedItemID));
     }
 
     @Test
     public void
     theOneWhereWeGetTheOptionsWithOnConfigItem() {
-
-        String expectedItem = "itemId";
-        ConfigItem configItem = new ConfigItem(expectedItem);
-        configItem.addOption("optionOne");
-        configService.initialiseDefaults(configItem);
-
-        configService.configure("itemId");
+        configService.configure(expectedItemID);
         assertThat(configService.selectedConfigOptions(),hasItem("optionOne"));
     }
+
+
 
     @Before
     public void buildTestWorld() {
@@ -55,6 +45,14 @@ public class ConfigServiceDefaultDataTest {
         HashMapPersistence hashMapPersistence = new HashMapPersistence(emptyMap);
         configService = new ConfigService(hashMapPersistence);
         configService.addListener(capturingConfigServiceListener);
+
+
+        expectedItemID = "itemId";
+        ConfigItem configItem = new ConfigItem(expectedItemID);
+        configItem.addOption("optionOne");
+        configService.initialiseDefaults(configItem);
+
+
     }
 
 }
