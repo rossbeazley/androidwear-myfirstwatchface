@@ -9,6 +9,10 @@ public class HashMapPersistence implements StringPersistence {
 
     private HashMap<String, List<String>> map;
 
+    public HashMapPersistence() {
+        this(new HashMap<String, List<String>>());
+    }
+
     public HashMapPersistence(HashMap<String, List<String>> map) {
         this.map = map;
     }

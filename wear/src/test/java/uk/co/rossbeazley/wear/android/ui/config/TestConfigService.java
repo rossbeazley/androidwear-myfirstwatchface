@@ -1,66 +1,50 @@
 package uk.co.rossbeazley.wear.android.ui.config;
 
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Random;
 
+import uk.co.rossbeazley.wear.android.ui.config.service.ConfigItem;
 import uk.co.rossbeazley.wear.android.ui.config.service.ConfigService;
 
-import static java.util.Arrays.asList;
-
-/**
- * Created by beazlr02 on 02/03/16.
- */
 public class TestConfigService {
-    private List<String> expectedList;
-
-    private List<String> oneList;
-    private List<String> twoList;
-    private List<String> threeList;
 
     public HashMapPersistence hashMapPersistence;
     public ConfigService configService;
-    private HashMap<String, List<String>> configItems;
+    private LinkedHashMap<String, ConfigItem> configItems;
 
     private Random random;
-    private String oneChosen;
-    private String twoChosen;
-    private String threeChosen;
 
     public ConfigService build() {
 
+        String oneChosen = "oneone";
+        String twoChosen = "twotwo";
+        String threeChosen = "threethree";
 
-/**
- * I need to change this to a list of domain objects.
- * Then have a way of persisting the default options in the system
- * it might seem more sensible to to introduce a item repo rather than a KV store
- * Going to try not doing this thus keeping the persistence mechanism a secret
- *
- */
-        expectedList = asList("one", "two", "three");
-        oneList = asList("oneOne", "oneone", "oneThree", "oneFour");
-        twoList = asList("twoOne", "twoTwo", "twoThree", "twoFour");
-        threeList = asList("threeOne", "threethree", "threeThree", "threeFour");
-        oneChosen = "oneone";
-        twoChosen = "twotwo";
-        threeChosen = "threethree";
-
-
-
-
-        configItems = new HashMap<String, List<String>>() {{
-            put("configItems", expectedListOfConfigItems());
-            put("one",oneList);
-            put("two", twoList);
-            put("three", threeList);
-            put("oneChoice",asList(oneChosen));
-            put("twoChoice",asList(twoChosen));
-            put("threeChoice", asList(threeChosen));
-        }};
-
-        hashMapPersistence = new HashMapPersistence(configItems);
+        hashMapPersistence = new HashMapPersistence();
         configService = new ConfigService(hashMapPersistence);
 
+        final ConfigItem option1 = new ConfigItem("one");
+        option1.addOptions("oneOne", "oneone", "oneThree", "oneFour");
+        option1.defaultOption(oneChosen);
+
+        final ConfigItem option2 = new ConfigItem("two");
+        option2.addOptions("twoOne", "twoTwo", "twoThree", "twoFour");
+        option2.defaultOption(twoChosen);
+
+        final ConfigItem option3 = new ConfigItem("three");
+        option3.addOptions("threeOne", "threethree", "threeThree", "threeFour");
+        option3.defaultOption(threeChosen);
+
+        configItems = new LinkedHashMap<String, ConfigItem>(){{
+            put(option1.itemId(),option1);
+            put(option2.itemId(),option2);
+            put(option3.itemId(),option3);
+        }};
+
+        configService.initialiseDefaults(option1, option2, option3);
 
         random = new Random();
 
@@ -69,25 +53,31 @@ public class TestConfigService {
 
     public String anyItem() {
 
-        return expectedList.get(random.nextInt(expectedList.size()));
+        Collection<ConfigItem> values = configItems.values();
+        return new ArrayList<>(values).get(random.nextInt(values.size())).itemId();
     }
 
     public List<String> expectedListOfConfigItems() {
+
+        List<String> expectedList = new ArrayList<>();
+        for(ConfigItem item : configItems.values()) {
+            expectedList.add(item.itemId());
+        }
         return expectedList;
     }
 
     public List<String> expectedOptionsListForItem(String forItem) {
-        return configItems.get(forItem);
+        ConfigItem configItem = configItems.get(forItem);
+        return configItem.options();
     }
 
-    public String expectedOptionListForItem(String anyItem) {
+    public String anyExpectedOptionListForItem(String anyItem) {
         List<String> strings = expectedOptionsListForItem(anyItem);
-        String expectedOption = strings.get(random.nextInt(strings.size()));
-        return expectedOption;
+        return strings.get(random.nextInt(strings.size()));
     }
 
     public String aDifferentItem(String anyItem) {
-        String item = anyItem;
+        String item;
         do {
             item = anyItem();
         }

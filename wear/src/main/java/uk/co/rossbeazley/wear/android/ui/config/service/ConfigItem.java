@@ -32,4 +32,10 @@ public class ConfigItem {
     public String defaultOption() {
         return defaultOption;
     }
+
+    public void addOptions(String... options) {
+        for(String option : options) {
+            addOption(option);
+        }
+    }
 }

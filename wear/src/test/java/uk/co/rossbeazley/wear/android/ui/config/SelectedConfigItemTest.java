@@ -50,7 +50,7 @@ public class SelectedConfigItemTest {
     public void
     theOneWhereWeChooseAConfigItemOption() {
 
-        String expectedOption = testConfigService.expectedOptionListForItem(anyItem);
+        String expectedOption = testConfigService.anyExpectedOptionListForItem(anyItem);
         configService.choose(expectedOption);
 
         String optionForItem = configService.optionForItem(anyItem);
@@ -62,7 +62,7 @@ public class SelectedConfigItemTest {
     public void
     theOneWhereWeChooseADifferentConfigItemOption() {
 
-        String expectedOption = testConfigService.expectedOptionListForItem(anyItem);
+        String expectedOption = testConfigService.anyExpectedOptionListForItem(anyItem);
         configService.choose(expectedOption);
 
         String optionForItem = configService.optionForItem(testConfigService.aDifferentItem(anyItem));
