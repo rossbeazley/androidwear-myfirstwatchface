@@ -23,9 +23,6 @@ public class TestConfigService {
         String twoChosen = "twotwo";
         String threeChosen = "threethree";
 
-        hashMapPersistence = new HashMapPersistence();
-        configService = new ConfigService(hashMapPersistence);
-
         final ConfigItem option1 = new ConfigItem("one");
         option1.addOptions("oneOne", "oneone", "oneThree", "oneFour");
         option1.defaultOption(oneChosen);
@@ -43,6 +40,10 @@ public class TestConfigService {
             put(option2.itemId(),option2);
             put(option3.itemId(),option3);
         }};
+
+
+        hashMapPersistence = new HashMapPersistence();
+        configService = new ConfigService(hashMapPersistence);
 
         configService.initialiseDefaults(option1, option2, option3);
 
@@ -83,5 +84,9 @@ public class TestConfigService {
         }
         while(anyItem.equals(item));
         return item;
+    }
+
+    public String expectedDefaultOptionForItem(String itemID) {
+        return configItems.get(itemID).defaultOption();
     }
 }
