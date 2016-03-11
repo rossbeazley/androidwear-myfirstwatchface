@@ -53,7 +53,7 @@ public class SelectedConfigItemTest {
         String expectedOption = testConfigService.anyExpectedOptionListForItem(anyItem);
         configService.choose(expectedOption);
 
-        String optionForItem = configService.optionForItem(anyItem);
+        String optionForItem = configService.currentOptionForItem(anyItem);
 
         assertThat(optionForItem,is(expectedOption));
     }
@@ -65,7 +65,7 @@ public class SelectedConfigItemTest {
         String expectedOption = testConfigService.anyExpectedOptionListForItem(anyItem);
         configService.choose(expectedOption);
 
-        String optionForItem = configService.optionForItem(testConfigService.aDifferentItem(anyItem));
+        String optionForItem = configService.currentOptionForItem(testConfigService.aDifferentItem(anyItem));
 
         assertThat(optionForItem,is(not(expectedOption)));
     }

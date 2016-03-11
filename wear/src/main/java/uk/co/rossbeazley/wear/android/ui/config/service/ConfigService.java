@@ -21,7 +21,7 @@ public class ConfigService {
         persistence.storeStringsForKey(currentItemId + "Choice", asList(expectedOption));
     }
 
-    public String optionForItem(String id) {
+    public String currentOptionForItem(String id) {
         return persistence.stringsForKey(id + "Choice").get(0);
     }
 

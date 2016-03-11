@@ -44,7 +44,7 @@ public class ConfigServiceDefaultDataOneItemTest {
     @Test
     public void
     theOneWhereWeGetTheDefaultOptionForOneItem() {
-        String option = configService.optionForItem(configItem.itemId());
+        String option = configService.currentOptionForItem(configItem.itemId());
         assertThat(option,is(expectedDefaultOption));
     }
 
