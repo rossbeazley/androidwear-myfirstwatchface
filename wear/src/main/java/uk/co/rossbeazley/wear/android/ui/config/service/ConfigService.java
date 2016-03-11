@@ -27,7 +27,12 @@ public class ConfigService {
 
     public void initialiseDefaults(ConfigItem... configItems) {
 
+        if (alreadyHasDataStored()) return;
 
+        storeDefaults(configItems);
+    }
+
+    private void storeDefaults(ConfigItem[] configItems) {
         List<String> IDs = new ArrayList<>(configItems.length);
         for (ConfigItem configItem : configItems) {
             String id = configItem.itemId();
@@ -36,6 +41,11 @@ public class ConfigService {
             persistence.storeStringsForKey(id + "Choice", asList(configItem.defaultOption()));
         }
         persistence.storeStringsForKey("configItems", IDs);
+    }
+
+    private boolean alreadyHasDataStored() {
+        List<String> currentItems = persistence.stringsForKey("configItems");
+        return currentItems != null && currentItems.size() > 0;
     }
 
     public interface Listener {

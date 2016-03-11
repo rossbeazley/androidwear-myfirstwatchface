@@ -20,7 +20,7 @@ Next steps:
 
 
 todo:
- - allow persisting of choices
+ - DONE allow persisting of choices
  - dont overwrite values if re-initialising
  - ConfigItemsListPresenterTest needs seperating out core service test
 
