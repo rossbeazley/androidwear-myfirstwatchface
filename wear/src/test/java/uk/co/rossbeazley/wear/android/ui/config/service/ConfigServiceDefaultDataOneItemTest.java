@@ -3,70 +3,64 @@ package uk.co.rossbeazley.wear.android.ui.config.service;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.HashMap;
-import java.util.List;
-
 import uk.co.rossbeazley.wear.android.ui.config.CapturingConfigServiceListener;
-import uk.co.rossbeazley.wear.android.ui.config.HashMapPersistence;
-import uk.co.rossbeazley.wear.android.ui.config.service.ConfigItem;
-import uk.co.rossbeazley.wear.android.ui.config.service.ConfigService;
+import uk.co.rossbeazley.wear.android.ui.config.TestConfigService;
 
-import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.hasItem;
+import static org.hamcrest.CoreMatchers.hasItems;
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
 public class ConfigServiceDefaultDataOneItemTest {
 
     private CapturingConfigServiceListener capturingConfigServiceListener;
     private ConfigService configService;
-    private String expectedItemID;
     private String expectedDefaultOption;
+    private TestConfigService testConfigService;
+    private ConfigItem configItem;
 
     @Test
     public void
     theOneWhereWeInitialiseWithOneConfigItemAndGetTheListOfItems() {
-        assertThat(configService.configItemsList(),hasItem(expectedItemID));
+        assertThat(configService.configItemsList(),hasItem(configItem.itemId()));
     }
 
     @Test
     public void
     theOneWhereWeConfigureWithOneConfigItem() {
-        configService.configure(expectedItemID);
-        assertThat(capturingConfigServiceListener.configuredItem,is(expectedItemID));
+        String itemId = configItem.itemId();
+        configService.configure(itemId);
+        assertThat(capturingConfigServiceListener.configuredItem,is(itemId));
     }
 
     @Test
     public void
     theOneWhereWeGetTheOptionsWithOnConfigItem() {
-        configService.configure(expectedItemID);
-        assertThat(configService.selectedConfigOptions(),hasItems("optionOne","optionTwo"));
+        configService.configure(configItem.itemId());
+        assertThat(configService.selectedConfigOptions(),is(equalTo(configItem.options())));
     }
 
     @Test
     public void
     theOneWhereWeGetTheDefaultOptionForOneItem() {
-        String option = configService.optionForItem(expectedItemID);
+        String option = configService.optionForItem(configItem.itemId());
         assertThat(option,is(expectedDefaultOption));
     }
 
 
     @Before
     public void buildTestWorld() {
-        capturingConfigServiceListener = new CapturingConfigServiceListener();
-
-        HashMap<String, List<String>> emptyMap = new HashMap<>();
-        HashMapPersistence hashMapPersistence = new HashMapPersistence(emptyMap);
-        configService = new ConfigService(hashMapPersistence);
-        configService.addListener(capturingConfigServiceListener);
-
-
-        expectedItemID = "itemId";
-        expectedDefaultOption = "optionTwo";
-        ConfigItem configItem = new ConfigItem(expectedItemID);
+        configItem = new ConfigItem("optionTwo");
         configItem.addOption("optionOne");
         configItem.addOption(expectedDefaultOption);
         configItem.defaultOption(expectedDefaultOption);
-        configService.initialiseDefaults(configItem);
 
+        testConfigService = new TestConfigService();
+        configService = testConfigService.build(configItem);
+
+        capturingConfigServiceListener = new CapturingConfigServiceListener();
+        configService.addListener(capturingConfigServiceListener);
 
     }
 
