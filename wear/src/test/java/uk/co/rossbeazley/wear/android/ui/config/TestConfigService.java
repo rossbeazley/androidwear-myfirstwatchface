@@ -35,17 +35,20 @@ public class TestConfigService {
         option3.addOptions("threeOne", "threethree", "threeThree", "threeFour");
         option3.defaultOption(threeChosen);
 
-        configItems = new LinkedHashMap<String, ConfigItem>(){{
-            put(option1.itemId(),option1);
-            put(option2.itemId(),option2);
-            put(option3.itemId(),option3);
-        }};
+        return (configService = build(option1, option2, option3));
+    }
 
+    public ConfigService build(final ConfigItem... defaultOptions) {
 
         hashMapPersistence = new HashMapPersistence();
         configService = new ConfigService(hashMapPersistence);
 
-        configService.initialiseDefaults(option1, option2, option3);
+
+        configItems = new LinkedHashMap<>();
+        for (ConfigItem option : defaultOptions) {
+            configItems.put(option.itemId(), option);
+        }
+        configService.initialiseDefaults(defaultOptions);
 
         random = new Random();
 

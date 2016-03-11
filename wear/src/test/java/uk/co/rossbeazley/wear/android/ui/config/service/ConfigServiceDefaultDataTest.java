@@ -45,7 +45,7 @@ public class ConfigServiceDefaultDataTest {
     public void
     storesDefaultOptions() {
 
-        String itemID =testConfigService.anyItemID();
+        String itemID = testConfigService.anyItemID();
         configService.configure(itemID);
         assertThat(configService.optionForItem(itemID),is(testConfigService.expectedDefaultOptionForItem(itemID)));
     }
