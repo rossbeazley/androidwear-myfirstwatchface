@@ -52,7 +52,7 @@ public class TestConfigService {
         return configService;
     }
 
-    public String anyItem() {
+    public String anyItemID() {
 
         Collection<ConfigItem> values = configItems.values();
         return new ArrayList<>(values).get(random.nextInt(values.size())).itemId();
@@ -80,7 +80,7 @@ public class TestConfigService {
     public String aDifferentItem(String anyItem) {
         String item;
         do {
-            item = anyItem();
+            item = anyItemID();
         }
         while(anyItem.equals(item));
         return item;

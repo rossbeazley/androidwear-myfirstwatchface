@@ -65,8 +65,9 @@ public class ConfigService {
         }
     }
 
-    public void addListener(Listener listener) {
+    public <T extends Listener> T addListener(T listener) {
         listenerAnnouncer.addListener(listener);
+        return listener;
     }
 
     public void configure(String item) {

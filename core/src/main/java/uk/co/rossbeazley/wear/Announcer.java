@@ -86,7 +86,7 @@ public class Announcer<T> implements CanBeObserved<T> {
     }
 
     public static <T> Announcer<T> to(Class<? extends T> listenerType) {
-        return new Announcer<T>(listenerType);
+        return new Announcer<>(listenerType);
     }
 
     public void registerProducer(Producer<T> producer) {

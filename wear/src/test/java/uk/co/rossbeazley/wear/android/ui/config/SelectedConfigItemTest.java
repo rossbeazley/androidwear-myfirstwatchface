@@ -23,7 +23,7 @@ public class SelectedConfigItemTest {
         testConfigService = new TestConfigService();
         configService = testConfigService.build();
 
-        anyItem = testConfigService.anyItem();
+        anyItem = testConfigService.anyItemID();
 
         configService.configure(anyItem);
     }

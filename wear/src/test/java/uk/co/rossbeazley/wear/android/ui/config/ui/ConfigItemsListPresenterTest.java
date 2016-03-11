@@ -8,8 +8,6 @@ import java.util.List;
 import uk.co.rossbeazley.wear.android.ui.config.CapturingConfigServiceListener;
 import uk.co.rossbeazley.wear.android.ui.config.TestConfigService;
 import uk.co.rossbeazley.wear.android.ui.config.service.ConfigService;
-import uk.co.rossbeazley.wear.android.ui.config.ui.ConfigItemsListFragment;
-import uk.co.rossbeazley.wear.android.ui.config.ui.ConfigItemsListView;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -45,7 +43,7 @@ public class ConfigItemsListPresenterTest {
     public void configServiceAnnouncesSelection() {
         CapturingConfigServiceListener listener = new CapturingConfigServiceListener();
         configService.addListener(listener);
-        String anyItem = testConfigService.anyItem();
+        String anyItem = testConfigService.anyItemID();
         configListView.listener.itemSelected(anyItem);
         assertThat(listener.configuredItem, is(anyItem));
     }
