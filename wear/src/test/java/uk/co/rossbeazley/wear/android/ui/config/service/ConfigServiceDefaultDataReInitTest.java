@@ -2,9 +2,11 @@ package uk.co.rossbeazley.wear.android.ui.config.service;
 
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import uk.co.rossbeazley.wear.android.ui.config.CapturingConfigServiceListener;
+import uk.co.rossbeazley.wear.android.ui.config.HashMapPersistence;
 import uk.co.rossbeazley.wear.android.ui.config.TestConfigService;
 ;
 import static org.hamcrest.CoreMatchers.*;
@@ -17,19 +19,17 @@ public class ConfigServiceDefaultDataReInitTest {
     private ConfigItem secondConfigItem;
     private ConfigItem firstConfigItem;
     private TestConfigService testConfigService;
+    private String optionOne;
+    private String optionTwo;
 
     @Test
     public void
     theOneWhereWePersistChoiceAndThenReinitialiseWithoutLoosingThatChoice() {
 
         configService.configure(firstConfigItem.itemId());
-        String optionOne = "optionOne";
         configService.choose(optionOne);
-
         configService.configure(secondConfigItem.itemId());
-        String optionTwo = "2ndoptionTwo";
         configService.choose(optionTwo);
-
 
         configService.initialiseDefaults(firstConfigItem,secondConfigItem);
 
@@ -39,8 +39,30 @@ public class ConfigServiceDefaultDataReInitTest {
         assertThat("configService.currentOptionForItem(secondConfigItem.itemId())", configService.currentOptionForItem(secondConfigItem.itemId()),is(optionTwo));
     }
 
+    @Test
+    public void
+    reInitServiceWithPreviousPersistantStore() {
+
+        configService.configure(firstConfigItem.itemId());
+        configService.choose(optionOne);
+        configService.configure(secondConfigItem.itemId());
+        configService.choose(optionTwo);
+
+        configService = new ConfigService(testConfigService.hashMapPersistence);
+        configService.initialiseDefaults(firstConfigItem,secondConfigItem);
+
+        assertThat("configService.configItemsList()", configService.configItemsList(),hasItems(firstConfigItem.itemId(),secondConfigItem.itemId()));
+        assertThat("configService.configItemsList().size()", configService.configItemsList().size(),is(2));
+        assertThat("configService.currentOptionForItem(firstConfigItem.itemId())", configService.currentOptionForItem(firstConfigItem.itemId()),is(optionOne));
+        assertThat("configService.currentOptionForItem(secondConfigItem.itemId())", configService.currentOptionForItem(secondConfigItem.itemId()),is(optionTwo));
+
+    }
+
     @Before
     public void buildTestWorld() {
+
+        optionOne = "optionOne";
+        optionTwo = "2ndoptionTwo";
 
         firstConfigItem = new ConfigItem("itemId");
         firstConfigItem.addOption("optionOne");
