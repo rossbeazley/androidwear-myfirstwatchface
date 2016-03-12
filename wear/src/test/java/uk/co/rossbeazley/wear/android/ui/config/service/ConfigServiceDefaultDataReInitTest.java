@@ -2,15 +2,16 @@ package uk.co.rossbeazley.wear.android.ui.config.service;
 
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import uk.co.rossbeazley.wear.android.ui.config.CapturingConfigServiceListener;
-import uk.co.rossbeazley.wear.android.ui.config.HashMapPersistence;
 import uk.co.rossbeazley.wear.android.ui.config.TestConfigService;
-;
-import static org.hamcrest.CoreMatchers.*;
+
+import static org.hamcrest.CoreMatchers.hasItems;
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
+
+;
 
 public class ConfigServiceDefaultDataReInitTest {
 
@@ -25,37 +26,33 @@ public class ConfigServiceDefaultDataReInitTest {
     @Test
     public void
     theOneWhereWePersistChoiceAndThenReinitialiseWithoutLoosingThatChoice() {
-
-        configService.configure(firstConfigItem.itemId());
-        configService.choose(optionOne);
-        configService.configure(secondConfigItem.itemId());
-        configService.choose(optionTwo);
-
+        reconfigureOptions();
         configService.initialiseDefaults(firstConfigItem,secondConfigItem);
+        assertReconfiguredOptionsStillPersisted();
+    }
 
+
+    @Test
+    public void
+    reInitServiceWithPreviousPersistantStore() {
+        reconfigureOptions();
+        configService = new ConfigService(testConfigService.hashMapPersistence);
+        configService.initialiseDefaults(firstConfigItem,secondConfigItem);
+        assertReconfiguredOptionsStillPersisted();
+    }
+
+    private void assertReconfiguredOptionsStillPersisted() {
         assertThat("configService.configItemsList()", configService.configItemsList(),hasItems(firstConfigItem.itemId(),secondConfigItem.itemId()));
         assertThat("configService.configItemsList().size()", configService.configItemsList().size(),is(2));
         assertThat("configService.currentOptionForItem(firstConfigItem.itemId())", configService.currentOptionForItem(firstConfigItem.itemId()),is(optionOne));
         assertThat("configService.currentOptionForItem(secondConfigItem.itemId())", configService.currentOptionForItem(secondConfigItem.itemId()),is(optionTwo));
     }
 
-    @Test
-    public void
-    reInitServiceWithPreviousPersistantStore() {
-
+    private void reconfigureOptions() {
         configService.configure(firstConfigItem.itemId());
         configService.choose(optionOne);
         configService.configure(secondConfigItem.itemId());
         configService.choose(optionTwo);
-
-        configService = new ConfigService(testConfigService.hashMapPersistence);
-        configService.initialiseDefaults(firstConfigItem,secondConfigItem);
-
-        assertThat("configService.configItemsList()", configService.configItemsList(),hasItems(firstConfigItem.itemId(),secondConfigItem.itemId()));
-        assertThat("configService.configItemsList().size()", configService.configItemsList().size(),is(2));
-        assertThat("configService.currentOptionForItem(firstConfigItem.itemId())", configService.currentOptionForItem(firstConfigItem.itemId()),is(optionOne));
-        assertThat("configService.currentOptionForItem(secondConfigItem.itemId())", configService.currentOptionForItem(secondConfigItem.itemId()),is(optionTwo));
-
     }
 
     @Before
@@ -65,13 +62,13 @@ public class ConfigServiceDefaultDataReInitTest {
         optionTwo = "2ndoptionTwo";
 
         firstConfigItem = new ConfigItem("itemId");
-        firstConfigItem.addOption("optionOne");
+        firstConfigItem.addOption(optionOne);
         firstConfigItem.addOption("optionTwo");
         firstConfigItem.defaultOption("optionTwo");
 
         secondConfigItem = new ConfigItem("itemId2");
         secondConfigItem.addOption("2ndoptionOne");
-        secondConfigItem.addOption("2ndoptionTwo");
+        secondConfigItem.addOption(optionTwo);
         secondConfigItem.defaultOption("2ndoptionOne");
         testConfigService = new TestConfigService();
         configService = testConfigService.build(firstConfigItem, secondConfigItem);
