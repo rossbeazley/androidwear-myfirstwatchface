@@ -13,16 +13,20 @@ tint colour
 Next steps:
 
 1. remove connascence of algorithm from TDB and persistence tier.
- - introduce a store defaults operation (constructor?)
- - write tests to ensure defaults are persisted correctly
- - replace impl in TDB to use this new mechanism
- - change persistence interface to talk in terms of a Single String not a list (maybe not a smart move, less adaptive to change?)
+ - DONE introduce a store defaults operation (constructor?)
+ - DONE write tests to ensure defaults are persisted correctly
+ - DONE replace impl in TDB to use this new mechanism
+ - DROPPED change persistence interface to talk in terms of a Single String not a list (maybe not a smart move, less adaptive to change?)
 
 
 todo:
  - DONE allow persisting of choices
- - dont overwrite values if re-initialising
+ - DONE dont overwrite values if re-initialising
  - ConfigItemsListPresenterTest needs seperating out core service test
+ - SelectedConfigItemTest needs seperating out core service test and UI
+ - SelectedConfigItemTest needs migrating to fragment
+
+
 
 
 2. remove duplication in view rendering,
@@ -38,3 +42,8 @@ todo:
  - make domain object have bi-directional relationships so can return chosen option with references to rest?
  - possibly change presenters to use this
  - at the very least move from String to ConfigOption type and ConfigId type
+
+
+ GAP Analysis around ui flow, exiting screen, choosing otions (green tick?)
+
+ -- invalid choice in UI, is it possible?
