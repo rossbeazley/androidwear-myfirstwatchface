@@ -12,8 +12,6 @@ import uk.co.rossbeazley.wear.android.ui.config.service.ConfigService;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
-//TODO - Warning, testing UI and core here. needs split in two
-//TODO - rename configOptions as config items
 public class ConfigItemsListPresenterTest {
 
     private CapturingConfigItemsListView configListView;
@@ -46,25 +44,6 @@ public class ConfigItemsListPresenterTest {
         String anyItem = testConfigService.anyItemID();
         configListView.listener.itemSelected(anyItem);
         assertThat(listener.configuredItem, is(anyItem));
-    }
-
-
-    @Test
-    public void configServiceDosntAnnouncesSelectionIfNotAChoice() {
-        CapturingConfigServiceListener listener = new CapturingConfigServiceListener();
-        configService.addListener(listener);
-        configListView.listener.itemSelected("not in the list");
-        assertThat(listener.configuredItem, is("UNKNOWN"));
-    }
-
-    @Test
-    public void configServiceSharesKnowledgeAfterBadChoice() {
-        CapturingConfigServiceListener listener = new CapturingConfigServiceListener();
-        configService.addListener(listener);
-        String noneExistentKey = "not in the list";
-        configListView.listener.itemSelected(noneExistentKey);
-        ConfigService.Listener.KeyNotFound value = new ConfigService.Listener.KeyNotFound(noneExistentKey);
-        assertThat(listener.keyNotFoundMessage, is(value));
     }
 
     private static class CapturingConfigItemsListView implements ConfigItemsListView {
