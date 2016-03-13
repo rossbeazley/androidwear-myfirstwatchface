@@ -22,10 +22,10 @@ Next steps:
 todo:
  - DONE allow persisting of choices
  - DONE dont overwrite values if re-initialising
- - ConfigItemsListPresenterTest needs seperating out core service test
- - SelectedConfigItemTest needs seperating out core service test and UI
+ - DONE ConfigItemsListPresenterTest needs seperating out core service test
+ - DONE SelectedConfigItemTest needs seperating out core service test and UI
  - SelectedConfigItemTest needs migrating to fragment
-
+ - SelectedConfigItemTest needs a choose option test
 
 
 
@@ -47,3 +47,4 @@ todo:
  GAP Analysis around ui flow, exiting screen, choosing otions (green tick?)
 
  -- invalid choice in UI, is it possible?
+ -- pre-selecting the current option for item when displayed screen

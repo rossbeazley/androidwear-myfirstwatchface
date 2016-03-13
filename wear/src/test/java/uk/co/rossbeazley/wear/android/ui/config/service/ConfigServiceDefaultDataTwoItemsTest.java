@@ -4,7 +4,6 @@ package uk.co.rossbeazley.wear.android.ui.config.service;
 import org.junit.Before;
 import org.junit.Test;
 
-import uk.co.rossbeazley.wear.android.ui.config.CapturingConfigServiceListener;
 import uk.co.rossbeazley.wear.android.ui.config.TestConfigService;
 
 import static org.hamcrest.CoreMatchers.*;

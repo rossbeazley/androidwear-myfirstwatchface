@@ -5,7 +5,7 @@ import org.junit.Test;
 
 import java.util.List;
 
-import uk.co.rossbeazley.wear.android.ui.config.CapturingConfigServiceListener;
+import uk.co.rossbeazley.wear.android.ui.config.service.CapturingConfigServiceListener;
 import uk.co.rossbeazley.wear.android.ui.config.TestConfigService;
 import uk.co.rossbeazley.wear.android.ui.config.service.ConfigService;
 
