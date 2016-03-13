@@ -39,6 +39,7 @@ class VisibilitySwitchingWatchView extends FrameLayout implements WatchView {
     };
 
     private void initViews() {
+        System.out.println("INIT VIEWS");
         this.fullView = inflateFullView();
         this.darkView = inflateDarkView();
         this.offsetView = inflateOffsetView();
