@@ -1,0 +1,45 @@
+package uk.co.rossbeazley.wear.android.ui.config.service;
+
+import org.junit.Before;
+import org.junit.Test;
+
+import java.util.List;
+
+import uk.co.rossbeazley.wear.android.ui.config.CapturingConfigServiceListener;
+import uk.co.rossbeazley.wear.android.ui.config.TestConfigService;
+import uk.co.rossbeazley.wear.android.ui.config.service.ConfigService;
+
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
+
+public class ConfigItemInvalidChoiceTest {
+
+    private ConfigService configService;
+    private TestConfigService testConfigService;
+
+    @Before
+    public void build() {
+        testConfigService = new TestConfigService();
+        configService = testConfigService.build();
+    }
+
+    @Test
+    public void configServiceDosntAnnouncesSelectionIfNotAChoice() {
+        CapturingConfigServiceListener listener = new CapturingConfigServiceListener();
+        configService.addListener(listener);
+        configService.configure("not in the list");
+        assertThat(listener.configuredItem, is("UNKNOWN"));
+    }
+
+    @Test
+    public void configServiceSharesKnowledgeAfterBadChoice() {
+        CapturingConfigServiceListener listener = new CapturingConfigServiceListener();
+        configService.addListener(listener);
+        String noneExistentKey = "not in the list";
+        configService.configure(noneExistentKey);
+        ConfigService.Listener.KeyNotFound value = new ConfigService.Listener.KeyNotFound(noneExistentKey);
+        assertThat(listener.keyNotFoundMessage, is(value));
+    }
+
+
+}
