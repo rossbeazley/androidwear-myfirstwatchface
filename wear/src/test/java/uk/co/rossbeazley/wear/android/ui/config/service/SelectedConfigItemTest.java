@@ -17,6 +17,7 @@ public class SelectedConfigItemTest {
     private TestConfigService testConfigService;
     private ConfigService configService;
     private String anyItem;
+    private CapturingConfigServiceListener capturingConfigServiceListener;
 
     @Before
     public void buildTestWorld() {
@@ -27,6 +28,8 @@ public class SelectedConfigItemTest {
         anyItem = testConfigService.anyItemID();
 
         configService.configureItem(anyItem);
+        capturingConfigServiceListener = new CapturingConfigServiceListener();
+        configService.addListener(capturingConfigServiceListener);
     }
     
     @Test
@@ -48,6 +51,7 @@ public class SelectedConfigItemTest {
         String optionForItem = configService.currentOptionForItem(anyItem);
 
         assertThat(optionForItem,is(expectedOption));
+        assertThat(capturingConfigServiceListener.configuredOption, is(expectedOption));
     }
 
     @Test

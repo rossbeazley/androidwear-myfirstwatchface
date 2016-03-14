@@ -40,6 +40,11 @@ public class FragmentNavigationController implements NavigationController {
 
     }
 
+    @Override
+    public void toConfigOptionSelected() {
+
+    }
+
     private FragmentManager fragmentManager() {
         return fragmentManagerProvider.getFragmentManager();
     }

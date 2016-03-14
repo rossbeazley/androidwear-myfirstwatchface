@@ -47,11 +47,20 @@ public class NavigationTest {
         assertThat(navigation.journal, hasItems(NavigationControllerJournal.CONFIG_ITEMS_LIST, NavigationControllerJournal.CONFIG_OPTION));
     }
 
+    @Test
+    public void anOptionIsSelectedAndATickIsShown() {
+        configService.configureItem("two");
+
+        configService.chooseOption("twoThree");
+
+        assertThat(navigation.screen, is(NavigationControllerJournal.CONFIG_OPTION_SELECTED));
+    }
 
     private static class NavigationControllerJournal implements NavigationController {
         public static final String CONFIG_ITEMS_LIST = "ConfigItemsList";
         public static final String CONFIG_OPTION = "ConfigOption";
         public static final String UNKNOWN = "UNKNOWN";
+        public static final String CONFIG_OPTION_SELECTED = "ConfigOptionSelected";
 
         private String screen = UNKNOWN;
         public List<String> journal = new ArrayList<>();
@@ -71,6 +80,11 @@ public class NavigationTest {
             pushScreen(CONFIG_OPTION);
         }
 
+        @Override
+        public void toConfigOptionSelected() {
+            pushScreen(CONFIG_OPTION_SELECTED);
+        }
+
         public void pushScreen(String screen) {
             this.screen = screen;
             journal.add(screen);
@@ -88,6 +102,11 @@ public class NavigationTest {
                 @Override
                 public void error(KeyNotFound keyNotFound) {
 
+                }
+
+                @Override
+                public void chosenOption(String option) {
+                    navigation.toConfigOptionSelected();
                 }
             });
 

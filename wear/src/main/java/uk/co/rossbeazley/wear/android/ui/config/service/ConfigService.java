@@ -19,6 +19,7 @@ public class ConfigService {
     public void chooseOption(String expectedOption) {
 
         persistence.storeStringsForKey(currentItemId + "Choice", asList(expectedOption));
+        listenerAnnouncer.announce().chosenOption(expectedOption);
     }
 
     public String currentOptionForItem(String id) {
@@ -52,6 +53,8 @@ public class ConfigService {
         void configuring(String item);
 
         void error(KeyNotFound keyNotFound);
+
+        void chosenOption(String option);
 
         class KeyNotFound {
             private final String noneExistentKey;

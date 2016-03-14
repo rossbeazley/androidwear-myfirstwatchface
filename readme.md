@@ -44,7 +44,10 @@ todo:
  - at the very least move from String to ConfigOption type and ConfigId type
 
 
+
+
  GAP Analysis around ui flow, exiting screen, choosing otions (green tick?)
 
  -- invalid choice in UI, is it possible?
  -- pre-selecting the current option for item when displayed screen
+ -- navigation still needs fragment transactions implemented for the other screens
