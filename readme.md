@@ -24,8 +24,8 @@ todo:
  - DONE dont overwrite values if re-initialising
  - DONE ConfigItemsListPresenterTest needs seperating out core service test
  - DONE SelectedConfigItemTest needs seperating out core service test and UI
- - SelectedConfigItemTest needs migrating to fragment
  - SelectedConfigItemTest needs a choose option test
+ - SelectedConfigItemTest needs migrating to fragment
 
 
 
