@@ -30,7 +30,11 @@ public class SelectedConfigItemPresenterTest {
         configService.configureItem(anyItem);
 
         capturingConfigOptionView = new CapturingConfigOptionView();
-        new ConfigOptionPresenter(capturingConfigOptionView,configService);
+
+        ConfigItemOptionsListFragment configItemsListFragment = new ConfigItemOptionsListFragment();
+        configItemsListFragment.attachConfigService(configService);
+
+        configItemsListFragment.onViewCreated(capturingConfigOptionView,null);
 
     }
 
