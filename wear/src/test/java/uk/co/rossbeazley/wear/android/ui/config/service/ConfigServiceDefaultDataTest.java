@@ -26,7 +26,7 @@ public class ConfigServiceDefaultDataTest {
     theOneWhereWeConfigure() {
 
         String itemID =testConfigService.anyItemID();
-        configService.configure(itemID);
+        configService.configureItem(itemID);
         assertThat(capturingConfigServiceListener.configuredItem,is(itemID));
     }
 
@@ -35,7 +35,7 @@ public class ConfigServiceDefaultDataTest {
     theOneWhereWeGetTheOptions() {
 
         String itemID =testConfigService.anyItemID();
-        configService.configure(itemID);
+        configService.configureItem(itemID);
         assertThat(configService.selectedConfigOptions(),is(equalTo(testConfigService.expectedOptionsListForItem(itemID))));
     }
 
@@ -45,7 +45,7 @@ public class ConfigServiceDefaultDataTest {
     storesDefaultOptions() {
 
         String itemID = testConfigService.anyItemID();
-        configService.configure(itemID);
+        configService.configureItem(itemID);
         assertThat(configService.currentOptionForItem(itemID),is(testConfigService.expectedDefaultOptionForItem(itemID)));
     }
 

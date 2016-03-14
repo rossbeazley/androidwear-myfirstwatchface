@@ -6,7 +6,6 @@ import org.junit.Test;
 import java.util.List;
 
 import uk.co.rossbeazley.wear.android.ui.config.TestConfigService;
-import uk.co.rossbeazley.wear.android.ui.config.service.ConfigService;
 
 import static org.hamcrest.CoreMatchers.hasItems;
 import static org.hamcrest.CoreMatchers.is;
@@ -27,7 +26,7 @@ public class SelectedConfigItemTest {
 
         anyItem = testConfigService.anyItemID();
 
-        configService.configure(anyItem);
+        configService.configureItem(anyItem);
     }
     
     @Test
@@ -43,8 +42,8 @@ public class SelectedConfigItemTest {
     public void
     theOneWhereWeChooseAConfigItemOption() {
 
-        String expectedOption = testConfigService.anyExpectedOptionListForItem(anyItem);
-        configService.choose(expectedOption);
+        String expectedOption = testConfigService.anyExpectedOptionForItem(anyItem);
+        configService.chooseOption(expectedOption);
 
         String optionForItem = configService.currentOptionForItem(anyItem);
 
@@ -55,8 +54,8 @@ public class SelectedConfigItemTest {
     public void
     theOneWhereWeChooseADifferentConfigItemOption() {
 
-        String expectedOption = testConfigService.anyExpectedOptionListForItem(anyItem);
-        configService.choose(expectedOption);
+        String expectedOption = testConfigService.anyExpectedOptionForItem(anyItem);
+        configService.chooseOption(expectedOption);
 
         String optionForItem = configService.currentOptionForItem(testConfigService.aDifferentItem(anyItem));
 

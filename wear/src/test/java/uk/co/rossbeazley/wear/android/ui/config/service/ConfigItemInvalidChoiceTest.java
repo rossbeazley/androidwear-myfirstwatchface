@@ -23,7 +23,7 @@ public class ConfigItemInvalidChoiceTest {
     public void configServiceDosntAnnouncesSelectionIfNotAChoice() {
         CapturingConfigServiceListener listener = new CapturingConfigServiceListener();
         configService.addListener(listener);
-        configService.configure("not in the list");
+        configService.configureItem("not in the list");
         assertThat(listener.configuredItem, is("UNKNOWN"));
     }
 
@@ -32,7 +32,7 @@ public class ConfigItemInvalidChoiceTest {
         CapturingConfigServiceListener listener = new CapturingConfigServiceListener();
         configService.addListener(listener);
         String noneExistentKey = "not in the list";
-        configService.configure(noneExistentKey);
+        configService.configureItem(noneExistentKey);
         ConfigService.Listener.KeyNotFound value = new ConfigService.Listener.KeyNotFound(noneExistentKey);
         assertThat(listener.keyNotFoundMessage, is(value));
     }

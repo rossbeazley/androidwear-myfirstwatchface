@@ -10,7 +10,6 @@ import java.util.List;
 
 import uk.co.rossbeazley.wear.android.ui.config.HashMapPersistence;
 import uk.co.rossbeazley.wear.android.ui.config.service.ConfigService;
-import uk.co.rossbeazley.wear.android.ui.config.ui.NavigationController;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.assertThat;
@@ -43,10 +42,11 @@ public class NavigationTest {
 
     @Test
     public void anOptionIsConfiguredAndTheConfigScreenIsShown() {
-        configService.configure("two");
+        configService.configureItem("two");
         assertThat(navigation.screen, is(NavigationControllerJournal.CONFIG_OPTION));
         assertThat(navigation.journal, hasItems(NavigationControllerJournal.CONFIG_ITEMS_LIST, NavigationControllerJournal.CONFIG_OPTION));
     }
+
 
     private static class NavigationControllerJournal implements NavigationController {
         public static final String CONFIG_ITEMS_LIST = "ConfigItemsList";

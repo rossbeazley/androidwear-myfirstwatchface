@@ -7,9 +7,9 @@ import java.util.List;
 
 import uk.co.rossbeazley.wear.android.ui.config.TestConfigService;
 import uk.co.rossbeazley.wear.android.ui.config.service.ConfigService;
-import uk.co.rossbeazley.wear.android.ui.config.ui.ConfigOptionView;
 
-import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
 public class SelectedConfigItemPresenterTest {
@@ -17,6 +17,7 @@ public class SelectedConfigItemPresenterTest {
     private TestConfigService testConfigService;
     private ConfigService configService;
     private String anyItem;
+    private CapturingConfigOptionView capturingConfigOptionView;
 
     @Before
     public void buildTestWorld() {
@@ -26,49 +27,31 @@ public class SelectedConfigItemPresenterTest {
 
         anyItem = testConfigService.anyItemID();
 
-        configService.configure(anyItem);
-    }
-    
-    @Test
-    public void
-    theOneWeRetrieveTheSelectedConfigOption() {
-        List<String> selectedConfigOptions = configService.selectedConfigOptions();
-        String[] allTheOnes = testConfigService.expectedOptionsListForItem(anyItem).toArray(new String[]{});
-        assertThat(selectedConfigOptions,hasItems(allTheOnes));
+        configService.configureItem(anyItem);
+
+        capturingConfigOptionView = new CapturingConfigOptionView();
+        new ConfigOptionPresenter(capturingConfigOptionView,configService);
+
     }
 
     @Test
     public void
-    theOneWhereWeDisplayTheSelectedConfigOption() {
-        CapturingConfigOptionView capturingConfigOptionView = new CapturingConfigOptionView();
-        new ConfigOptionPresenter(capturingConfigOptionView,configService);
-        List<String> two = testConfigService.expectedOptionsListForItem(anyItem);
-        String[] expectedList = two.toArray(new String[two.size()]);
-        assertThat(capturingConfigOptionView.presentedList,hasItems(expectedList));
+    theOneWhereWeDisplayTheSelectedConfigItemOptions() {
+        List<String> expectedOptions = testConfigService.expectedOptionsListForItem(anyItem);
+        assertThat(capturingConfigOptionView.presentedList,is(equalTo(expectedOptions)));
     }
 
     @Test
     public void
     theOneWhereWeChooseAConfigItemOption() {
 
-        String expectedOption = testConfigService.anyExpectedOptionListForItem(anyItem);
-        configService.choose(expectedOption);
+        String expectedOption = testConfigService.anyExpectedOptionForItem(anyItem);
+
+        capturingConfigOptionView.capturingListener.itemSelected(expectedOption);
 
         String optionForItem = configService.currentOptionForItem(anyItem);
 
         assertThat(optionForItem,is(expectedOption));
-    }
-
-    @Test
-    public void
-    theOneWhereWeChooseADifferentConfigItemOption() {
-
-        String expectedOption = testConfigService.anyExpectedOptionListForItem(anyItem);
-        configService.choose(expectedOption);
-
-        String optionForItem = configService.currentOptionForItem(testConfigService.aDifferentItem(anyItem));
-
-        assertThat(optionForItem,is(not(expectedOption)));
     }
 
     private class ConfigOptionPresenter {
@@ -93,13 +76,20 @@ public class SelectedConfigItemPresenterTest {
          * So here we have is Model-ViewPresenter-Controller.
          */
 
-        public ConfigOptionPresenter(ConfigOptionView configOptionView, ConfigService configService) {
+        public ConfigOptionPresenter(ConfigOptionView configOptionView, final ConfigService configService) {
+            configOptionView.addListener(new ConfigOptionView.Listener() {
+                @Override
+                public void itemSelected(String option) {
+                    configService.chooseOption(option);
+                }
+            });
             configOptionView.showConfigOptions(configService.selectedConfigOptions());
         }
     }
 
     private class CapturingConfigOptionView implements ConfigOptionView {
         public List<String> presentedList;
+        public Listener capturingListener;
 
         @Override
         public void showConfigOptions(List<String> configOptions) {
@@ -109,6 +99,7 @@ public class SelectedConfigItemPresenterTest {
         @Override
         public void addListener(Listener capturingListener) {
 
+            this.capturingListener = capturingListener;
         }
     }
 }

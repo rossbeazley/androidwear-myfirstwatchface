@@ -16,7 +16,7 @@ public class ConfigService {
         return persistence.stringsForKey(currentItemId);
     }
 
-    public void choose(String expectedOption) {
+    public void chooseOption(String expectedOption) {
 
         persistence.storeStringsForKey(currentItemId + "Choice", asList(expectedOption));
     }
@@ -80,7 +80,7 @@ public class ConfigService {
         return listener;
     }
 
-    public void configure(String item) {
+    public void configureItem(String item) {
         if (persistence.hasKey(item)) {
             this.currentItemId = item;
             listenerAnnouncer.announce().configuring(item);
@@ -88,7 +88,7 @@ public class ConfigService {
             listenerAnnouncer.announce().error(new Listener.KeyNotFound(item));
         }
 
-        //loads the current item into memory so the next method can have access to it
+        //loads the current item into memory so the next method can have access to it :S
     }
 
     public List<String> configItemsList() {

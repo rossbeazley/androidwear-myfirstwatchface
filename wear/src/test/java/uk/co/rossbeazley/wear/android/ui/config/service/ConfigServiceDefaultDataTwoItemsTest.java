@@ -27,14 +27,14 @@ public class ConfigServiceDefaultDataTwoItemsTest {
     public void
     theOneWhereWeConfigureWithTwoConfigItems() {
         String itemId = firstConfigItem.itemId();
-        configService.configure(itemId);
+        configService.configureItem(itemId);
         assertThat(capturingConfigServiceListener.configuredItem, is(itemId));
     }
 
     @Test
     public void
     theOneWhereWeGetTheOptionsWithTwoConfigItems() {
-        configService.configure(secondConfigItem.itemId());
+        configService.configureItem(secondConfigItem.itemId());
         assertThat(configService.selectedConfigOptions(),is(equalTo(secondConfigItem.options())));
     }
 

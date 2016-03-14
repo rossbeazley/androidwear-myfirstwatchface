@@ -29,14 +29,14 @@ public class ConfigServiceDefaultDataOneItemTest {
     public void
     theOneWhereWeConfigureWithOneConfigItem() {
         String itemId = configItem.itemId();
-        configService.configure(itemId);
+        configService.configureItem(itemId);
         assertThat(capturingConfigServiceListener.configuredItem,is(itemId));
     }
 
     @Test
     public void
     theOneWhereWeGetTheOptionsWithOnConfigItem() {
-        configService.configure(configItem.itemId());
+        configService.configureItem(configItem.itemId());
         assertThat(configService.selectedConfigOptions(),is(equalTo(configItem.options())));
     }
 

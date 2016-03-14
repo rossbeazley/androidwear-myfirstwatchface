@@ -48,10 +48,10 @@ public class ConfigServiceDefaultDataReInitTest {
     }
 
     private void reconfigureOptions() {
-        configService.configure(firstConfigItem.itemId());
-        configService.choose(optionOne);
-        configService.configure(secondConfigItem.itemId());
-        configService.choose(optionTwo);
+        configService.configureItem(firstConfigItem.itemId());
+        configService.chooseOption(optionOne);
+        configService.configureItem(secondConfigItem.itemId());
+        configService.chooseOption(optionTwo);
     }
 
     @Before

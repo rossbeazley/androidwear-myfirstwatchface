@@ -75,7 +75,7 @@ public class TestConfigService {
         return configItem.options();
     }
 
-    public String anyExpectedOptionListForItem(String anyItem) {
+    public String anyExpectedOptionForItem(String anyItem) {
         List<String> strings = expectedOptionsListForItem(anyItem);
         return strings.get(random.nextInt(strings.size()));
     }

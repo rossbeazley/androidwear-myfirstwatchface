@@ -7,7 +7,7 @@ public class ConfigOptionsPresenter {
         configItemsListView.addListener(new ConfigItemsListView.Listener() {
             @Override
             public void itemSelected(String two) {
-                configService.configure(two);
+                configService.configureItem(two);
             }
         });
         configItemsListView.showConfigItems(configService.configItemsList());
