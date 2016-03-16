@@ -12,7 +12,7 @@ import static org.junit.Assert.assertThat;
 
 ;
 
-public class ConfigServiceDefaultDataReInitTest {
+public class ReinitDefaultDataTest {
 
     private CapturingConfigServiceListener capturingConfigServiceListener;
     private ConfigService configService;

@@ -8,7 +8,7 @@ import uk.co.rossbeazley.wear.android.ui.config.TestConfigService;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
-public class ConfigItemInvalidChoiceTest {
+public class InvalidItemChoiceTest {
 
     private ConfigService configService;
     private TestConfigService testConfigService;

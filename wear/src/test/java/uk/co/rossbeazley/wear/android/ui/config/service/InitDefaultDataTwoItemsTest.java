@@ -9,7 +9,7 @@ import uk.co.rossbeazley.wear.android.ui.config.TestConfigService;
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.assertThat;
 
-public class ConfigServiceDefaultDataTwoItemsTest {
+public class InitDefaultDataTwoItemsTest {
 
     private CapturingConfigServiceListener capturingConfigServiceListener;
     private ConfigService configService;
