@@ -24,10 +24,10 @@ public class ConfigItemsListFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         // make presenters, but need to cast :S
-        onViewCreated((ConfigItemsListView)view, savedInstanceState);
+        buildPresenters((ConfigItemsListView)view, savedInstanceState);
     }
 
-    public void onViewCreated(ConfigItemsListView view, Bundle savedInstanceState) {
+    public void buildPresenters(ConfigItemsListView view, Bundle savedInstanceState) {
         // make presenters, but need to cast :S
         new ConfigItemsPresenter(configService, view);
     }

@@ -12,7 +12,7 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
-public class SelectedConfigItemPresenterTest {
+public class ConfigOptionsPresenterTest {
 
     private TestConfigService testConfigService;
     private ConfigService configService;
@@ -34,7 +34,7 @@ public class SelectedConfigItemPresenterTest {
         ConfigItemOptionsListFragment configItemsListFragment = new ConfigItemOptionsListFragment();
         configItemsListFragment.attachConfigService(configService);
 
-        configItemsListFragment.onViewCreated(capturingConfigOptionView,null);
+        configItemsListFragment.buildPresenters(capturingConfigOptionView,null);
 
     }
 

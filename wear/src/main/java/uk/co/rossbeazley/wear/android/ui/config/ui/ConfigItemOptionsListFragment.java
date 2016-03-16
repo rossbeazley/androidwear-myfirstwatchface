@@ -15,8 +15,8 @@ public class ConfigItemOptionsListFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        ConfigItemsListWearView configOptionsListWearView = new ConfigItemsListWearView(container.getContext());
+    public ConfigOptionsWearView onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        ConfigOptionsWearView configOptionsListWearView = new ConfigOptionsWearView(container.getContext());
         configOptionsListWearView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         return configOptionsListWearView;
     }
@@ -24,12 +24,33 @@ public class ConfigItemOptionsListFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         // make presenters, but need to cast :S
-        onViewCreated((ConfigOptionView)view, savedInstanceState);
+        buildPresenters((ConfigOptionView)view, savedInstanceState);
     }
 
-    public void onViewCreated(ConfigOptionView view, Bundle savedInstanceState) {
+    public void buildPresenters(ConfigOptionView view, Bundle savedInstanceState) {
         // make presenters, but need to cast :S
-        new ConfigOptionPresenter(view,configService);
+        new ConfigOptionsPresenter(view,configService);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+
+        /* tell presenter to clear down unless...
+
+           options are weak refs in config service,
+           nothing else works with weak references as its the config service that is long lived
+
+           another option is to not make config service long lived,
+           this means either persisting current choice to database
+           or pushing more info into the views. If views become stateful then due to android
+           we need to start serialising stuff on rotation etc,
+           feels better to push state service side then views always just render the current state (ie no lies)
+
+
+           The actual reality in this current design is the presenters dont add observers to the config service
+           so no such clear down is required, in a larger system I would expect this to happen
+         */
     }
 
     public void attachConfigService(ConfigService configService) {

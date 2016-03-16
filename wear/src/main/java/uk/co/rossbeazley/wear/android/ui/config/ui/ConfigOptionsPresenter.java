@@ -2,7 +2,7 @@ package uk.co.rossbeazley.wear.android.ui.config.ui;
 
 import uk.co.rossbeazley.wear.android.ui.config.service.ConfigService;
 
-public class ConfigOptionPresenter {
+public class ConfigOptionsPresenter {
 
     /**
      *
@@ -24,7 +24,7 @@ public class ConfigOptionPresenter {
      * So here we have is Model-ViewPresenter-Controller.
      */
 
-    public ConfigOptionPresenter(ConfigOptionView configOptionView, final ConfigService configService) {
+    public ConfigOptionsPresenter(ConfigOptionView configOptionView, final ConfigService configService) {
         configOptionView.addListener(new ConfigOptionView.Listener() {
             @Override
             public void itemSelected(String option) {

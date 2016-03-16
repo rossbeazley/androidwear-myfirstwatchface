@@ -25,8 +25,11 @@ todo:
  - DONE ConfigItemsListPresenterTest needs seperating out core service test
  - DONE SelectedConfigItemTest needs seperating out core service test and UI
  - DONE SelectedConfigItemTest needs a choose option test
- - SelectedConfigItemTest needs migrating to fragment
-
+ - DONE SelectedConfigItemTest needs migrating to fragment
+ - when option selected, announce its success
+ - nav controller to display tick on success
+ - nav controller to somehow go back to start
+ - implement fragment transactions
 
 
 2. remove duplication in view rendering,
@@ -50,4 +53,9 @@ todo:
 
  -- invalid choice in UI, is it possible?
  -- pre-selecting the current option for item when displayed screen
- -- navigation still needs fragment transactions implemented for the other screens
+ -- possibly introduce a none fragment based nav controller and role this into the UI tier tests.
+    could the nav controller itself create the presenters and use a view factory.
+    How would the fragment generated view get back to the nav controller?
+    Consider the case where app is re-hydrating, it feels wrong that the presenter should be long lived
+    and infact this would be hard to do, it is tied (and really the same thing) as the fragment,
+    therefore the fragment should control the lifecycle of the presenter and the view
