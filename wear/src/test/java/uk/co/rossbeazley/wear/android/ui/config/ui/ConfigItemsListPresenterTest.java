@@ -28,7 +28,7 @@ public class ConfigItemsListPresenterTest {
 
 
         configListView = new CapturingConfigItemsListView();
-        configItemsListFragment.onViewCreated(configListView, null);
+        configItemsListFragment.buildPresenters(configListView, null);
     }
 
     @Test

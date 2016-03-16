@@ -20,6 +20,14 @@ android {
     }
     productFlavors {
     }
+
+    sourceSets {
+        test {
+            java.srcDirs += 'src/test/fakes'
+        }
+    }
+
+
 }
 
 dependencies {
