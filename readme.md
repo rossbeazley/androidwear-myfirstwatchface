@@ -30,7 +30,7 @@ todo:
  - nav controller to display tick on success
  - nav controller to somehow go back to start
  - implement fragment transactions
-
+ - DONE ConfigOptionWearViewTest connected test needs to migrate to using the fragment to construct view
 
 2. remove duplication in view rendering,
  - collapse interfaces into one

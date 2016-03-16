@@ -5,6 +5,7 @@ import android.support.test.espresso.action.ViewActions;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.rule.UiThreadTestRule;
 import android.support.test.runner.AndroidJUnit4;
+import android.view.LayoutInflater;
 import android.widget.FrameLayout;
 
 import org.junit.Before;
@@ -116,8 +117,7 @@ public class ConfigOptionWearViewTest {
         uiThreadTest.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                ConfigOptionsWearView configOptionsWearView = new ConfigOptionsWearView(activity);
-                configOptionsWearView.setLayoutParams(new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT));
+                ConfigOptionsWearView configOptionsWearView = new ConfigItemOptionsListFragment().onCreateView(LayoutInflater.from(activity),activity.rootFrameLayout,null);
                 configOptionsWearView.setId(R.id.view_under_test);
                 ConfigOptionWearViewTest.this.configOptionsWearView = configOptionsWearView;
                 activity.rootFrameLayout.addView(configOptionsWearView);
