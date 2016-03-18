@@ -52,7 +52,16 @@ public class NavigationTest {
 
         configService.chooseOption("twoThree");
 
-        assertThat(navigation.screen, is(NavigationControllerJournal.CONFIG_OPTION_SELECTED));
+        assertThat(navigation.journal, hasItem(NavigationControllerJournal.CONFIG_OPTION_SELECTED));
+    }
+
+    @Test
+    public void afterTheTickIsShownWeGoToTheStart() {
+        configService.configureItem("two");
+
+        configService.chooseOption("twoThree");
+
+        assertThat(navigation.screen, is(NavigationControllerJournal.CONFIG_ITEMS_LIST));
     }
 
     private class UiNavigation {
@@ -71,6 +80,7 @@ public class NavigationTest {
                 @Override
                 public void chosenOption(String option) {
                     navigation.toConfigOptionSelected();
+                    navigation.toConfigItemsList();
                 }
             });
 
