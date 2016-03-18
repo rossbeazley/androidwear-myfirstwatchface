@@ -15,9 +15,9 @@ public class DependencyInjectionFramework {
 
     public void inject(Object fragment) {
         if(fragment instanceof NeedsNavigationController) {
-            ((NeedsNavigationController)fragment).attachNavigationController((NavigationController) map.get(NeedsNavigationController.class));
+            NeedsNavigationController.class.cast(fragment).attachNavigationController((NavigationController) map.get(NeedsNavigationController.class));
         } else if(fragment instanceof NeedsConfigService) {
-            ((NeedsConfigService)fragment).attachConfigService((ConfigService) map.get(NeedsConfigService.class));
+            NeedsConfigService.class.cast(fragment).attachConfigService((ConfigService) map.get(NeedsConfigService.class));
         }
     }
 }

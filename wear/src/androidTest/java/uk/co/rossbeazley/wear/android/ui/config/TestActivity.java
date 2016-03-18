@@ -16,7 +16,7 @@ public class TestActivity extends Activity {
 
     public FrameLayout rootFrameLayout;
     public Fragment fragment;
-    private DependencyInjectionFramework dependencyInjectionFramework;
+    public DependencyInjectionFramework dependencyInjectionFramework;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,8 +28,7 @@ public class TestActivity extends Activity {
 
 
         dependencyInjectionFramework = new DependencyInjectionFramework();
-        dependencyInjectionFramework.register(new NavigationControllerJournal(), NeedsNavigationController.class);
-        dependencyInjectionFramework.register(new TestConfigService().build(), NeedsConfigService.class);
+
     }
 
     @Override

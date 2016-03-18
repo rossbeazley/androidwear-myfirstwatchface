@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 
 import uk.co.rossbeazley.wear.android.ui.config.service.ConfigService;
 
-public class ConfigItemOptionsListFragment extends Fragment {
+public class ConfigItemOptionsListFragment extends Fragment implements NeedsConfigService {
 
     private ConfigService configService;
 
@@ -53,6 +53,7 @@ public class ConfigItemOptionsListFragment extends Fragment {
          */
     }
 
+    @Override
     public void attachConfigService(ConfigService configService) {
         this.configService = configService;
     }

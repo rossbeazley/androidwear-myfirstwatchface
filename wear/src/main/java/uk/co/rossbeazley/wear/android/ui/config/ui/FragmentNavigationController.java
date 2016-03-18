@@ -31,13 +31,15 @@ public class FragmentNavigationController implements NavigationController {
     @Override
     public void toConfigItemsList() {
         ConfigItemsListFragment fragment = new ConfigItemsListFragment();
-        String tag = "CONFIG_OPTIONS";
+        String tag = "CONFIG_ITEMS";
         pushFragment(fragment, tag);
     }
 
     @Override
     public void toConfigOption() {
-
+        ConfigItemOptionsListFragment fragment = new ConfigItemOptionsListFragment();
+        String tag = "CONFIG_OPTIONS";
+        pushFragment(fragment, tag);
     }
 
     @Override

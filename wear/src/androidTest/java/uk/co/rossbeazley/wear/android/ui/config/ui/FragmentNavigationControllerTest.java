@@ -13,6 +13,7 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import uk.co.rossbeazley.wear.android.ui.config.TestActivity;
+import uk.co.rossbeazley.wear.android.ui.config.TestConfigService;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
@@ -23,6 +24,7 @@ public class FragmentNavigationControllerTest {
     public ActivityTestRule<TestActivity> activityTestRule = new ActivityTestRule<>(TestActivity.class);
     private TestActivity testActivity;
     private FragmentNavigationController fragmentNavigationController;
+    private TestConfigService testConfigService;
 
     @Before
     public void createTestWorld() {
@@ -34,6 +36,10 @@ public class FragmentNavigationControllerTest {
                 return testActivity.getFragmentManager();
             }
         }, testActivity.rootFrameLayout.getId());
+
+        testActivity.dependencyInjectionFramework.register(new NavigationControllerJournal(), NeedsNavigationController.class);
+        testConfigService = new TestConfigService();
+        testActivity.dependencyInjectionFramework.register(testConfigService.build(), NeedsConfigService.class);
     }
 
     @Test
@@ -43,9 +49,12 @@ public class FragmentNavigationControllerTest {
         assertThat(testActivity.fragment, is(instanceOf(ConfigItemsListFragment.class)));
     }
 
-    @Test @Ignore
+    @Test
     public void navigateToConfigOption() throws Exception {
-
+        testConfigService.configService.configureItem(testConfigService.anyItemID());
+        fragmentNavigationController.toConfigOption();
+        SystemClock.sleep(1000);
+        assertThat(testActivity.fragment, is(instanceOf(ConfigItemOptionsListFragment.class)));
     }
 
     @Test @Ignore
