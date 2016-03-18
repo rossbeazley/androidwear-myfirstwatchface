@@ -64,27 +64,4 @@ public class NavigationTest {
         assertThat(navigation.screen, is(NavigationControllerJournal.CONFIG_ITEMS_LIST));
     }
 
-    private class UiNavigation {
-        public UiNavigation(ConfigService configService, final NavigationController navigation) {
-            configService.addListener(new ConfigService.Listener() {
-                @Override
-                public void configuring(String item) {
-                    navigation.toConfigOption();
-                }
-
-                @Override
-                public void error(KeyNotFound keyNotFound) {
-
-                }
-
-                @Override
-                public void chosenOption(String option) {
-                    navigation.toConfigOptionSelected();
-                    navigation.toConfigItemsList();
-                }
-            });
-
-            navigation.toConfigItemsList();
-        }
-    }
 }

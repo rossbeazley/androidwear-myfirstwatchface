@@ -68,6 +68,11 @@
 
         <activity android:name=".android.ui.config.TestActivity"/>
 
+        <activity
+            android:name="android.support.wearable.activity.ConfirmationActivity">
+        </activity>
+
+
     </application>
 
 </manifest>
