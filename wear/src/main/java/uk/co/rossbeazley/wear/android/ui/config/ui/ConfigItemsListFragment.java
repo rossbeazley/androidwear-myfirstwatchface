@@ -36,4 +36,8 @@ public class ConfigItemsListFragment extends Fragment implements NeedsConfigServ
     public void attachConfigService(ConfigService configService) {
         this.configService = configService;
     }
+
+    public static String tag() {
+        return "CONFIG_ITEMS";
+    }
 }

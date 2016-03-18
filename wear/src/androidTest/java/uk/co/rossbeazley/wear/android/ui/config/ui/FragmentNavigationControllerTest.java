@@ -1,14 +1,10 @@
 package uk.co.rossbeazley.wear.android.ui.config.ui;
 
-import android.app.Fragment;
 import android.app.FragmentManager;
 import android.os.SystemClock;
-import android.provider.Settings;
 import android.support.test.rule.ActivityTestRule;
 
-import org.hamcrest.CoreMatchers;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -57,8 +53,11 @@ public class FragmentNavigationControllerTest {
         assertThat(testActivity.fragment, is(instanceOf(ConfigItemOptionsListFragment.class)));
     }
 
-    @Test @Ignore
+    @Test
     public void navigateToConfigOptionSelected() throws Exception {
-
+        fragmentNavigationController.toConfigOptionSelected();
+        SystemClock.sleep(1000);
+        assertThat(testActivity.fragment, is(instanceOf(ConfigOptionSelectedFragment.class)));
     }
+
 }

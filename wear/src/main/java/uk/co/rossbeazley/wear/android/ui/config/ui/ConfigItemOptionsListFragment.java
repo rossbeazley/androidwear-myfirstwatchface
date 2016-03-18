@@ -57,4 +57,8 @@ public class ConfigItemOptionsListFragment extends Fragment implements NeedsConf
     public void attachConfigService(ConfigService configService) {
         this.configService = configService;
     }
+
+    public String tag() {
+        return "CONFIG_OPTIONS";
+    }
 }

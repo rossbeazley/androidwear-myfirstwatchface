@@ -23,28 +23,28 @@ public class FragmentNavigationController implements NavigationController {
         fragmentManager()
                 .beginTransaction()
                 .replace(config_root_view, fragment, tag)
-                .addToBackStack(tag)
-//                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+//                .addToBackStack(tag)
+//                  .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                 .commit();
     }
 
     @Override
     public void toConfigItemsList() {
         ConfigItemsListFragment fragment = new ConfigItemsListFragment();
-        String tag = "CONFIG_ITEMS";
-        pushFragment(fragment, tag);
+        pushFragment(fragment, fragment.tag());
     }
 
     @Override
     public void toConfigOption() {
         ConfigItemOptionsListFragment fragment = new ConfigItemOptionsListFragment();
-        String tag = "CONFIG_OPTIONS";
-        pushFragment(fragment, tag);
+        pushFragment(fragment, fragment.tag());
     }
 
     @Override
     public void toConfigOptionSelected() {
-
+        ConfigOptionSelectedFragment fragment = new ConfigOptionSelectedFragment();
+        pushFragment(fragment,fragment.tag());
+//        fragmentManager().popBackStack(ConfigItemsListFragment.tag(), 0);
     }
 
     private FragmentManager fragmentManager() {
