@@ -9,6 +9,7 @@ import android.widget.FrameLayout;
 import uk.co.rossbeazley.wear.R;
 import uk.co.rossbeazley.wear.android.ui.config.ui.DependencyInjectionFramework;
 import uk.co.rossbeazley.wear.android.ui.config.ui.NavigationController;
+import uk.co.rossbeazley.wear.android.ui.config.ui.NavigationControllerJournal;
 import uk.co.rossbeazley.wear.android.ui.config.ui.NeedsConfigService;
 import uk.co.rossbeazley.wear.android.ui.config.ui.NeedsNavigationController;
 
@@ -28,7 +29,7 @@ public class TestActivity extends Activity {
 
 
         dependencyInjectionFramework = new DependencyInjectionFramework();
-        dependencyInjectionFramework.register(new NullNavigationController(), NeedsNavigationController.class);
+        dependencyInjectionFramework.register(new NavigationControllerJournal(), NeedsNavigationController.class);
         dependencyInjectionFramework.register(new TestConfigService().build(), NeedsConfigService.class);
     }
 
@@ -39,26 +40,4 @@ public class TestActivity extends Activity {
         dependencyInjectionFramework.inject(fragment);
     }
 
-
-    private static class NullNavigationController implements NavigationController {
-        @Override
-        public void defaultNavigation() {
-
-        }
-
-        @Override
-        public void toConfigItemsList() {
-
-        }
-
-        @Override
-        public void toConfigOption() {
-
-        }
-
-        @Override
-        public void toConfigOptionSelected() {
-
-        }
-    }
 }
