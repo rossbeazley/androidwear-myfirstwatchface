@@ -24,7 +24,7 @@ import uk.co.rossbeazley.wear.hours.HourBase24;
 import uk.co.rossbeazley.wear.minutes.CanReceiveMinutesUpdates;
 import uk.co.rossbeazley.wear.seconds.CanReceiveSecondsUpdates;
 
-class VisibilitySwitchingWatchView extends FrameLayout implements WatchView {
+public class VisibilitySwitchingWatchView extends FrameLayout implements WatchView {
 
     private View offsetView;
     private View darkView;
