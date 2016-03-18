@@ -26,10 +26,10 @@ todo:
  - DONE SelectedConfigItemTest needs seperating out core service test and UI
  - DONE SelectedConfigItemTest needs a choose option test
  - DONE SelectedConfigItemTest needs migrating to fragment
- - when option selected, announce its success
- - nav controller to display tick on success
- - nav controller to somehow go back to start
+ - DONE when option selected, announce its success
+ - DONE nav controller to display tick on success
  - implement fragment transactions
+ - nav controller to somehow go back to start
  - DONE ConfigOptionWearViewTest connected test needs to migrate to using the fragment to construct view
 
 2. remove duplication in view rendering,

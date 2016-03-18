@@ -25,6 +25,9 @@ android {
         test {
             java.srcDirs += 'src/test/fakes'
         }
+        androidTest {
+            java.srcDirs += 'src/test/fakes'
+        }
     }
 
 

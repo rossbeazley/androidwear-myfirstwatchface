@@ -9,14 +9,14 @@ import android.view.ViewGroup;
 
 import uk.co.rossbeazley.wear.android.ui.config.service.ConfigService;
 
-public class ConfigItemsListFragment extends Fragment {
+public class ConfigItemsListFragment extends Fragment implements NeedsConfigService {
 
     private ConfigService configService;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        ConfigOptionsWearView configOptionsListWearView = new ConfigOptionsWearView(container.getContext());
+        ConfigItemsListWearView configOptionsListWearView = new ConfigItemsListWearView(container.getContext());
         configOptionsListWearView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         return configOptionsListWearView;
     }
@@ -32,6 +32,7 @@ public class ConfigItemsListFragment extends Fragment {
         new ConfigItemsPresenter(configService, view);
     }
 
+    @Override
     public void attachConfigService(ConfigService configService) {
         this.configService = configService;
     }

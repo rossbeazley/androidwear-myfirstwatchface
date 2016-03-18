@@ -11,6 +11,10 @@ public class ConfigActivity extends Activity implements FragmentNavigationContro
 
 
     private NavigationController navigationController = new FragmentNavigationController(this, R.id.config_root_view);
+    private DependencyInjectionFramework dependencyInjectionFramework = new DependencyInjectionFramework();
+    {
+        dependencyInjectionFramework.register(navigationController, NeedsNavigationController.class);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,9 +34,7 @@ public class ConfigActivity extends Activity implements FragmentNavigationContro
 
     @Override
     public void onAttachFragment(Fragment fragment) {
-        if(fragment instanceof NeedsNavigationController) {
-            ((NeedsNavigationController)fragment).attachNavigationController(navigationController);
-        }
+        dependencyInjectionFramework.inject(fragment);
     }
 
     private class FinishedActivity {
@@ -61,4 +63,5 @@ public class ConfigActivity extends Activity implements FragmentNavigationContro
             });
         }
     }
+
 }

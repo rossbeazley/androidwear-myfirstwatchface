@@ -51,7 +51,6 @@ public class ChoosingOptionsTest {
         String optionForItem = configService.currentOptionForItem(anyItem);
 
         assertThat(optionForItem,is(expectedOption));
-        assertThat(capturingConfigServiceListener.configuredOption, is(expectedOption));
     }
 
     @Test
@@ -66,4 +65,15 @@ public class ChoosingOptionsTest {
         assertThat(optionForItem,is(not(expectedOption)));
     }
 
+
+    @Test
+    public void
+    configChoiceIsAnnounced() {
+        String expectedOption = testConfigService.anyExpectedOptionForItem(anyItem);
+        configService.chooseOption(expectedOption);
+
+        configService.currentOptionForItem(anyItem);
+
+        assertThat(capturingConfigServiceListener.configuredOption, is(expectedOption));
+    }
 }
