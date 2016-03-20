@@ -29,8 +29,13 @@ todo:
  - DONE when option selected, announce its success
  - DONE nav controller to display tick on success
  - DONE implement fragment transactions
- - nav controller to somehow go back to start ie implement Option Chosen View
+ - DONE nav controller to somehow go back to start ie implement Option Chosen View
  - DONE ConfigOptionWearViewTest connected test needs to migrate to using the fragment to construct view
+ - shared prefs persistence including reset option
+ - actually have background colour changed by config option
+ - rotation by config option
+ - migrate wear data persistence to use shared prefs
+ - possibly introduce value eg rotation degrees or colour value rather than just the name
 
 2. remove duplication in view rendering,
  - collapse interfaces into one
