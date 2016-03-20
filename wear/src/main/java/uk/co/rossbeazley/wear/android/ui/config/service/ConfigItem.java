@@ -25,17 +25,19 @@ public class ConfigItem {
         return options;
     }
 
-    public void defaultOption(String optionTwo) {
+    public ConfigItem defaultOption(String optionTwo) {
         defaultOption = optionTwo;
+        return this;
     }
 
     public String defaultOption() {
         return defaultOption;
     }
 
-    public void addOptions(String... options) {
+    public ConfigItem addOptions(String... options) {
         for(String option : options) {
             addOption(option);
         }
+        return this;
     }
 }

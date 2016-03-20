@@ -4,11 +4,13 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 
 import uk.co.rossbeazley.wear.R;
 import uk.co.rossbeazley.wear.android.ui.config.HashMapPersistence;
 import uk.co.rossbeazley.wear.android.ui.config.service.ConfigItem;
 import uk.co.rossbeazley.wear.android.ui.config.service.ConfigService;
+import uk.co.rossbeazley.wear.android.ui.config.service.StringPersistence;
 
 public class ConfigActivity extends Activity implements FragmentNavigationController.FragmentManagerProvider {
 
@@ -24,45 +26,41 @@ public class ConfigActivity extends Activity implements FragmentNavigationContro
         super.onCreate(savedInstanceState);
         setContentView(R.layout.config_activity);
 
-//        new FinishedActivity(this);
-
 //        Debug.waitForDebugger();
 
-        // if not restoring state, do default navigation action
-//        if(savedInstanceState==null) {
-//            navigationController.defaultNavigation();
-//        }
+        ConfigService configService = buildConfigService(new HashMapPersistence());
+        dependencyInjectionFramework.register(configService, NeedsConfigService.class);
 
+        dependencyInjectionFramework.register(navigationController, NeedsNavigationController.class);
+        uiNavigation = new UiNavigation(configService, navigationController);
 
+    }
 
-        {
-            dependencyInjectionFramework.register(navigationController, NeedsNavigationController.class);
-            ConfigService configService = new ConfigService(new HashMapPersistence());
+    @NonNull
+    private static ConfigService buildConfigService(StringPersistence persistence) {
+        ConfigService configService = new ConfigService(persistence);
 
-            final ConfigItem option1 = new ConfigItem("one");
-            option1.addOptions("oneOne", "oneone", "oneThree", "oneFour");
-            option1.defaultOption("oneOne");
+        ConfigItem[] options = {
+                new ConfigItem("Background")
+                        .addOptions("Black", "White")
+                        .defaultOption("White"),
 
-            final ConfigItem option2 = new ConfigItem("two");
-            option2.addOptions("twoOne", "twoTwo", "twoThree", "twoFour");
-            option2.defaultOption("twoOne");
+                new ConfigItem("Rotation")
+                        .addOptions("North", "East", "South", "West")
+                        .defaultOption("North"),
 
-            final ConfigItem option3 = new ConfigItem("three");
-            option3.addOptions("threeOne", "threethree", "threeThree", "threeFour");
-            option3.defaultOption("threeOne");
-            configService.initialiseDefaults(option1,option2,option3);
-            dependencyInjectionFramework.register(configService, NeedsConfigService.class);
+                new ConfigItem("12/24 Hour")
+                        .addOptions("Twelve", "Twenty Four", "Twelve Padded")
+                        .defaultOption("Twelve Padded")
+        };
+        configService.initialiseDefaults(options);
 
-
-            uiNavigation = new UiNavigation(configService, navigationController);
-        }
-
+        return configService;
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        new Exception("TRACER BULLET").printStackTrace();
     }
 
     @Override
@@ -88,7 +86,7 @@ public class ConfigActivity extends Activity implements FragmentNavigationContro
             fragmentManager.addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
                 @Override
                 public void onBackStackChanged() {
-                    if(fragmentManager.getBackStackEntryCount() < 1) {
+                    if (fragmentManager.getBackStackEntryCount() < 1) {
                         activity.finish();
                         fragmentManager.removeOnBackStackChangedListener(this);
                     }
