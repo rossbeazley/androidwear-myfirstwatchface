@@ -11,6 +11,7 @@ public class ConfigService {
 
     private final Announcer<Listener> listenerAnnouncer;
     private String currentItemId;
+    private ConfigItem[] defaultConfigItems;
 
     public List<String> selectedConfigOptions() {
         return persistence.stringsForKey(currentItemId);
@@ -27,6 +28,7 @@ public class ConfigService {
     }
 
     public void initialiseDefaults(ConfigItem... configItems) {
+        defaultConfigItems = configItems;
 
         if (alreadyHasDataStored()) return;
 
@@ -47,6 +49,10 @@ public class ConfigService {
     private boolean alreadyHasDataStored() {
         List<String> currentItems = persistence.stringsForKey("configItems");
         return currentItems != null && currentItems.size() > 0;
+    }
+
+    public void resetDefaults() {
+        storeDefaults(defaultConfigItems);
     }
 
     public interface Listener {

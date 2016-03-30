@@ -75,7 +75,7 @@ public class TestConfigService {
         return configItem.options();
     }
 
-    public String anyExpectedOptionForItem(String anyItem) {
+    public String anyExpectedOptionForItem(String anyItem) { //TODO get rid of expected from this method name
         List<String> strings = expectedOptionsListForItem(anyItem);
         return strings.get(random.nextInt(strings.size()));
     }
@@ -91,5 +91,13 @@ public class TestConfigService {
 
     public String expectedDefaultOptionForItem(String itemID) {
         return configItems.get(itemID).defaultOption();
+    }
+
+    public String aDifferentOptionForItem(String itemId, String currentOption) {
+        String option;
+        do {
+            option = anyExpectedOptionForItem(itemId);
+        }while (currentOption.equals(option));
+        return option;
     }
 }
