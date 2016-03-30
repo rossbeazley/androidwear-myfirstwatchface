@@ -18,7 +18,7 @@ public class InitDefaultDataTest {
     @Test
     public void
     theOneWhereWeGetTheListOfItems() {
-        assertThat(configService.configItemsList(),is(equalTo(testConfigService.expectedListOfConfigItems())));
+        assertThat(configService.configItemsList(),is(equalTo(testConfigService.listOfConfigItems())));
     }
 
     @Test
@@ -36,7 +36,7 @@ public class InitDefaultDataTest {
 
         String itemID =testConfigService.anyItemID();
         configService.configureItem(itemID);
-        assertThat(configService.selectedConfigOptions(),is(equalTo(testConfigService.expectedOptionsListForItem(itemID))));
+        assertThat(configService.selectedConfigOptions(),is(equalTo(testConfigService.optionsListForItem(itemID))));
     }
 
 
@@ -46,7 +46,7 @@ public class InitDefaultDataTest {
 
         String itemID = testConfigService.anyItemID();
         configService.configureItem(itemID);
-        assertThat(configService.currentOptionForItem(itemID),is(testConfigService.expectedDefaultOptionForItem(itemID)));
+        assertThat(configService.currentOptionForItem(itemID),is(testConfigService.defaultOptionForItem(itemID)));
     }
 
     @Before

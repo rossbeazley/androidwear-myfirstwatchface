@@ -36,7 +36,7 @@ public class ChoosingOptionsTest {
     public void
     theOneWeRetrieveTheSelectedConfigOption() {
         List<String> selectedConfigOptions = configService.selectedConfigOptions();
-        String[] allTheOnes = testConfigService.expectedOptionsListForItem(anyItem).toArray(new String[]{});
+        String[] allTheOnes = testConfigService.optionsListForItem(anyItem).toArray(new String[]{});
         assertThat(selectedConfigOptions,hasItems(allTheOnes));
     }
 
@@ -45,7 +45,7 @@ public class ChoosingOptionsTest {
     public void
     theOneWhereWeChooseAConfigItemOption() {
 
-        String expectedOption = testConfigService.anyExpectedOptionForItem(anyItem);
+        String expectedOption = testConfigService.anyOptionForItem(anyItem);
         configService.chooseOption(expectedOption);
 
         String optionForItem = configService.currentOptionForItem(anyItem);
@@ -57,7 +57,7 @@ public class ChoosingOptionsTest {
     public void
     theOneWhereWeChooseADifferentConfigItemOption() {
 
-        String expectedOption = testConfigService.anyExpectedOptionForItem(anyItem);
+        String expectedOption = testConfigService.anyOptionForItem(anyItem);
         configService.chooseOption(expectedOption);
 
         String optionForItem = configService.currentOptionForItem(testConfigService.aDifferentItem(anyItem));
@@ -69,7 +69,7 @@ public class ChoosingOptionsTest {
     @Test
     public void
     configChoiceIsAnnounced() {
-        String expectedOption = testConfigService.anyExpectedOptionForItem(anyItem);
+        String expectedOption = testConfigService.anyOptionForItem(anyItem);
         configService.chooseOption(expectedOption);
 
         configService.currentOptionForItem(anyItem);

@@ -61,7 +61,7 @@ public class TestConfigService {
         return new ArrayList<>(values).get(random.nextInt(values.size())).itemId();
     }
 
-    public List<String> expectedListOfConfigItems() {
+    public List<String> listOfConfigItems() {
 
         List<String> expectedList = new ArrayList<>();
         for(ConfigItem item : configItems.values()) {
@@ -70,13 +70,13 @@ public class TestConfigService {
         return expectedList;
     }
 
-    public List<String> expectedOptionsListForItem(String forItem) {
+    public List<String> optionsListForItem(String forItem) {
         ConfigItem configItem = configItems.get(forItem);
         return configItem.options();
     }
 
-    public String anyExpectedOptionForItem(String anyItem) { //TODO get rid of expected from this method name
-        List<String> strings = expectedOptionsListForItem(anyItem);
+    public String anyOptionForItem(String anyItem) {
+        List<String> strings = optionsListForItem(anyItem);
         return strings.get(random.nextInt(strings.size()));
     }
 
@@ -89,14 +89,14 @@ public class TestConfigService {
         return item;
     }
 
-    public String expectedDefaultOptionForItem(String itemID) {
+    public String defaultOptionForItem(String itemID) {
         return configItems.get(itemID).defaultOption();
     }
 
     public String aDifferentOptionForItem(String itemId, String currentOption) {
         String option;
         do {
-            option = anyExpectedOptionForItem(itemId);
+            option = anyOptionForItem(itemId);
         }while (currentOption.equals(option));
         return option;
     }

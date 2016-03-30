@@ -20,7 +20,7 @@ public class ResetToDefaultDataTest {
     contractTestNotTheDefault() {
 
         String anyItemId = testConfigService.anyItemID();
-        assertThat(configService.currentOptionForItem(anyItemId),is(not(equalTo(testConfigService.expectedDefaultOptionForItem(anyItemId)))));
+        assertThat(configService.currentOptionForItem(anyItemId),is(not(equalTo(testConfigService.defaultOptionForItem(anyItemId)))));
     }
 
     @Test
@@ -30,7 +30,7 @@ public class ResetToDefaultDataTest {
         configService.resetDefaults();
 
         String anyItemId = testConfigService.anyItemID();
-        assertThat(configService.currentOptionForItem(anyItemId),is(equalTo(testConfigService.expectedDefaultOptionForItem(anyItemId))));
+        assertThat(configService.currentOptionForItem(anyItemId),is(equalTo(testConfigService.defaultOptionForItem(anyItemId))));
     }
 
     @Before

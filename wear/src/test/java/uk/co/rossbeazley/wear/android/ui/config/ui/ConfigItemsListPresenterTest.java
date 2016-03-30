@@ -34,7 +34,7 @@ public class ConfigItemsListPresenterTest {
     @Test
     public void presenterShowsTheConfigChoices() throws Exception {
         List<String> listPresented = configListView.presentedList;
-        assertThat(listPresented,is(testConfigService.expectedListOfConfigItems()));
+        assertThat(listPresented,is(testConfigService.listOfConfigItems()));
     }
 
     @Test

@@ -20,7 +20,7 @@ public class InitDefaultDataTwoItemsTest {
     @Test
     public void
     theOneWhereWeInitialiseWithTwoConfigItem2AndGetTheListOfItems() {
-        assertThat(configService.configItemsList(), is(equalTo(testConfigService.expectedListOfConfigItems())));
+        assertThat(configService.configItemsList(), is(equalTo(testConfigService.listOfConfigItems())));
     }
 
     @Test

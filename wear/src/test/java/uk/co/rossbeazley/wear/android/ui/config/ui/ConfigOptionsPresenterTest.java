@@ -41,7 +41,7 @@ public class ConfigOptionsPresenterTest {
     @Test
     public void
     theOneWhereWeDisplayTheSelectedConfigItemOptions() {
-        List<String> expectedOptions = testConfigService.expectedOptionsListForItem(anyItem);
+        List<String> expectedOptions = testConfigService.optionsListForItem(anyItem);
         assertThat(capturingConfigOptionView.presentedList,is(equalTo(expectedOptions)));
     }
 
@@ -49,7 +49,7 @@ public class ConfigOptionsPresenterTest {
     public void
     theOneWhereWeChooseAConfigItemOption() {
 
-        String expectedOption = testConfigService.anyExpectedOptionForItem(anyItem);
+        String expectedOption = testConfigService.anyOptionForItem(anyItem);
 
         capturingConfigOptionView.capturingListener.itemSelected(expectedOption);
 
