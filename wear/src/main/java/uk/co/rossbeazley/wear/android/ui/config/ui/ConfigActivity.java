@@ -6,6 +6,7 @@ import android.app.FragmentManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 
+import uk.co.rossbeazley.wear.Core;
 import uk.co.rossbeazley.wear.R;
 import uk.co.rossbeazley.wear.android.ui.config.HashMapPersistence;
 import uk.co.rossbeazley.wear.android.ui.config.service.ConfigItem;
@@ -28,34 +29,13 @@ public class ConfigActivity extends Activity implements FragmentNavigationContro
 
 //        Debug.waitForDebugger();
 
-        ConfigService configService = buildConfigService(new HashMapPersistence());
+        ConfigService configService = null;
+        configService = Core.instance().configService;
         dependencyInjectionFramework.register(configService, NeedsConfigService.class);
 
         dependencyInjectionFramework.register(navigationController, NeedsNavigationController.class);
         uiNavigation = new UiNavigation(configService, navigationController);
 
-    }
-
-    @NonNull
-    private static ConfigService buildConfigService(StringPersistence persistence) {
-        ConfigService configService = new ConfigService(persistence);
-
-        ConfigItem[] options = {
-                new ConfigItem("Background")
-                        .addOptions("Black", "White")
-                        .defaultOption("White"),
-
-                new ConfigItem("Rotation")
-                        .addOptions("North", "East", "South", "West")
-                        .defaultOption("North"),
-
-                new ConfigItem("12/24 Hour")
-                        .addOptions("Twelve", "Twenty Four", "Twelve Padded")
-                        .defaultOption("Twelve Padded")
-        };
-        configService.initialiseDefaults(options);
-
-        return configService;
     }
 
     @Override

@@ -6,8 +6,10 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Random;
 
+import uk.co.rossbeazley.wear.Core;
 import uk.co.rossbeazley.wear.android.ui.config.service.ConfigItem;
 import uk.co.rossbeazley.wear.android.ui.config.service.ConfigService;
+import uk.co.rossbeazley.wear.rotation.Orientation;
 
 public class TestConfigService {
 
@@ -16,6 +18,7 @@ public class TestConfigService {
     private LinkedHashMap<String, ConfigItem> configItems;
 
     private Random random;
+    public Core core;
 
     public ConfigService build() {
 
@@ -35,20 +38,19 @@ public class TestConfigService {
         option3.addOptions("threeOne", "threethree", "threeThree", "threeFour");
         option3.defaultOption(threeChosen);
 
-        return (configService = build(option1, option2, option3));
+        return build(option1, option2, option3);
     }
 
     public ConfigService build(final ConfigItem... defaultOptions) {
 
         hashMapPersistence = new HashMapPersistence();
-        configService = new ConfigService(hashMapPersistence);
-
 
         configItems = new LinkedHashMap<>();
         for (ConfigItem option : defaultOptions) {
             configItems.put(option.itemId(), option);
         }
-        configService.initialiseDefaults(defaultOptions);
+        core = new Core(Orientation.north(), hashMapPersistence, defaultOptions);
+        configService = core.configService;
 
         random = new Random();
 

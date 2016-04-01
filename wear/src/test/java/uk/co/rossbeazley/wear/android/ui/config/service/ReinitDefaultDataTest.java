@@ -4,7 +4,9 @@ package uk.co.rossbeazley.wear.android.ui.config.service;
 import org.junit.Before;
 import org.junit.Test;
 
+import uk.co.rossbeazley.wear.Core;
 import uk.co.rossbeazley.wear.android.ui.config.TestConfigService;
+import uk.co.rossbeazley.wear.rotation.Orientation;
 
 import static org.hamcrest.CoreMatchers.hasItems;
 import static org.hamcrest.CoreMatchers.is;
@@ -33,10 +35,9 @@ public class ReinitDefaultDataTest {
 
     @Test
     public void
-    reInitServiceWithPreviousPersistantStore() {
+    reInitServiceWithPreviousPersistentStore() {
         reconfigureOptions();
-        configService = new ConfigService(testConfigService.hashMapPersistence);
-        configService.initialiseDefaults(firstConfigItem,secondConfigItem);
+        configService = new Core(Orientation.north(), testConfigService.hashMapPersistence, firstConfigItem, secondConfigItem).configService;
         assertReconfiguredOptionsStillPersisted();
     }
 

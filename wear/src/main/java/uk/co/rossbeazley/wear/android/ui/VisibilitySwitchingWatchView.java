@@ -93,7 +93,7 @@ public class VisibilitySwitchingWatchView extends FrameLayout implements WatchVi
     public void toInvisible() {
         offsetView.setVisibility(GONE);
         darkView.setVisibility(GONE);
-        fullView.setVisibility(GONE);
+        fullView.setVisibility(VISIBLE);
     }
 
     @Override

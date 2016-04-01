@@ -1,5 +1,9 @@
 package uk.co.rossbeazley.wear;
 
+import uk.co.rossbeazley.wear.android.ui.config.HashMapPersistence;
+import uk.co.rossbeazley.wear.android.ui.config.service.ConfigItem;
+import uk.co.rossbeazley.wear.android.ui.config.service.ConfigService;
+import uk.co.rossbeazley.wear.android.ui.config.service.StringPersistence;
 import uk.co.rossbeazley.wear.colour.CanReceiveColourUpdates;
 import uk.co.rossbeazley.wear.colour.Colours;
 import uk.co.rossbeazley.wear.days.CanReceiveDaysUpdates;
@@ -32,13 +36,29 @@ public class Core {
     public final CanBeObserved<CanReceiveRotationUpdates> canBeObservedForChangesToRotation;
     public CanBeColoured canBeColoured;
     private Colours currentBackgroundColour;
+    public ConfigService configService;
 
     public Core() {
         this(Orientation.north());
     }
 
-
     public Core(Orientation orientation) {
+        this(orientation, new HashMapPersistence(),
+                new ConfigItem("Background")
+                        .addOptions("Black", "White")
+                        .defaultOption("White")
+//
+//                ,new ConfigItem("Rotation")
+//                        .addOptions("North", "East", "South", "West")
+//                        .defaultOption("North")
+//
+//                ,new ConfigItem("12/24 Hour")
+//                        .addOptions("Twelve", "Twenty Four", "Twelve Padded")
+//                        .defaultOption("Twelve Padded")
+        );
+    }
+
+    public Core(Orientation orientation, StringPersistence hashMapPersistence, ConfigItem... defaultConfigOptions) {
         Seconds seconds;
         MinutesFromTick minutes;
         HoursFromTick hours;
@@ -77,6 +97,14 @@ public class Core {
 
         currentBackgroundColour = new Colours(Colours.Colour.WHITE);
         setupColourSubsystem();
+        configService = setupConfig(hashMapPersistence, defaultConfigOptions);
+    }
+
+
+    private ConfigService setupConfig(StringPersistence persistence, ConfigItem[] options) {
+        ConfigService configService =  new ConfigService(persistence);
+        configService.initialiseDefaults(options);
+        return configService;
     }
 
     private void setupColourSubsystem() {
