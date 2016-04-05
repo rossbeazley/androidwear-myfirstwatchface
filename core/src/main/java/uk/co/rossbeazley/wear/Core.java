@@ -39,27 +39,28 @@ public class Core {
     public ConfigService configService;
 
     public Core() {
-        this(Orientation.north());
+        this(new HashMapPersistence());
     }
 
     public Core(Orientation orientation) {
-        this(orientation, new HashMapPersistence() );
+        this(orientation, new HashMapPersistence(), defaultOptions() );
     }
 
     public Core(StringPersistence persistence) {
-        this(Orientation.north(), persistence,
-                new ConfigItem("Background")
-                        .addOptions("Black", "White")
-                        .defaultOption("White")
-//
-//                ,new ConfigItem("Rotation")
-//                        .addOptions("North", "East", "South", "West")
-//                        .defaultOption("North")
-//
+        this(Orientation.north(), persistence, defaultOptions() );
+    }
+
+    public static ConfigItem[] defaultOptions() {
+        return new ConfigItem[]{new ConfigItem("Background")
+                .addOptions("Black", "White")
+                .defaultOption("White")
+        ,new ConfigItem("Rotation")
+                        .addOptions("North", "East", "South", "West")
+                        .defaultOption("North")};
+
 //                ,new ConfigItem("12/24 Hour")
 //                        .addOptions("Twelve", "Twenty Four", "Twelve Padded")
 //                        .defaultOption("Twelve Padded")
-        );
     }
 
     public Core(Orientation orientation, StringPersistence hashMapPersistence, ConfigItem... defaultConfigOptions) {
@@ -113,10 +114,11 @@ public class Core {
     }
 
     private void setupColourSubsystem() {
-        currentBackgroundColour = new Colours(Colours.Colour.WHITE);
         String background = configService.currentOptionForItem("Background");
         if(background.equals("Black")) {
             currentBackgroundColour = new Colours(Colours.Colour.BLACK);
+        } else {
+            currentBackgroundColour = new Colours(Colours.Colour.WHITE);
         }
 
         final Announcer<CanReceiveColourUpdates> colourUpdates = Announcer.to(CanReceiveColourUpdates.class);
@@ -133,12 +135,17 @@ public class Core {
             @Override
             public void background(Colours.Colour colour) {
                 currentBackgroundColour  = new Colours(colour);
-                configService.configureItem("Background");
+                String option;
                 if(colour == Colours.Colour.BLACK) {
-                    configService.chooseOption("Black");
+                    option = "Black";
                 }else{
-                    configService.chooseOption("White");
+                    option = "White";
                 }
+
+
+
+                configService.persistItemChoice("Background", option);
+
                 colourUpdates.announce().colourUpdate(currentBackgroundColour);
             }
         };

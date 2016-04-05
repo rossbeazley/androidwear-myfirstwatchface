@@ -19,6 +19,7 @@ public class TestConfigService {
 
     private Random random;
     public Core core;
+    public ConfigItem[] defaultOptions;
 
     public ConfigService build() {
 
@@ -38,10 +39,12 @@ public class TestConfigService {
         option3.addOptions("threeOne", "threethree", "threeThree", "threeFour");
         option3.defaultOption(threeChosen);
 
-        return build(option1, option2, option3);
+        return build(Core.defaultOptions());
     }
 
     public ConfigService build(final ConfigItem... defaultOptions) {
+
+        //this.defaultOptions = defaultOptions;
 
         hashMapPersistence = new HashMapPersistence();
 
@@ -53,6 +56,8 @@ public class TestConfigService {
         configService = core.configService;
 
         random = new Random();
+
+        this.defaultOptions = core.configService.defaultConfigItems;
 
         return configService;
     }

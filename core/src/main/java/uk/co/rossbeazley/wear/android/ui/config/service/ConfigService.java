@@ -11,7 +11,7 @@ public class ConfigService {
 
     private final Announcer<Listener> listenerAnnouncer;
     private String currentItemId;
-    private ConfigItem[] defaultConfigItems;
+    public ConfigItem[] defaultConfigItems;
 
     public List<String> selectedConfigOptions() {
         return persistence.stringsForKey(currentItemId);
@@ -41,7 +41,8 @@ public class ConfigService {
             String id = configItem.itemId();
             IDs.add(id);
             persistence.storeStringsForKey(id, configItem.options());
-            persistence.storeStringsForKey(id + "Choice", asList(configItem.defaultOption()));
+            String defaultOption = configItem.defaultOption();
+            persistence.storeStringsForKey(id + "Choice", asList(defaultOption));
         }
         persistence.storeStringsForKey("configItems", IDs);
     }
@@ -53,6 +54,12 @@ public class ConfigService {
 
     public void resetDefaults() {
         storeDefaults(defaultConfigItems);
+    }
+
+    public void persistItemChoice(String itemId, String option) {
+        if (persistence.hasKey(itemId)) {
+            persistence.storeStringsForKey(itemId + "Choice", asList(option));
+        }
     }
 
     public interface Listener {
