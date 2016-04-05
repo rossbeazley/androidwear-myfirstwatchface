@@ -43,7 +43,11 @@ public class Core {
     }
 
     public Core(Orientation orientation) {
-        this(orientation, new HashMapPersistence(),
+        this(orientation, new HashMapPersistence() );
+    }
+
+    public Core(StringPersistence persistence) {
+        this(Orientation.north(), persistence,
                 new ConfigItem("Background")
                         .addOptions("Black", "White")
                         .defaultOption("White")
@@ -90,14 +94,15 @@ public class Core {
                 .addListeners(months, days, hours, minutes, seconds)
                 .announce();
 
+        configService = setupConfig(hashMapPersistence, defaultConfigOptions);
+
+
         Announcer<CanReceiveRotationUpdates> canReceiveRotationUpdatesAnnouncer = Announcer.to(CanReceiveRotationUpdates.class);
         Rotation rotation = new Rotation(orientation, canReceiveRotationUpdatesAnnouncer);
         canBeRotated = rotation;
         canBeObservedForChangesToRotation = canReceiveRotationUpdatesAnnouncer;
 
-        currentBackgroundColour = new Colours(Colours.Colour.WHITE);
         setupColourSubsystem();
-        configService = setupConfig(hashMapPersistence, defaultConfigOptions);
     }
 
 
@@ -108,6 +113,12 @@ public class Core {
     }
 
     private void setupColourSubsystem() {
+        currentBackgroundColour = new Colours(Colours.Colour.WHITE);
+        String background = configService.currentOptionForItem("Background");
+        if(background.equals("Black")) {
+            currentBackgroundColour = new Colours(Colours.Colour.BLACK);
+        }
+
         final Announcer<CanReceiveColourUpdates> colourUpdates = Announcer.to(CanReceiveColourUpdates.class);
         canBeObservedForChangesToColour = colourUpdates;
         colourUpdates.registerProducer(new Announcer.Producer<CanReceiveColourUpdates>() {
@@ -122,6 +133,12 @@ public class Core {
             @Override
             public void background(Colours.Colour colour) {
                 currentBackgroundColour  = new Colours(colour);
+                configService.configureItem("Background");
+                if(colour == Colours.Colour.BLACK) {
+                    configService.chooseOption("Black");
+                }else{
+                    configService.chooseOption("White");
+                }
                 colourUpdates.announce().colourUpdate(currentBackgroundColour);
             }
         };
