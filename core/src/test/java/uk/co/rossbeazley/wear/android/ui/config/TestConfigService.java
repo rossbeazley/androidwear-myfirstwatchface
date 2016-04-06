@@ -101,7 +101,7 @@ public class TestConfigService {
 
     private void assertMoreThanOneItem() {
         Set<String> itemIDS = configItems.keySet();
-        assert itemIDS.size()<2 : "MALFORMED TESTDATA, ASSUMES MORE THAN ONE ITEM " + itemIDS;
+        assert itemIDS.size()>1 : "MALFORMED TESTDATA, ASSUMES MORE THAN ONE ITEM " + itemIDS;
     }
 
     public String defaultOptionForItem(String itemID) {
@@ -120,7 +120,7 @@ public class TestConfigService {
 
     private void assertMoreThanOneOptionForItem(String itemId) {
         List<String> options = configItems.get(itemId).options();
-        assert options.size()<2 : "MALFORMED TESTDATA, ASSUMES ITEM " + itemId + " HAS MORE THAN ON OPTION\n" + options;
+        assert options.size()>1 : "MALFORMED TESTDATA, ASSUMES ITEM " + itemId + " HAS MORE THAN ON OPTION\n" + options;
 
     }
 }
