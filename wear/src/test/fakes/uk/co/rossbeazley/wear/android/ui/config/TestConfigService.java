@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 
 import uk.co.rossbeazley.wear.Core;
 import uk.co.rossbeazley.wear.android.ui.config.service.ConfigItem;
@@ -88,6 +89,8 @@ public class TestConfigService {
     }
 
     public String aDifferentItem(String anyItem) {
+        assertMoreThanOneItem();
+
         String item;
         do {
             item = anyItemID();
@@ -96,15 +99,28 @@ public class TestConfigService {
         return item;
     }
 
+    private void assertMoreThanOneItem() {
+        Set<String> itemIDS = configItems.keySet();
+        assert itemIDS.size()<2 : "MALFORMED TESTDATA, ASSUMES MORE THAN ONE ITEM " + itemIDS;
+    }
+
     public String defaultOptionForItem(String itemID) {
         return configItems.get(itemID).defaultOption();
     }
 
     public String aDifferentOptionForItem(String itemId, String currentOption) {
+        assertMoreThanOneOptionForItem(itemId);
+
         String option;
         do {
             option = anyOptionForItem(itemId);
         }while (currentOption.equals(option));
         return option;
+    }
+
+    private void assertMoreThanOneOptionForItem(String itemId) {
+        List<String> options = configItems.get(itemId).options();
+        assert options.size()<2 : "MALFORMED TESTDATA, ASSUMES ITEM " + itemId + " HAS MORE THAN ON OPTION\n" + options;
+
     }
 }
