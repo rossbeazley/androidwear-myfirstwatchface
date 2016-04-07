@@ -36,7 +36,6 @@ public class Core {
     public final CanBeRotated canBeRotated;
     public final CanBeObserved<CanReceiveRotationUpdates> canBeObservedForChangesToRotation;
     public CanBeColoured canBeColoured;
-    private Colours currentBackgroundColour;
     public ConfigService configService;
 
     public Core() {
@@ -104,7 +103,6 @@ public class Core {
         canBeRotated = rotation;
         canBeObservedForChangesToRotation = canReceiveRotationUpdatesAnnouncer;
 
-        setupColourSubsystem();
         setupColourManager();
     }
 
@@ -120,41 +118,6 @@ public class Core {
         configService.initialiseDefaults(options);
         return configService;
     }
-
-    private void setupColourSubsystem() {
-        String background = configService.currentOptionForItem("Background");
-        if(background.equals("Black")) {
-            currentBackgroundColour = new Colours(Colours.Colour.BLACK);
-        } else {
-            currentBackgroundColour = new Colours(Colours.Colour.WHITE);
-        }
-
-        final Announcer<CanReceiveColourUpdates> colourUpdates = Announcer.to(CanReceiveColourUpdates.class);
-        canBeObservedForChangesToColour = colourUpdates;
-        colourUpdates.registerProducer(new Announcer.Producer<CanReceiveColourUpdates>() {
-            @Override
-            public void observed(CanReceiveColourUpdates observer) {
-                observer.colourUpdate(currentBackgroundColour);
-            }
-        });
-
-
-        canBeColoured = new CanBeColoured() {
-            @Override
-            public void background(Colours.Colour colour) {
-                currentBackgroundColour  = new Colours(colour);
-                String option;
-                if(colour == Colours.Colour.BLACK) {
-                    option = "Black";
-                }else{
-                    option = "White";
-                }
-                configService.persistItemChoice("Background", option);
-                colourUpdates.announce().colourUpdate(currentBackgroundColour);
-            }
-        };
-    }
-
 
     public static Core instance() {
         return InstanceHolder.instance;
