@@ -5,6 +5,7 @@ import uk.co.rossbeazley.wear.android.ui.config.service.ConfigItem;
 import uk.co.rossbeazley.wear.android.ui.config.service.ConfigService;
 import uk.co.rossbeazley.wear.android.ui.config.service.StringPersistence;
 import uk.co.rossbeazley.wear.colour.CanReceiveColourUpdates;
+import uk.co.rossbeazley.wear.colour.ColourManager;
 import uk.co.rossbeazley.wear.colour.Colours;
 import uk.co.rossbeazley.wear.days.CanReceiveDaysUpdates;
 import uk.co.rossbeazley.wear.days.DaysFromTick;
@@ -104,6 +105,13 @@ public class Core {
         canBeObservedForChangesToRotation = canReceiveRotationUpdatesAnnouncer;
 
         setupColourSubsystem();
+        setupColourManager();
+    }
+
+    private void setupColourManager() {
+        ColourManager colourManager = new ColourManager(configService);
+        canBeObservedForChangesToColour = colourManager;
+        canBeColoured = colourManager;
     }
 
 
@@ -141,11 +149,7 @@ public class Core {
                 }else{
                     option = "White";
                 }
-
-
-
                 configService.persistItemChoice("Background", option);
-
                 colourUpdates.announce().colourUpdate(currentBackgroundColour);
             }
         };
