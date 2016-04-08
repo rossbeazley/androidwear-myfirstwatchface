@@ -32,16 +32,6 @@ public class Main {
         initialiseMonthFactoryStrings(context);
         final Core core = Core.init();
 
-        RestoreColourSPIKE colourRestore = new RestoreColourSPIKE();
-        colourRestore.observe(new RestoreColourSPIKE.Restored() {
-            @Override
-            public void to(Colours colours) {
-                Core.instance().canBeColoured.background(colours.background());
-            }
-        });
-        new GoogleWearApiConnection(context, colourRestore);
-        new GoogleWearApiConnection(context, new ColourPersistence(Core.instance().canBeObservedForChangesToColour));
-
         //Debug.waitForDebugger();
         tickTock = TickTock.createTickTock(core.canBeTicked);
         RestoreRotationSPIKE loadOrientationFromPersistentStore = new RestoreRotationSPIKE();

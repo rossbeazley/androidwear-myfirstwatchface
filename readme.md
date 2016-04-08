@@ -31,7 +31,7 @@ todo:
  - DONE implement fragment transactions
  - DONE nav controller to somehow go back to start ie implement Option Chosen View
  - DONE ConfigOptionWearViewTest connected test needs to migrate to using the fragment to construct view
- - actually have background colour changed by config option: need to work out who builds who and who owns what options
+ - DONE actually have background colour changed by config option: need to work out who builds who and who owns what options
  - rotation by config option
  - migrate wear data persistence to use shared prefs
  - possibly introduce value eg rotation degrees or colour value rather than just the name

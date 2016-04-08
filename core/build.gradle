@@ -14,3 +14,19 @@ tasks.withType(Test) {
     scanForTestClasses = false
     include "**/*Test.class"
 }
+
+configurations {
+    testArtifacts.extendsFrom testRuntime
+}
+
+task testFakesJar(type: Jar) {
+    classifier "test"
+    from sourceSets.test.output
+    include "*/**/TestConfigService*"
+    include "*/**/CapturingConfigServiceListener*"
+    exclude "uk*"
+}
+
+artifacts {
+    testArtifacts testFakesJar
+}
