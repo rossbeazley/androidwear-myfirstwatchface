@@ -9,8 +9,16 @@ import static java.util.Arrays.asList;
 
 public class ConfigService {
 
+    public static ConfigService setupConfig(StringPersistence persistence, ConfigItem[] options) {
+        ConfigService configService =  new ConfigService(persistence);
+        configService.initialiseDefaults(options);
+        return configService;
+    }
+
+
     private final Announcer<Listener> listenerAnnouncer;
     private String currentItemId;
+
     public ConfigItem[] defaultConfigItems;
 
     public List<String> selectedConfigOptions() {

@@ -6,7 +6,6 @@ import uk.co.rossbeazley.wear.android.ui.config.service.ConfigService;
 import uk.co.rossbeazley.wear.android.ui.config.service.StringPersistence;
 import uk.co.rossbeazley.wear.colour.CanReceiveColourUpdates;
 import uk.co.rossbeazley.wear.colour.ColourManager;
-import uk.co.rossbeazley.wear.colour.Colours;
 import uk.co.rossbeazley.wear.days.CanReceiveDaysUpdates;
 import uk.co.rossbeazley.wear.days.DaysFromTick;
 import uk.co.rossbeazley.wear.hours.CanReceiveHoursUpdates;
@@ -95,7 +94,7 @@ public class Core {
                 .addListeners(months, days, hours, minutes, seconds)
                 .announce();
 
-        configService = setupConfig(hashMapPersistence, defaultConfigOptions);
+        configService = ConfigService.setupConfig(hashMapPersistence, defaultConfigOptions);
 
 
         Announcer<CanReceiveRotationUpdates> canReceiveRotationUpdatesAnnouncer = Announcer.to(CanReceiveRotationUpdates.class);
@@ -112,12 +111,6 @@ public class Core {
         canBeColoured = colourManager;
     }
 
-
-    private ConfigService setupConfig(StringPersistence persistence, ConfigItem[] options) {
-        ConfigService configService =  new ConfigService(persistence);
-        configService.initialiseDefaults(options);
-        return configService;
-    }
 
     public static Core instance() {
         return InstanceHolder.instance;
