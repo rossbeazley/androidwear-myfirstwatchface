@@ -39,6 +39,11 @@ todo:
  - shared prefs persistence including reset option (presenter responsible for presenting option to use reset method on config service)
  - allow the addition of config options without over writing the current values
 
+ - make config service use the objects rather than persistence
+ - remove persistence of other stuff except chosen option
+ - get rid of all the string stuff in colour
+ - allow ability to Add config options not just at the start, ie init defaults should be additive
+
 2. remove duplication in view rendering,
  - collapse interfaces into one
  - make presenters adapt UI interaction into domain events

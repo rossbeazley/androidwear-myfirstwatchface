@@ -1,8 +1,6 @@
 package uk.co.rossbeazley.wear.android.ui.config.service;
 
-import uk.co.rossbeazley.wear.android.ui.config.service.ConfigService;
-
-public class CapturingConfigServiceListener implements ConfigService.Listener {
+public class CapturingConfigServiceListener implements ConfigServiceListener {
     public String configuredItem = "UNKNOWN";
     public KeyNotFound keyNotFoundMessage;
     public String configuredOption = "UNKNOWN";

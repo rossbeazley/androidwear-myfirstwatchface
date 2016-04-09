@@ -33,7 +33,7 @@ public class InvalidItemChoiceTest {
         configService.addListener(listener);
         String noneExistentKey = "not in the list";
         configService.configureItem(noneExistentKey);
-        ConfigService.Listener.KeyNotFound value = new ConfigService.Listener.KeyNotFound(noneExistentKey);
+        ConfigServiceListener.KeyNotFound value = new ConfigServiceListener.KeyNotFound(noneExistentKey);
         assertThat(listener.keyNotFoundMessage, is(value));
     }
 

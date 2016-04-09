@@ -98,7 +98,7 @@ public class Core {
 
 
         Announcer<CanReceiveRotationUpdates> canReceiveRotationUpdatesAnnouncer = Announcer.to(CanReceiveRotationUpdates.class);
-        Rotation rotation = new Rotation(orientation, canReceiveRotationUpdatesAnnouncer);
+        Rotation rotation = new Rotation(orientation, canReceiveRotationUpdatesAnnouncer, configService);
         canBeRotated = rotation;
         canBeObservedForChangesToRotation = canReceiveRotationUpdatesAnnouncer;
 

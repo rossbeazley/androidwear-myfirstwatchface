@@ -16,7 +16,7 @@ public class ConfigService {
     }
 
 
-    private final Announcer<Listener> listenerAnnouncer;
+    private final Announcer<ConfigServiceListener> listenerAnnouncer;
     private String currentItemId;
 
     public ConfigItem[] defaultConfigItems;
@@ -70,36 +70,7 @@ public class ConfigService {
         }
     }
 
-    public interface Listener {
-        void configuring(String item);
-
-        void error(KeyNotFound keyNotFound);
-
-        void chosenOption(String option);
-
-        class KeyNotFound {
-            private final String noneExistentKey;
-
-            public KeyNotFound(String noneExistentKey) {
-                this.noneExistentKey = noneExistentKey;
-            }
-
-            @Override
-            public String toString() {
-                return "KeyNotFound \"" + noneExistentKey + "\"";
-            }
-
-            @Override
-            public boolean equals(Object o) {
-                if (!(o instanceof KeyNotFound)) return false;
-                KeyNotFound keyNotFound = (KeyNotFound) o;
-                boolean rtn = (keyNotFound.noneExistentKey) != null ? keyNotFound.noneExistentKey.equals(noneExistentKey) : false;
-                return rtn;
-            }
-        }
-    }
-
-    public <T extends Listener> T addListener(T listener) {
+    public <T extends ConfigServiceListener> T addListener(T listener) {
         listenerAnnouncer.addListener(listener);
         return listener;
     }
@@ -109,7 +80,7 @@ public class ConfigService {
             this.currentItemId = item;
             listenerAnnouncer.announce().configuring(item);
         } else {
-            listenerAnnouncer.announce().error(new Listener.KeyNotFound(item));
+            listenerAnnouncer.announce().error(new ConfigServiceListener.KeyNotFound(item));
         }
 
         //loads the current item into memory so the next method can have access to it :S
@@ -123,7 +94,7 @@ public class ConfigService {
 
     public ConfigService(StringPersistence persistence) {
         this.persistence = persistence;
-        listenerAnnouncer = Announcer.to(Listener.class);
+        listenerAnnouncer = Announcer.to(ConfigServiceListener.class);
     }
 
 }

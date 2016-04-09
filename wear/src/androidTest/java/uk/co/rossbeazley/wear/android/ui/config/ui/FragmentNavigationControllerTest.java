@@ -3,10 +3,12 @@ package uk.co.rossbeazley.wear.android.ui.config.ui;
 import android.app.FragmentManager;
 import android.os.SystemClock;
 import android.support.test.rule.ActivityTestRule;
+import android.support.test.runner.AndroidJUnit4;
 
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import uk.co.rossbeazley.wear.android.ui.config.TestActivity;
 import uk.co.rossbeazley.wear.android.ui.config.TestConfigService;
@@ -14,6 +16,7 @@ import uk.co.rossbeazley.wear.android.ui.config.TestConfigService;
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 
+@RunWith(AndroidJUnit4.class)
 public class FragmentNavigationControllerTest {
 
     @Rule
