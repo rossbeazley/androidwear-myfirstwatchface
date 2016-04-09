@@ -18,6 +18,7 @@ import uk.co.rossbeazley.wear.rotation.CanBeRotated;
 import uk.co.rossbeazley.wear.rotation.CanReceiveRotationUpdates;
 import uk.co.rossbeazley.wear.rotation.Orientation;
 import uk.co.rossbeazley.wear.rotation.Rotation;
+import uk.co.rossbeazley.wear.rotation.RotationPeristence;
 import uk.co.rossbeazley.wear.seconds.CanReceiveSecondsUpdates;
 import uk.co.rossbeazley.wear.seconds.Seconds;
 import uk.co.rossbeazley.wear.ticktock.CanBeTicked;
@@ -97,10 +98,12 @@ public class Core {
         configService = ConfigService.setupConfig(hashMapPersistence, defaultConfigOptions);
 
 
+        RotationPeristence rotationPeristence = new RotationPeristence(configService);
         Announcer<CanReceiveRotationUpdates> canReceiveRotationUpdatesAnnouncer = Announcer.to(CanReceiveRotationUpdates.class);
-        Rotation rotation = new Rotation(orientation, canReceiveRotationUpdatesAnnouncer, configService);
+        Rotation rotation = new Rotation(rotationPeristence.reHydrateOrientation(), canReceiveRotationUpdatesAnnouncer, configService);
         canBeRotated = rotation;
         canBeObservedForChangesToRotation = canReceiveRotationUpdatesAnnouncer;
+        canBeObservedForChangesToRotation.addListener(rotationPeristence);
 
         setupColourManager();
     }

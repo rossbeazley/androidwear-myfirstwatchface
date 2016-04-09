@@ -5,11 +5,6 @@ import uk.co.rossbeazley.wear.android.ui.config.service.ConfigService;
 
 public class Rotation implements CanBeRotated, uk.co.rossbeazley.wear.CanBeObserved<CanReceiveRotationUpdates> {
 
-    /**
-     * new ConfigItem("Rotation")
-     .addOptions("North", "East", "South", "West")
-     .defaultOption("North")};
-     */
 
     Orientation orientation;
     Announcer<CanReceiveRotationUpdates> rotationUpdates;
@@ -19,9 +14,7 @@ public class Rotation implements CanBeRotated, uk.co.rossbeazley.wear.CanBeObser
     RotationPeristence rotationPeristence;
 
     public Rotation(final Orientation orientation, Announcer<CanReceiveRotationUpdates> to, ConfigService configService) {
-        rotationPeristence = new RotationPeristence(configService);
-        //this.orientation = orientation;
-        this.orientation = rotationPeristence.reHydrateOrientation();
+        this.orientation = orientation;
         rotationUpdates = to;
         this.configService = configService;
         rotationUpdates.registerProducer(new Announcer.Producer<CanReceiveRotationUpdates>() {
@@ -53,7 +46,6 @@ public class Rotation implements CanBeRotated, uk.co.rossbeazley.wear.CanBeObser
     public void to(Orientation newOrientation) {
         orientation = newOrientation;
         announce.rotationUpdate(orientation);
-        rotationPeristence.persistOrientation(orientation);
     }
 
 }

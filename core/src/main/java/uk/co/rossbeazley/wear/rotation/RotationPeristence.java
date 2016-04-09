@@ -2,7 +2,14 @@ package uk.co.rossbeazley.wear.rotation;
 
 import uk.co.rossbeazley.wear.android.ui.config.service.ConfigService;
 
-public class RotationPeristence {
+public class RotationPeristence implements CanReceiveRotationUpdates {
+
+
+    /**
+     * new ConfigItem("Rotation")
+     .addOptions("North", "East", "South", "West")
+     .defaultOption("North")};
+     */
     private final ConfigService configService;
 
     public RotationPeristence(ConfigService configService) {
@@ -10,7 +17,7 @@ public class RotationPeristence {
         this.configService = configService;
     }
 
-    Orientation reHydrateOrientation() {
+    public Orientation reHydrateOrientation() {
         Orientation result = null;
 
         String rotation = configService.currentOptionForItem("Rotation");
@@ -27,7 +34,7 @@ public class RotationPeristence {
         return result;
     }
 
-    void persistOrientation(Orientation orientation) {
+    public void persistOrientation(Orientation orientation) {
         if(orientation == Orientation.east()) {
             configService.persistItemChoice("Rotation","East");
         } else if(orientation ==Orientation.south()) {
@@ -37,5 +44,10 @@ public class RotationPeristence {
         } else if(orientation ==Orientation.north()) {
             configService.persistItemChoice("Rotation","North");
         }
+    }
+
+    @Override
+    public void rotationUpdate(Orientation to) {
+        persistOrientation(to);
     }
 }
