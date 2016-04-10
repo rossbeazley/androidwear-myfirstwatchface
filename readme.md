@@ -32,17 +32,21 @@ todo:
  - DONE nav controller to somehow go back to start ie implement Option Chosen View
  - DONE ConfigOptionWearViewTest connected test needs to migrate to using the fragment to construct view
  - DONE actually have background colour changed by config option: need to work out who builds who and who owns what options
- - rotation by config option
- - migrate wear data persistence to use shared prefs
+ - DONE rotation by config option
+ - DONE migrate wear data persistence to use shared prefs
  - possibly introduce value eg rotation degrees or colour value rather than just the name
  - re-write config service to only persist choices, not options. drive from in memory objects only
- - shared prefs persistence including reset option (presenter responsible for presenting option to use reset method on config service)
+ - DONE shared prefs persistence
+ - (including reset option (presenter responsible for presenting option to use reset method on config service))
  - allow the addition of config options without over writing the current values
+ (-allow ability to Add config options not just at the start, ie init defaults should be additive)
 
  - make config service use the objects rather than persistence
  - remove persistence of other stuff except chosen option
- - get rid of all the string stuff in colour
- - allow ability to Add config options not just at the start, ie init defaults should be additive
+ - get rid of all the string stuff in colour + rotation
+
+ - When Config Menu Option chosen for colour and rotation, need to announce change
+
 
 2. remove duplication in view rendering,
  - collapse interfaces into one

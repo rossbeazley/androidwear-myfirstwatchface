@@ -2,9 +2,8 @@ package uk.co.rossbeazley.wear;
 
 import android.app.Application;
 
-import uk.co.rossbeazley.wear.android.gsm.GoogleWearApiConnection;
+import uk.co.rossbeazley.wear.android.ui.config.HashMapPersistence;
 import uk.co.rossbeazley.wear.months.MonthFactory;
-import uk.co.rossbeazley.wear.ticktock.TickTock;
 
 public class App extends Application {
 
@@ -13,7 +12,7 @@ public class App extends Application {
         super.onCreate();
         String[] months = this.getResources().getStringArray(R.array.months);
         MonthFactory.registerMonthStrings(months);
-        Core.init();
+        Core.init(new HashMapPersistence());
 
     }
 

@@ -13,7 +13,6 @@ public class RotationPeristence implements CanReceiveRotationUpdates {
     private final ConfigService configService;
 
     public RotationPeristence(ConfigService configService) {
-
         this.configService = configService;
     }
 

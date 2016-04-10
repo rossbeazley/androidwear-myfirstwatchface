@@ -25,17 +25,19 @@ import uk.co.rossbeazley.wear.ticktock.CanBeTicked;
 
 public class Core {
 
-    public final CanBeObserved<CanReceiveMonthsUpdates> canBeObservedForChangesToMonths;
-    public final CanBeObserved<CanReceiveDaysUpdates> canBeObservedForChangesToDays;
-    public final CanBeObserved<CanReceiveHoursUpdates> canBeObservedForChangesToHours;
-    public final CanBeObserved<CanReceiveMinutesUpdates> canBeObservedForChangesToMinutes;
-    public final CanBeObserved<CanReceiveSecondsUpdates> canBeObservedForChangesToSeconds;
+    public CanBeObserved<CanReceiveMonthsUpdates> canBeObservedForChangesToMonths;
+    public CanBeObserved<CanReceiveDaysUpdates> canBeObservedForChangesToDays;
+    public CanBeObserved<CanReceiveHoursUpdates> canBeObservedForChangesToHours;
+    public CanBeObserved<CanReceiveMinutesUpdates> canBeObservedForChangesToMinutes;
+    public CanBeObserved<CanReceiveSecondsUpdates> canBeObservedForChangesToSeconds;
+    public CanBeTicked canBeTicked;
+
+    public CanBeRotated canBeRotated;
+    public CanBeObserved<CanReceiveRotationUpdates> canBeObservedForChangesToRotation;
+
+    public CanBeColoured canBeColoured;
     public CanBeObserved<CanReceiveColourUpdates> canBeObservedForChangesToColour;
 
-    public final CanBeTicked canBeTicked;
-    public final CanBeRotated canBeRotated;
-    public final CanBeObserved<CanReceiveRotationUpdates> canBeObservedForChangesToRotation;
-    public CanBeColoured canBeColoured;
     public ConfigService configService;
 
     public Core() {
@@ -64,6 +66,13 @@ public class Core {
     }
 
     public Core(Orientation orientation, StringPersistence hashMapPersistence, ConfigItem... defaultConfigOptions) {
+        setupChronometerSubsystem();
+        configService = ConfigService.setupConfig(hashMapPersistence, defaultConfigOptions);
+        setupRotationSubsystem();
+        setupColourManager();
+    }
+
+    private void setupChronometerSubsystem() {
         Seconds seconds;
         MinutesFromTick minutes;
         HoursFromTick hours;
@@ -94,18 +103,15 @@ public class Core {
         canBeTicked = Announcer.to(CanBeTicked.class)
                 .addListeners(months, days, hours, minutes, seconds)
                 .announce();
+    }
 
-        configService = ConfigService.setupConfig(hashMapPersistence, defaultConfigOptions);
-
-
+    private void setupRotationSubsystem() {
         RotationPeristence rotationPeristence = new RotationPeristence(configService);
         Announcer<CanReceiveRotationUpdates> canReceiveRotationUpdatesAnnouncer = Announcer.to(CanReceiveRotationUpdates.class);
         Rotation rotation = new Rotation(rotationPeristence.reHydrateOrientation(), canReceiveRotationUpdatesAnnouncer, configService);
         canBeRotated = rotation;
         canBeObservedForChangesToRotation = canReceiveRotationUpdatesAnnouncer;
         canBeObservedForChangesToRotation.addListener(rotationPeristence);
-
-        setupColourManager();
     }
 
     private void setupColourManager() {
@@ -120,11 +126,11 @@ public class Core {
     }
 
     private static class InstanceHolder {
-        public static Core instance = new Core();
+        public static Core instance;
     }
 
-    public static Core init() {
-        return InstanceHolder.instance;
+    public static Core init(StringPersistence persistence) {
+        return InstanceHolder.instance = new Core(persistence);
     }
 
 }

@@ -26,4 +26,8 @@ dependencies {
 //    compile 'com.android.support:support-v13:23.1.1'
     compile 'com.google.android.gms:play-services-wearable:8.4.0'
     compile project(':core')
+
+    androidTestCompile 'junit:junit:4.12'
+    androidTestCompile 'com.android.support.test:runner:0.4.1'
+    androidTestCompile 'com.android.support.test:rules:0.4.1'
 }
