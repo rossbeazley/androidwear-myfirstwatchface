@@ -44,7 +44,6 @@ public class FragmentNavigationController implements NavigationController {
     public void toConfigOptionSelected() {
         ConfigOptionSelectedFragment fragment = new ConfigOptionSelectedFragment();
         pushFragment(fragment,fragment.tag());
-//        fragmentManager().popBackStack(ConfigItemsListFragment.tag(), 0);
     }
 
     private FragmentManager fragmentManager() {

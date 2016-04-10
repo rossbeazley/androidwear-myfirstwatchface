@@ -5,7 +5,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.wearable.activity.ConfirmationActivity;
 
-public class ConfigOptionSelectedFragment extends Fragment {
+public class ConfigOptionSelectedFragment extends Fragment implements RaisesUIEvents {
+    private UIEvents uiEvents;
+
     public String tag() {
         return "ConfigOptionSelectedFragment";
     }
@@ -18,7 +20,21 @@ public class ConfigOptionSelectedFragment extends Fragment {
                 ConfirmationActivity.SUCCESS_ANIMATION);
         intent.putExtra(ConfirmationActivity.EXTRA_MESSAGE,
                 "Saved");
-        startActivity(intent);
+        startActivityForResult(intent,666);
 
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode==666) {
+            System.out.println("TICKFINISHED TICKFINISHED TICKFINISHED TICKFINISHED TICKFINISHED ");
+        }
+        uiEvents.optionSelectedFinished();
+    }
+
+    @Override
+    public void injectUIEventsDispatcher(UIEvents uiEvents) {
+
+        this.uiEvents = uiEvents;
     }
 }

@@ -18,6 +18,8 @@ public class DependencyInjectionFramework {
             NeedsNavigationController.class.cast(fragment).attachNavigationController((NavigationController) map.get(NeedsNavigationController.class));
         } else if(fragment instanceof NeedsConfigService) {
             NeedsConfigService.class.cast(fragment).attachConfigService((ConfigService) map.get(NeedsConfigService.class));
+        } else if(fragment instanceof RaisesUIEvents) {
+            RaisesUIEvents.class.cast(fragment).injectUIEventsDispatcher((UIEvents) map.get(RaisesUIEvents.class));
         }
     }
 }

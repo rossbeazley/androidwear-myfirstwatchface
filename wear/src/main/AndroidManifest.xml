@@ -69,7 +69,8 @@
         <activity android:name=".android.ui.config.TestActivity"/>
 
         <activity
-            android:name="android.support.wearable.activity.ConfirmationActivity">
+            android:name="android.support.wearable.activity.ConfirmationActivity"
+            android:launchMode="singleInstance">
         </activity>
 
 

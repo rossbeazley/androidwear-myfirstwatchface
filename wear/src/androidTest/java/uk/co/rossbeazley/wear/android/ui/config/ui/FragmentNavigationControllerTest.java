@@ -24,6 +24,7 @@ public class FragmentNavigationControllerTest {
     private TestActivity testActivity;
     private FragmentNavigationController fragmentNavigationController;
     private TestWorld testWorld;
+    private CapturingUIEvents capturingUIEvents;
 
     @Before
     public void createTestWorld() {
@@ -36,6 +37,8 @@ public class FragmentNavigationControllerTest {
             }
         }, testActivity.rootFrameLayout.getId());
 
+        capturingUIEvents = new CapturingUIEvents();
+        testActivity.dependencyInjectionFramework.register(capturingUIEvents, RaisesUIEvents.class);
         testActivity.dependencyInjectionFramework.register(new NavigationControllerJournal(), NeedsNavigationController.class);
         testWorld = new TestWorld();
         testActivity.dependencyInjectionFramework.register(testWorld.build(), NeedsConfigService.class);
@@ -63,4 +66,19 @@ public class FragmentNavigationControllerTest {
         assertThat(testActivity.fragment, is(instanceOf(ConfigOptionSelectedFragment.class)));
     }
 
+    @Test
+    public void configOptionSelectedCompletes() throws Exception {
+        fragmentNavigationController.toConfigOptionSelected();
+        SystemClock.sleep(2000);
+        assertThat(capturingUIEvents.optionSelectedFinished, is(true));
+    }
+
+    private static class CapturingUIEvents implements UIEvents {
+        private boolean optionSelectedFinished;
+
+        @Override
+        public void optionSelectedFinished() {
+            this.optionSelectedFinished = true;
+        }
+    }
 }

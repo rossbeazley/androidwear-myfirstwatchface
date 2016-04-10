@@ -23,7 +23,7 @@ task testFakesJar(type: Jar) {
     classifier "test"
     from sourceSets.test.output
    // exclude "uk*"
-    include "*/**/TestConfigService*"
+    include "*/**/TestWorld*"
     include "*/**/CapturingConfigServiceListener*"
 }
 

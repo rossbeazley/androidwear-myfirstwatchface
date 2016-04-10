@@ -17,6 +17,7 @@ public class NavigationTest {
 
     private NavigationControllerJournal navigation;
     private ConfigService configService;
+    private UIEvents uiNavigation;
 
     @Before
     public void buildWorld() {
@@ -30,7 +31,8 @@ public class NavigationTest {
 
         HashMapPersistence hashMapPersistence = new HashMapPersistence(configItems);
         configService = new ConfigService(hashMapPersistence);
-        new UiNavigation(configService, navigation);
+
+        uiNavigation = new UiNavigation(configService, navigation);
     }
 
     @Test
@@ -52,7 +54,7 @@ public class NavigationTest {
 
         configService.chooseOption("twoThree");
 
-        assertThat(navigation.journal, hasItem(NavigationControllerJournal.CONFIG_OPTION_SELECTED));
+        assertThat(navigation.screen, is(NavigationControllerJournal.CONFIG_OPTION_SELECTED));
     }
 
     @Test
@@ -60,6 +62,8 @@ public class NavigationTest {
         configService.configureItem("two");
 
         configService.chooseOption("twoThree");
+
+        uiNavigation.optionSelectedFinished();
 
         assertThat(navigation.screen, is(NavigationControllerJournal.CONFIG_ITEMS_LIST));
     }

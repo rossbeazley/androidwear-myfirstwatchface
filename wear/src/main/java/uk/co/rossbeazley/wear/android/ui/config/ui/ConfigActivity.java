@@ -35,6 +35,7 @@ public class ConfigActivity extends Activity implements FragmentNavigationContro
 
         dependencyInjectionFramework.register(navigationController, NeedsNavigationController.class);
         uiNavigation = new UiNavigation(configService, navigationController);
+        dependencyInjectionFramework.register(uiNavigation, RaisesUIEvents.class);
 
     }
 

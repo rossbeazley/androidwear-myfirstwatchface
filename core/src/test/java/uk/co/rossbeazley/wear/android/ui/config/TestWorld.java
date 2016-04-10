@@ -23,29 +23,10 @@ public class TestWorld {
     public ConfigItem[] defaultOptions;
 
     public ConfigService build() {
-
-        String oneChosen = "oneone";
-        String twoChosen = "twotwo";
-        String threeChosen = "threethree";
-
-        final ConfigItem option1 = new ConfigItem("one");
-        option1.addOptions("oneOne", "oneone", "oneThree", "oneFour");
-        option1.defaultOption(oneChosen);
-
-        final ConfigItem option2 = new ConfigItem("two");
-        option2.addOptions("twoOne", "twoTwo", "twoThree", "twoFour");
-        option2.defaultOption(twoChosen);
-
-        final ConfigItem option3 = new ConfigItem("three");
-        option3.addOptions("threeOne", "threethree", "threeThree", "threeFour");
-        option3.defaultOption(threeChosen);
-
         return build(Core.defaultOptions());
     }
 
     public ConfigService build(final ConfigItem... defaultOptions) {
-
-        //this.defaultOptions = defaultOptions;
 
         hashMapPersistence = new HashMapPersistence();
 
