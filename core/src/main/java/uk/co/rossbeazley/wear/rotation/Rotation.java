@@ -13,7 +13,7 @@ public class Rotation implements CanBeRotated, uk.co.rossbeazley.wear.CanBeObser
 
     RotationPeristence rotationPeristence;
 
-    public Rotation(final Orientation orientation, Announcer<CanReceiveRotationUpdates> to, ConfigService configService) {
+    public Rotation(Announcer<CanReceiveRotationUpdates> to, ConfigService configService) {
         this.orientation = orientation;
         rotationUpdates = to;
         this.configService = configService;

@@ -87,6 +87,7 @@ public class ConfigItemsListWearView extends FrameLayout implements ConfigItemsL
             textview.setText("---");
             textview.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
             textview.setGravity(Gravity.CENTER);
+            textview.setTextSize(30f);
             return new WearableListView.ViewHolder(textview);
         }
 

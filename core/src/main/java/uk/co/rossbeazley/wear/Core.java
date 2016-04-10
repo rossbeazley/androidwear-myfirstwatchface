@@ -106,9 +106,9 @@ public class Core {
     }
 
     private void setupRotationSubsystem() {
-        RotationPeristence rotationPeristence = new RotationPeristence(configService);
         Announcer<CanReceiveRotationUpdates> canReceiveRotationUpdatesAnnouncer = Announcer.to(CanReceiveRotationUpdates.class);
-        Rotation rotation = new Rotation(rotationPeristence.reHydrateOrientation(), canReceiveRotationUpdatesAnnouncer, configService);
+        Rotation rotation = new Rotation(canReceiveRotationUpdatesAnnouncer, configService);
+        RotationPeristence rotationPeristence = new RotationPeristence(configService, rotation);
         canBeRotated = rotation;
         canBeObservedForChangesToRotation = canReceiveRotationUpdatesAnnouncer;
         canBeObservedForChangesToRotation.addListener(rotationPeristence);
