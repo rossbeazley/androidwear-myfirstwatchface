@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.Set;
 
 import uk.co.rossbeazley.wear.Core;
-import uk.co.rossbeazley.wear.android.ui.config.TestConfigService;
+import uk.co.rossbeazley.wear.android.ui.config.TestWorld;
 import uk.co.rossbeazley.wear.rotation.Orientation;
 
 import static org.hamcrest.CoreMatchers.hasItems;
@@ -21,7 +21,7 @@ public class ReinitDefaultDataTest {
 
     private CapturingConfigServiceListener capturingConfigServiceListener;
     private ConfigService configService;
-    private TestConfigService testConfigService;
+    private TestWorld testWorld;
     private ConfigItem[] defaultOptions;
 
     private Map<String,String> reconfiguredOptionsForItemIDs = new HashMap<>();
@@ -39,7 +39,7 @@ public class ReinitDefaultDataTest {
     public void
     reInitServiceWithPreviousPersistentStore() {
         reconfigureOptions();
-        configService = new Core(Orientation.north(), testConfigService.hashMapPersistence, defaultOptions).configService;
+        configService = new Core(Orientation.north(), testWorld.hashMapPersistence, defaultOptions).configService;
         assertReconfiguredOptionsStillPersisted();
     }
 
@@ -63,7 +63,7 @@ public class ReinitDefaultDataTest {
             String itemID = item.itemId();
             configService.configureItem(itemID);
             String currentOptionForItem = configService.currentOptionForItem(itemID);
-            String differentOptionForItem = testConfigService.aDifferentOptionForItem(itemID, currentOptionForItem);
+            String differentOptionForItem = testWorld.aDifferentOptionForItem(itemID, currentOptionForItem);
             configService.chooseOption(differentOptionForItem);
 
             reconfiguredOptionsForItemIDs.put(itemID,differentOptionForItem);
@@ -73,11 +73,11 @@ public class ReinitDefaultDataTest {
     @Before
     public void buildTestWorld() {
 
-        testConfigService = new TestConfigService();
-        configService = testConfigService.build();
+        testWorld = new TestWorld();
+        configService = testWorld.build();
         capturingConfigServiceListener = configService.addListener(new CapturingConfigServiceListener());
 
-        defaultOptions = testConfigService.defaultOptions;
+        defaultOptions = testWorld.defaultOptions;
     }
 
 

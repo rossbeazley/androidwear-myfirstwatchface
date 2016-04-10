@@ -12,7 +12,7 @@ import uk.co.rossbeazley.wear.android.ui.config.service.ConfigItem;
 import uk.co.rossbeazley.wear.android.ui.config.service.ConfigService;
 import uk.co.rossbeazley.wear.rotation.Orientation;
 
-public class TestConfigService {
+public class TestWorld {
 
     public HashMapPersistence hashMapPersistence;
     public ConfigService configService;

@@ -3,7 +3,7 @@ package uk.co.rossbeazley.wear.android.ui.config.service;
 import org.junit.Before;
 import org.junit.Test;
 
-import uk.co.rossbeazley.wear.android.ui.config.TestConfigService;
+import uk.co.rossbeazley.wear.android.ui.config.TestWorld;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
@@ -13,19 +13,19 @@ public class InitDefaultDataTest {
 
     private CapturingConfigServiceListener capturingConfigServiceListener;
     private ConfigService configService;
-    private TestConfigService testConfigService;
+    private TestWorld testWorld;
 
     @Test
     public void
     theOneWhereWeGetTheListOfItems() {
-        assertThat(configService.configItemsList(),is(equalTo(testConfigService.listOfConfigItems())));
+        assertThat(configService.configItemsList(),is(equalTo(testWorld.listOfConfigItems())));
     }
 
     @Test
     public void
     theOneWhereWeConfigure() {
 
-        String itemID =testConfigService.anyItemID();
+        String itemID = testWorld.anyItemID();
         configService.configureItem(itemID);
         assertThat(capturingConfigServiceListener.configuredItem,is(itemID));
     }
@@ -34,9 +34,9 @@ public class InitDefaultDataTest {
     public void
     theOneWhereWeGetTheOptions() {
 
-        String itemID =testConfigService.anyItemID();
+        String itemID = testWorld.anyItemID();
         configService.configureItem(itemID);
-        assertThat(configService.selectedConfigOptions(),is(equalTo(testConfigService.optionsListForItem(itemID))));
+        assertThat(configService.selectedConfigOptions(),is(equalTo(testWorld.optionsListForItem(itemID))));
     }
 
 
@@ -44,16 +44,16 @@ public class InitDefaultDataTest {
     public void
     storesDefaultOptions() {
 
-        String itemID = testConfigService.anyItemID();
+        String itemID = testWorld.anyItemID();
         configService.configureItem(itemID);
-        assertThat(configService.currentOptionForItem(itemID),is(testConfigService.defaultOptionForItem(itemID)));
+        assertThat(configService.currentOptionForItem(itemID),is(testWorld.defaultOptionForItem(itemID)));
     }
 
     @Before
     public void buildTestWorld() {
 
-        testConfigService = new TestConfigService();
-        configService = testConfigService.build();
+        testWorld = new TestWorld();
+        configService = testWorld.build();
         capturingConfigServiceListener = configService.addListener(new CapturingConfigServiceListener());
     }
 

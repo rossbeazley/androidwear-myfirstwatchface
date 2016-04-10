@@ -6,7 +6,7 @@ import org.junit.Test;
 import java.util.List;
 
 import uk.co.rossbeazley.wear.android.ui.config.service.CapturingConfigServiceListener;
-import uk.co.rossbeazley.wear.android.ui.config.TestConfigService;
+import uk.co.rossbeazley.wear.android.ui.config.TestWorld;
 import uk.co.rossbeazley.wear.android.ui.config.service.ConfigService;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -16,12 +16,12 @@ public class ConfigItemsListPresenterTest {
 
     private CapturingConfigItemsListView configListView;
     private ConfigService configService;
-    private TestConfigService testConfigService;
+    private TestWorld testWorld;
 
     @Before
     public void build() {
-        testConfigService = new TestConfigService();
-        configService = testConfigService.build();
+        testWorld = new TestWorld();
+        configService = testWorld.build();
 
         ConfigItemsListFragment configItemsListFragment = new ConfigItemsListFragment();
         configItemsListFragment.attachConfigService(configService);
@@ -34,14 +34,14 @@ public class ConfigItemsListPresenterTest {
     @Test
     public void presenterShowsTheConfigChoices() throws Exception {
         List<String> listPresented = configListView.presentedList;
-        assertThat(listPresented,is(testConfigService.listOfConfigItems()));
+        assertThat(listPresented,is(testWorld.listOfConfigItems()));
     }
 
     @Test
     public void configServiceAnnouncesSelection() {
         CapturingConfigServiceListener listener = new CapturingConfigServiceListener();
         configService.addListener(listener);
-        String anyItem = testConfigService.anyItemID();
+        String anyItem = testWorld.anyItemID();
         configListView.listener.itemSelected(anyItem);
         assertThat(listener.configuredItem, is(anyItem));
     }

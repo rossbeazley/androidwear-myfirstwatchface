@@ -11,7 +11,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import uk.co.rossbeazley.wear.android.ui.config.TestActivity;
-import uk.co.rossbeazley.wear.android.ui.config.TestConfigService;
+import uk.co.rossbeazley.wear.android.ui.config.TestWorld;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
@@ -23,7 +23,7 @@ public class FragmentNavigationControllerTest {
     public ActivityTestRule<TestActivity> activityTestRule = new ActivityTestRule<>(TestActivity.class);
     private TestActivity testActivity;
     private FragmentNavigationController fragmentNavigationController;
-    private TestConfigService testConfigService;
+    private TestWorld testWorld;
 
     @Before
     public void createTestWorld() {
@@ -37,8 +37,8 @@ public class FragmentNavigationControllerTest {
         }, testActivity.rootFrameLayout.getId());
 
         testActivity.dependencyInjectionFramework.register(new NavigationControllerJournal(), NeedsNavigationController.class);
-        testConfigService = new TestConfigService();
-        testActivity.dependencyInjectionFramework.register(testConfigService.build(), NeedsConfigService.class);
+        testWorld = new TestWorld();
+        testActivity.dependencyInjectionFramework.register(testWorld.build(), NeedsConfigService.class);
     }
 
     @Test
@@ -50,7 +50,7 @@ public class FragmentNavigationControllerTest {
 
     @Test
     public void navigateToConfigOption() throws Exception {
-        testConfigService.configService.configureItem(testConfigService.anyItemID());
+        testWorld.configService.configureItem(testWorld.anyItemID());
         fragmentNavigationController.toConfigOption();
         SystemClock.sleep(1000);
         assertThat(testActivity.fragment, is(instanceOf(ConfigItemOptionsListFragment.class)));

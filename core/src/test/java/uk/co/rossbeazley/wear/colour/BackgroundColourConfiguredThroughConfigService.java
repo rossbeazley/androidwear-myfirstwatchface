@@ -3,10 +3,7 @@ package uk.co.rossbeazley.wear.colour;
 import org.junit.Before;
 import org.junit.Test;
 
-import uk.co.rossbeazley.wear.CanBeObserved;
-import uk.co.rossbeazley.wear.Core;
-import uk.co.rossbeazley.wear.android.ui.config.HashMapPersistence;
-import uk.co.rossbeazley.wear.android.ui.config.TestConfigService;
+import uk.co.rossbeazley.wear.android.ui.config.TestWorld;
 import uk.co.rossbeazley.wear.android.ui.config.service.ConfigService;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -17,13 +14,13 @@ public class BackgroundColourConfiguredThroughConfigService {
 
 
     private Colours.Colour observedBackgroundColour;
-    private TestConfigService testConfigService;
+    private TestWorld testWorld;
     private ConfigService configService;
 
     @Before
     public void setUp() throws Exception {
 
-        configService = (testConfigService = new TestConfigService()).build();
+        configService = (testWorld = new TestWorld()).build();
 
         CanReceiveColourUpdates canReceiveColourUpdates = new CanReceiveColourUpdates() {
             @Override
@@ -31,7 +28,7 @@ public class BackgroundColourConfiguredThroughConfigService {
                 observedBackgroundColour = to.background();
             }
         };
-        testConfigService.core.canBeObservedForChangesToColour.addListener(canReceiveColourUpdates);
+        testWorld.core.canBeObservedForChangesToColour.addListener(canReceiveColourUpdates);
         observedBackgroundColour=null;
     }
 
@@ -49,10 +46,10 @@ public class BackgroundColourConfiguredThroughConfigService {
         configService.chooseOption("Black");
         observedBackgroundColour=null;
 
-        String differentItem = testConfigService.aDifferentItem("Background");
+        String differentItem = testWorld.aDifferentItem("Background");
         configService.configureItem(differentItem);
 
-        String differentOption = testConfigService.anyOptionForItem(differentItem);
+        String differentOption = testWorld.anyOptionForItem(differentItem);
         configService.chooseOption(differentOption);
 
         assertThat(observedBackgroundColour,is(nullValue()));

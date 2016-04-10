@@ -3,7 +3,7 @@ package uk.co.rossbeazley.wear.android.ui.config.service;
 import org.junit.Before;
 import org.junit.Test;
 
-import uk.co.rossbeazley.wear.android.ui.config.TestConfigService;
+import uk.co.rossbeazley.wear.android.ui.config.TestWorld;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -11,12 +11,12 @@ import static org.junit.Assert.assertThat;
 public class InvalidItemChoiceTest {
 
     private ConfigService configService;
-    private TestConfigService testConfigService;
+    private TestWorld testWorld;
 
     @Before
     public void build() {
-        testConfigService = new TestConfigService();
-        configService = testConfigService.build();
+        testWorld = new TestWorld();
+        configService = testWorld.build();
     }
 
     @Test

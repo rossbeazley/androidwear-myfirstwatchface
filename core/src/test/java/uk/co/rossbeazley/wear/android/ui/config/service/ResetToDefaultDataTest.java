@@ -5,7 +5,7 @@ import org.junit.Test;
 
 import java.util.List;
 
-import uk.co.rossbeazley.wear.android.ui.config.TestConfigService;
+import uk.co.rossbeazley.wear.android.ui.config.TestWorld;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.assertThat;
@@ -13,14 +13,14 @@ import static org.junit.Assert.assertThat;
 public class ResetToDefaultDataTest {
 
     private ConfigService configService;
-    private TestConfigService testConfigService;
+    private TestWorld testWorld;
 
     @Test
     public void
     contractTestNotTheDefault() {
 
-        String anyItemId = testConfigService.anyItemID();
-        assertThat(configService.currentOptionForItem(anyItemId),is(not(equalTo(testConfigService.defaultOptionForItem(anyItemId)))));
+        String anyItemId = testWorld.anyItemID();
+        assertThat(configService.currentOptionForItem(anyItemId),is(not(equalTo(testWorld.defaultOptionForItem(anyItemId)))));
     }
 
     @Test
@@ -29,22 +29,22 @@ public class ResetToDefaultDataTest {
 
         configService.resetDefaults();
 
-        String anyItemId = testConfigService.anyItemID();
-        assertThat(configService.currentOptionForItem(anyItemId),is(equalTo(testConfigService.defaultOptionForItem(anyItemId))));
+        String anyItemId = testWorld.anyItemID();
+        assertThat(configService.currentOptionForItem(anyItemId),is(equalTo(testWorld.defaultOptionForItem(anyItemId))));
     }
 
     @Before
     public void buildTestWorld() {
 
-        testConfigService = new TestConfigService();
-        configService = testConfigService.build();
+        testWorld = new TestWorld();
+        configService = testWorld.build();
 
         // reconfigure
         List<String> strings = configService.configItemsList();
         for (String itemId : strings) {
             configService.configureItem(itemId);
             String currentOption = configService.currentOptionForItem(itemId);
-            String newOption= testConfigService.aDifferentOptionForItem(itemId, currentOption);
+            String newOption= testWorld.aDifferentOptionForItem(itemId, currentOption);
             configService.chooseOption(newOption);
         }
 

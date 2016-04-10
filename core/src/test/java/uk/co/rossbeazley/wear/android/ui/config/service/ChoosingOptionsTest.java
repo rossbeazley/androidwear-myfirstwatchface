@@ -5,7 +5,7 @@ import org.junit.Test;
 
 import java.util.List;
 
-import uk.co.rossbeazley.wear.android.ui.config.TestConfigService;
+import uk.co.rossbeazley.wear.android.ui.config.TestWorld;
 
 import static org.hamcrest.CoreMatchers.hasItems;
 import static org.hamcrest.CoreMatchers.is;
@@ -14,7 +14,7 @@ import static org.junit.Assert.assertThat;
 
 public class ChoosingOptionsTest {
 
-    private TestConfigService testConfigService;
+    private TestWorld testWorld;
     private ConfigService configService;
     private String anyItem;
     private CapturingConfigServiceListener capturingConfigServiceListener;
@@ -22,10 +22,10 @@ public class ChoosingOptionsTest {
     @Before
     public void buildTestWorld() {
 
-        testConfigService = new TestConfigService();
-        configService = testConfigService.build();
+        testWorld = new TestWorld();
+        configService = testWorld.build();
 
-        anyItem = testConfigService.anyItemID();
+        anyItem = testWorld.anyItemID();
 
         configService.configureItem(anyItem);
         capturingConfigServiceListener = new CapturingConfigServiceListener();
@@ -36,7 +36,7 @@ public class ChoosingOptionsTest {
     public void
     theOneWeRetrieveTheSelectedConfigOption() {
         List<String> selectedConfigOptions = configService.selectedConfigOptions();
-        String[] allTheOnes = testConfigService.optionsListForItem(anyItem).toArray(new String[]{});
+        String[] allTheOnes = testWorld.optionsListForItem(anyItem).toArray(new String[]{});
         assertThat(selectedConfigOptions,hasItems(allTheOnes));
     }
 
@@ -45,7 +45,7 @@ public class ChoosingOptionsTest {
     public void
     theOneWhereWeChooseAConfigItemOption() {
 
-        String expectedOption = testConfigService.anyOptionForItem(anyItem);
+        String expectedOption = testWorld.anyOptionForItem(anyItem);
         configService.chooseOption(expectedOption);
 
         String optionForItem = configService.currentOptionForItem(anyItem);
@@ -57,10 +57,10 @@ public class ChoosingOptionsTest {
     public void
     theOneWhereWeChooseADifferentConfigItemOption() {
 
-        String expectedOption = testConfigService.anyOptionForItem(anyItem);
+        String expectedOption = testWorld.anyOptionForItem(anyItem);
         configService.chooseOption(expectedOption);
 
-        String optionForItem = configService.currentOptionForItem(testConfigService.aDifferentItem(anyItem));
+        String optionForItem = configService.currentOptionForItem(testWorld.aDifferentItem(anyItem));
 
         assertThat(optionForItem,is(not(expectedOption)));
     }
@@ -69,7 +69,7 @@ public class ChoosingOptionsTest {
     @Test
     public void
     configChoiceIsAnnounced() {
-        String expectedOption = testConfigService.anyOptionForItem(anyItem);
+        String expectedOption = testWorld.anyOptionForItem(anyItem);
         configService.chooseOption(expectedOption);
 
         configService.currentOptionForItem(anyItem);

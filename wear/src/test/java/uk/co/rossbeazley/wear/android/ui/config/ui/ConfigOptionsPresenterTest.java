@@ -5,7 +5,7 @@ import org.junit.Test;
 
 import java.util.List;
 
-import uk.co.rossbeazley.wear.android.ui.config.TestConfigService;
+import uk.co.rossbeazley.wear.android.ui.config.TestWorld;
 import uk.co.rossbeazley.wear.android.ui.config.service.ConfigService;
 
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -14,7 +14,7 @@ import static org.junit.Assert.assertThat;
 
 public class ConfigOptionsPresenterTest {
 
-    private TestConfigService testConfigService;
+    private TestWorld testWorld;
     private ConfigService configService;
     private String anyItem;
     private CapturingConfigOptionView capturingConfigOptionView;
@@ -22,10 +22,10 @@ public class ConfigOptionsPresenterTest {
     @Before
     public void buildTestWorld() {
 
-        testConfigService = new TestConfigService();
-        configService = testConfigService.build();
+        testWorld = new TestWorld();
+        configService = testWorld.build();
 
-        anyItem = testConfigService.anyItemID();
+        anyItem = testWorld.anyItemID();
 
         configService.configureItem(anyItem);
 
@@ -41,7 +41,7 @@ public class ConfigOptionsPresenterTest {
     @Test
     public void
     theOneWhereWeDisplayTheSelectedConfigItemOptions() {
-        List<String> expectedOptions = testConfigService.optionsListForItem(anyItem);
+        List<String> expectedOptions = testWorld.optionsListForItem(anyItem);
         assertThat(capturingConfigOptionView.presentedList,is(equalTo(expectedOptions)));
     }
 
@@ -49,7 +49,7 @@ public class ConfigOptionsPresenterTest {
     public void
     theOneWhereWeChooseAConfigItemOption() {
 
-        String expectedOption = testConfigService.anyOptionForItem(anyItem);
+        String expectedOption = testWorld.anyOptionForItem(anyItem);
 
         capturingConfigOptionView.capturingListener.itemSelected(expectedOption);
 
