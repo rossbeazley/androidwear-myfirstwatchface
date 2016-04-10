@@ -29,51 +29,50 @@ public class RotationConfiguredThroughConfigService {
             }
         };
         testWorld.core.canBeObservedForChangesToRotation.addListener(observer);
-        observedValue=null;
+        observedValue = null;
     }
 
     @Test
     public void notifyOfChangeToNorth() {
         configService.configureItem("Rotation");
         configService.chooseOption("North");
-        assertThat(observedValue,is(Orientation.north()));
+        assertThat(observedValue, is(Orientation.north()));
     }
 
     @Test
     public void notifyOfChangeToEast() {
         configService.configureItem("Rotation");
         configService.chooseOption("East");
-        assertThat(observedValue,is(Orientation.east()));
+        assertThat(observedValue, is(Orientation.east()));
     }
 
     @Test
     public void notifyOfChangeToSouth() {
         configService.configureItem("Rotation");
         configService.chooseOption("South");
-        assertThat(observedValue,is(Orientation.south()));
+        assertThat(observedValue, is(Orientation.south()));
     }
 
     @Test
     public void notifyOfChangeToWest() {
         configService.configureItem("Rotation");
         configService.chooseOption("West");
-        assertThat(observedValue,is(Orientation.west()));
+        assertThat(observedValue, is(Orientation.west()));
     }
-/*
-    @Test
-    public void notifyOfChangeOnlyWhenConfiguringColourNotAfter() {
 
+
+    @Test
+    public void notifyOfAnyChange() {
+        String rotationID = "Rotation";
+        configService.configureItem(rotationID);
+        String currentOptionForItem = configService.currentOptionForItem(rotationID);
+        configService.chooseOption(testWorld.aDifferentOptionForItem(rotationID, currentOptionForItem));
+
+        observedValue = null;
         configService.configureItem("Background");
         configService.chooseOption("Black");
-        observedBackgroundColour=null;
 
-        String differentItem = testWorld.aDifferentItem("Background");
-        configService.configureItem(differentItem);
-
-        String differentOption = testWorld.anyOptionForItem(differentItem);
-        configService.chooseOption(differentOption);
-
-        assertThat(observedBackgroundColour,is(nullValue()));
+        assertThat(observedValue, is(Orientation.west()));
     }
-*/
+
 }
