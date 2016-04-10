@@ -19,7 +19,7 @@
             android:taskAffinity=""
             android:permission="android.permission.BIND_WALLPAPER" >
 
-        <meta-data android:name="watchFaceViewClass" android:value="uk.co.rossbeazley.wear.android.ui.VisibilitySwitchingWatchView" />
+        <meta-data android:name="watchFaceViewClass" android:value="uk.co.rossbeazley.wear.android.ui.ControllerWatchView" />
 
             <!--<meta-data android:name="watchFaceViewLayout" android:resource="@layout/inflating_watch_view" />-->
 
