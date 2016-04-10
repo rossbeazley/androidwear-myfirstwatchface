@@ -45,8 +45,9 @@ todo:
  - remove persistence of other stuff except chosen option
  - get rid of all the string stuff in colour + rotation
 
- - When Config Menu Option chosen for colour and rotation, need to announce change
+ - DONE When Config Menu Option chosen for colour and rotation, need to announce change
 
+ - Hours colour option
 
 2. remove duplication in view rendering,
  - collapse interfaces into one

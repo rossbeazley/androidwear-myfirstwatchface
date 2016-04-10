@@ -74,16 +74,16 @@ public class ControllerWatchView extends FrameLayout implements WatchView {
 
     @Override
     public void toAmbient() {
+        hours.setTextColor(0xffaaaaaa);
         date.setVisibility(GONE);
         seconds.setVisibility(GONE);
-        hours.setTextColor(0xffaaaaaa);
     }
 
     @Override
     public void toActive() {
+        hours.setTextColor(0xffff0000);
         date.setVisibility(VISIBLE);
         seconds.setVisibility(VISIBLE);
-        hours.setTextColor(0xffff0000);
     }
 
     @Override
