@@ -9,6 +9,7 @@ import uk.co.rossbeazley.wear.android.ui.config.HashMapPersistence;
 import uk.co.rossbeazley.wear.android.ui.config.service.StringPersistence;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
 
 public class BackgroundColourConfiguredThroughConfigService {
@@ -45,6 +46,19 @@ public class BackgroundColourConfiguredThroughConfigService {
         core.configService.configureItem("Background");
         core.configService.chooseOption("Black");
         assertThat(observedBackgroundColour,is(Colours.Colour.BLACK));
+    }
+
+    @Test
+    public void notifyOfChangeOnlyWhenConfiguringColourNotAfter() {
+
+        core.configService.configureItem("Background");
+        core.configService.chooseOption("Black");
+        observedBackgroundColour=null;
+
+        core.configService.configureItem("Rotation");
+        core.configService.chooseOption("South");
+
+        assertThat(observedBackgroundColour,is(nullValue()));
     }
 
 }

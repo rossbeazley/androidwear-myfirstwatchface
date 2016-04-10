@@ -70,7 +70,7 @@ public class ConfigService {
         }
     }
 
-    public <T extends ConfigServiceListener> T addListener(T listener) {
+    public <Listener extends ConfigServiceListener> Listener addListener(Listener listener) {
         listenerAnnouncer.addListener(listener);
         return listener;
     }
@@ -97,4 +97,7 @@ public class ConfigService {
         listenerAnnouncer = Announcer.to(ConfigServiceListener.class);
     }
 
+    public void removeListener(ConfigServiceListener listener) {
+        listenerAnnouncer.removeListener(listener);
+    }
 }

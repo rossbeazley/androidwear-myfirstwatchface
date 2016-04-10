@@ -14,7 +14,7 @@ public class ColourManager implements CanBeObserved<CanReceiveColourUpdates>, Ca
             if (item.equals("Background")) {
                 configService.addListener(updateBackgroundColour);
             } else {
-//                configService.removeListener(updateBackgroundColour);
+                configService.removeListener(updateBackgroundColour);
             }
         }
 
@@ -44,7 +44,6 @@ public class ColourManager implements CanBeObserved<CanReceiveColourUpdates>, Ca
         @Override
         public void chosenOption(String option) {
             parseConfigServiceColourStringAndSet(option);
-
             colourUpdates.announce().colourUpdate(currentBackgroundColour);
         }
     };
