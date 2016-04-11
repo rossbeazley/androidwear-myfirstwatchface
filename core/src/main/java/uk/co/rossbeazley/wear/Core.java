@@ -4,6 +4,7 @@ import uk.co.rossbeazley.wear.android.ui.config.HashMapPersistence;
 import uk.co.rossbeazley.wear.android.ui.config.service.ConfigItem;
 import uk.co.rossbeazley.wear.android.ui.config.service.ConfigService;
 import uk.co.rossbeazley.wear.android.ui.config.service.StringPersistence;
+import uk.co.rossbeazley.wear.colour.BackgroundColourConfigItem;
 import uk.co.rossbeazley.wear.colour.CanReceiveColourUpdates;
 import uk.co.rossbeazley.wear.colour.ColourManager;
 import uk.co.rossbeazley.wear.days.CanReceiveDaysUpdates;
@@ -18,6 +19,7 @@ import uk.co.rossbeazley.wear.rotation.CanBeRotated;
 import uk.co.rossbeazley.wear.rotation.CanReceiveRotationUpdates;
 import uk.co.rossbeazley.wear.rotation.Orientation;
 import uk.co.rossbeazley.wear.rotation.Rotation;
+import uk.co.rossbeazley.wear.rotation.RotationConfigItem;
 import uk.co.rossbeazley.wear.rotation.RotationPeristence;
 import uk.co.rossbeazley.wear.seconds.CanReceiveSecondsUpdates;
 import uk.co.rossbeazley.wear.seconds.Seconds;
@@ -53,13 +55,9 @@ public class Core {
     }
 
     public static ConfigItem[] defaultOptions() {
-        return new ConfigItem[]{new ConfigItem("Background")
-                .addOptions("Black", "White")
-                .defaultOption("White")
-        ,new ConfigItem("Rotation")
-                        .addOptions("North", "East", "South", "West")
-                        .defaultOption("North")};
-
+        BackgroundColourConfigItem backgroundColourConfigItem = new BackgroundColourConfigItem();
+        RotationConfigItem rotationConfigItem = new RotationConfigItem();
+        return new ConfigItem[]{backgroundColourConfigItem, rotationConfigItem};
 //                ,new ConfigItem("12/24 Hour")
 //                        .addOptions("Twelve", "Twenty Four", "Twelve Padded")
 //                        .defaultOption("Twelve Padded")

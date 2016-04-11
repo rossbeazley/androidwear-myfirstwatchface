@@ -62,7 +62,7 @@ public class RotationConfiguredThroughConfigService {
 
 
     @Test
-    public void notifyOfAnyChange() {
+    public void notNotifyOfChangeAfterDifferent() {
         String rotationID = "Rotation";
         configService.configureItem(rotationID);
         String currentOptionForItem = configService.currentOptionForItem(rotationID);
@@ -72,7 +72,7 @@ public class RotationConfiguredThroughConfigService {
         configService.configureItem("Background");
         configService.chooseOption("Black");
 
-        assertThat(observedValue, is(Orientation.west()));
+        assertThat(observedValue, is(nullValue()));
     }
 
 }
