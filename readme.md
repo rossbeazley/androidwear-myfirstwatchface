@@ -43,7 +43,8 @@ todo:
 
  - make config service use the objects rather than persistence
  - remove persistence of other stuff except chosen option
- - get rid of all the string stuff in colour + rotation
+ - get rid of all the string stuff in colour
+ - DONE get rid of all the string stuff in rotation
 
  - DONE When Config Menu Option chosen for colour and rotation, need to announce change
 
