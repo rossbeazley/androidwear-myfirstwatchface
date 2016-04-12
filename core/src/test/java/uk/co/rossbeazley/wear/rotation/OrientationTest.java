@@ -11,9 +11,9 @@ import static org.junit.Assert.assertThat;
 
 public class OrientationTest {
 
-    private float degreesRotation;
     private Core core;
     private CanBeObserved<CanReceiveRotationUpdates> rotation;
+    private Orientation rotatedTo;
 
     @Before
     public void setUp() throws Exception {
@@ -22,7 +22,7 @@ public class OrientationTest {
         rotation.addListener(new CanReceiveRotationUpdates() {
             @Override
             public void rotationUpdate(Orientation to) {
-                degreesRotation = to.degrees();
+                rotatedTo = to;
             }
         });
 
@@ -31,14 +31,14 @@ public class OrientationTest {
     @Test
     public void theOneWhereWeRotateRightToEast() {
         core.canBeRotated.right();
-        assertThat(degreesRotation, is(90.0f));
+        assertThat(rotatedTo, is(Orientation.east()));
     }
 
     @Test
     public void theOneWhereWeRotateRightToSouth() {
         core.canBeRotated.right();
         core.canBeRotated.right();
-        assertThat(degreesRotation, is(180.0f));
+        assertThat(rotatedTo, is(Orientation.south()));
     }
 
 
@@ -47,7 +47,7 @@ public class OrientationTest {
         core.canBeRotated.right();
         core.canBeRotated.right();
         core.canBeRotated.right();
-        assertThat(degreesRotation, is(270.0f));
+        assertThat(rotatedTo, is(Orientation.west()));
     }
 
 
@@ -57,7 +57,7 @@ public class OrientationTest {
         core.canBeRotated.right();
         core.canBeRotated.right();
         core.canBeRotated.right();
-        assertThat(degreesRotation, is(0.0f));
+        assertThat(rotatedTo, is(Orientation.north()));
     }
 
 
