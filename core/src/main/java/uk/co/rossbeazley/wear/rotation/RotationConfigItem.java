@@ -28,4 +28,19 @@ public class RotationConfigItem extends ConfigItem {
             return "";
         }
     }
+
+    public Orientation orientationFor(String rotation) {
+        Orientation result = null;
+        if(rotation.equals("North")) {
+            result = Orientation.north();
+        } else if(rotation.equals("East")) {
+            result = Orientation.east();
+        } else if(rotation.equals("South")) {
+            result = Orientation.south();
+        } else if(rotation.equals("West")) {
+            result = Orientation.west();
+        }
+
+        return result;
+    }
 }
