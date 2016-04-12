@@ -20,6 +20,8 @@ public class ConfigOptionsWearView extends FrameLayout implements ConfigOptionVi
 
     void _ConfigOptionsWearView()
     {
+
+        setBackgroundColor(0xaa000000);
         LayoutInflater.from(getContext()).inflate(R.layout.list_wear_view, this);
         wearableListView = (WearableListView) findViewById(R.id.wearable_list);
         wearableListView.setClickListener(new WearableListView.ClickListener() {
