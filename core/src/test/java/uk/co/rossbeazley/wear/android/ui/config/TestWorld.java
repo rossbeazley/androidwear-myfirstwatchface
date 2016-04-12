@@ -32,7 +32,7 @@ public class TestWorld {
         this.defaultOptions = core.defaultOptions();
 
         configItems = new LinkedHashMap<>();
-        for (ConfigItem option : defaultOptions.array()) {
+        for (ConfigItem option : new ConfigItem[]{core.backgroundColourConfigItem(),core.rotationConfigItem()}) {
             configItems.put(option.itemId(), option);
         }
         return configService;
@@ -97,5 +97,10 @@ public class TestWorld {
         List<String> options = configItems.get(itemId).options();
         assert options.size()>1 : "MALFORMED TESTDATA, ASSUMES ITEM " + itemId + " HAS MORE THAN ON OPTION\n" + options;
 
+    }
+
+    public String aDifferentOptionForItem(String aDifferentItem) {
+
+        return aDifferentOptionForItem(aDifferentItem,configService.currentOptionForItem(aDifferentItem));
     }
 }

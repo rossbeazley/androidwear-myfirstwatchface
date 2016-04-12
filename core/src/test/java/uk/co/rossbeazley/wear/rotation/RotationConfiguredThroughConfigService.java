@@ -5,8 +5,6 @@ import org.junit.Test;
 
 import uk.co.rossbeazley.wear.android.ui.config.TestWorld;
 import uk.co.rossbeazley.wear.android.ui.config.service.ConfigService;
-import uk.co.rossbeazley.wear.colour.CanReceiveColourUpdates;
-import uk.co.rossbeazley.wear.colour.Colours;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
@@ -18,6 +16,9 @@ public class RotationConfiguredThroughConfigService {
     private Orientation observedValue;
     private TestWorld testWorld;
     private ConfigService configService;
+    private String rotationItemId;
+    private String aDifferentItem;
+    private RotationConfigItem rotationConfigItem;
 
     @Before
     public void setUp() throws Exception {
@@ -30,47 +31,55 @@ public class RotationConfiguredThroughConfigService {
         };
         testWorld.core.canBeObservedForChangesToRotation.addListener(observer);
         observedValue = null;
+        rotationConfigItem = testWorld.core.rotationConfigItem();
+        rotationItemId = rotationConfigItem.itemId();
     }
 
     @Test
     public void notifyOfChangeToNorth() {
-        configService.configureItem("Rotation");
-        configService.chooseOption("North");
-        assertThat(observedValue, is(Orientation.north()));
+        Orientation orientation = Orientation.north();
+        configService.configureItem(rotationItemId);
+        configService.chooseOption(rotationConfigItem.optionFor(orientation));
+        assertThat(observedValue, is(orientation));
     }
 
     @Test
     public void notifyOfChangeToEast() {
-        configService.configureItem("Rotation");
-        configService.chooseOption("East");
-        assertThat(observedValue, is(Orientation.east()));
+        Orientation orientation = Orientation.east();
+        configService.configureItem(rotationItemId);
+        configService.chooseOption(rotationConfigItem.optionFor(orientation));
+        assertThat(observedValue, is(orientation));
     }
 
     @Test
     public void notifyOfChangeToSouth() {
-        configService.configureItem("Rotation");
-        configService.chooseOption("South");
-        assertThat(observedValue, is(Orientation.south()));
+        Orientation orientation = Orientation.south();
+        configService.configureItem(rotationItemId);
+        configService.chooseOption(rotationConfigItem.optionFor(orientation));
+        assertThat(observedValue, is(orientation));
     }
 
     @Test
     public void notifyOfChangeToWest() {
-        configService.configureItem("Rotation");
-        configService.chooseOption("West");
-        assertThat(observedValue, is(Orientation.west()));
+        Orientation orientation = Orientation.west();
+        configService.configureItem(rotationItemId);
+        configService.chooseOption(rotationConfigItem.optionFor(orientation));
+        assertThat(observedValue, is(orientation));
     }
 
 
     @Test
     public void notNotifyOfChangeAfterDifferent() {
-        String rotationID = "Rotation";
+        String rotationID = rotationItemId;
         configService.configureItem(rotationID);
         String currentOptionForItem = configService.currentOptionForItem(rotationID);
         configService.chooseOption(testWorld.aDifferentOptionForItem(rotationID, currentOptionForItem));
 
         observedValue = null;
-        configService.configureItem("Background");
-        configService.chooseOption("Black");
+        aDifferentItem = testWorld.aDifferentItem(rotationID);
+        configService.configureItem(aDifferentItem);
+        String aDifferentOptionForItem = testWorld.aDifferentOptionForItem(aDifferentItem);
+        configService.chooseOption(aDifferentOptionForItem);
 
         assertThat(observedValue, is(nullValue()));
     }

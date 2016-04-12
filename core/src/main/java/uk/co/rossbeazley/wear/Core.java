@@ -27,6 +27,8 @@ import uk.co.rossbeazley.wear.ticktock.CanBeTicked;
 
 public class Core {
 
+    private final BackgroundColourConfigItem backgroundColourConfigItem;
+    private final RotationConfigItem rotationConfigItem;
     public CanBeObserved<CanReceiveMonthsUpdates> canBeObservedForChangesToMonths;
     public CanBeObserved<CanReceiveDaysUpdates> canBeObservedForChangesToDays;
     public CanBeObserved<CanReceiveHoursUpdates> canBeObservedForChangesToHours;
@@ -65,7 +67,12 @@ public class Core {
     private static final DefaultOptions defaultOptions = new DefaultOptions();
     public DefaultOptions defaultOptions() {return defaultOptions;}
 
+    public BackgroundColourConfigItem backgroundColourConfigItem() {return backgroundColourConfigItem;}
+    public RotationConfigItem rotationConfigItem() {return rotationConfigItem;}
+
     public Core(StringPersistence hashMapPersistence, BackgroundColourConfigItem backgroundColourConfigItem, RotationConfigItem rotationConfigItem) {
+        this.backgroundColourConfigItem = backgroundColourConfigItem;
+        this.rotationConfigItem = rotationConfigItem;
         setupChronometerSubsystem();
         configService = ConfigService.setupConfig(hashMapPersistence, backgroundColourConfigItem, rotationConfigItem);
         setupRotationSubsystem();
