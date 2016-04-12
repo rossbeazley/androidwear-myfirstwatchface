@@ -10,7 +10,6 @@ import java.util.Set;
 
 import uk.co.rossbeazley.wear.Core;
 import uk.co.rossbeazley.wear.android.ui.config.TestWorld;
-import uk.co.rossbeazley.wear.rotation.Orientation;
 
 import static org.hamcrest.CoreMatchers.hasItems;
 import static org.hamcrest.CoreMatchers.is;
@@ -22,15 +21,16 @@ public class ReinitDefaultDataTest {
     private CapturingConfigServiceListener capturingConfigServiceListener;
     private ConfigService configService;
     private TestWorld testWorld;
-    private ConfigItem[] defaultOptions;
+    private ConfigItem[] defaultOptionsArray;
 
     private Map<String,String> reconfiguredOptionsForItemIDs = new HashMap<>();
+    private Core.DefaultOptions defaultOptions;
 
     @Test
     public void
     theOneWhereWePersistChoiceAndThenReinitialiseWithoutLoosingThatChoice() {
         reconfigureOptions();
-        configService.initialiseDefaults(defaultOptions);
+        configService.initialiseDefaults(defaultOptionsArray);
         assertReconfiguredOptionsStillPersisted();
     }
 
@@ -39,7 +39,7 @@ public class ReinitDefaultDataTest {
     public void
     reInitServiceWithPreviousPersistentStore() {
         reconfigureOptions();
-        configService = new Core(Orientation.north(), testWorld.hashMapPersistence, defaultOptions).configService;
+        configService = new Core(testWorld.hashMapPersistence, defaultOptions.backgroundColourConfigItem, defaultOptions.rotationConfigItem).configService;
         assertReconfiguredOptionsStillPersisted();
     }
 
@@ -59,7 +59,7 @@ public class ReinitDefaultDataTest {
     }
 
     private void reconfigureOptions() {
-        for(ConfigItem item : defaultOptions) {
+        for(ConfigItem item : defaultOptionsArray) {
             String itemID = item.itemId();
             configService.configureItem(itemID);
             String currentOptionForItem = configService.currentOptionForItem(itemID);
@@ -77,7 +77,8 @@ public class ReinitDefaultDataTest {
         configService = testWorld.build();
         capturingConfigServiceListener = configService.addListener(new CapturingConfigServiceListener());
 
-        defaultOptions = testWorld.defaultOptions;
+        this.defaultOptions = testWorld.defaultOptions;
+        defaultOptionsArray = defaultOptions.array();
     }
 
 

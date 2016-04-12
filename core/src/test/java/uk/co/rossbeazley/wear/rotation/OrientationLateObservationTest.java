@@ -14,7 +14,7 @@ public class OrientationLateObservationTest {
 
     @Test
     public void theOneWhereWeAreToldOrientationIsSouth() {
-        Core core = new Core(Orientation.south());
+        Core core = new Core();
         core.canBeRotated.to(Orientation.south());
         CanBeObserved<CanReceiveRotationUpdates> rotation = core.canBeObservedForChangesToRotation;
         rotation.addListener(new CanReceiveRotationUpdates() {
@@ -29,7 +29,7 @@ public class OrientationLateObservationTest {
 
     @Test
     public void weObserveAfterARotation() {
-        Core core = new Core(Orientation.south());
+        Core core = new Core();
         core.canBeRotated.to(Orientation.south());
         CanBeObserved<CanReceiveRotationUpdates> rotation = core.canBeObservedForChangesToRotation;
         core.canBeRotated.right();

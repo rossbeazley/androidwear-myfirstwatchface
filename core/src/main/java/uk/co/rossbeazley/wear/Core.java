@@ -46,26 +46,28 @@ public class Core {
         this(new HashMapPersistence());
     }
 
-    public Core(Orientation orientation) {
-        this(orientation, new HashMapPersistence(), defaultOptions() );
-    }
-
     public Core(StringPersistence persistence) {
-        this(Orientation.north(), persistence, defaultOptions() );
+        this(persistence, defaultOptions.backgroundColourConfigItem, defaultOptions.rotationConfigItem );
     }
 
-    public static ConfigItem[] defaultOptions() {
-        BackgroundColourConfigItem backgroundColourConfigItem = new BackgroundColourConfigItem();
-        RotationConfigItem rotationConfigItem = new RotationConfigItem();
-        return new ConfigItem[]{backgroundColourConfigItem, rotationConfigItem};
-//                ,new ConfigItem("12/24 Hour")
-//                        .addOptions("Twelve", "Twenty Four", "Twelve Padded")
-//                        .defaultOption("Twelve Padded")
+    public static class DefaultOptions {
+        public final BackgroundColourConfigItem backgroundColourConfigItem = new BackgroundColourConfigItem();
+        public final RotationConfigItem rotationConfigItem = new RotationConfigItem();
+
+        public ConfigItem[] array() {
+            return new ConfigItem[]{defaultOptions.backgroundColourConfigItem, defaultOptions.rotationConfigItem};
+    //                ,new ConfigItem("12/24 Hour")
+    //                        .addOptions("Twelve", "Twenty Four", "Twelve Padded")
+    //                        .defaultOption("Twelve Padded")
+        }
     }
 
-    public Core(Orientation orientation, StringPersistence hashMapPersistence, ConfigItem... defaultConfigOptions) {
+    private static final DefaultOptions defaultOptions = new DefaultOptions();
+    public DefaultOptions defaultOptions() {return defaultOptions;}
+
+    public Core(StringPersistence hashMapPersistence, BackgroundColourConfigItem backgroundColourConfigItem, RotationConfigItem rotationConfigItem) {
         setupChronometerSubsystem();
-        configService = ConfigService.setupConfig(hashMapPersistence, defaultConfigOptions);
+        configService = ConfigService.setupConfig(hashMapPersistence, backgroundColourConfigItem, rotationConfigItem);
         setupRotationSubsystem();
         setupColourManager();
     }

@@ -9,7 +9,7 @@ import static java.util.Arrays.asList;
 
 public class ConfigService {
 
-    public static ConfigService setupConfig(StringPersistence persistence, ConfigItem[] options) {
+    public static ConfigService setupConfig(StringPersistence persistence, ConfigItem... options) {
         ConfigService configService =  new ConfigService(persistence);
         configService.initialiseDefaults(options);
         return configService;

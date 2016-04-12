@@ -10,7 +10,6 @@ import java.util.Set;
 import uk.co.rossbeazley.wear.Core;
 import uk.co.rossbeazley.wear.android.ui.config.service.ConfigItem;
 import uk.co.rossbeazley.wear.android.ui.config.service.ConfigService;
-import uk.co.rossbeazley.wear.rotation.Orientation;
 
 public class TestWorld {
 
@@ -20,27 +19,22 @@ public class TestWorld {
 
     private Random random;
     public Core core;
-    public ConfigItem[] defaultOptions;
+    public Core.DefaultOptions defaultOptions;
 
     public ConfigService build() {
-        return build(Core.defaultOptions());
-    }
-
-    public ConfigService build(final ConfigItem... defaultOptions) {
 
         hashMapPersistence = new HashMapPersistence();
-
-        configItems = new LinkedHashMap<>();
-        for (ConfigItem option : defaultOptions) {
-            configItems.put(option.itemId(), option);
-        }
-        core = new Core(Orientation.north(), hashMapPersistence, defaultOptions);
+        core = new Core(hashMapPersistence);
         configService = core.configService;
 
         random = new Random();
 
-        this.defaultOptions = core.configService.defaultConfigItems;
+        this.defaultOptions = core.defaultOptions();
 
+        configItems = new LinkedHashMap<>();
+        for (ConfigItem option : defaultOptions.array()) {
+            configItems.put(option.itemId(), option);
+        }
         return configService;
     }
 
