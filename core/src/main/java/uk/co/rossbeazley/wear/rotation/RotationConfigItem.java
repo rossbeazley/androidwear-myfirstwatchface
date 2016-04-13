@@ -1,8 +1,8 @@
 package uk.co.rossbeazley.wear.rotation;
 
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.List;
 
 import uk.co.rossbeazley.wear.android.ui.config.service.ConfigItem;
 
@@ -17,16 +17,21 @@ public class RotationConfigItem extends ConfigItem {
     public RotationConfigItem(String id) {
         super(id);
 
+        String defaultOptionString = "North";
         bimap = new RotationConfigItem.BiMap();
-        bimap.put("North", Orientation.north());
+        bimap.put( defaultOptionString, Orientation.north());
         bimap.put("South", Orientation.south());
         bimap.put("West", Orientation.west());
         bimap.put("East", Orientation.east());
 
-
-        addOptions(bimap.keyArray());
-        defaultOption(optionFor(Orientation.north()));
+        defaultOption(defaultOptionString);
     }
+
+    @Override
+    public List<String> options() {
+        return bimap.keyList();
+    }
+
 
     public String optionFor(Orientation orientation) {
         return bimap.keyForValue(orientation);
@@ -46,16 +51,16 @@ public class RotationConfigItem extends ConfigItem {
             valuetoKeyMap.put(value, key);
         }
 
-        public String[] keyArray() {
-            return valuetoKeyMap.values().toArray(new String[valuetoKeyMap.size()]);
-        }
-
         public String keyForValue(Orientation orientation) {
             return valuetoKeyMap.get(orientation);
         }
 
         public Orientation valueForKey(String rotation) {
             return keyToValueMap.get(rotation);
+        }
+
+        public List<String> keyList() {
+            return new ArrayList<>(valuetoKeyMap.values());
         }
     }
 }

@@ -17,7 +17,7 @@ public class ConfigItem {
         return itemId;
     }
 
-    public void addOption(String optionOne) {
+    protected void addOption(String optionOne) {
         this.options.add(optionOne);
     }
 
@@ -25,7 +25,7 @@ public class ConfigItem {
         return options;
     }
 
-    public ConfigItem defaultOption(String optionTwo) {
+    protected ConfigItem defaultOption(String optionTwo) {
         defaultOption = optionTwo;
         return this;
     }
@@ -34,7 +34,7 @@ public class ConfigItem {
         return defaultOption;
     }
 
-    public ConfigItem addOptions(String... options) {
+    protected ConfigItem addOptions(String... options) {
         for(String option : options) {
             addOption(option);
         }
