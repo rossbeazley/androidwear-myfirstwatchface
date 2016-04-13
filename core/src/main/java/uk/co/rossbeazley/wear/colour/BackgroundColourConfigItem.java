@@ -1,38 +1,41 @@
 package uk.co.rossbeazley.wear.colour;
 
+import java.util.List;
+
+import uk.co.rossbeazley.wear.BiMap;
 import uk.co.rossbeazley.wear.android.ui.config.service.ConfigItem;
 
-public class BackgroundColourConfigItem extends ConfigItem {
+public class BackgroundColourConfigItem implements ConfigItem {
+
+    BiMap<String, Colours.Colour> bimap = new BiMap<>();
+    private String defaultOptionString;
 
     public BackgroundColourConfigItem() {
-        this("Background");
+        defaultOptionString = "White";
+        bimap.put("Black", Colours.Colour.BLACK);
+        bimap.put(defaultOptionString, Colours.Colour.WHITE);
     }
-
-    public BackgroundColourConfigItem(String id) {
-        super(id);
-        addOptions("Black", "White");
-        defaultOption("Black");
+    public String itemId() {
+        return "Background";
     }
 
     public String optionFor(Colours.Colour colour) {
-        String result = null;
-        if (colour == Colours.Colour.WHITE) {
-            result = "White";
-        } else if (colour == Colours.Colour.BLACK) {
-            result = "Black";
-        }
-        return result;
+        return bimap.keyForValue(colour);
     }
 
     public Colours.Colour colourFor(String colourString) {
-        Colours.Colour result = null;
-
-        if(colourString.equals("Black")) {
-            result = Colours.Colour.BLACK;
-        } else if(colourString.equals("White")) {
-            result = Colours.Colour.WHITE;
-        }
-
-        return result;
+        return bimap.valueForKey(colourString);
     }
+
+    public String defaultOption() {
+        return defaultOptionString;
+    }
+
+
+    @Override
+    public List<String> options() {
+        return bimap.keyList();
+    }
+
+
 }
