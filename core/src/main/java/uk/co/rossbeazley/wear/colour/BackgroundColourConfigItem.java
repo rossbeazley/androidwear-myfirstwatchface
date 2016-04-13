@@ -5,7 +5,7 @@ import uk.co.rossbeazley.wear.android.ui.config.service.ConfigItem;
 public class BackgroundColourConfigItem extends ConfigItem {
 
     public BackgroundColourConfigItem() {
-        this("Background2");
+        this("Background");
     }
 
     public BackgroundColourConfigItem(String id) {

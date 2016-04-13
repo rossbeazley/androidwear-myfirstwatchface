@@ -9,14 +9,12 @@ import uk.co.rossbeazley.wear.android.ui.config.service.ConfigServiceListener;
 public class ColourManager implements CanBeObserved<CanReceiveColourUpdates>, CanBeColoured {
     private final ConfigService configService;
     private final BackgroundColourConfigItem backgroundColourConfigItem;
-    private final ConfigServiceListener watchForBackgroundGettingconfigured = new ConfigServiceListener() {
+    private final ConfigServiceListener announceIfBackgroundColourReConfigured = new ConfigServiceListener() {
+        private String item;
+
         @Override
         public void configuring(String item) {
-            if (item.equals(backgroundColourConfigItem.itemId())) {
-                configService.addListener(updateBackgroundColour);
-            } else {
-                configService.removeListener(updateBackgroundColour);
-            }
+            this.item = item;
         }
 
         @Override
@@ -26,33 +24,18 @@ public class ColourManager implements CanBeObserved<CanReceiveColourUpdates>, Ca
 
         @Override
         public void chosenOption(String option) {
-
+            if (item.equals(backgroundColourConfigItem.itemId())) {
+                parseConfigServiceColourStringAndSet(option);
+                colourUpdates.announce().colourUpdate(currentBackgroundColour);
+            }
         }
     };
     private Colours currentBackgroundColour;
     private final Announcer<CanReceiveColourUpdates> colourUpdates;
-    private ConfigServiceListener updateBackgroundColour = new ConfigServiceListener() {
-        @Override
-        public void configuring(String item) {
-
-        }
-
-        @Override
-        public void error(KeyNotFound keyNotFound) {
-
-        }
-
-        @Override
-        public void chosenOption(String option) {
-            parseConfigServiceColourStringAndSet(option);
-            colourUpdates.announce().colourUpdate(currentBackgroundColour);
-        }
-    };
 
     public ColourManager(final ConfigService configService, BackgroundColourConfigItem backgroundColourConfigItem) {
         this.configService = configService;
         this.backgroundColourConfigItem = backgroundColourConfigItem;
-
 
         String background = configService.currentOptionForItem(backgroundColourConfigItem.itemId());
         parseConfigServiceColourStringAndSet(background);
@@ -64,15 +47,11 @@ public class ColourManager implements CanBeObserved<CanReceiveColourUpdates>, Ca
                 observer.colourUpdate(currentBackgroundColour);
             }
         });
-
-        configService.addListener(watchForBackgroundGettingconfigured);
-
+        configService.addListener(announceIfBackgroundColourReConfigured);
     }
 
     private void parseConfigServiceColourStringAndSet(String background) {
-
         currentBackgroundColour = new Colours(backgroundColourConfigItem.colourFor(background));
-
     }
 
     @Override
@@ -89,11 +68,8 @@ public class ColourManager implements CanBeObserved<CanReceiveColourUpdates>, Ca
     public void background(Colours.Colour colour) {
         currentBackgroundColour = new Colours(colour);
         String option;
-
         option = backgroundColourConfigItem.optionFor(colour);
-
         configService.persistItemChoice(backgroundColourConfigItem.itemId() , option);
-
         colourUpdates.announce().colourUpdate(currentBackgroundColour);
     }
 }
