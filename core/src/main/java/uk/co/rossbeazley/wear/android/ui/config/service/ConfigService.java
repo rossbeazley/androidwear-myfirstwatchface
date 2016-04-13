@@ -15,31 +15,26 @@ public class ConfigService {
         return configService;
     }
 
-
     private final Announcer<ConfigServiceListener> listenerAnnouncer;
     private String currentItemId;
 
     public ConfigItem[] defaultConfigItems;
 
     public List<String> selectedConfigOptions() {
-        List<String> strings = persistence.stringsForKey(currentItemId);
-        ConfigItem item = configuItem(currentItemId);
-        return item.options();
+        return configItem(currentItemId).options();
     }
 
-    private ConfigItem configuItem(String currentItemId) {
+    private ConfigItem configItem(String currentItemId) {
         ConfigItem result = null;
         for (ConfigItem i : defaultConfigItems) {
             if(i.itemId().equals(currentItemId)) {
                 result = i;
             }
         }
-
         return result;
     }
 
     public void chooseOption(String expectedOption) {
-
         persistence.storeStringsForKey(currentItemId + "Choice", asList(expectedOption));
         listenerAnnouncer.announce().chosenOption(expectedOption);
     }
@@ -78,7 +73,7 @@ public class ConfigService {
     }
 
     public void persistItemChoice(String itemId, String option) {
-        if (persistence.hasKey(itemId)) {
+        if (configItem(itemId)!=null) {
             persistence.storeStringsForKey(itemId + "Choice", asList(option));
         }
     }
@@ -89,7 +84,8 @@ public class ConfigService {
     }
 
     public void configureItem(String item) {
-        if (persistence.hasKey(item)) {
+        boolean hasKey = configItem(item)!=null;
+        if (hasKey) {
             this.currentItemId = item;
             listenerAnnouncer.announce().configuring(item);
         } else {
@@ -100,7 +96,11 @@ public class ConfigService {
     }
 
     public List<String> configItemsList() {
-        return persistence.stringsForKey("configItems");
+        List<String> configItems = new ArrayList<>();
+        for (ConfigItem item : defaultConfigItems) {
+            configItems.add(item.itemId());
+        }
+        return configItems;
     }
 
     private StringPersistence persistence;
