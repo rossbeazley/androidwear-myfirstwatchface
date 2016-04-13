@@ -24,7 +24,7 @@ public class RotationConfigItem extends ConfigItem {
         pairs.put("East", Orientation.east());
 
         addOptions(pairs.keySet().toArray(new String[pairs.size()]));
-        defaultOption("North");
+        defaultOption(optionFor(Orientation.north()));
     }
 
     public String optionFor(Orientation orientation) {

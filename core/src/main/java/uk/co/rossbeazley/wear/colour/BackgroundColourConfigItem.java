@@ -13,4 +13,14 @@ public class BackgroundColourConfigItem extends ConfigItem {
         addOptions("Black", "White");
         defaultOption("White");
     }
+
+    public String optionFor(Colours.Colour colour) {
+        String result = null;
+        if (colour == Colours.Colour.WHITE) {
+            result = "White";
+        } else if (colour == Colours.Colour.BLACK) {
+            result = "Black";
+        }
+        return result;
+    }
 }
