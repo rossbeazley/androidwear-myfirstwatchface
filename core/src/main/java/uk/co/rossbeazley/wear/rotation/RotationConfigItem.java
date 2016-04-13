@@ -9,6 +9,7 @@ import uk.co.rossbeazley.wear.android.ui.config.service.ConfigItem;
 public class RotationConfigItem extends ConfigItem {
 
     private BiMap bimap;
+    private String defaultOptionString;
 
     public RotationConfigItem() {
         this("Rotation");
@@ -17,15 +18,24 @@ public class RotationConfigItem extends ConfigItem {
     public RotationConfigItem(String id) {
         super(id);
 
-        String defaultOptionString = "North";
+        defaultOptionString = "North";
         bimap = new RotationConfigItem.BiMap();
-        bimap.put( defaultOptionString, Orientation.north());
+        bimap.put(defaultOptionString, Orientation.north());
         bimap.put("South", Orientation.south());
         bimap.put("West", Orientation.west());
         bimap.put("East", Orientation.east());
 
         defaultOption(defaultOptionString);
     }
+
+    public String itemId() {
+        return "Rotation";
+    }
+
+    public String defaultOption() {
+        return defaultOptionString;
+    }
+
 
     @Override
     public List<String> options() {
