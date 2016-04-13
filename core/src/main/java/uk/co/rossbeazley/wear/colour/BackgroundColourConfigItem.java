@@ -11,7 +11,7 @@ public class BackgroundColourConfigItem extends ConfigItem {
     public BackgroundColourConfigItem(String id) {
         super(id);
         addOptions("Black", "White");
-        defaultOption("White");
+        defaultOption("Black");
     }
 
     public String optionFor(Colours.Colour colour) {
@@ -21,6 +21,18 @@ public class BackgroundColourConfigItem extends ConfigItem {
         } else if (colour == Colours.Colour.BLACK) {
             result = "Black";
         }
+        return result;
+    }
+
+    public Colours.Colour colourFor(String colourString) {
+        Colours.Colour result = null;
+
+        if(colourString.equals("Black")) {
+            result = Colours.Colour.BLACK;
+        } else if(colourString.equals("White")) {
+            result = Colours.Colour.WHITE;
+        }
+
         return result;
     }
 }

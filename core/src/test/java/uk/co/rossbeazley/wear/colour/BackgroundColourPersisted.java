@@ -42,7 +42,8 @@ public class BackgroundColourPersisted {
 
     @Test
     public void coreDefaultsToWhite() {
-        assertThat(observedBackgroundColour,is(Colours.Colour.WHITE));
+        String defaultOption = core.backgroundColourConfigItem().defaultOption();
+        assertThat(observedBackgroundColour,is(core.backgroundColourConfigItem().colourFor(defaultOption)));
     }
 
     @Test

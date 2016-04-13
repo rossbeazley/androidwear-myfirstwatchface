@@ -8,6 +8,7 @@ import uk.co.rossbeazley.wear.android.ui.config.service.ConfigServiceListener;
 
 public class ColourManager implements CanBeObserved<CanReceiveColourUpdates>, CanBeColoured {
     private final ConfigService configService;
+    private final BackgroundColourConfigItem backgroundColourConfigItem;
     private final ConfigServiceListener watchForBackgroundGettingconfigured = new ConfigServiceListener() {
         @Override
         public void configuring(String item) {
@@ -48,8 +49,9 @@ public class ColourManager implements CanBeObserved<CanReceiveColourUpdates>, Ca
         }
     };
 
-    public ColourManager(final ConfigService configService) {
+    public ColourManager(final ConfigService configService, BackgroundColourConfigItem backgroundColourConfigItem) {
         this.configService = configService;
+        this.backgroundColourConfigItem = backgroundColourConfigItem;
 
 
         String background = configService.currentOptionForItem("Background");
@@ -68,11 +70,9 @@ public class ColourManager implements CanBeObserved<CanReceiveColourUpdates>, Ca
     }
 
     private void parseConfigServiceColourStringAndSet(String background) {
-        if (background.equals("Black")) {
-            currentBackgroundColour = new Colours(Colours.Colour.BLACK);
-        } else {
-            currentBackgroundColour = new Colours(Colours.Colour.WHITE);
-        }
+
+        currentBackgroundColour = new Colours(backgroundColourConfigItem.colourFor(background));
+
     }
 
     @Override
@@ -94,6 +94,8 @@ public class ColourManager implements CanBeObserved<CanReceiveColourUpdates>, Ca
         } else {
             option = "White";
         }
+
+        option = backgroundColourConfigItem.optionFor(colour);
 
         configService.persistItemChoice("Background", option);
 

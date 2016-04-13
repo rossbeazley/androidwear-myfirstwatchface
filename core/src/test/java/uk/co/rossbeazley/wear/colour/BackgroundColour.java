@@ -32,8 +32,9 @@ public class BackgroundColour {
     }
 
     @Test
-    public void coreDefaultsToWhite() {
-        assertThat(backgroundColour,is(Colours.Colour.WHITE));
+    public void coreDefaultsColour() {
+        String defaultOption = core.backgroundColourConfigItem().defaultOption();
+        assertThat(backgroundColour,is(core.backgroundColourConfigItem().colourFor(defaultOption)));
     }
 
     @Test

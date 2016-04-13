@@ -122,7 +122,7 @@ public class Core {
     }
 
     private void setupColourManager() {
-        ColourManager colourManager = new ColourManager(configService);
+        ColourManager colourManager = new ColourManager(configService, backgroundColourConfigItem);
         canBeObservedForChangesToColour = colourManager;
         canBeColoured = colourManager;
     }
