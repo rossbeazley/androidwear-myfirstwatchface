@@ -8,39 +8,54 @@ import uk.co.rossbeazley.wear.android.ui.config.service.ConfigItem;
 
 public class RotationConfigItem extends ConfigItem {
 
+    private BiMap bimap;
+
     public RotationConfigItem() {
         this("Rotation");
     }
 
-    Map<String, Orientation> pairs;
-
     public RotationConfigItem(String id) {
         super(id);
 
-        pairs = new HashMap<>();
-        pairs.put("North", Orientation.north());
-        pairs.put("South", Orientation.south());
-        pairs.put("West", Orientation.west());
-        pairs.put("East", Orientation.east());
+        bimap = new RotationConfigItem.BiMap();
+        bimap.put("North", Orientation.north());
+        bimap.put("South", Orientation.south());
+        bimap.put("West", Orientation.west());
+        bimap.put("East", Orientation.east());
 
-        addOptions(pairs.keySet().toArray(new String[pairs.size()]));
+
+        addOptions(bimap.keyArray());
         defaultOption(optionFor(Orientation.north()));
     }
 
     public String optionFor(Orientation orientation) {
-
-        Set<Map.Entry<String, Orientation>> entries = pairs.entrySet();
-        String result = null;
-        for (Map.Entry<String, Orientation> el : entries) {
-            if (el.getValue() == orientation) {
-                result = el.getKey();
-                return result;
-            }
-        }
-        return result;
+        return bimap.keyForValue(orientation);
     }
 
     public Orientation orientationFor(String rotation) {
-        return pairs.get(rotation);
+        return bimap.valueForKey(rotation);
+    }
+
+    private class BiMap {
+
+        private HashMap<String, Orientation> keyToValueMap = new HashMap<>();
+        private HashMap<Orientation, String> valuetoKeyMap = new HashMap<>();
+
+        public void put(String key, Orientation value) {
+            keyToValueMap.put(key, value);
+            valuetoKeyMap.put(value, key);
+        }
+
+        public String[] keyArray() {
+            return valuetoKeyMap.values().toArray(new String[valuetoKeyMap.size()]);
+        }
+
+        public String keyForValue(Orientation orientation) {
+            return valuetoKeyMap.get(orientation);
+        }
+
+        public Orientation valueForKey(String rotation) {
+            return keyToValueMap.get(rotation);
+        }
     }
 }
