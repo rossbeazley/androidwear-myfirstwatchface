@@ -12,7 +12,7 @@ tint colour
 
 Next steps:
 
-1. remove connascence of algorithm from TDB and persistence tier.
+1. DONE remove connascence of algorithm from TDB and persistence tier.
  - DONE introduce a store defaults operation (constructor?)
  - DONE write tests to ensure defaults are persisted correctly
  - DONE replace impl in TDB to use this new mechanism
@@ -35,14 +35,14 @@ todo:
  - DONE rotation by config option
  - DONE migrate wear data persistence to use shared prefs
  - possibly introduce value eg rotation degrees or colour value rather than just the name
- - re-write config service to only persist choices, not options. drive from in memory objects only
+ - DONE re-write config service to only persist choices, not options. drive from in memory objects only
  - DONE shared prefs persistence
  - (including reset option (presenter responsible for presenting option to use reset method on config service))
  - allow the addition of config options without over writing the current values
  (-allow ability to Add config options not just at the start, ie init defaults should be additive)
 
- - make config service use the objects rather than persistence
- - remove persistence of other stuff except chosen option
+ - DONE make config service use the objects rather than persistence
+ - DONE remove persistence of other stuff except chosen option
  - DONE get rid of all the string stuff in colour
  - DONE get rid of all the string stuff in rotation
 
@@ -56,10 +56,10 @@ todo:
  - have only one concrete impl (and only one test)
 
 3. introduce a tighter domain model that has objects with:
- - config ID
- - config options list
+ - DONE config ID
+ - DONE config options list
  - chosen option
- - can then (de)hydrate this to/from persistence
+ - DONE can then (de)hydrate this to/from persistence
  - make domain object have bi-directional relationships so can return chosen option with references to rest?
  - possibly change presenters to use this
  - at the very least move from String to ConfigOption type and ConfigId type
