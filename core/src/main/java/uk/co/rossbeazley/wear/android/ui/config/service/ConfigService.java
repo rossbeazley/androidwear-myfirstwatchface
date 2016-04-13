@@ -15,9 +15,8 @@ public class ConfigService {
         return configService;
     }
 
-    private final Announcer<ConfigServiceListener> listenerAnnouncer;
     private String currentItemId;
-
+    private StringPersistence persistence;
     public ConfigItem[] defaultConfigItems;
 
     public List<String> selectedConfigOptions() {
@@ -35,12 +34,12 @@ public class ConfigService {
     }
 
     public void chooseOption(String expectedOption) {
-        persistence.storeStringsForKey(currentItemId + "Choice", asList(expectedOption));
+        persistItemChoice(currentItemId, expectedOption);
         listenerAnnouncer.announce().chosenOption(expectedOption);
     }
 
     public String currentOptionForItem(String id) {
-        return persistence.stringsForKey(id + "Choice").get(0);
+        return persistence.stringsForKey(id).get(0);
     }
 
     public void initialiseDefaults(ConfigItem... configItems) {
@@ -52,20 +51,18 @@ public class ConfigService {
     }
 
     private void storeDefaults(ConfigItem[] configItems) {
-        List<String> IDs = new ArrayList<>(configItems.length);
         for (ConfigItem configItem : configItems) {
-            String id = configItem.itemId();
-            IDs.add(id);
-            persistence.storeStringsForKey(id, configItem.options());
-            String defaultOption = configItem.defaultOption();
-            persistence.storeStringsForKey(id + "Choice", asList(defaultOption));
+            persistItemChoice(configItem.itemId(), configItem.defaultOption());
         }
-        persistence.storeStringsForKey("configItems", IDs);
     }
 
     private boolean alreadyHasDataStored() {
-        List<String> currentItems = persistence.stringsForKey("configItems");
-        return currentItems != null && currentItems.size() > 0;
+
+        boolean result = false;
+        for (ConfigItem item : defaultConfigItems) {
+            result|=persistence.hasKey(item.itemId());
+        }
+        return result;
     }
 
     public void resetDefaults() {
@@ -73,19 +70,18 @@ public class ConfigService {
     }
 
     public void persistItemChoice(String itemId, String option) {
-        if (configItem(itemId)!=null) {
-            persistence.storeStringsForKey(itemId + "Choice", asList(option));
+        if (itemExists(itemId)) {
+            persistence.storeStringsForKey(itemId, asList(option));
         }
     }
 
-    public <Listener extends ConfigServiceListener> Listener addListener(Listener listener) {
-        listenerAnnouncer.addListener(listener);
-        return listener;
+    private boolean itemExists(String itemId) {
+        return configItem(itemId)!=null;
     }
 
+
     public void configureItem(String item) {
-        boolean hasKey = configItem(item)!=null;
-        if (hasKey) {
+        if (itemExists(item)) {
             this.currentItemId = item;
             listenerAnnouncer.announce().configuring(item);
         } else {
@@ -103,14 +99,24 @@ public class ConfigService {
         return configItems;
     }
 
-    private StringPersistence persistence;
 
     public ConfigService(StringPersistence persistence) {
         this.persistence = persistence;
         listenerAnnouncer = Announcer.to(ConfigServiceListener.class);
     }
 
+
+
+
+    private final Announcer<ConfigServiceListener> listenerAnnouncer;
+
     public void removeListener(ConfigServiceListener listener) {
         listenerAnnouncer.removeListener(listener);
     }
+
+    public <Listener extends ConfigServiceListener> Listener addListener(Listener listener) {
+        listenerAnnouncer.addListener(listener);
+        return listener;
+    }
+
 }
