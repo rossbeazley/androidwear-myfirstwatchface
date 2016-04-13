@@ -22,7 +22,20 @@ public class ConfigService {
     public ConfigItem[] defaultConfigItems;
 
     public List<String> selectedConfigOptions() {
-        return persistence.stringsForKey(currentItemId);
+        List<String> strings = persistence.stringsForKey(currentItemId);
+        ConfigItem item = configuItem(currentItemId);
+        return item.options();
+    }
+
+    private ConfigItem configuItem(String currentItemId) {
+        ConfigItem result = null;
+        for (ConfigItem i : defaultConfigItems) {
+            if(i.itemId().equals(currentItemId)) {
+                result = i;
+            }
+        }
+
+        return result;
     }
 
     public void chooseOption(String expectedOption) {

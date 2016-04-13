@@ -43,7 +43,7 @@ todo:
 
  - make config service use the objects rather than persistence
  - remove persistence of other stuff except chosen option
- - get rid of all the string stuff in colour
+ - DONE get rid of all the string stuff in colour
  - DONE get rid of all the string stuff in rotation
 
  - DONE When Config Menu Option chosen for colour and rotation, need to announce change
@@ -72,8 +72,8 @@ todo:
  -- invalid choice in UI, is it possible?
  -- pre-selecting the current option for item when displayed screen
  -- possibly introduce a none fragment based nav controller and role this into the UI tier tests.
-    could the nav controller itself create the presenters and use a view factory.
+ -- (NO - could the nav controller itself create the presenters and use a view factory.
     How would the fragment generated view get back to the nav controller?
     Consider the case where app is re-hydrating, it feels wrong that the presenter should be long lived
     and infact this would be hard to do, it is tied (and really the same thing) as the fragment,
-    therefore the fragment should control the lifecycle of the presenter and the view
+    therefore the fragment should control the lifecycle of the presenter and the view)
