@@ -12,7 +12,7 @@ public class ColourManager implements CanBeObserved<CanReceiveColourUpdates>, Ca
     private final ConfigServiceListener watchForBackgroundGettingconfigured = new ConfigServiceListener() {
         @Override
         public void configuring(String item) {
-            if (item.equals("Background")) {
+            if (item.equals(backgroundColourConfigItem.itemId())) {
                 configService.addListener(updateBackgroundColour);
             } else {
                 configService.removeListener(updateBackgroundColour);
@@ -54,7 +54,7 @@ public class ColourManager implements CanBeObserved<CanReceiveColourUpdates>, Ca
         this.backgroundColourConfigItem = backgroundColourConfigItem;
 
 
-        String background = configService.currentOptionForItem("Background");
+        String background = configService.currentOptionForItem(backgroundColourConfigItem.itemId());
         parseConfigServiceColourStringAndSet(background);
 
         colourUpdates = Announcer.to(CanReceiveColourUpdates.class);
@@ -89,15 +89,10 @@ public class ColourManager implements CanBeObserved<CanReceiveColourUpdates>, Ca
     public void background(Colours.Colour colour) {
         currentBackgroundColour = new Colours(colour);
         String option;
-        if (colour == Colours.Colour.BLACK) {
-            option = "Black";
-        } else {
-            option = "White";
-        }
 
         option = backgroundColourConfigItem.optionFor(colour);
 
-        configService.persistItemChoice("Background", option);
+        configService.persistItemChoice(backgroundColourConfigItem.itemId() , option);
 
         colourUpdates.announce().colourUpdate(currentBackgroundColour);
     }

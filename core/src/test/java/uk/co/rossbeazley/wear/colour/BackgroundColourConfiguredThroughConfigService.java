@@ -9,7 +9,7 @@ import uk.co.rossbeazley.wear.android.ui.config.service.ConfigService;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
-//DEBT
+
 public class BackgroundColourConfiguredThroughConfigService {
 
 
