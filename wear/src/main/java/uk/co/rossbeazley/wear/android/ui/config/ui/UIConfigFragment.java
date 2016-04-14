@@ -10,8 +10,6 @@ import android.view.ViewGroup;
 import uk.co.rossbeazley.wear.Core;
 import uk.co.rossbeazley.wear.Main;
 import uk.co.rossbeazley.wear.R;
-import uk.co.rossbeazley.wear.android.ui.config.ui.NavigationController;
-import uk.co.rossbeazley.wear.android.ui.config.ui.NeedsNavigationController;
 import uk.co.rossbeazley.wear.colour.CanReceiveColourUpdates;
 import uk.co.rossbeazley.wear.colour.Colours;
 
@@ -31,7 +29,7 @@ public class UIConfigFragment extends Fragment implements NeedsNavigationControl
         core.canBeObservedForChangesToColour.addListener(new CanReceiveColourUpdates() {
             @Override
             public void colourUpdate(Colours to) {
-                view.findViewById(R.id.rotate_container).setBackgroundColor(to.background().toInt());
+                view.findViewById(R.id.rotate_container).setBackgroundColor(to.colour().toInt());
             }
         });
 

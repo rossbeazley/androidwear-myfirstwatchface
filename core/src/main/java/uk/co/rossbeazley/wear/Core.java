@@ -7,6 +7,7 @@ import uk.co.rossbeazley.wear.android.ui.config.service.StringPersistence;
 import uk.co.rossbeazley.wear.colour.BackgroundColourConfigItem;
 import uk.co.rossbeazley.wear.colour.CanReceiveColourUpdates;
 import uk.co.rossbeazley.wear.colour.ColourManager;
+import uk.co.rossbeazley.wear.colour.Colours;
 import uk.co.rossbeazley.wear.days.CanReceiveDaysUpdates;
 import uk.co.rossbeazley.wear.days.DaysFromTick;
 import uk.co.rossbeazley.wear.hours.CanReceiveHoursUpdates;
@@ -43,6 +44,7 @@ public class Core {
     public CanBeObserved<CanReceiveColourUpdates> canBeObservedForChangesToColour;
 
     public ConfigService configService;
+    public CanBeObserved<CanReceiveColourUpdates> canBeObservedForChangesToHoursColour;
 
     public Core() {
         this(new HashMapPersistence());
@@ -125,6 +127,15 @@ public class Core {
         ColourManager colourManager = new ColourManager(configService, backgroundColourConfigItem);
         canBeObservedForChangesToColour = colourManager;
         canBeColoured = colourManager;
+
+        Announcer<CanReceiveColourUpdates> colourUpdatesAnnouncer = Announcer.to(CanReceiveColourUpdates.class);
+        canBeObservedForChangesToHoursColour = colourUpdatesAnnouncer;
+        colourUpdatesAnnouncer.registerProducer(new Announcer.Producer<CanReceiveColourUpdates>() {
+            @Override
+            public void observed(CanReceiveColourUpdates observer) {
+                observer.colourUpdate(new Colours(Colours.Colour.RED));
+            }
+        });
     }
 
 

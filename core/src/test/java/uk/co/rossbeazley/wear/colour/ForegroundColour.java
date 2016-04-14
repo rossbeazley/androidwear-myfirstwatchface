@@ -9,22 +9,22 @@ import uk.co.rossbeazley.wear.Core;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
-public class BackgroundColour {
+public class ForegroundColour {
 
 
     private Core core;
     private CanBeObserved<CanReceiveColourUpdates> colour;
-    private Colours.Colour backgroundColour;
+    private Colours.Colour foregroundColour;
     private CanReceiveColourUpdates canReceiveColourUpdates;
 
     @Before
     public void setUp() throws Exception {
         core = new Core();
-        colour = core.canBeObservedForChangesToColour;
+        colour = core.canBeObservedForChangesToHoursColour;
         canReceiveColourUpdates = new CanReceiveColourUpdates() {
             @Override
             public void colourUpdate(Colours to) {
-                backgroundColour = to.colour();
+                foregroundColour = to.colour();
             }
         };
         colour.addListener(canReceiveColourUpdates);
@@ -33,23 +33,26 @@ public class BackgroundColour {
 
     @Test
     public void coreDefaultsColour() {
-        String defaultOption = core.backgroundColourConfigItem().defaultOption();
-        assertThat(backgroundColour,is(core.backgroundColourConfigItem().colourFor(defaultOption)));
+//        String defaultOption = core.backgroundColourConfigItem().defaultOption();
+        Colours.Colour defaultColour;
+//        defaultColour = core.backgroundColourConfigItem().colourFor(defaultOption);
+        defaultColour = Colours.Colour.RED;
+        assertThat(foregroundColour,is(defaultColour));
     }
-
+/*
     @Test
     public void canChangeColour() {
         core.canBeColoured.background(Colours.Colour.BLACK);
-        assertThat(backgroundColour,is(Colours.Colour.BLACK));
+        assertThat(foregroundColour,is(Colours.Colour.BLACK));
     }
 
     @Test
     public void canObserveNewColourAfterChange() {
         core.canBeColoured.background(Colours.Colour.BLACK);
-        backgroundColour = null;
+        foregroundColour = null;
         colour.removeListener(canReceiveColourUpdates);
 
         colour.addListener(canReceiveColourUpdates);
-        assertThat(backgroundColour,is(Colours.Colour.BLACK));
-    }
+        assertThat(foregroundColour,is(Colours.Colour.BLACK));
+    }*/
 }

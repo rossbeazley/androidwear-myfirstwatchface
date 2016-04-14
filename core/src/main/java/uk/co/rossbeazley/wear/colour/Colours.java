@@ -8,13 +8,14 @@ public class Colours {
         this.backgroundColour = backgroundColour;
     }
 
-    public Colour background() {
+    public Colour colour() {
         return backgroundColour;
     }
 
     public static class Colour {
         public static final Colour BLACK = new Colour(0xFF000000);
         public static final Colour WHITE = new Colour(0xffffffff);
+        public static final Colour RED = new Colour(0xffff0000);
 
 
         private final int colourIntValue;

@@ -178,7 +178,7 @@ class InflatingWatchView extends FrameLayout implements WatchView {
 
         @Override
         public void colourUpdate(Colours to) {
-            this.background = to.background();
+            this.background = to.colour();
 
         }
     }

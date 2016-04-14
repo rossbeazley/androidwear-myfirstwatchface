@@ -48,14 +48,21 @@ todo:
 
  - DONE When Config Menu Option chosen for colour and rotation, need to announce change
 
- - Hours colour option
+2. Colouring the hours
+ - The one where the view is told about the colour
+ - The one where you initialise with a default colour
+ - The one where you change the colour and its emitted from the system
+ - The one where the system remembers the last colour
+ - The one where you can configure the colour through the config service
 
-2. remove duplication in view rendering,
+
+
+3. remove duplication in view rendering,
  - collapse interfaces into one
  - make presenters adapt UI interaction into domain events
  - have only one concrete impl (and only one test)
 
-3. introduce a tighter domain model that has objects with:
+4. introduce a tighter domain model that has objects with:
  - DONE config ID
  - DONE config options list
  - chosen option

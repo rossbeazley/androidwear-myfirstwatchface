@@ -181,7 +181,7 @@ public class VisibilitySwitchingWatchView extends FrameLayout implements WatchVi
 
         @Override
         public void colourUpdate(Colours to) {
-            this.background = to.background();
+            this.background = to.colour();
 
         }
     }

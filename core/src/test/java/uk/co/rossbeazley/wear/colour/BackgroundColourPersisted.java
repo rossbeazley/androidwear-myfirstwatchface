@@ -7,7 +7,6 @@ import uk.co.rossbeazley.wear.CanBeObserved;
 import uk.co.rossbeazley.wear.Core;
 import uk.co.rossbeazley.wear.android.ui.config.HashMapPersistence;
 import uk.co.rossbeazley.wear.android.ui.config.service.StringPersistence;
-import uk.co.rossbeazley.wear.rotation.Orientation;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -34,7 +33,7 @@ public class BackgroundColourPersisted {
         canReceiveColourUpdates = new CanReceiveColourUpdates() {
             @Override
             public void colourUpdate(Colours to) {
-                observedBackgroundColour = to.background();
+                observedBackgroundColour = to.colour();
             }
         };
         colour.addListener(canReceiveColourUpdates);

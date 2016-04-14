@@ -27,7 +27,7 @@ public class BackgroundColourConfiguredThroughConfigService {
         CanReceiveColourUpdates canReceiveColourUpdates = new CanReceiveColourUpdates() {
             @Override
             public void colourUpdate(Colours to) {
-                observedBackgroundColour = to.background();
+                observedBackgroundColour = to.colour();
             }
         };
         testWorld.core.canBeObservedForChangesToColour.addListener(canReceiveColourUpdates);
