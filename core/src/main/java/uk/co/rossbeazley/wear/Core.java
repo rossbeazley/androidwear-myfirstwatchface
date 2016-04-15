@@ -8,6 +8,7 @@ import uk.co.rossbeazley.wear.colour.BackgroundColourConfigItem;
 import uk.co.rossbeazley.wear.colour.CanReceiveColourUpdates;
 import uk.co.rossbeazley.wear.colour.ColourManager;
 import uk.co.rossbeazley.wear.colour.Colours;
+import uk.co.rossbeazley.wear.colour.HoursColourConfigItem;
 import uk.co.rossbeazley.wear.days.CanReceiveDaysUpdates;
 import uk.co.rossbeazley.wear.days.DaysFromTick;
 import uk.co.rossbeazley.wear.hours.CanReceiveHoursUpdates;
@@ -18,7 +19,6 @@ import uk.co.rossbeazley.wear.months.CanReceiveMonthsUpdates;
 import uk.co.rossbeazley.wear.months.MonthsFromTick;
 import uk.co.rossbeazley.wear.rotation.CanBeRotated;
 import uk.co.rossbeazley.wear.rotation.CanReceiveRotationUpdates;
-import uk.co.rossbeazley.wear.rotation.Orientation;
 import uk.co.rossbeazley.wear.rotation.Rotation;
 import uk.co.rossbeazley.wear.rotation.RotationConfigItem;
 import uk.co.rossbeazley.wear.rotation.RotationPeristence;
@@ -30,6 +30,7 @@ public class Core {
 
     private final BackgroundColourConfigItem backgroundColourConfigItem;
     private final RotationConfigItem rotationConfigItem;
+    private final HoursColourConfigItem hoursColourConfigItem;
     public CanBeObserved<CanReceiveMonthsUpdates> canBeObservedForChangesToMonths;
     public CanBeObserved<CanReceiveDaysUpdates> canBeObservedForChangesToDays;
     public CanBeObserved<CanReceiveHoursUpdates> canBeObservedForChangesToHours;
@@ -51,32 +52,31 @@ public class Core {
     }
 
     public Core(StringPersistence persistence) {
-        this(persistence, defaultOptions.backgroundColourConfigItem, defaultOptions.rotationConfigItem );
+        this(persistence, defaultOptions.defaultBackgroundColourConfigItem, defaultOptions.defaultRotationConfigItem, defaultOptions.defaultHoursColourConfigItem);
     }
 
     public static class DefaultOptions {
-        public final BackgroundColourConfigItem backgroundColourConfigItem = new BackgroundColourConfigItem();
-        public final RotationConfigItem rotationConfigItem = new RotationConfigItem();
+        public static final BackgroundColourConfigItem defaultBackgroundColourConfigItem = new BackgroundColourConfigItem();
+        public static final RotationConfigItem defaultRotationConfigItem = new RotationConfigItem();
+        public static final HoursColourConfigItem defaultHoursColourConfigItem = new HoursColourConfigItem(Colours.Colour.RED);
 
-        public ConfigItem[] array() {
-            return new ConfigItem[]{defaultOptions.backgroundColourConfigItem, defaultOptions.rotationConfigItem};
-    //                ,new ConfigItem("12/24 Hour")
-    //                        .addOptions("Twelve", "Twenty Four", "Twelve Padded")
-    //                        .defaultOption("Twelve Padded")
+        public static ConfigItem[] array() {
+            return new ConfigItem[]{defaultBackgroundColourConfigItem, defaultRotationConfigItem, defaultHoursColourConfigItem};
         }
     }
 
     private static final DefaultOptions defaultOptions = new DefaultOptions();
-    public DefaultOptions defaultOptions() {return defaultOptions;}
+    public static DefaultOptions defaultOptions() {return defaultOptions;}
 
     public BackgroundColourConfigItem backgroundColourConfigItem() {return backgroundColourConfigItem;}
     public RotationConfigItem rotationConfigItem() {return rotationConfigItem;}
 
-    public Core(StringPersistence hashMapPersistence, BackgroundColourConfigItem backgroundColourConfigItem, RotationConfigItem rotationConfigItem) {
+    public Core(StringPersistence hashMapPersistence, BackgroundColourConfigItem backgroundColourConfigItem, RotationConfigItem rotationConfigItem, HoursColourConfigItem hoursColourConfigItem) {
         this.backgroundColourConfigItem = backgroundColourConfigItem;
         this.rotationConfigItem = rotationConfigItem;
+        this.hoursColourConfigItem = hoursColourConfigItem;
         setupChronometerSubsystem();
-        configService = ConfigService.setupConfig(hashMapPersistence, backgroundColourConfigItem, rotationConfigItem);
+        configService = ConfigService.setupConfig(hashMapPersistence, backgroundColourConfigItem, rotationConfigItem, hoursColourConfigItem);
         setupRotationSubsystem();
         setupColourManager();
     }
@@ -133,7 +133,7 @@ public class Core {
         colourUpdatesAnnouncer.registerProducer(new Announcer.Producer<CanReceiveColourUpdates>() {
             @Override
             public void observed(CanReceiveColourUpdates observer) {
-                observer.colourUpdate(new Colours(Colours.Colour.RED));
+                observer.colourUpdate(new Colours(Core.this.hoursColourConfigItem.defaultColour()));
             }
         });
     }

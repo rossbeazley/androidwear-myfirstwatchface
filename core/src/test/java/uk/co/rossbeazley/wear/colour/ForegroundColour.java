@@ -5,6 +5,7 @@ import org.junit.Test;
 
 import uk.co.rossbeazley.wear.CanBeObserved;
 import uk.co.rossbeazley.wear.Core;
+import uk.co.rossbeazley.wear.android.ui.config.TestWorld;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -16,10 +17,15 @@ public class ForegroundColour {
     private CanBeObserved<CanReceiveColourUpdates> colour;
     private Colours.Colour foregroundColour;
     private CanReceiveColourUpdates canReceiveColourUpdates;
+    private TestWorld testWorld;
 
     @Before
     public void setUp() throws Exception {
-        core = new Core();
+        testWorld = new TestWorld()
+                        .with(new HoursColourConfigItem(Colours.Colour.BLUE));
+
+        testWorld.build();
+        core = testWorld.core;
         colour = core.canBeObservedForChangesToHoursColour;
         canReceiveColourUpdates = new CanReceiveColourUpdates() {
             @Override
@@ -33,11 +39,7 @@ public class ForegroundColour {
 
     @Test
     public void coreDefaultsColour() {
-//        String defaultOption = core.backgroundColourConfigItem().defaultOption();
-        Colours.Colour defaultColour;
-//        defaultColour = core.backgroundColourConfigItem().colourFor(defaultOption);
-        defaultColour = Colours.Colour.RED;
-        assertThat(foregroundColour,is(defaultColour));
+        assertThat(foregroundColour,is(Colours.Colour.BLUE));
     }
 /*
     @Test

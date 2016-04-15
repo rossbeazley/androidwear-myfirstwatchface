@@ -10,6 +10,10 @@ import java.util.Set;
 import uk.co.rossbeazley.wear.Core;
 import uk.co.rossbeazley.wear.android.ui.config.service.ConfigItem;
 import uk.co.rossbeazley.wear.android.ui.config.service.ConfigService;
+import uk.co.rossbeazley.wear.colour.BackgroundColourConfigItem;
+import uk.co.rossbeazley.wear.colour.Colours;
+import uk.co.rossbeazley.wear.colour.HoursColourConfigItem;
+import uk.co.rossbeazley.wear.rotation.RotationConfigItem;
 
 public class TestWorld {
 
@@ -20,11 +24,20 @@ public class TestWorld {
     private Random random;
     public Core core;
     public Core.DefaultOptions defaultOptions;
+    private HoursColourConfigItem hoursColourConfigItem;
+    private BackgroundColourConfigItem backgroundColourConfigItem;
+    private RotationConfigItem rotationConfigItem;
+
+    public TestWorld() {
+        hoursColourConfigItem = new HoursColourConfigItem(Colours.Colour.RED);
+        backgroundColourConfigItem = Core.defaultOptions().defaultBackgroundColourConfigItem;
+        rotationConfigItem = Core.defaultOptions().defaultRotationConfigItem;
+    }
 
     public ConfigService build() {
 
         hashMapPersistence = new HashMapPersistence();
-        core = new Core(hashMapPersistence);
+        core = new Core(hashMapPersistence, backgroundColourConfigItem, rotationConfigItem, hoursColourConfigItem);
         configService = core.configService;
 
         random = new Random();
@@ -32,7 +45,7 @@ public class TestWorld {
         this.defaultOptions = core.defaultOptions();
 
         configItems = new LinkedHashMap<>();
-        for (ConfigItem option : new ConfigItem[]{core.backgroundColourConfigItem(),core.rotationConfigItem()}) {
+        for (ConfigItem option : new ConfigItem[]{backgroundColourConfigItem, rotationConfigItem, hoursColourConfigItem}) {
             configItems.put(option.itemId(), option);
         }
         return configService;
@@ -47,7 +60,7 @@ public class TestWorld {
     public List<String> listOfConfigItems() {
 
         List<String> expectedList = new ArrayList<>();
-        for(ConfigItem item : configItems.values()) {
+        for (ConfigItem item : configItems.values()) {
             expectedList.add(item.itemId());
         }
         return expectedList;
@@ -70,13 +83,13 @@ public class TestWorld {
         do {
             item = anyItemID();
         }
-        while(anyItem.equals(item));
+        while (anyItem.equals(item));
         return item;
     }
 
     private void assertMoreThanOneItem() {
         Set<String> itemIDS = configItems.keySet();
-        assert itemIDS.size()>1 : "MALFORMED TESTDATA, ASSUMES MORE THAN ONE ITEM " + itemIDS;
+        assert itemIDS.size() > 1 : "MALFORMED TESTDATA, ASSUMES MORE THAN ONE ITEM " + itemIDS;
     }
 
     public String defaultOptionForItem(String itemID) {
@@ -89,18 +102,23 @@ public class TestWorld {
         String option;
         do {
             option = anyOptionForItem(itemId);
-        }while (currentOption.equals(option));
+        } while (currentOption.equals(option));
         return option;
     }
 
     private void assertMoreThanOneOptionForItem(String itemId) {
         List<String> options = configItems.get(itemId).options();
-        assert options.size()>1 : "MALFORMED TESTDATA, ASSUMES ITEM " + itemId + " HAS MORE THAN ON OPTION\n" + options;
+        assert options.size() > 1 : "MALFORMED TESTDATA, ASSUMES ITEM " + itemId + " HAS MORE THAN ON OPTION\n" + options;
 
     }
 
     public String aDifferentOptionForItem(String aDifferentItem) {
 
-        return aDifferentOptionForItem(aDifferentItem,configService.currentOptionForItem(aDifferentItem));
+        return aDifferentOptionForItem(aDifferentItem, configService.currentOptionForItem(aDifferentItem));
+    }
+
+    public TestWorld with(HoursColourConfigItem hoursColourConfigItem) {
+        this.hoursColourConfigItem = hoursColourConfigItem;
+        return this;
     }
 }
