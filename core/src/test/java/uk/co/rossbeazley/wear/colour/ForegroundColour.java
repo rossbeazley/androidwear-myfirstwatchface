@@ -47,6 +47,16 @@ public class ForegroundColour {
         core.canBeColoured.hours(Colours.Colour.WHITE);
         assertThat(foregroundColour,is(Colours.Colour.WHITE));
     }
+
+    @Test
+    public void updateColourBeforeObserving() {
+        colour.removeListener(canReceiveColourUpdates);
+        foregroundColour = null;
+        core.canBeColoured.hours(Colours.Colour.WHITE);
+        colour.addListener(canReceiveColourUpdates);
+        assertThat(foregroundColour,is(Colours.Colour.WHITE));
+    }
+
 /*
     @Test
     public void canChangeColour() {

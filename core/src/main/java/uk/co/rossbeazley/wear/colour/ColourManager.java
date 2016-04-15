@@ -9,7 +9,7 @@ import uk.co.rossbeazley.wear.android.ui.config.service.ConfigServiceListener;
 public class ColourManager implements CanBeObserved<CanReceiveColourUpdates>, CanBeColoured {
     private final ConfigService configService;
     private final BackgroundColourConfigItem backgroundColourConfigItem;
-    private final Colours.Colour hoursColourConfigItem;
+    private Colours.Colour hoursColourConfigItem;
     private final ConfigServiceListener announceIfBackgroundColourReConfigured = new ConfigServiceListener() {
         private String item;
 
@@ -90,6 +90,7 @@ public class ColourManager implements CanBeObserved<CanReceiveColourUpdates>, Ca
 
     @Override
     public void hours(Colours.Colour white) {
+        this.hoursColourConfigItem = white;
         colourUpdatesAnnouncer.announce().colourUpdate(new Colours(white));
     }
 }
