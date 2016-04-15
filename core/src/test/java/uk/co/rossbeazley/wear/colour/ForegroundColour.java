@@ -41,6 +41,12 @@ public class ForegroundColour {
     public void coreDefaultsColour() {
         assertThat(foregroundColour,is(Colours.Colour.BLUE));
     }
+
+    @Test
+    public void updateColour() {
+        core.canBeColoured.hours(Colours.Colour.WHITE);
+        assertThat(foregroundColour,is(Colours.Colour.WHITE));
+    }
 /*
     @Test
     public void canChangeColour() {

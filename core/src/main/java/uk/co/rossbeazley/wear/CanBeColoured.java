@@ -4,4 +4,6 @@ import uk.co.rossbeazley.wear.colour.Colours;
 
 public interface CanBeColoured {
     void background(Colours.Colour colour);
+
+    void hours(Colours.Colour white);
 }

@@ -124,18 +124,11 @@ public class Core {
     }
 
     private void setupColourManager() {
-        ColourManager colourManager = new ColourManager(configService, backgroundColourConfigItem);
+        ColourManager colourManager = new ColourManager(configService, backgroundColourConfigItem, hoursColourConfigItem);
         canBeObservedForChangesToColour = colourManager;
         canBeColoured = colourManager;
 
-        Announcer<CanReceiveColourUpdates> colourUpdatesAnnouncer = Announcer.to(CanReceiveColourUpdates.class);
-        canBeObservedForChangesToHoursColour = colourUpdatesAnnouncer;
-        colourUpdatesAnnouncer.registerProducer(new Announcer.Producer<CanReceiveColourUpdates>() {
-            @Override
-            public void observed(CanReceiveColourUpdates observer) {
-                observer.colourUpdate(new Colours(Core.this.hoursColourConfigItem.defaultColour()));
-            }
-        });
+        canBeObservedForChangesToHoursColour = colourManager.canBeObservedForChangesToHoursColour;
     }
 
 
