@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import uk.co.rossbeazley.wear.CanBeObserved;
+import uk.co.rossbeazley.wear.colour.CanReceiveColourUpdates;
 import uk.co.rossbeazley.wear.minutes.CanReceiveMinutesUpdates;
 import uk.co.rossbeazley.wear.minutes.MinutesPresenter;
 import uk.co.rossbeazley.wear.ui.Disposable;
@@ -43,7 +44,18 @@ public class HoursPresenterDisposalTest {
 
 
         };
-        return new HoursPresenter(canBeObserved, null);
+        CanBeObserved<CanReceiveColourUpdates> hoursColour = new CanBeObserved<CanReceiveColourUpdates>() {
+            @Override
+            public void addListener(CanReceiveColourUpdates canReceiveSecondsUpdates) {
+                observers.add(canReceiveSecondsUpdates);
+            }
+
+            @Override
+            public void removeListener(CanReceiveColourUpdates canReceiveSecondsUpdates) {
+                observers.remove(canReceiveSecondsUpdates);
+            }
+        };
+        return new HoursPresenter(canBeObserved, null, hoursColour);
     }
 
 }

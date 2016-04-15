@@ -46,6 +46,11 @@ class ConsoleView implements DaysPresenter.DaysView, MonthsPresenter.MonthView, 
     }
 
     @Override
+    public void showHoursColour(int colourInt) {
+
+    }
+
+    @Override
     public void showMinutesString(String minutes) {
         this.minutes = minutes;
         redraw();

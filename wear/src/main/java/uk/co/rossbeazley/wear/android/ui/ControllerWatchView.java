@@ -40,6 +40,7 @@ public class ControllerWatchView extends FrameLayout implements WatchView {
     private TextView hours;
     private View mins;
     private View seconds;
+    private CurrentCanReceiveColourUpdates hoursColour;
 
     private void initViews() {
         this.fullView = inflateFullView();
@@ -74,14 +75,14 @@ public class ControllerWatchView extends FrameLayout implements WatchView {
 
     @Override
     public void toAmbient() {
-        hours.setTextColor(0xffaaaaaa);
+        hours.setTextColor(hoursColour.ambientColourInt);
         date.setVisibility(GONE);
         seconds.setVisibility(GONE);
     }
 
     @Override
     public void toActive() {
-        hours.setTextColor(0xffff0000);
+        hours.setTextColor(hoursColour.activeColourInt);
         date.setVisibility(VISIBLE);
         seconds.setVisibility(VISIBLE);
     }
@@ -104,6 +105,8 @@ public class ControllerWatchView extends FrameLayout implements WatchView {
         Core.instance().canBeObservedForChangesToSeconds.addListener(invalidateViewWhenSecondsChange);
         Core.instance().canBeObservedForChangesToMinutes.addListener(invalidateViewWhenMinutesChange);
         Core.instance().canBeObservedForChangesToHours.addListener(invalidateViewWhenHoursChange);
+        hoursColour = new CurrentCanReceiveColourUpdates();
+        Core.instance().canBeObservedForChangesToHoursColour.addListener(hoursColour);
 
         currentTicks = timeTick.scheduleTicks(200, TimeUnit.MILLISECONDS);
     }
@@ -180,5 +183,15 @@ public class ControllerWatchView extends FrameLayout implements WatchView {
 
     {
         Core.instance().canBeObservedForChangesToColour.addListener(colourUpdates);
+    }
+
+    private static class CurrentCanReceiveColourUpdates implements CanReceiveColourUpdates {
+        public int activeColourInt;
+        public int ambientColourInt = 0xffaaaaaa;
+
+        @Override
+        public void colourUpdate(Colours to) {
+            activeColourInt = to.colour().toInt();
+        }
     }
 }

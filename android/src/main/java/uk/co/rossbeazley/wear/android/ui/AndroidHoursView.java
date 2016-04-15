@@ -7,6 +7,7 @@ import android.widget.TextView;
 import uk.co.rossbeazley.wear.CanBeObserved;
 import uk.co.rossbeazley.wear.Core;
 import uk.co.rossbeazley.wear.android.R;
+import uk.co.rossbeazley.wear.colour.Colours;
 import uk.co.rossbeazley.wear.hours.CanReceiveHoursUpdates;
 import uk.co.rossbeazley.wear.hours.HoursPresenter;
 import uk.co.rossbeazley.wear.ui.Disposable;
@@ -25,9 +26,14 @@ class AndroidHoursView implements HoursPresenter.HoursView {
         setTextOnMainThread.updateTextView(newHour, textView);
     }
 
+    @Override
+    public void showHoursColour(final int colourInt) {
+        textView.setTextColor(colourInt);
+    }
+
     public static Disposable createHoursView(Core core, View views) {
         CanBeObserved<CanReceiveHoursUpdates> hours = core.canBeObservedForChangesToHours;
         AndroidHoursView hoursView = new AndroidHoursView(views);
-        return new HoursPresenter(hours, hoursView);
+        return new HoursPresenter(hours, hoursView, core.canBeObservedForChangesToHoursColour);
     }
 }
