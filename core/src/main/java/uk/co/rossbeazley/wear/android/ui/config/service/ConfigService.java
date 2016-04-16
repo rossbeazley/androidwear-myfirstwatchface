@@ -45,9 +45,20 @@ public class ConfigService {
     public void initialiseDefaults(ConfigItem... configItems) {
         defaultConfigItems = configItems;
 
-        if (alreadyHasDataStored()) return;
+//        if (alreadyHasDataStored()) return;
 
-        storeDefaults(configItems);
+        updateStoreDefaults(configItems);
+    }
+
+    private void updateStoreDefaults(ConfigItem[] configItems) {
+        for (ConfigItem configItem : configItems) {
+
+            if(persistence.hasKey(configItem.itemId())) {
+
+            } else {
+                persistItemChoice(configItem.itemId(), configItem.defaultOption());
+            }
+        }
     }
 
     private void storeDefaults(ConfigItem[] configItems) {

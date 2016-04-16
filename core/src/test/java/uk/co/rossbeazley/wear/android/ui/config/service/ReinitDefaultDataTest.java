@@ -5,7 +5,9 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -83,9 +85,33 @@ public class ReinitDefaultDataTest {
     }
 
 
-    @Test @Ignore("to spec FIRST")
+    @Test
     public void reInitialiseWithANewConfigItem() {
+        ConfigItem[] defaultOptionsArray = Arrays.copyOf(defaultOptions.array(),defaultOptions.array().length+1);
 
+
+        final String newItemID = "A NEW ID";
+        final String newItemDefaultOption = "ONE";
+
+        defaultOptionsArray[defaultOptions.array().length] = new ConfigItem() {
+            @Override
+            public String itemId() {
+                return newItemID;
+            }
+
+            @Override
+            public List<String> options() {
+                return Arrays.asList("ONE","TWO");
+            }
+
+            @Override
+            public String defaultOption() {
+                return newItemDefaultOption;
+            }
+        };
+        configService.initialiseDefaults(defaultOptionsArray);
+
+        assertThat(configService.currentOptionForItem(newItemID),is(newItemDefaultOption));
     }
 
 }
