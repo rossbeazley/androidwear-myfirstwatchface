@@ -32,6 +32,13 @@ public class HoursColourConfigItem implements ConfigItem {
     }
 
     public String optionFor(Colours.Colour red) {
-        return "Red";
+        String result = null;
+        if(red== Colours.Colour.RED) {
+            result = "Red";
+        } else if(red == Colours.Colour.BLUE) {
+            result = "Blue";
+        }
+
+        return result;
     }
 }

@@ -30,7 +30,11 @@ public class ColourManager implements CanBeObserved<CanReceiveColourUpdates>, Ca
                 parseConfigServiceColourStringAndSet(option);
                 colourUpdates.announce().colourUpdate(currentBackgroundColour);
             } else if(hoursColourConfigItem.itemId().equals(item)) {
-                storeColour(Colours.Colour.RED);
+                if(option.equals("Red")) {
+                    storeColour(Colours.Colour.RED);
+                } else if(option.equals("Blue")) {
+                    storeColour(Colours.Colour.BLUE);
+                }
             }
         }
     };
