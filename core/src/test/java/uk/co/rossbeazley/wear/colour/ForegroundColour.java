@@ -1,6 +1,7 @@
 package uk.co.rossbeazley.wear.colour;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import uk.co.rossbeazley.wear.CanBeObserved;
@@ -57,20 +58,9 @@ public class ForegroundColour {
         assertThat(foregroundColour,is(Colours.Colour.WHITE));
     }
 
-/*
-    @Test
-    public void canChangeColour() {
-        core.canBeColoured.background(Colours.Colour.BLACK);
-        assertThat(foregroundColour,is(Colours.Colour.BLACK));
+
+    @Test @Ignore("to spec")
+    public void optionsListReturnedBasedOnConstructionParams() {
+
     }
-
-    @Test
-    public void canObserveNewColourAfterChange() {
-        core.canBeColoured.background(Colours.Colour.BLACK);
-        foregroundColour = null;
-        colour.removeListener(canReceiveColourUpdates);
-
-        colour.addListener(canReceiveColourUpdates);
-        assertThat(foregroundColour,is(Colours.Colour.BLACK));
-    }*/
 }

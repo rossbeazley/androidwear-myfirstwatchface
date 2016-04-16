@@ -1,6 +1,7 @@
 package uk.co.rossbeazley.wear.colour;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import uk.co.rossbeazley.wear.android.ui.config.TestWorld;
@@ -51,6 +52,13 @@ public class HoursColourConfiguredThroughConfigService {
     }
 
     @Test
+    public void notifyOfChangeToGreen() {
+        configService.configureItem(itemId);
+        configService.chooseOption(colourConfigItem.optionFor(Colours.Colour.GREEN));
+        assertThat(observedColour,is(Colours.Colour.GREEN));
+    }
+
+    @Test
     public void notifyOfChangeOnlyWhenConfiguringColourNotAfter() {
 
         configService.configureItem(itemId);
@@ -64,5 +72,10 @@ public class HoursColourConfiguredThroughConfigService {
         configService.chooseOption(differentOption);
 
         assertThat(observedColour,is(nullValue()));
+    }
+
+    @Test @Ignore("to spec")
+    public void willConfigureAndRememberAnyForegroundColourItem() {
+
     }
 }

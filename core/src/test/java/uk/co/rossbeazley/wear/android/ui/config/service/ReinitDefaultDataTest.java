@@ -2,6 +2,7 @@ package uk.co.rossbeazley.wear.android.ui.config.service;
 
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.HashMap;
@@ -81,5 +82,10 @@ public class ReinitDefaultDataTest {
         defaultOptionsArray = defaultOptions.array();
     }
 
+
+    @Test @Ignore("to spec FIRST")
+    public void reInitialiseWithANewConfigItem() {
+
+    }
 
 }

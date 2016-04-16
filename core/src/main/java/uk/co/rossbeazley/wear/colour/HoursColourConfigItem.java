@@ -19,12 +19,12 @@ public class HoursColourConfigItem implements ConfigItem {
 
     @Override
     public List<String> options() {
-        return Arrays.asList("Red","Blue");
+        return Arrays.asList("Red","Blue","Green");
     }
 
     @Override
     public String defaultOption() {
-        return "Red";
+        return optionFor(defaultColour);
     }
 
     public Colours.Colour defaultColour() {
@@ -37,6 +37,8 @@ public class HoursColourConfigItem implements ConfigItem {
             result = "Red";
         } else if(red == Colours.Colour.BLUE) {
             result = "Blue";
+        } else if(red == Colours.Colour.GREEN) {
+            result = "Green";
         }
 
         return result;
@@ -49,6 +51,8 @@ public class HoursColourConfigItem implements ConfigItem {
             result = Colours.Colour.RED;
         } else if(defaultOption.equals("Blue")) {
             result = Colours.Colour.BLUE;
+        } else if(defaultOption.equals("Green")) {
+            result = Colours.Colour.GREEN;
         }
 
         return result;
