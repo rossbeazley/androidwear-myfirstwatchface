@@ -18,6 +18,9 @@ public class ConfigService {
     private String currentItemId;
     private StringPersistence persistence;
     public ConfigItem[] defaultConfigItems;
+    private interface ConfigItemIterator {
+        void item(ConfigItem configItem);
+    }
 
     public List<String> selectedConfigOptions() {
         return configItem(currentItemId).options();
@@ -42,42 +45,31 @@ public class ConfigService {
         return persistence.stringsForKey(id).get(0);
     }
 
+    private void forEachConfigItem(ConfigItemIterator it) {
+        for (ConfigItem configItem : defaultConfigItems) {
+            it.item(configItem);
+        }
+    }
+
     public void initialiseDefaults(ConfigItem... configItems) {
         defaultConfigItems = configItems;
-
-//        if (alreadyHasDataStored()) return;
-
-        updateStoreDefaults(configItems);
-    }
-
-    private void updateStoreDefaults(ConfigItem[] configItems) {
-        for (ConfigItem configItem : configItems) {
-
-            if(persistence.hasKey(configItem.itemId())) {
-
-            } else {
-                persistItemChoice(configItem.itemId(), configItem.defaultOption());
+        forEachConfigItem(new ConfigItemIterator() {
+            @Override
+            public void item(ConfigItem configItem) {
+                if (!persistence.hasKey(configItem.itemId())) {
+                    persistItemChoice(configItem.itemId(), configItem.defaultOption());
+                }
             }
-        }
-    }
-
-    private void storeDefaults(ConfigItem[] configItems) {
-        for (ConfigItem configItem : configItems) {
-            persistItemChoice(configItem.itemId(), configItem.defaultOption());
-        }
-    }
-
-    private boolean alreadyHasDataStored() {
-
-        boolean result = false;
-        for (ConfigItem item : defaultConfigItems) {
-            result|=persistence.hasKey(item.itemId());
-        }
-        return result;
+        });
     }
 
     public void resetDefaults() {
-        storeDefaults(defaultConfigItems);
+        forEachConfigItem(new ConfigItemIterator() {
+            @Override
+            public void item(ConfigItem configItem) {
+                persistItemChoice(configItem.itemId(), configItem.defaultOption());
+            }
+        });
     }
 
     public void persistItemChoice(String itemId, String option) {
@@ -103,10 +95,13 @@ public class ConfigService {
     }
 
     public List<String> configItemsList() {
-        List<String> configItems = new ArrayList<>();
-        for (ConfigItem item : defaultConfigItems) {
-            configItems.add(item.itemId());
-        }
+        final List<String> configItems = new ArrayList<>();
+        forEachConfigItem(new ConfigItemIterator() {
+            @Override
+            public void item(ConfigItem configItem) {
+                configItems.add(configItem.itemId());
+            }
+        });
         return configItems;
     }
 
