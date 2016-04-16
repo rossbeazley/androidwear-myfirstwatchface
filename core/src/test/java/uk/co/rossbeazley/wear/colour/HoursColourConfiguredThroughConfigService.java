@@ -49,19 +49,12 @@ public class HoursColourConfiguredThroughConfigService {
         configService.chooseOption(colourConfigItem.optionFor(Colours.Colour.BLUE));
         assertThat(observedColour,is(Colours.Colour.BLUE));
     }
-/*
-    @Test
-    public void notifyOfChangeToWhite() {
-        configService.configureItem(itemId);
-        configService.chooseOption(colourConfigItem.optionFor(Colours.Colour.WHITE));
-        assertThat(observedColour,is(Colours.Colour.WHITE));
-    }
 
     @Test
     public void notifyOfChangeOnlyWhenConfiguringColourNotAfter() {
 
         configService.configureItem(itemId);
-        configService.chooseOption(colourConfigItem.optionFor(Colours.Colour.BLACK));
+        configService.chooseOption(colourConfigItem.optionFor(Colours.Colour.BLUE));
         observedColour=null;
 
         String differentItem = testWorld.aDifferentItem(itemId);
@@ -72,5 +65,4 @@ public class HoursColourConfiguredThroughConfigService {
 
         assertThat(observedColour,is(nullValue()));
     }
-*/
 }
