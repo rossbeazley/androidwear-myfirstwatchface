@@ -16,8 +16,10 @@ public class Colours {
         public static final Colour BLACK = new Colour(0xFF000000);
         public static final Colour WHITE = new Colour(0xffffffff);
         public static final Colour RED = new Colour(0xffff0000);
-        public static final Colour BLUE = new Colour(0xff0000ff);
-        public static final Colour GREEN = new Colour(0xff00ff00);
+        public static final Colour BLUE = new Colour(0xff4885ed);
+        public static final Colour GREEN = new Colour(0xff3cba54);
+        public static final Colour YELLOW = new Colour(0xfff4c20d);
+        public static final Colour CYAN = new Colour(0xff00b7b7);
 
 
         private final int colourIntValue;

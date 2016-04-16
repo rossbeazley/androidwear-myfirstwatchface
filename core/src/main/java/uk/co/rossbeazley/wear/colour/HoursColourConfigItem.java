@@ -3,13 +3,22 @@ package uk.co.rossbeazley.wear.colour;
 import java.util.Arrays;
 import java.util.List;
 
+import uk.co.rossbeazley.wear.BiMap;
 import uk.co.rossbeazley.wear.android.ui.config.service.ConfigItem;
 
 public class HoursColourConfigItem implements ConfigItem {
     private final Colours.Colour defaultColour;
+    private final BiMap<String, Colours.Colour> stringColourBiMap;
 
     public HoursColourConfigItem(Colours.Colour colour) {
         defaultColour = colour;
+        stringColourBiMap = new BiMap<>();
+        stringColourBiMap.put("Red", Colours.Colour.RED);
+        stringColourBiMap.put("Blue", Colours.Colour.BLUE);
+        stringColourBiMap.put("Green", Colours.Colour.GREEN);
+        stringColourBiMap.put("Yellow", Colours.Colour.YELLOW);
+        stringColourBiMap.put("Cyan", Colours.Colour.CYAN);
+
     }
 
     @Override
@@ -19,7 +28,7 @@ public class HoursColourConfigItem implements ConfigItem {
 
     @Override
     public List<String> options() {
-        return Arrays.asList("Red","Blue","Green");
+        return stringColourBiMap.keyList();
     }
 
     @Override
@@ -32,29 +41,10 @@ public class HoursColourConfigItem implements ConfigItem {
     }
 
     public String optionFor(Colours.Colour red) {
-        String result = null;
-        if(red== Colours.Colour.RED) {
-            result = "Red";
-        } else if(red == Colours.Colour.BLUE) {
-            result = "Blue";
-        } else if(red == Colours.Colour.GREEN) {
-            result = "Green";
-        }
-
-        return result;
+        return stringColourBiMap.keyForValue(red);
     }
 
     public Colours.Colour colourFor(String defaultOption) {
-        Colours.Colour result = null;
-
-        if(defaultOption.equals("Red")) {
-            result = Colours.Colour.RED;
-        } else if(defaultOption.equals("Blue")) {
-            result = Colours.Colour.BLUE;
-        } else if(defaultOption.equals("Green")) {
-            result = Colours.Colour.GREEN;
-        }
-
-        return result;
+        return stringColourBiMap.valueForKey(defaultOption);
     }
 }
