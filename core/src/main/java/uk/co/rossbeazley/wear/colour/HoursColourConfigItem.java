@@ -30,4 +30,8 @@ public class HoursColourConfigItem implements ConfigItem {
     public Colours.Colour defaultColour() {
         return defaultColour;
     }
+
+    public String optionFor(Colours.Colour red) {
+        return "Red";
+    }
 }

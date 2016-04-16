@@ -70,6 +70,7 @@ public class Core {
 
     public BackgroundColourConfigItem backgroundColourConfigItem() {return backgroundColourConfigItem;}
     public RotationConfigItem rotationConfigItem() {return rotationConfigItem;}
+    public HoursColourConfigItem hoursColourConfigItem() {return hoursColourConfigItem;}
 
     public Core(StringPersistence hashMapPersistence, BackgroundColourConfigItem backgroundColourConfigItem, RotationConfigItem rotationConfigItem, HoursColourConfigItem hoursColourConfigItem) {
         this.backgroundColourConfigItem = backgroundColourConfigItem;

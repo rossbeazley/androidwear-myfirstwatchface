@@ -9,7 +9,8 @@ import uk.co.rossbeazley.wear.android.ui.config.service.ConfigServiceListener;
 public class ColourManager implements CanBeObserved<CanReceiveColourUpdates>, CanBeColoured {
     private final ConfigService configService;
     private final BackgroundColourConfigItem backgroundColourConfigItem;
-    private Colours.Colour hoursColourConfigItem;
+    private final HoursColourConfigItem hoursColourConfigItem;
+    private Colours.Colour hoursColour;
     private final ConfigServiceListener announceIfBackgroundColourReConfigured = new ConfigServiceListener() {
         private String item;
 
@@ -28,6 +29,8 @@ public class ColourManager implements CanBeObserved<CanReceiveColourUpdates>, Ca
             if (item.equals(backgroundColourConfigItem.itemId())) {
                 parseConfigServiceColourStringAndSet(option);
                 colourUpdates.announce().colourUpdate(currentBackgroundColour);
+            } else if(hoursColourConfigItem.itemId().equals(item)) {
+                storeColour(Colours.Colour.RED);
             }
         }
     };
@@ -39,7 +42,8 @@ public class ColourManager implements CanBeObserved<CanReceiveColourUpdates>, Ca
     public ColourManager(final ConfigService configService, BackgroundColourConfigItem backgroundColourConfigItem, HoursColourConfigItem hoursColourConfigItem) {
         this.configService = configService;
         this.backgroundColourConfigItem = backgroundColourConfigItem;
-        this.hoursColourConfigItem = hoursColourConfigItem.defaultColour();
+        this.hoursColourConfigItem = hoursColourConfigItem;
+        this.hoursColour = hoursColourConfigItem.defaultColour();
 
         String background = configService.currentOptionForItem(backgroundColourConfigItem.itemId());
         parseConfigServiceColourStringAndSet(background);
@@ -59,7 +63,7 @@ public class ColourManager implements CanBeObserved<CanReceiveColourUpdates>, Ca
         colourUpdatesAnnouncer.registerProducer(new Announcer.Producer<CanReceiveColourUpdates>() {
             @Override
             public void observed(CanReceiveColourUpdates observer) {
-                observer.colourUpdate(new Colours(ColourManager.this.hoursColourConfigItem));
+                observer.colourUpdate(new Colours(ColourManager.this.hoursColour));
             }
         });
 
@@ -90,7 +94,11 @@ public class ColourManager implements CanBeObserved<CanReceiveColourUpdates>, Ca
 
     @Override
     public void hours(Colours.Colour white) {
-        this.hoursColourConfigItem = white;
+        storeColour(white);
+    }
+
+    private void storeColour(Colours.Colour white) {
+        this.hoursColour = white;
         colourUpdatesAnnouncer.announce().colourUpdate(new Colours(white));
     }
 }
