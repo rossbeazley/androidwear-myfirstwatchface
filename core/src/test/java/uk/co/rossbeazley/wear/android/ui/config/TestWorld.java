@@ -10,6 +10,7 @@ import java.util.Set;
 import uk.co.rossbeazley.wear.Core;
 import uk.co.rossbeazley.wear.android.ui.config.service.ConfigItem;
 import uk.co.rossbeazley.wear.android.ui.config.service.ConfigService;
+import uk.co.rossbeazley.wear.android.ui.config.service.StringPersistence;
 import uk.co.rossbeazley.wear.colour.BackgroundColourConfigItem;
 import uk.co.rossbeazley.wear.colour.Colours;
 import uk.co.rossbeazley.wear.colour.HoursColourConfigItem;
@@ -32,11 +33,11 @@ public class TestWorld {
         hoursColourConfigItem = new HoursColourConfigItem(Colours.Colour.RED);
         backgroundColourConfigItem = Core.defaultOptions().defaultBackgroundColourConfigItem;
         rotationConfigItem = Core.defaultOptions().defaultRotationConfigItem;
+        hashMapPersistence = new HashMapPersistence();
     }
 
     public ConfigService build() {
 
-        hashMapPersistence = new HashMapPersistence();
         core = new Core(hashMapPersistence, backgroundColourConfigItem, rotationConfigItem, hoursColourConfigItem);
         configService = core.configService;
 
@@ -119,6 +120,12 @@ public class TestWorld {
 
     public TestWorld with(HoursColourConfigItem hoursColourConfigItem) {
         this.hoursColourConfigItem = hoursColourConfigItem;
+        return this;
+    }
+
+    public TestWorld with(HashMapPersistence persistence) {
+        this.hashMapPersistence = persistence;
+
         return this;
     }
 }

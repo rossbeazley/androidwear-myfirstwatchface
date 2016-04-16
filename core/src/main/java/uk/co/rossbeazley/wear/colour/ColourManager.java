@@ -47,7 +47,7 @@ public class ColourManager implements CanBeObserved<CanReceiveColourUpdates>, Ca
         this.configService = configService;
         this.backgroundColourConfigItem = backgroundColourConfigItem;
         this.hoursColourConfigItem = hoursColourConfigItem;
-        this.hoursColour = hoursColourConfigItem.defaultColour();
+        this.hoursColour = hoursColourConfigItem.colourFor(configService.currentOptionForItem(hoursColourConfigItem.itemId()));
 
         String background = configService.currentOptionForItem(backgroundColourConfigItem.itemId());
         parseConfigServiceColourStringAndSet(background);
@@ -99,6 +99,7 @@ public class ColourManager implements CanBeObserved<CanReceiveColourUpdates>, Ca
     @Override
     public void hours(Colours.Colour white) {
         storeColour(white);
+        configService.persistItemChoice(hoursColourConfigItem.itemId(),hoursColourConfigItem.optionFor(white));
     }
 
     private void storeColour(Colours.Colour white) {

@@ -41,4 +41,16 @@ public class HoursColourConfigItem implements ConfigItem {
 
         return result;
     }
+
+    public Colours.Colour colourFor(String defaultOption) {
+        Colours.Colour result = null;
+
+        if(defaultOption.equals("Red")) {
+            result = Colours.Colour.RED;
+        } else if(defaultOption.equals("Blue")) {
+            result = Colours.Colour.BLUE;
+        }
+
+        return result;
+    }
 }
