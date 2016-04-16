@@ -37,7 +37,7 @@ public class HoursColourConfiguredThroughConfigService {
     }
 
     @Test
-    public void notifyOfChange() {
+    public void notifyOfChangeToRed() {
         configService.configureItem(itemId);
         configService.chooseOption(colourConfigItem.optionFor(Colours.Colour.RED));
         assertThat(observedColour,is(Colours.Colour.RED));
