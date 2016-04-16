@@ -49,11 +49,12 @@ todo:
  - DONE When Config Menu Option chosen for colour and rotation, need to announce change
 
 2. Colouring the hours
- - The one where the view is told about the colour
- - The one where you initialise with a default colour
- - The one where you change the colour and its emitted from the system
- - The one where the system remembers the last colour
+ - DONE The one where the view is told about the colour
+ - DONE The one where you initialise with a default colour
+ - DONE The one where you change the colour and its emitted from the system
+ - DONE The one where the system remembers the last colour
  - The one where you can configure the colour through the config service
+   - tests for each config item via the config service
 
 
 
