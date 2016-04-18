@@ -73,6 +73,10 @@ todo:
  - at the very least move from String to ConfigOption type and ConfigId type
 
 
+5. 12/14 hours
+ - DONE toggle
+ - Persistence
+ - Menu configuring
 
 
  GAP Analysis around ui flow, exiting screen, choosing otions (green tick?)
