@@ -12,6 +12,7 @@ import uk.co.rossbeazley.wear.colour.HoursColourConfigItem;
 import uk.co.rossbeazley.wear.days.CanReceiveDaysUpdates;
 import uk.co.rossbeazley.wear.days.DaysFromTick;
 import uk.co.rossbeazley.wear.hours.CanReceiveHoursUpdates;
+import uk.co.rossbeazley.wear.hours.HoursBaseConfigItem;
 import uk.co.rossbeazley.wear.hours.HoursFromTick;
 import uk.co.rossbeazley.wear.minutes.CanReceiveMinutesUpdates;
 import uk.co.rossbeazley.wear.minutes.MinutesFromTick;
@@ -52,7 +53,7 @@ public class Core {
     }
 
     public Core(StringPersistence persistence) {
-        this(persistence, defaultOptions.defaultBackgroundColourConfigItem, defaultOptions.defaultRotationConfigItem, defaultOptions.defaultHoursColourConfigItem);
+        this(persistence, defaultOptions.defaultBackgroundColourConfigItem, defaultOptions.defaultRotationConfigItem, defaultOptions.defaultHoursColourConfigItem, null);
     }
 
     public static class DefaultOptions {
@@ -72,17 +73,17 @@ public class Core {
     public RotationConfigItem rotationConfigItem() {return rotationConfigItem;}
     public HoursColourConfigItem hoursColourConfigItem() {return hoursColourConfigItem;}
 
-    public Core(StringPersistence hashMapPersistence, BackgroundColourConfigItem backgroundColourConfigItem, RotationConfigItem rotationConfigItem, HoursColourConfigItem hoursColourConfigItem) {
+    public Core(StringPersistence hashMapPersistence, BackgroundColourConfigItem backgroundColourConfigItem, RotationConfigItem rotationConfigItem, HoursColourConfigItem hoursColourConfigItem, HoursBaseConfigItem hoursBaseConfigItem) {
         this.backgroundColourConfigItem = backgroundColourConfigItem;
         this.rotationConfigItem = rotationConfigItem;
         this.hoursColourConfigItem = hoursColourConfigItem;
-        setupChronometerSubsystem();
+        setupChronometerSubsystem(hoursBaseConfigItem);
         configService = ConfigService.setupConfig(hashMapPersistence, backgroundColourConfigItem, rotationConfigItem, hoursColourConfigItem);
         setupRotationSubsystem();
         setupColourManager();
     }
 
-    private void setupChronometerSubsystem() {
+    private void setupChronometerSubsystem(HoursBaseConfigItem hoursBaseConfigItem) {
         Seconds seconds;
         MinutesFromTick minutes;
         HoursFromTick hours;
@@ -99,7 +100,7 @@ public class Core {
         canBeObservedForChangesToMinutes = canReceiveMinutesUpdatesAnnouncer;
 
         Announcer<CanReceiveHoursUpdates> canReceiveHoursUpdatesAnnouncer = Announcer.to(CanReceiveHoursUpdates.class);
-        hours = new HoursFromTick(canReceiveHoursUpdatesAnnouncer);
+        hours = new HoursFromTick(canReceiveHoursUpdatesAnnouncer, hoursBaseConfigItem);
         canBeObservedForChangesToHours = canReceiveHoursUpdatesAnnouncer;
 
         Announcer<CanReceiveDaysUpdates> canReceiveDaysUpdatesAnnouncer = Announcer.to(CanReceiveDaysUpdates.class);

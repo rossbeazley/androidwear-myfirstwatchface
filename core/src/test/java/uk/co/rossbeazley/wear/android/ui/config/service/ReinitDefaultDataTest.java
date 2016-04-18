@@ -2,7 +2,6 @@ package uk.co.rossbeazley.wear.android.ui.config.service;
 
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.Arrays;
@@ -42,7 +41,7 @@ public class ReinitDefaultDataTest {
     public void
     reInitServiceWithPreviousPersistentStore() {
         reconfigureOptions();
-        configService = new Core(testWorld.hashMapPersistence, defaultOptions.defaultBackgroundColourConfigItem, defaultOptions.defaultRotationConfigItem, defaultOptions.defaultHoursColourConfigItem).configService;
+        configService = new Core(testWorld.hashMapPersistence, defaultOptions.defaultBackgroundColourConfigItem, defaultOptions.defaultRotationConfigItem, defaultOptions.defaultHoursColourConfigItem, null).configService;
         assertReconfiguredOptionsStillPersisted();
     }
 

@@ -1,6 +1,8 @@
 package uk.co.rossbeazley.console.ui;
 
+import uk.co.rossbeazley.wear.CanBeObserved;
 import uk.co.rossbeazley.wear.Core;
+import uk.co.rossbeazley.wear.colour.CanReceiveColourUpdates;
 import uk.co.rossbeazley.wear.days.DaysPresenter;
 import uk.co.rossbeazley.wear.hours.HoursPresenter;
 import uk.co.rossbeazley.wear.minutes.MinutesPresenter;
@@ -23,7 +25,17 @@ public class Clock {
         ConsoleView view = new ConsoleView(printer);
         new DaysPresenter(core.canBeObservedForChangesToDays, view);
         new MonthsPresenter(core.canBeObservedForChangesToMonths, view);
-        new HoursPresenter(core.canBeObservedForChangesToHours, view);
+        new HoursPresenter(core.canBeObservedForChangesToHours, view, new CanBeObserved<CanReceiveColourUpdates>() {
+            @Override
+            public void addListener(CanReceiveColourUpdates canReceiveSecondsUpdates) {
+
+            }
+
+            @Override
+            public void removeListener(CanReceiveColourUpdates canReceiveSecondsUpdates) {
+
+            }
+        });
         new MinutesPresenter(core.canBeObservedForChangesToMinutes, view);
         new SecondsPresenter(core.canBeObservedForChangesToSeconds, view);
     }

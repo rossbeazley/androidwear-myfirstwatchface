@@ -53,7 +53,7 @@ todo:
  - DONE The one where you initialise with a default colour
  - DONE The one where you change the colour and its emitted from the system
  - DONE The one where the system remembers the last colour
- - The one where you can configure the colour through the config service
+ - DONE The one where you can configure the colour through the config service
    - tests for each config item via the config service
 
 
@@ -66,7 +66,7 @@ todo:
 4. introduce a tighter domain model that has objects with:
  - DONE config ID
  - DONE config options list
- - chosen option
+ - DONE chosen option - this is in each of the submodules
  - DONE can then (de)hydrate this to/from persistence
  - make domain object have bi-directional relationships so can return chosen option with references to rest?
  - possibly change presenters to use this
