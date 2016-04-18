@@ -7,6 +7,7 @@ import uk.co.rossbeazley.wear.Announcer;
 import uk.co.rossbeazley.wear.CanConfigureHours;
 import uk.co.rossbeazley.wear.ticktock.CanBeTicked;
 
+import static uk.co.rossbeazley.wear.hours.HoursBaseConfigItem.HR_12;
 import static uk.co.rossbeazley.wear.hours.HoursBaseConfigItem.HR_24;
 
 public class HoursFromTick implements CanBeTicked, CanConfigureHours {
@@ -62,5 +63,10 @@ public class HoursFromTick implements CanBeTicked, CanConfigureHours {
     @Override
     public void twentyFourHour() {
         hr = HR_24;
+    }
+
+    @Override
+    public void twelveHour() {
+        hr = HR_12;
     }
 }

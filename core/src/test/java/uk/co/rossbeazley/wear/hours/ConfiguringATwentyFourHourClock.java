@@ -39,6 +39,17 @@ public class ConfiguringATwentyFourHourClock implements CanReceiveHoursUpdates {
     itsTwoPM() {
 
         testWorld.core.canConfigureHours.twentyFourHour();
+        testWorld.core.canConfigureHours.twelveHour();
+
+        hours.tick(calendar);
+
+        assertThat(timeComponentString,is("02"));
+    }
+
+    @Test public void
+    itsForteenHundred() {
+
+        testWorld.core.canConfigureHours.twentyFourHour();
 
         hours.tick(calendar);
 
