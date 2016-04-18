@@ -32,4 +32,8 @@ public class HoursBaseConfigItem implements ConfigItem {
     public boolean is24Hour() {
         return hr==HR_24;
     }
+
+    public Object defaultHR() {
+        return hr;
+    }
 }

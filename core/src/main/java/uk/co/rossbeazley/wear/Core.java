@@ -32,6 +32,7 @@ public class Core {
     private final BackgroundColourConfigItem backgroundColourConfigItem;
     private final RotationConfigItem rotationConfigItem;
     private final HoursColourConfigItem hoursColourConfigItem;
+
     public CanBeObserved<CanReceiveMonthsUpdates> canBeObservedForChangesToMonths;
     public CanBeObserved<CanReceiveDaysUpdates> canBeObservedForChangesToDays;
     public CanBeObserved<CanReceiveHoursUpdates> canBeObservedForChangesToHours;
@@ -47,6 +48,8 @@ public class Core {
 
     public ConfigService configService;
     public CanBeObserved<CanReceiveColourUpdates> canBeObservedForChangesToHoursColour;
+
+    public CanConfigureHours canConfigureHours;
 
     public Core() {
         this(new HashMapPersistence());
@@ -102,6 +105,7 @@ public class Core {
         Announcer<CanReceiveHoursUpdates> canReceiveHoursUpdatesAnnouncer = Announcer.to(CanReceiveHoursUpdates.class);
         hours = new HoursFromTick(canReceiveHoursUpdatesAnnouncer, hoursBaseConfigItem);
         canBeObservedForChangesToHours = canReceiveHoursUpdatesAnnouncer;
+        canConfigureHours = hours;
 
         Announcer<CanReceiveDaysUpdates> canReceiveDaysUpdatesAnnouncer = Announcer.to(CanReceiveDaysUpdates.class);
         days = new DaysFromTick(canReceiveDaysUpdatesAnnouncer);
