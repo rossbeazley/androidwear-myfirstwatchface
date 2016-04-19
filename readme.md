@@ -77,6 +77,7 @@ todo:
  - DONE toggle
  - Persistence
  - Menu configuring
+ - rename all hours mode objects to refer to "mode" rather than "base"
 
 
  GAP Analysis around ui flow, exiting screen, choosing otions (green tick?)
