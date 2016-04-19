@@ -80,12 +80,23 @@ public class ConfiguringATwentyFourHourClock implements CanReceiveHoursUpdates {
 
 
     @Test public void
-    configureMidHour() {
+    configure24HRMidHour() {
         hours.tick(calendar);
 
         testWorld.core.canConfigureHours.twentyFourHour();
 
         assertThat(timeComponentString, is("14"));
+    }
+
+
+    @Test public void
+    configure12HRMidHour() {
+        testWorld.core.canConfigureHours.twentyFourHour();
+        hours.tick(calendar);
+
+        testWorld.core.canConfigureHours.twelveHour();
+
+        assertThat(timeComponentString, is("02"));
     }
 
 

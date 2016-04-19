@@ -115,5 +115,7 @@ public class HoursFromTick implements CanBeTicked, CanConfigureHours {
     public void twelveHour() {
         hr = HR_12;
         configService.persistItemChoice(hoursModeConfigItem.itemId(),hr.toString());
+        current = new HourBase24(hourInt);
+        announce.hoursUpdate(current);
     }
 }
