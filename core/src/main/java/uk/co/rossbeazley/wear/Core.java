@@ -88,35 +88,15 @@ public class Core {
     }
 
     private void setupChronometerSubsystem(HoursModeConfigItem hoursModeConfigItem, ConfigService configService) {
-        MinutesFromTick minutes;
-        HoursFromTick hours;
-        DaysFromTick days;
-        MonthsFromTick months;
 
-
-
-        Announcer<CanReceiveHoursUpdates> canReceiveHoursUpdatesAnnouncer = Announcer.to(CanReceiveHoursUpdates.class);
-        hours = new HoursFromTick(canReceiveHoursUpdatesAnnouncer, hoursModeConfigItem, configService);
-        canBeObservedForChangesToHours = canReceiveHoursUpdatesAnnouncer;
-        canConfigureHours = hours;
-
-
-        Announcer<CanReceiveMonthsUpdates> canReceiveMonthsUpdatesAnnouncer = Announcer.to(CanReceiveMonthsUpdates.class);
-        months = new MonthsFromTick(canReceiveMonthsUpdatesAnnouncer);
-        canBeObservedForChangesToMonths = canReceiveMonthsUpdatesAnnouncer;
-
-        final Announcer<CanBeTicked> canBeTickedAnnouncer = Announcer.to(CanBeTicked.class)
-                .addListeners(months, hours);
-
-
-
-        Chronometer chronometer = new Chronometer(hoursModeConfigItem, configService, canBeTickedAnnouncer);
+        Chronometer chronometer = new Chronometer(hoursModeConfigItem, configService);
         canBeObservedForChangesToSeconds = chronometer.canBeObservedForChangesToSeconds;
         canBeObservedForChangesToMinutes = chronometer.canBeObservedForChangesToMinutes;
         canBeObservedForChangesToDays = chronometer.canBeObservedForChangesToDays;
-
-        canBeTicked = canBeTickedAnnouncer
-                .announce();
+        canBeObservedForChangesToMonths = chronometer.canBeObservedForChangesToMonths;
+        canBeObservedForChangesToHours = chronometer.canBeObservedForChangesToHours;
+        canConfigureHours = chronometer.canConfigureHours;
+        canBeTicked = chronometer.canBeTicked;
     }
 
     public static class Chronometer {
@@ -124,8 +104,14 @@ public class Core {
         public CanBeObserved<CanReceiveSecondsUpdates> canBeObservedForChangesToSeconds;
         public CanBeObserved<CanReceiveMinutesUpdates> canBeObservedForChangesToMinutes;
         public CanBeObserved<CanReceiveDaysUpdates> canBeObservedForChangesToDays;
+        public CanBeObserved<CanReceiveMonthsUpdates> canBeObservedForChangesToMonths;
+        public CanBeObserved<CanReceiveHoursUpdates> canBeObservedForChangesToHours;
+        public CanConfigureHours canConfigureHours;
+        public CanBeTicked canBeTicked;
 
-        public Chronometer(HoursModeConfigItem hoursModeConfigItem, ConfigService configService, Announcer<CanBeTicked> canBeTickedAnnouncer) {
+        public Chronometer(HoursModeConfigItem hoursModeConfigItem, ConfigService configService) {
+
+            final Announcer<CanBeTicked> canBeTickedAnnouncer = Announcer.to(CanBeTicked.class);
 
             final Announcer<CanReceiveSecondsUpdates> canReceiveSecondsUpdatesAnnouncer = Announcer.to(CanReceiveSecondsUpdates.class);
             Seconds seconds = new Seconds(canReceiveSecondsUpdatesAnnouncer);
@@ -141,7 +127,20 @@ public class Core {
             DaysFromTick days = new DaysFromTick(canReceiveDaysUpdatesAnnouncer);
             canBeObservedForChangesToDays = canReceiveDaysUpdatesAnnouncer;
 
-            canBeTickedAnnouncer.addListeners(seconds, minutes, days);
+            Announcer<CanReceiveMonthsUpdates> canReceiveMonthsUpdatesAnnouncer = Announcer.to(CanReceiveMonthsUpdates.class);
+            MonthsFromTick months = new MonthsFromTick(canReceiveMonthsUpdatesAnnouncer);
+            canBeObservedForChangesToMonths = canReceiveMonthsUpdatesAnnouncer;
+
+
+            Announcer<CanReceiveHoursUpdates> canReceiveHoursUpdatesAnnouncer = Announcer.to(CanReceiveHoursUpdates.class);
+            HoursFromTick hours = new HoursFromTick(canReceiveHoursUpdatesAnnouncer, hoursModeConfigItem, configService);
+            canBeObservedForChangesToHours = canReceiveHoursUpdatesAnnouncer;
+            canConfigureHours = hours;
+
+            canBeTickedAnnouncer.addListeners(seconds, minutes, days, months, hours);
+
+            canBeTicked = canBeTickedAnnouncer
+                    .announce();
         }
     }
 
