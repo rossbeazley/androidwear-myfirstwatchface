@@ -6,6 +6,7 @@ import java.util.Calendar;
 import uk.co.rossbeazley.wear.Announcer;
 import uk.co.rossbeazley.wear.CanConfigureHours;
 import uk.co.rossbeazley.wear.android.ui.config.service.ConfigService;
+import uk.co.rossbeazley.wear.android.ui.config.service.ConfigServiceListener;
 import uk.co.rossbeazley.wear.ticktock.CanBeTicked;
 
 import static uk.co.rossbeazley.wear.hours.HoursModeConfigItem.HR_12;
@@ -20,7 +21,7 @@ public class HoursFromTick implements CanBeTicked, CanConfigureHours {
     private HourBase24 current;
     private Object hr;
 
-    public HoursFromTick(Announcer<CanReceiveHoursUpdates> canReceiveHoursUpdatesAnnouncer, HoursModeConfigItem hoursModeConfigItem, ConfigService configService) {
+    public HoursFromTick(Announcer<CanReceiveHoursUpdates> canReceiveHoursUpdatesAnnouncer, final HoursModeConfigItem hoursModeConfigItem, ConfigService configService) {
         announcer = canReceiveHoursUpdatesAnnouncer;
         this.hoursModeConfigItem = hoursModeConfigItem;
         this.configService = configService;
@@ -32,6 +33,32 @@ public class HoursFromTick implements CanBeTicked, CanConfigureHours {
             }
         });
         announce = announcer.announce();
+        configService.addListener(new ConfigServiceListener() {
+            private String item;
+
+            @Override
+            public void configuring(String item) {
+
+                this.item = item;
+            }
+
+            @Override
+            public void error(KeyNotFound keyNotFound) {
+
+            }
+
+            @Override
+            public void chosenOption(String option) {
+                if(item.equals(hoursModeConfigItem.itemId())) {
+                    final Object modeFromOption = hoursModeConfigItem.hoursModeFromOption(option);
+                    if(modeFromOption==HR_12) {
+                        twelveHour();
+                    } else {
+                        twentyFourHour();
+                    }
+                }
+            }
+        });
     }
 
     private void rehydrateHoursSettings(HoursModeConfigItem hoursModeConfigItem, ConfigService configService) {
@@ -77,7 +104,7 @@ public class HoursFromTick implements CanBeTicked, CanConfigureHours {
     @Override
     public void twentyFourHour() {
         hr = HR_24;
-        configService.persistItemChoice(hoursModeConfigItem.itemId(),"24 Hours");
+        configService.persistItemChoice(hoursModeConfigItem.itemId(),hr.toString());
     }
 
     @Override

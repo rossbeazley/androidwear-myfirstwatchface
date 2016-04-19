@@ -28,7 +28,7 @@ public class TestWorld {
     private HoursColourConfigItem hoursColourConfigItem;
     private BackgroundColourConfigItem backgroundColourConfigItem;
     private RotationConfigItem rotationConfigItem;
-    private HoursModeConfigItem hoursModeConfigItem;
+    public HoursModeConfigItem hoursModeConfigItem;
 
     public TestWorld() {
         hoursModeConfigItem = Core.defaultOptions().defaultHoursModeConfigItem;

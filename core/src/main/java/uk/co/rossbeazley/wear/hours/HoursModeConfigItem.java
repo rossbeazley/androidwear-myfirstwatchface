@@ -42,6 +42,10 @@ public class HoursModeConfigItem implements ConfigItem {
         return currentOptionForItem.equals(HR_12.toString()) ? HR_12 : HR_24;
     }
 
+    public String optionFromHoursMode(Object hr24) {
+        return hr24.toString(); //TODO inline into the private version of this method
+    }
+
     public static final class HoursMode {
         private final String optionString;
 
