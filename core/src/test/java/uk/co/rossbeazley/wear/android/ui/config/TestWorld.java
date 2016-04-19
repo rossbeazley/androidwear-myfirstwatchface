@@ -10,11 +10,10 @@ import java.util.Set;
 import uk.co.rossbeazley.wear.Core;
 import uk.co.rossbeazley.wear.android.ui.config.service.ConfigItem;
 import uk.co.rossbeazley.wear.android.ui.config.service.ConfigService;
-import uk.co.rossbeazley.wear.android.ui.config.service.StringPersistence;
 import uk.co.rossbeazley.wear.colour.BackgroundColourConfigItem;
 import uk.co.rossbeazley.wear.colour.Colours;
 import uk.co.rossbeazley.wear.colour.HoursColourConfigItem;
-import uk.co.rossbeazley.wear.hours.HoursBaseConfigItem;
+import uk.co.rossbeazley.wear.hours.HoursModeConfigItem;
 import uk.co.rossbeazley.wear.rotation.RotationConfigItem;
 
 public class TestWorld {
@@ -29,10 +28,10 @@ public class TestWorld {
     private HoursColourConfigItem hoursColourConfigItem;
     private BackgroundColourConfigItem backgroundColourConfigItem;
     private RotationConfigItem rotationConfigItem;
-    private HoursBaseConfigItem hoursBaseConfigItem;
+    private HoursModeConfigItem hoursModeConfigItem;
 
     public TestWorld() {
-        hoursBaseConfigItem = Core.defaultOptions().defaultHoursModeConfigItem;
+        hoursModeConfigItem = Core.defaultOptions().defaultHoursModeConfigItem;
         hoursColourConfigItem = new HoursColourConfigItem(Colours.Colour.RED);
         backgroundColourConfigItem = Core.defaultOptions().defaultBackgroundColourConfigItem;
         rotationConfigItem = Core.defaultOptions().defaultRotationConfigItem;
@@ -41,7 +40,7 @@ public class TestWorld {
 
     public ConfigService build() {
 
-        core = new Core(hashMapPersistence, backgroundColourConfigItem, rotationConfigItem, hoursColourConfigItem, hoursBaseConfigItem);
+        core = new Core(hashMapPersistence, backgroundColourConfigItem, rotationConfigItem, hoursColourConfigItem, hoursModeConfigItem);
         configService = core.configService;
 
         random = new Random();
@@ -49,7 +48,7 @@ public class TestWorld {
         this.defaultOptions = core.defaultOptions();
 
         configItems = new LinkedHashMap<>();
-        for (ConfigItem option : new ConfigItem[]{backgroundColourConfigItem, rotationConfigItem, hoursColourConfigItem, hoursBaseConfigItem}) {
+        for (ConfigItem option : new ConfigItem[]{backgroundColourConfigItem, rotationConfigItem, hoursColourConfigItem, hoursModeConfigItem}) {
             configItems.put(option.itemId(), option);
         }
         return configService;
@@ -132,9 +131,9 @@ public class TestWorld {
         return this;
     }
 
-    public TestWorld with(HoursBaseConfigItem hoursBaseConfigItem) {
+    public TestWorld with(HoursModeConfigItem hoursModeConfigItem) {
 
-        this.hoursBaseConfigItem = hoursBaseConfigItem;
+        this.hoursModeConfigItem = hoursModeConfigItem;
         return this;
     }
 }

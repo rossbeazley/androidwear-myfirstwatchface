@@ -75,7 +75,7 @@ todo:
 
 5. 12/14 hours
  - DONE toggle
- - Persistence
+ - DONE Persistence
  - Menu configuring
  - rename all hours mode objects to refer to "mode" rather than "base"
 

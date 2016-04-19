@@ -1,17 +1,15 @@
 package uk.co.rossbeazley.wear.hours;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.Calendar;
 
-import uk.co.rossbeazley.wear.Core;
 import uk.co.rossbeazley.wear.android.ui.config.TestWorld;
 import uk.co.rossbeazley.wear.ticktock.CanBeTicked;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
-import static uk.co.rossbeazley.wear.hours.HoursBaseConfigItem.*;
+import static uk.co.rossbeazley.wear.hours.HoursModeConfigItem.*;
 
 public class ObservingATwentyFourHourClock implements CanReceiveHoursUpdates {
 
@@ -22,7 +20,7 @@ public class ObservingATwentyFourHourClock implements CanReceiveHoursUpdates {
     itsTwoPM() {
 
         final TestWorld testWorld = new TestWorld();
-        testWorld.with(new HoursBaseConfigItem(HR_12));
+        testWorld.with(new HoursModeConfigItem(HR_12));
         testWorld.build();
         hours = testWorld.core.canBeTicked;
         testWorld.core.canBeObservedForChangesToHours.addListener(this);
@@ -40,7 +38,7 @@ public class ObservingATwentyFourHourClock implements CanReceiveHoursUpdates {
     itsDefaultedToFourteenHundredHours() {
 
         final TestWorld testWorld = new TestWorld();
-        testWorld.with(new HoursBaseConfigItem(HR_24));
+        testWorld.with(new HoursModeConfigItem(HR_24));
         testWorld.build();
         hours = testWorld.core.canBeTicked;
         testWorld.core.canBeObservedForChangesToHours.addListener(this);

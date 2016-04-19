@@ -8,23 +8,23 @@ import uk.co.rossbeazley.wear.CanConfigureHours;
 import uk.co.rossbeazley.wear.android.ui.config.service.ConfigService;
 import uk.co.rossbeazley.wear.ticktock.CanBeTicked;
 
-import static uk.co.rossbeazley.wear.hours.HoursBaseConfigItem.HR_12;
-import static uk.co.rossbeazley.wear.hours.HoursBaseConfigItem.HR_24;
+import static uk.co.rossbeazley.wear.hours.HoursModeConfigItem.HR_12;
+import static uk.co.rossbeazley.wear.hours.HoursModeConfigItem.HR_24;
 
 public class HoursFromTick implements CanBeTicked, CanConfigureHours {
 
     final private Announcer<CanReceiveHoursUpdates> announcer;
-    private final HoursBaseConfigItem hoursBaseConfigItem;
+    private final HoursModeConfigItem hoursModeConfigItem;
     private final ConfigService configService;
     private final CanReceiveHoursUpdates announce;
     private HourBase24 current;
     private Object hr;
 
-    public HoursFromTick(Announcer<CanReceiveHoursUpdates> canReceiveHoursUpdatesAnnouncer, HoursBaseConfigItem hoursBaseConfigItem, ConfigService configService) {
+    public HoursFromTick(Announcer<CanReceiveHoursUpdates> canReceiveHoursUpdatesAnnouncer, HoursModeConfigItem hoursModeConfigItem, ConfigService configService) {
         announcer = canReceiveHoursUpdatesAnnouncer;
-        this.hoursBaseConfigItem = hoursBaseConfigItem;
+        this.hoursModeConfigItem = hoursModeConfigItem;
         this.configService = configService;
-        rehydrateHoursSettings(hoursBaseConfigItem, configService);
+        rehydrateHoursSettings(hoursModeConfigItem, configService);
         announcer.registerProducer(new Announcer.Producer<CanReceiveHoursUpdates>() {
             @Override
             public void observed(CanReceiveHoursUpdates observer) {
@@ -34,12 +34,12 @@ public class HoursFromTick implements CanBeTicked, CanConfigureHours {
         announce = announcer.announce();
     }
 
-    private void rehydrateHoursSettings(HoursBaseConfigItem hoursBaseConfigItem, ConfigService configService) {
-        hr = hoursBaseConfigItem==null?null:hoursBaseConfigItem.defaultHR();
+    private void rehydrateHoursSettings(HoursModeConfigItem hoursModeConfigItem, ConfigService configService) {
+        hr = hoursModeConfigItem ==null?null: hoursModeConfigItem.defaultHR();
 
-        final String currentOptionForItem = configService.currentOptionForItem(hoursBaseConfigItem.itemId());
+        final String currentOptionForItem = configService.currentOptionForItem(hoursModeConfigItem.itemId());
 
-        hr = hoursBaseConfigItem.hoursModeFromOption(currentOptionForItem);
+        hr = hoursModeConfigItem.hoursModeFromOption(currentOptionForItem);
 
     }
 
@@ -77,7 +77,7 @@ public class HoursFromTick implements CanBeTicked, CanConfigureHours {
     @Override
     public void twentyFourHour() {
         hr = HR_24;
-        configService.persistItemChoice(hoursBaseConfigItem.itemId(),"24 Hours");
+        configService.persistItemChoice(hoursModeConfigItem.itemId(),"24 Hours");
     }
 
     @Override

@@ -5,23 +5,13 @@ import java.util.List;
 
 import uk.co.rossbeazley.wear.android.ui.config.service.ConfigItem;
 
-public class HoursBaseConfigItem implements ConfigItem {
-    public static final Object HR_24 = new Object(){
-        @Override
-        public String toString() {
-            return "24 Hour";
-        }
-    };
+public class HoursModeConfigItem implements ConfigItem {
+    public static final Object HR_24 = new HoursMode("24 Hour");
+    public static final Object HR_12 = new HoursMode("12 Hour");
 
-    public static final Object HR_12 = new Object(){
-        @Override
-        public String toString() {
-            return "12 Hour";
-        }
-    };
     private final Object hr;
 
-    public HoursBaseConfigItem(Object hr12) {
+    public HoursModeConfigItem(Object hr12) {
         hr = hr12;
     }
 
@@ -50,5 +40,18 @@ public class HoursBaseConfigItem implements ConfigItem {
 
     public Object hoursModeFromOption(String currentOptionForItem) {
         return currentOptionForItem.equals(HR_12.toString()) ? HR_12 : HR_24;
+    }
+
+    public static final class HoursMode {
+        private final String optionString;
+
+        public HoursMode(String optionString) {
+            this.optionString = optionString;
+        }
+
+        @Override
+        public String toString() {
+            return optionString;
+        }
     }
 }

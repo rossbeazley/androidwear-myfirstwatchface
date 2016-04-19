@@ -12,7 +12,7 @@ import uk.co.rossbeazley.wear.colour.HoursColourConfigItem;
 import uk.co.rossbeazley.wear.days.CanReceiveDaysUpdates;
 import uk.co.rossbeazley.wear.days.DaysFromTick;
 import uk.co.rossbeazley.wear.hours.CanReceiveHoursUpdates;
-import uk.co.rossbeazley.wear.hours.HoursBaseConfigItem;
+import uk.co.rossbeazley.wear.hours.HoursModeConfigItem;
 import uk.co.rossbeazley.wear.hours.HoursFromTick;
 import uk.co.rossbeazley.wear.minutes.CanReceiveMinutesUpdates;
 import uk.co.rossbeazley.wear.minutes.MinutesFromTick;
@@ -56,14 +56,14 @@ public class Core {
     }
 
     public Core(StringPersistence persistence) {
-        this(persistence, defaultOptions.defaultBackgroundColourConfigItem, defaultOptions.defaultRotationConfigItem, defaultOptions.defaultHoursColourConfigItem, new HoursBaseConfigItem(HoursBaseConfigItem.HR_12));
+        this(persistence, defaultOptions.defaultBackgroundColourConfigItem, defaultOptions.defaultRotationConfigItem, defaultOptions.defaultHoursColourConfigItem, new HoursModeConfigItem(HoursModeConfigItem.HR_12));
     }
 
     public static class DefaultOptions {
         public static final BackgroundColourConfigItem defaultBackgroundColourConfigItem = new BackgroundColourConfigItem();
         public static final RotationConfigItem defaultRotationConfigItem = new RotationConfigItem();
         public static final HoursColourConfigItem defaultHoursColourConfigItem = new HoursColourConfigItem(Colours.Colour.RED);
-        public static final HoursBaseConfigItem defaultHoursModeConfigItem = new HoursBaseConfigItem(HoursBaseConfigItem.HR_12);
+        public static final HoursModeConfigItem defaultHoursModeConfigItem = new HoursModeConfigItem(HoursModeConfigItem.HR_12);
 
         public static ConfigItem[] array() {
             return new ConfigItem[]{defaultBackgroundColourConfigItem, defaultRotationConfigItem, defaultHoursColourConfigItem, defaultHoursModeConfigItem};
@@ -77,17 +77,17 @@ public class Core {
     public RotationConfigItem rotationConfigItem() {return rotationConfigItem;}
     public HoursColourConfigItem hoursColourConfigItem() {return hoursColourConfigItem;}
 
-    public Core(StringPersistence hashMapPersistence, BackgroundColourConfigItem backgroundColourConfigItem, RotationConfigItem rotationConfigItem, HoursColourConfigItem hoursColourConfigItem, HoursBaseConfigItem hoursBaseConfigItem) {
+    public Core(StringPersistence hashMapPersistence, BackgroundColourConfigItem backgroundColourConfigItem, RotationConfigItem rotationConfigItem, HoursColourConfigItem hoursColourConfigItem, HoursModeConfigItem hoursModeConfigItem) {
         this.backgroundColourConfigItem = backgroundColourConfigItem;
         this.rotationConfigItem = rotationConfigItem;
         this.hoursColourConfigItem = hoursColourConfigItem;
-        configService = ConfigService.setupConfig(hashMapPersistence, backgroundColourConfigItem, rotationConfigItem, hoursColourConfigItem, hoursBaseConfigItem);
-        setupChronometerSubsystem(hoursBaseConfigItem, configService);
+        configService = ConfigService.setupConfig(hashMapPersistence, backgroundColourConfigItem, rotationConfigItem, hoursColourConfigItem, hoursModeConfigItem);
+        setupChronometerSubsystem(hoursModeConfigItem, configService);
         setupRotationSubsystem();
         setupColourManager();
     }
 
-    private void setupChronometerSubsystem(HoursBaseConfigItem hoursBaseConfigItem, ConfigService configService) {
+    private void setupChronometerSubsystem(HoursModeConfigItem hoursModeConfigItem, ConfigService configService) {
         Seconds seconds;
         MinutesFromTick minutes;
         HoursFromTick hours;
@@ -104,7 +104,7 @@ public class Core {
         canBeObservedForChangesToMinutes = canReceiveMinutesUpdatesAnnouncer;
 
         Announcer<CanReceiveHoursUpdates> canReceiveHoursUpdatesAnnouncer = Announcer.to(CanReceiveHoursUpdates.class);
-        hours = new HoursFromTick(canReceiveHoursUpdatesAnnouncer, hoursBaseConfigItem, configService);
+        hours = new HoursFromTick(canReceiveHoursUpdatesAnnouncer, hoursModeConfigItem, configService);
         canBeObservedForChangesToHours = canReceiveHoursUpdatesAnnouncer;
         canConfigureHours = hours;
 

@@ -11,7 +11,7 @@ import uk.co.rossbeazley.wear.ticktock.CanBeTicked;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
-import static uk.co.rossbeazley.wear.hours.HoursBaseConfigItem.HR_12;
+import static uk.co.rossbeazley.wear.hours.HoursModeConfigItem.HR_12;
 
 public class ConfiguringATwentyFourHourClock implements CanReceiveHoursUpdates {
 
@@ -30,7 +30,7 @@ public class ConfiguringATwentyFourHourClock implements CanReceiveHoursUpdates {
     }
 
     private void assembleUseCase(TestWorld testWorld) {
-        testWorld.with(new HoursBaseConfigItem(HR_12));
+        testWorld.with(new HoursModeConfigItem(HR_12));
         testWorld.build();
         hours = testWorld.core.canBeTicked;
         testWorld.core.canBeObservedForChangesToHours.addListener(this);
