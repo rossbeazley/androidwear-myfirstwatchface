@@ -100,22 +100,20 @@ public class Core {
         canBeObservedForChangesToHours = canReceiveHoursUpdatesAnnouncer;
         canConfigureHours = hours;
 
-        Announcer<CanReceiveDaysUpdates> canReceiveDaysUpdatesAnnouncer = Announcer.to(CanReceiveDaysUpdates.class);
-        days = new DaysFromTick(canReceiveDaysUpdatesAnnouncer);
-        canBeObservedForChangesToDays = canReceiveDaysUpdatesAnnouncer;
 
         Announcer<CanReceiveMonthsUpdates> canReceiveMonthsUpdatesAnnouncer = Announcer.to(CanReceiveMonthsUpdates.class);
         months = new MonthsFromTick(canReceiveMonthsUpdatesAnnouncer);
         canBeObservedForChangesToMonths = canReceiveMonthsUpdatesAnnouncer;
 
         final Announcer<CanBeTicked> canBeTickedAnnouncer = Announcer.to(CanBeTicked.class)
-                .addListeners(months, days, hours);
+                .addListeners(months, hours);
 
 
 
         Chronometer chronometer = new Chronometer(hoursModeConfigItem, configService, canBeTickedAnnouncer);
         canBeObservedForChangesToSeconds = chronometer.canBeObservedForChangesToSeconds;
         canBeObservedForChangesToMinutes = chronometer.canBeObservedForChangesToMinutes;
+        canBeObservedForChangesToDays = chronometer.canBeObservedForChangesToDays;
 
         canBeTicked = canBeTickedAnnouncer
                 .announce();
@@ -125,6 +123,7 @@ public class Core {
 
         public CanBeObserved<CanReceiveSecondsUpdates> canBeObservedForChangesToSeconds;
         public CanBeObserved<CanReceiveMinutesUpdates> canBeObservedForChangesToMinutes;
+        public CanBeObserved<CanReceiveDaysUpdates> canBeObservedForChangesToDays;
 
         public Chronometer(HoursModeConfigItem hoursModeConfigItem, ConfigService configService, Announcer<CanBeTicked> canBeTickedAnnouncer) {
 
@@ -138,8 +137,11 @@ public class Core {
             canBeObservedForChangesToMinutes = canReceiveMinutesUpdatesAnnouncer;
 
 
+            Announcer<CanReceiveDaysUpdates> canReceiveDaysUpdatesAnnouncer = Announcer.to(CanReceiveDaysUpdates.class);
+            DaysFromTick days = new DaysFromTick(canReceiveDaysUpdatesAnnouncer);
+            canBeObservedForChangesToDays = canReceiveDaysUpdatesAnnouncer;
 
-            canBeTickedAnnouncer.addListeners(seconds, minutes);
+            canBeTickedAnnouncer.addListeners(seconds, minutes, days);
         }
     }
 
