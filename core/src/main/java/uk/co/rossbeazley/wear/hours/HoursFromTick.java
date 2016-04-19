@@ -20,6 +20,7 @@ public class HoursFromTick implements CanBeTicked, CanConfigureHours {
     private final CanReceiveHoursUpdates announce;
     private HourBase24 current;
     private Object hr;
+    private int hourInt;
 
     public HoursFromTick(Announcer<CanReceiveHoursUpdates> canReceiveHoursUpdatesAnnouncer, final HoursModeConfigItem hoursModeConfigItem, ConfigService configService) {
         announcer = canReceiveHoursUpdatesAnnouncer;
@@ -68,7 +69,7 @@ public class HoursFromTick implements CanBeTicked, CanConfigureHours {
 
     @Override
     public void tick(Calendar to) {
-        final int hourInt = to.get(Calendar.HOUR_OF_DAY);
+        hourInt = to.get(Calendar.HOUR_OF_DAY);
         HourBase24 hourBase24;
         hourBase24 = HourBase24.fromBase10(hourInt);
         if(is24Hour()) {
@@ -100,6 +101,14 @@ public class HoursFromTick implements CanBeTicked, CanConfigureHours {
     public void twentyFourHour() {
         hr = HR_24;
         configService.persistItemChoice(hoursModeConfigItem.itemId(),hr.toString());
+        current = new HourBase24(hourInt){
+            public String toBase10TwelveHour() {
+                DecimalFormat numberFormat = new DecimalFormat("00");
+                String format = numberFormat.format(hourInt % 24);
+                return format;
+            }
+        };
+        announce.hoursUpdate(current);
     }
 
     @Override
