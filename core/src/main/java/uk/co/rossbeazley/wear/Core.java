@@ -88,20 +88,12 @@ public class Core {
     }
 
     private void setupChronometerSubsystem(HoursModeConfigItem hoursModeConfigItem, ConfigService configService) {
-        Seconds seconds;
         MinutesFromTick minutes;
         HoursFromTick hours;
         DaysFromTick days;
         MonthsFromTick months;
 
 
-        final Announcer<CanReceiveSecondsUpdates> canReceiveSecondsUpdatesAnnouncer = Announcer.to(CanReceiveSecondsUpdates.class);
-        seconds = new Seconds(canReceiveSecondsUpdatesAnnouncer);
-        canBeObservedForChangesToSeconds = canReceiveSecondsUpdatesAnnouncer;
-
-        Announcer<CanReceiveMinutesUpdates> canReceiveMinutesUpdatesAnnouncer = Announcer.to(CanReceiveMinutesUpdates.class);
-        minutes = new MinutesFromTick(canReceiveMinutesUpdatesAnnouncer);
-        canBeObservedForChangesToMinutes = canReceiveMinutesUpdatesAnnouncer;
 
         Announcer<CanReceiveHoursUpdates> canReceiveHoursUpdatesAnnouncer = Announcer.to(CanReceiveHoursUpdates.class);
         hours = new HoursFromTick(canReceiveHoursUpdatesAnnouncer, hoursModeConfigItem, configService);
@@ -116,10 +108,41 @@ public class Core {
         months = new MonthsFromTick(canReceiveMonthsUpdatesAnnouncer);
         canBeObservedForChangesToMonths = canReceiveMonthsUpdatesAnnouncer;
 
-        canBeTicked = Announcer.to(CanBeTicked.class)
-                .addListeners(months, days, hours, minutes, seconds)
+        final Announcer<CanBeTicked> canBeTickedAnnouncer = Announcer.to(CanBeTicked.class)
+                .addListeners(months, days, hours);
+
+
+
+        Chronometer chronometer = new Chronometer(hoursModeConfigItem, configService, canBeTickedAnnouncer);
+        canBeObservedForChangesToSeconds = chronometer.canBeObservedForChangesToSeconds;
+        canBeObservedForChangesToMinutes = chronometer.canBeObservedForChangesToMinutes;
+
+        canBeTicked = canBeTickedAnnouncer
                 .announce();
     }
+
+    public static class Chronometer {
+
+        public CanBeObserved<CanReceiveSecondsUpdates> canBeObservedForChangesToSeconds;
+        public CanBeObserved<CanReceiveMinutesUpdates> canBeObservedForChangesToMinutes;
+
+        public Chronometer(HoursModeConfigItem hoursModeConfigItem, ConfigService configService, Announcer<CanBeTicked> canBeTickedAnnouncer) {
+
+            final Announcer<CanReceiveSecondsUpdates> canReceiveSecondsUpdatesAnnouncer = Announcer.to(CanReceiveSecondsUpdates.class);
+            Seconds seconds = new Seconds(canReceiveSecondsUpdatesAnnouncer);
+            canBeObservedForChangesToSeconds = canReceiveSecondsUpdatesAnnouncer;
+
+
+            Announcer<CanReceiveMinutesUpdates> canReceiveMinutesUpdatesAnnouncer = Announcer.to(CanReceiveMinutesUpdates.class);
+            MinutesFromTick minutes = new MinutesFromTick(canReceiveMinutesUpdatesAnnouncer);
+            canBeObservedForChangesToMinutes = canReceiveMinutesUpdatesAnnouncer;
+
+
+
+            canBeTickedAnnouncer.addListeners(seconds, minutes);
+        }
+    }
+
 
     private void setupRotationSubsystem() {
         Announcer<CanReceiveRotationUpdates> canReceiveRotationUpdatesAnnouncer = Announcer.to(CanReceiveRotationUpdates.class);
