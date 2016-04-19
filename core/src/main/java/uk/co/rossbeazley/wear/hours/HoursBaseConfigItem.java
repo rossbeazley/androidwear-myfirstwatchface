@@ -1,5 +1,6 @@
 package uk.co.rossbeazley.wear.hours;
 
+import java.util.Arrays;
 import java.util.List;
 
 import uk.co.rossbeazley.wear.android.ui.config.service.ConfigItem;
@@ -16,17 +17,21 @@ public class HoursBaseConfigItem implements ConfigItem {
 
     @Override
     public String itemId() {
-        return null;
+        return "24 Hours Mode";
     }
 
     @Override
     public List<String> options() {
-        return null;
+        return Arrays.asList("12 Hour", "24 Hour");
     }
 
     @Override
     public String defaultOption() {
-        return null;
+        return optionForMode(defaultHR());
+    }
+
+    private String optionForMode(Object o) {
+        return o==HR_12 ? "12 Hour" : "24 Hour";
     }
 
     public boolean is24Hour() {
@@ -35,5 +40,9 @@ public class HoursBaseConfigItem implements ConfigItem {
 
     public Object defaultHR() {
         return hr;
+    }
+
+    public Object hoursModeFromOption(String currentOptionForItem) {
+        return currentOptionForItem.equals("12 Hour") ? HR_12 : HR_24;
     }
 }

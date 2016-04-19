@@ -56,16 +56,17 @@ public class Core {
     }
 
     public Core(StringPersistence persistence) {
-        this(persistence, defaultOptions.defaultBackgroundColourConfigItem, defaultOptions.defaultRotationConfigItem, defaultOptions.defaultHoursColourConfigItem, null);
+        this(persistence, defaultOptions.defaultBackgroundColourConfigItem, defaultOptions.defaultRotationConfigItem, defaultOptions.defaultHoursColourConfigItem, new HoursBaseConfigItem(HoursBaseConfigItem.HR_12));
     }
 
     public static class DefaultOptions {
         public static final BackgroundColourConfigItem defaultBackgroundColourConfigItem = new BackgroundColourConfigItem();
         public static final RotationConfigItem defaultRotationConfigItem = new RotationConfigItem();
         public static final HoursColourConfigItem defaultHoursColourConfigItem = new HoursColourConfigItem(Colours.Colour.RED);
+        public static final HoursBaseConfigItem defaultHoursModeConfigItem = new HoursBaseConfigItem(HoursBaseConfigItem.HR_12);
 
         public static ConfigItem[] array() {
-            return new ConfigItem[]{defaultBackgroundColourConfigItem, defaultRotationConfigItem, defaultHoursColourConfigItem};
+            return new ConfigItem[]{defaultBackgroundColourConfigItem, defaultRotationConfigItem, defaultHoursColourConfigItem, defaultHoursModeConfigItem};
         }
     }
 
@@ -80,13 +81,13 @@ public class Core {
         this.backgroundColourConfigItem = backgroundColourConfigItem;
         this.rotationConfigItem = rotationConfigItem;
         this.hoursColourConfigItem = hoursColourConfigItem;
-        setupChronometerSubsystem(hoursBaseConfigItem);
-        configService = ConfigService.setupConfig(hashMapPersistence, backgroundColourConfigItem, rotationConfigItem, hoursColourConfigItem);
+        configService = ConfigService.setupConfig(hashMapPersistence, backgroundColourConfigItem, rotationConfigItem, hoursColourConfigItem, hoursBaseConfigItem);
+        setupChronometerSubsystem(hoursBaseConfigItem, configService);
         setupRotationSubsystem();
         setupColourManager();
     }
 
-    private void setupChronometerSubsystem(HoursBaseConfigItem hoursBaseConfigItem) {
+    private void setupChronometerSubsystem(HoursBaseConfigItem hoursBaseConfigItem, ConfigService configService) {
         Seconds seconds;
         MinutesFromTick minutes;
         HoursFromTick hours;
@@ -103,7 +104,7 @@ public class Core {
         canBeObservedForChangesToMinutes = canReceiveMinutesUpdatesAnnouncer;
 
         Announcer<CanReceiveHoursUpdates> canReceiveHoursUpdatesAnnouncer = Announcer.to(CanReceiveHoursUpdates.class);
-        hours = new HoursFromTick(canReceiveHoursUpdatesAnnouncer, hoursBaseConfigItem);
+        hours = new HoursFromTick(canReceiveHoursUpdatesAnnouncer, hoursBaseConfigItem, configService);
         canBeObservedForChangesToHours = canReceiveHoursUpdatesAnnouncer;
         canConfigureHours = hours;
 

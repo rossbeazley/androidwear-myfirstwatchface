@@ -32,6 +32,7 @@ public class TestWorld {
     private HoursBaseConfigItem hoursBaseConfigItem;
 
     public TestWorld() {
+        hoursBaseConfigItem = Core.defaultOptions().defaultHoursModeConfigItem;
         hoursColourConfigItem = new HoursColourConfigItem(Colours.Colour.RED);
         backgroundColourConfigItem = Core.defaultOptions().defaultBackgroundColourConfigItem;
         rotationConfigItem = Core.defaultOptions().defaultRotationConfigItem;
@@ -48,7 +49,7 @@ public class TestWorld {
         this.defaultOptions = core.defaultOptions();
 
         configItems = new LinkedHashMap<>();
-        for (ConfigItem option : new ConfigItem[]{backgroundColourConfigItem, rotationConfigItem, hoursColourConfigItem}) {
+        for (ConfigItem option : new ConfigItem[]{backgroundColourConfigItem, rotationConfigItem, hoursColourConfigItem, hoursBaseConfigItem}) {
             configItems.put(option.itemId(), option);
         }
         return configService;

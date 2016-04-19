@@ -37,7 +37,7 @@ public class ObservingATwentyFourHourClock implements CanReceiveHoursUpdates {
     }
 
     @Test public void
-    itsFourteenHundredHours() {
+    itsDefaultedToFourteenHundredHours() {
 
         final TestWorld testWorld = new TestWorld();
         testWorld.with(new HoursBaseConfigItem(HR_24));

@@ -41,7 +41,7 @@ public class ReinitDefaultDataTest {
     public void
     reInitServiceWithPreviousPersistentStore() {
         reconfigureOptions();
-        configService = new Core(testWorld.hashMapPersistence, defaultOptions.defaultBackgroundColourConfigItem, defaultOptions.defaultRotationConfigItem, defaultOptions.defaultHoursColourConfigItem, null).configService;
+        configService = new Core(testWorld.hashMapPersistence, defaultOptions.defaultBackgroundColourConfigItem, defaultOptions.defaultRotationConfigItem, defaultOptions.defaultHoursColourConfigItem, defaultOptions.defaultHoursModeConfigItem).configService;
         assertReconfiguredOptionsStillPersisted();
     }
 
