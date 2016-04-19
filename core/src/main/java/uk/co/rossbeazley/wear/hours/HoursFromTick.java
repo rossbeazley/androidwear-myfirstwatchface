@@ -51,11 +51,7 @@ public class HoursFromTick implements CanBeTicked, CanConfigureHours {
             public void chosenOption(String option) {
                 if(item.equals(hoursModeConfigItem.itemId())) {
                     final Object modeFromOption = hoursModeConfigItem.hoursModeFromOption(option);
-                    if(modeFromOption==HR_12) {
-                        twelveHour();
-                    } else {
-                        twentyFourHour();
-                    }
+                    hr = modeFromOption;
                 }
             }
         });
@@ -77,7 +73,6 @@ public class HoursFromTick implements CanBeTicked, CanConfigureHours {
         hourBase24 = HourBase24.fromBase10(hourInt);
         if(is24Hour()) {
             hourBase24 = new HourBase24(hourInt){
-
                 public String toBase10TwelveHour() {
                     DecimalFormat numberFormat = new DecimalFormat("00");
                     String format = numberFormat.format(hourInt % 24);
@@ -89,7 +84,7 @@ public class HoursFromTick implements CanBeTicked, CanConfigureHours {
     }
 
     private boolean is24Hour() {
-        return hr!=null && hr== HR_24;
+        return hr!=null && hr==HR_24;
     }
 
     private void tick(HourBase24 to) {
@@ -110,5 +105,6 @@ public class HoursFromTick implements CanBeTicked, CanConfigureHours {
     @Override
     public void twelveHour() {
         hr = HR_12;
+        configService.persistItemChoice(hoursModeConfigItem.itemId(),hr.toString());
     }
 }
