@@ -70,6 +70,21 @@ public class ConfiguringHourModeWithConfigService implements CanReceiveHoursUpda
 
     @Test
     public void
+    itsFourteenHundredHoursWithoutTimePassing() {
+
+
+        hours.tick(calendar);
+
+        final HoursModeConfigItem hoursModeConfigItem = testWorld.hoursModeConfigItem;
+        String hoursModeId = hoursModeConfigItem.itemId();
+        testWorld.configService.configureItem(hoursModeId);
+        testWorld.configService.chooseOption(hoursModeConfigItem.optionFromHoursMode(hoursModeConfigItem.HR_24));
+
+        assertThat(timeComponentString, is("14"));
+    }
+
+    @Test
+    public void
     its2PMAfter1400() {
 
         final HoursModeConfigItem hoursModeConfigItem = testWorld.hoursModeConfigItem;
@@ -87,6 +102,30 @@ public class ConfiguringHourModeWithConfigService implements CanReceiveHoursUpda
         this.testWorld.configService.chooseOption(hoursModeConfigItem.optionFromHoursMode(HoursModeConfigItem.HR_12));
 
         hours.tick(calendar);
+
+        assertThat(timeComponentString, is("02"));
+    }
+
+    @Test
+    public void
+    its2PMAfter1400WithoutTimePassingAfterChanging() {
+
+        final HoursModeConfigItem hoursModeConfigItem = testWorld.hoursModeConfigItem;
+        String hoursModeId = hoursModeConfigItem.itemId();
+        testWorld.configService.configureItem(hoursModeId);
+        testWorld.configService.chooseOption(hoursModeConfigItem.optionFromHoursMode(HoursModeConfigItem.HR_24));
+
+        final HashMapPersistence hashMapPersistence = testWorld.hashMapPersistence;
+        this.testWorld = new TestWorld();
+        testWorld.with(hashMapPersistence);
+
+        assembleUseCase(testWorld);
+
+        hours.tick(calendar);
+
+        this.testWorld.configService.configureItem(hoursModeId);
+        this.testWorld.configService.chooseOption(hoursModeConfigItem.optionFromHoursMode(HoursModeConfigItem.HR_12));
+
 
         assertThat(timeComponentString, is("02"));
     }

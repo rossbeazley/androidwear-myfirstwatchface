@@ -16,6 +16,7 @@ public class HoursPresenter implements Disposable {
         updateView = new CanReceiveHoursUpdates() {
             @Override
             public void hoursUpdate(HourBase24 hourBase24) {
+                System.out.println("Hours Presenter hours update " + hourBase24);
                 hoursView.showHoursString(hourBase24.toBase10TwelveHour());
             }
         };

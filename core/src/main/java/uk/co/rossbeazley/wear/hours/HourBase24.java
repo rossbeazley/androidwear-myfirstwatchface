@@ -20,6 +20,11 @@ public class HourBase24 {
     }
 
     @Override
+    public String toString() {
+        return this.toBase10TwelveHour();
+    }
+
+    @Override
     public boolean equals(Object obj) {
         return obj !=null && ((HourBase24)obj).value == value;
     }

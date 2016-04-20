@@ -23,6 +23,10 @@ class AndroidHoursView implements HoursPresenter.HoursView {
 
     @Override
     public void showHoursString(final String newHour) {
+        System.out.println("======== SHOW HOURS STRING " + newHour);
+        System.out.println("======== SHOW HOURS STRING " + newHour);
+        System.out.println("======== SHOW HOURS STRING " + newHour);
+        System.out.println("======== SHOW HOURS STRING " + newHour);
         setTextOnMainThread.updateTextView(newHour, textView);
     }
 
