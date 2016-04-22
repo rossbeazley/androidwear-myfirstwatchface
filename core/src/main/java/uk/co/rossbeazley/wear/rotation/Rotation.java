@@ -1,7 +1,7 @@
 package uk.co.rossbeazley.wear.rotation;
 
 import uk.co.rossbeazley.wear.Announcer;
-import uk.co.rossbeazley.wear.android.ui.config.service.ConfigService;
+import uk.co.rossbeazley.wear.config.ConfigService;
 
 public class Rotation implements CanBeRotated, uk.co.rossbeazley.wear.CanBeObserved<CanReceiveRotationUpdates> {
 

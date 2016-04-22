@@ -5,9 +5,8 @@ import org.junit.Test;
 
 import uk.co.rossbeazley.wear.CanBeObserved;
 import uk.co.rossbeazley.wear.Core;
-import uk.co.rossbeazley.wear.android.ui.config.HashMapPersistence;
-import uk.co.rossbeazley.wear.android.ui.config.TestWorld;
-import uk.co.rossbeazley.wear.android.ui.config.service.StringPersistence;
+import uk.co.rossbeazley.wear.config.HashMapPersistence;
+import uk.co.rossbeazley.wear.TestWorld;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;

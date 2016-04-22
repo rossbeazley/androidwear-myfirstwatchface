@@ -1,9 +1,9 @@
 package uk.co.rossbeazley.wear;
 
-import uk.co.rossbeazley.wear.android.ui.config.HashMapPersistence;
-import uk.co.rossbeazley.wear.android.ui.config.service.ConfigItem;
-import uk.co.rossbeazley.wear.android.ui.config.service.ConfigService;
-import uk.co.rossbeazley.wear.android.ui.config.service.StringPersistence;
+import uk.co.rossbeazley.wear.config.HashMapPersistence;
+import uk.co.rossbeazley.wear.config.ConfigItem;
+import uk.co.rossbeazley.wear.config.ConfigService;
+import uk.co.rossbeazley.wear.config.StringPersistence;
 import uk.co.rossbeazley.wear.colour.BackgroundColourConfigItem;
 import uk.co.rossbeazley.wear.colour.CanReceiveColourUpdates;
 import uk.co.rossbeazley.wear.colour.ColourManager;

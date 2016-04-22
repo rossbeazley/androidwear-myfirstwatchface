@@ -5,8 +5,8 @@ import org.junit.Test;
 
 import java.util.Calendar;
 
-import uk.co.rossbeazley.wear.android.ui.config.HashMapPersistence;
-import uk.co.rossbeazley.wear.android.ui.config.TestWorld;
+import uk.co.rossbeazley.wear.config.HashMapPersistence;
+import uk.co.rossbeazley.wear.TestWorld;
 import uk.co.rossbeazley.wear.ticktock.CanBeTicked;
 
 import static org.hamcrest.CoreMatchers.is;

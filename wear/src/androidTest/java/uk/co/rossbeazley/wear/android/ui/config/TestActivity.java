@@ -7,10 +7,6 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import uk.co.rossbeazley.wear.R;
-import uk.co.rossbeazley.wear.android.ui.config.ui.DependencyInjectionFramework;
-import uk.co.rossbeazley.wear.android.ui.config.ui.NavigationControllerJournal;
-import uk.co.rossbeazley.wear.android.ui.config.ui.NeedsConfigService;
-import uk.co.rossbeazley.wear.android.ui.config.ui.NeedsNavigationController;
 
 public class TestActivity extends Activity {
 

@@ -3,8 +3,8 @@ package uk.co.rossbeazley.wear.colour;
 import uk.co.rossbeazley.wear.Announcer;
 import uk.co.rossbeazley.wear.CanBeColoured;
 import uk.co.rossbeazley.wear.CanBeObserved;
-import uk.co.rossbeazley.wear.android.ui.config.service.ConfigService;
-import uk.co.rossbeazley.wear.android.ui.config.service.ConfigServiceListener;
+import uk.co.rossbeazley.wear.config.ConfigService;
+import uk.co.rossbeazley.wear.config.ConfigServiceListener;
 
 public class ColourManager implements CanBeObserved<CanReceiveColourUpdates>, CanBeColoured {
     private final ConfigService configService;

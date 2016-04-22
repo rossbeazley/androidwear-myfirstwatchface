@@ -3,7 +3,7 @@ package uk.co.rossbeazley.wear.colour;
 import java.util.List;
 
 import uk.co.rossbeazley.wear.BiMap;
-import uk.co.rossbeazley.wear.android.ui.config.service.ConfigItem;
+import uk.co.rossbeazley.wear.config.ConfigItem;
 
 public class BackgroundColourConfigItem implements ConfigItem {
 

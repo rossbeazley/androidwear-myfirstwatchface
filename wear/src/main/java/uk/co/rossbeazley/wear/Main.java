@@ -4,8 +4,6 @@ import android.content.Context;
 
 import uk.co.rossbeazley.wear.android.SharedPreferencesStringPersistence;
 import uk.co.rossbeazley.wear.android.gsm.GoogleWearApiConnection;
-import uk.co.rossbeazley.wear.android.ui.config.HashMapPersistence;
-import uk.co.rossbeazley.wear.android.ui.config.service.StringPersistence;
 import uk.co.rossbeazley.wear.months.MonthFactory;
 import uk.co.rossbeazley.wear.ticktock.TickTock;
 

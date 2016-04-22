@@ -3,7 +3,7 @@ package uk.co.rossbeazley.wear.hours;
 import java.util.Arrays;
 import java.util.List;
 
-import uk.co.rossbeazley.wear.android.ui.config.service.ConfigItem;
+import uk.co.rossbeazley.wear.config.ConfigItem;
 
 public class HoursModeConfigItem implements ConfigItem {
     public static final Object HR_24 = new HoursMode("24 Hour");

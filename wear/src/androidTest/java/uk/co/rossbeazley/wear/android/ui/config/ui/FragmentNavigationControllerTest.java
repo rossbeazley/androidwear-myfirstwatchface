@@ -10,8 +10,17 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import uk.co.rossbeazley.wear.android.ui.config.ConfigItemOptionsListFragment;
+import uk.co.rossbeazley.wear.android.ui.config.ConfigItemsListFragment;
+import uk.co.rossbeazley.wear.android.ui.config.ConfigOptionSelectedFragment;
+import uk.co.rossbeazley.wear.android.ui.config.FragmentNavigationController;
+import uk.co.rossbeazley.wear.android.ui.config.NavigationControllerJournal;
+import uk.co.rossbeazley.wear.android.ui.config.NeedsConfigService;
+import uk.co.rossbeazley.wear.android.ui.config.NeedsNavigationController;
+import uk.co.rossbeazley.wear.android.ui.config.RaisesUIEvents;
 import uk.co.rossbeazley.wear.android.ui.config.TestActivity;
-import uk.co.rossbeazley.wear.android.ui.config.TestWorld;
+import uk.co.rossbeazley.wear.TestWorld;
+import uk.co.rossbeazley.wear.android.ui.config.UIEvents;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;

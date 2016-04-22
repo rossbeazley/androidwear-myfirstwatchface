@@ -5,13 +5,11 @@ import android.content.SharedPreferences;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import uk.co.rossbeazley.wear.android.ui.config.service.StringPersistence;
+import uk.co.rossbeazley.wear.config.StringPersistence;
 
 public class SharedPreferencesStringPersistence implements StringPersistence {
 

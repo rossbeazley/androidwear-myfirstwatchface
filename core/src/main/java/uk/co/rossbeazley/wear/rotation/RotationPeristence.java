@@ -1,7 +1,7 @@
 package uk.co.rossbeazley.wear.rotation;
 
-import uk.co.rossbeazley.wear.android.ui.config.service.ConfigService;
-import uk.co.rossbeazley.wear.android.ui.config.service.ConfigServiceListener;
+import uk.co.rossbeazley.wear.config.ConfigService;
+import uk.co.rossbeazley.wear.config.ConfigServiceListener;
 
 public class RotationPeristence implements CanReceiveRotationUpdates {
 

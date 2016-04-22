@@ -3,8 +3,8 @@ package uk.co.rossbeazley.wear.colour;
 import org.junit.Before;
 import org.junit.Test;
 
-import uk.co.rossbeazley.wear.android.ui.config.TestWorld;
-import uk.co.rossbeazley.wear.android.ui.config.service.ConfigService;
+import uk.co.rossbeazley.wear.TestWorld;
+import uk.co.rossbeazley.wear.config.ConfigService;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;

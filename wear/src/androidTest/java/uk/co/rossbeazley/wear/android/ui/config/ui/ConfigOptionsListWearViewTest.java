@@ -20,9 +20,9 @@ import java.util.List;
 
 import uk.co.rossbeazley.wear.R;
 import uk.co.rossbeazley.wear.android.ui.config.TestActivity;
-import uk.co.rossbeazley.wear.android.ui.config.ui.ConfigItemsListFragment;
-import uk.co.rossbeazley.wear.android.ui.config.ui.ConfigItemsListView;
-import uk.co.rossbeazley.wear.android.ui.config.ui.ConfigItemsListWearView;
+import uk.co.rossbeazley.wear.android.ui.config.ConfigItemsListFragment;
+import uk.co.rossbeazley.wear.android.ui.config.ConfigItemsListView;
+import uk.co.rossbeazley.wear.android.ui.config.ConfigItemsListWearView;
 import uk.co.rossbeazley.wear.android.ui.espressoMatchers.ScrollToPositionViewAction;
 
 import static android.support.test.espresso.matcher.ViewMatchers.withId;

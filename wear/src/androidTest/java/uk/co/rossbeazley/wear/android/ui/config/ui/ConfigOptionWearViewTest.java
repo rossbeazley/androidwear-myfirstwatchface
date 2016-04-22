@@ -6,7 +6,6 @@ import android.support.test.rule.ActivityTestRule;
 import android.support.test.rule.UiThreadTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.view.LayoutInflater;
-import android.widget.FrameLayout;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -19,6 +18,9 @@ import java.util.Collections;
 import java.util.List;
 
 import uk.co.rossbeazley.wear.R;
+import uk.co.rossbeazley.wear.android.ui.config.ConfigItemOptionsListFragment;
+import uk.co.rossbeazley.wear.android.ui.config.ConfigOptionView;
+import uk.co.rossbeazley.wear.android.ui.config.ConfigOptionsWearView;
 import uk.co.rossbeazley.wear.android.ui.config.TestActivity;
 import uk.co.rossbeazley.wear.android.ui.espressoMatchers.ScrollToPositionViewAction;
 

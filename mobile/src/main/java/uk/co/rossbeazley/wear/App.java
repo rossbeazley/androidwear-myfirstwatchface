@@ -2,7 +2,7 @@ package uk.co.rossbeazley.wear;
 
 import android.app.Application;
 
-import uk.co.rossbeazley.wear.android.ui.config.HashMapPersistence;
+import uk.co.rossbeazley.wear.config.HashMapPersistence;
 import uk.co.rossbeazley.wear.months.MonthFactory;
 
 public class App extends Application {

@@ -5,8 +5,8 @@ import java.util.Calendar;
 
 import uk.co.rossbeazley.wear.Announcer;
 import uk.co.rossbeazley.wear.CanConfigureHours;
-import uk.co.rossbeazley.wear.android.ui.config.service.ConfigService;
-import uk.co.rossbeazley.wear.android.ui.config.service.ConfigServiceListener;
+import uk.co.rossbeazley.wear.config.ConfigService;
+import uk.co.rossbeazley.wear.config.ConfigServiceListener;
 import uk.co.rossbeazley.wear.ticktock.CanBeTicked;
 
 import static uk.co.rossbeazley.wear.hours.HoursModeConfigItem.HR_12;
