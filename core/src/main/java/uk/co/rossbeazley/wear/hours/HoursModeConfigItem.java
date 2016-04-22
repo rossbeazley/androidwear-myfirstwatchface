@@ -17,7 +17,7 @@ public class HoursModeConfigItem implements ConfigItem {
 
     @Override
     public String itemId() {
-        return "24 Hours Mode";
+        return "Hours Mode";
     }
 
     @Override

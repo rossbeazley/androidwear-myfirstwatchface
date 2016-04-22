@@ -2,11 +2,16 @@ TODO
 
 use standard wear list to have options for
 
-background colour
-rotation
 date in ambient mode
-tint colour
-24/12 hour mode
+DONE background colour
+DONE rotation
+DONE tint colour
+DONE 24/12 hour mode
+reset to defaults
+
+remove old GUI config screen
+mobile device config screen
+
 
 
 
@@ -38,8 +43,8 @@ todo:
  - DONE re-write config service to only persist choices, not options. drive from in memory objects only
  - DONE shared prefs persistence
  - (including reset option (presenter responsible for presenting option to use reset method on config service))
- - allow the addition of config options without over writing the current values
- (-allow ability to Add config options not just at the start, ie init defaults should be additive)
+ - DONE allow the addition of config options without over writing the current values
+    (-allow ability to Add config options not just at the start, ie init defaults should be additive)
 
  - DONE make config service use the objects rather than persistence
  - DONE remove persistence of other stuff except chosen option
@@ -76,7 +81,7 @@ todo:
 5. 12/14 hours
  - DONE toggle
  - DONE Persistence
- - Menu configuring
+ - DONE Menu configuring
  - rename all hours mode objects to refer to "mode" rather than "base"
  - config service needs repackaging
  - testworld config option should be public and referenced in tests

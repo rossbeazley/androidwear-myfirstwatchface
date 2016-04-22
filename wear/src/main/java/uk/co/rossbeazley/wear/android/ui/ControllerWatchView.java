@@ -89,6 +89,7 @@ public class ControllerWatchView extends FrameLayout implements WatchView {
 
     @Override
     public void toActiveOffset() {
+        hours.setTextColor(hoursColour.activeColourInt);
         date.setVisibility(GONE);
         seconds.setVisibility(GONE);
     }
