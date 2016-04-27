@@ -9,7 +9,7 @@ DONE tint colour
 DONE 24/12 hour mode
 reset to defaults
 
-remove old GUI config screen
+DONE remove old GUI config screen
 mobile device config screen
 
 
