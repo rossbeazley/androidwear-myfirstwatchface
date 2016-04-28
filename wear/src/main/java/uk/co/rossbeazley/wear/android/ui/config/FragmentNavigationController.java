@@ -12,13 +12,6 @@ public class FragmentNavigationController implements NavigationController {
         config_root_view = root_view;
     }
 
-    @Override
-    public void defaultNavigation() {
-        UIConfigFragment fragment = new UIConfigFragment();
-        String tag = "DEFAULT";
-        pushFragment(fragment, tag);
-    }
-
     private void pushFragment(Fragment fragment, String tag) {
         fragmentManager()
                 .beginTransaction()

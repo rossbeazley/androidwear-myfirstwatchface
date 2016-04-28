@@ -3,8 +3,6 @@ package uk.co.rossbeazley.wear.android.ui.config;
 import java.util.ArrayList;
 import java.util.List;
 
-import uk.co.rossbeazley.wear.android.ui.config.NavigationController;
-
 public class NavigationControllerJournal implements NavigationController {
     public static final String CONFIG_ITEMS_LIST = "ConfigItemsList";
     public static final String CONFIG_OPTION = "ConfigOption";
@@ -13,11 +11,6 @@ public class NavigationControllerJournal implements NavigationController {
 
     public String screen = UNKNOWN;
     public List<String> journal = new ArrayList<>();
-
-    @Override
-    public void defaultNavigation() {
-        pushScreen("defaultNavigation");
-    }
 
     @Override
     public void toConfigItemsList() {
