@@ -20,7 +20,7 @@ import uk.co.rossbeazley.wear.android.ui.config.NeedsNavigationController;
 import uk.co.rossbeazley.wear.android.ui.config.RaisesUIEvents;
 import uk.co.rossbeazley.wear.android.ui.config.TestActivity;
 import uk.co.rossbeazley.wear.TestWorld;
-import uk.co.rossbeazley.wear.android.ui.config.UIEvents;
+import uk.co.rossbeazley.wear.ui.config.UIEvents;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
@@ -82,7 +82,7 @@ public class FragmentNavigationControllerTest {
         assertThat(capturingUIEvents.optionSelectedFinished, is(true));
     }
 
-    private static class CapturingUIEvents implements UIEvents {
+    public static class CapturingUIEvents implements UIEvents {
         private boolean optionSelectedFinished;
 
         @Override

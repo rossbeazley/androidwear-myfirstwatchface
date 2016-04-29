@@ -1,4 +1,4 @@
-package uk.co.rossbeazley.wear.android.ui.config;
+package uk.co.rossbeazley.wear.ui.config;
 
 import uk.co.rossbeazley.wear.config.ConfigService;
 import uk.co.rossbeazley.wear.config.ConfigServiceListener;

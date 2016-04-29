@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.wearable.activity.ConfirmationActivity;
 
+import uk.co.rossbeazley.wear.ui.config.UIEvents;
+
 public class ConfigOptionSelectedFragment extends Fragment implements RaisesUIEvents {
     private UIEvents uiEvents;
 

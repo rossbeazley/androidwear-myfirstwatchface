@@ -3,6 +3,8 @@ package uk.co.rossbeazley.wear.android.ui.config;
 import android.app.Fragment;
 import android.app.FragmentManager;
 
+import uk.co.rossbeazley.wear.ui.config.NavigationController;
+
 public class FragmentNavigationController implements NavigationController {
     private FragmentManagerProvider fragmentManagerProvider;
     private int config_root_view;

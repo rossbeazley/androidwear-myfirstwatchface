@@ -3,6 +3,8 @@ package uk.co.rossbeazley.wear.android.ui.config;
 import java.util.ArrayList;
 import java.util.List;
 
+import uk.co.rossbeazley.wear.ui.config.NavigationController;
+
 public class NavigationControllerJournal implements NavigationController {
     public static final String CONFIG_ITEMS_LIST = "ConfigItemsList";
     public static final String CONFIG_OPTION = "ConfigOption";

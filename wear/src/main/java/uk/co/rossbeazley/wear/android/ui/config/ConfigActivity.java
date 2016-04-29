@@ -8,6 +8,8 @@ import android.os.Bundle;
 import uk.co.rossbeazley.wear.Core;
 import uk.co.rossbeazley.wear.R;
 import uk.co.rossbeazley.wear.config.ConfigService;
+import uk.co.rossbeazley.wear.ui.config.NavigationController;
+import uk.co.rossbeazley.wear.ui.config.UiNavigation;
 
 public class ConfigActivity extends Activity implements FragmentNavigationController.FragmentManagerProvider {
 
