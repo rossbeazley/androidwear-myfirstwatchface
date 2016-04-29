@@ -15,25 +15,17 @@ public class ConfigActivity extends Activity implements FragmentNavigationContro
 
 
     private NavigationController navigationController = new FragmentNavigationController(this, R.id.config_root_view);
-    private DependencyInjectionFramework dependencyInjectionFramework = new DependencyInjectionFramework();
-
-    private UiNavigation uiNavigation;
+    private DependencyInjectionFramework dependencyInjectionFramework;// = new DependencyInjectionFramework();
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.config_activity);
-
 //        Debug.waitForDebugger();
-
-        ConfigService configService = null;
-        configService = Core.instance().configService;
-        dependencyInjectionFramework.register(configService, NeedsConfigService.class);
-
-        dependencyInjectionFramework.register(navigationController, NeedsNavigationController.class);
-        uiNavigation = new UiNavigation(configService, navigationController);
-        dependencyInjectionFramework.register(uiNavigation, RaisesUIEvents.class);
+        ConfigService configService = Core.instance().configService;
+        UiNavigation uiNavigation = new UiNavigation(configService, navigationController);
+        dependencyInjectionFramework = new DependencyInjectionFrameworkBuilder().withDefaults(navigationController, uiNavigation,configService);
 
     }
 

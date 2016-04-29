@@ -21,18 +21,15 @@ public class DependencyInjectionFrameworkTest implements NeedsNavigationControll
     private UIEvents registeredUiEvents;
     private ConfigService registeredConfigService;
 
+    private DependencyInjectionFrameworkBuilder dependencyInjectionFrameworkBuilder = new DependencyInjectionFrameworkBuilder();
+
     @Before
     public void setUp() throws Exception {
-        dependencyInjectionFramework = new DependencyInjectionFramework();
-
         registeredNavController = new NavigationControllerJournal();
-        dependencyInjectionFramework.register(registeredNavController, NeedsNavigationController.class);
-
         registeredUiEvents = new StubUIEvents();
-        dependencyInjectionFramework.register(registeredUiEvents,RaisesUIEvents.class);
-
         registeredConfigService = new ConfigService(new HashMapPersistence());
-        dependencyInjectionFramework.register(registeredConfigService,NeedsConfigService.class);
+
+        dependencyInjectionFrameworkBuilder.withDefaults(registeredNavController, registeredUiEvents, registeredConfigService);
     }
 
     @Test
@@ -67,4 +64,5 @@ public class DependencyInjectionFrameworkTest implements NeedsNavigationControll
     public void attachConfigService(ConfigService configService) {
         this.configService = configService;
     }
+
 }
