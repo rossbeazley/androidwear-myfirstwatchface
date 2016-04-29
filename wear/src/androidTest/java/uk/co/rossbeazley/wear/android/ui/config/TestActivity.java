@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import uk.co.rossbeazley.wear.R;
+import uk.co.rossbeazley.wear.config.ConfigService;
+import uk.co.rossbeazley.wear.config.HashMapPersistence;
 
 public class TestActivity extends Activity {
 
@@ -22,9 +24,10 @@ public class TestActivity extends Activity {
         rootFrameLayout.setId(R.id.test_activity_root_view_id);
         setContentView(rootFrameLayout);
 
-
-        dependencyInjectionFramework = new DependencyInjectionFramework();
-
+        NavigationControllerJournal registeredNavController = new NavigationControllerJournal();
+        StubUIEvents registeredUiEvents = new StubUIEvents();
+        ConfigService registeredConfigService = new ConfigService(new HashMapPersistence());
+        dependencyInjectionFramework = new DependencyInjectionFrameworkBuilder().withDefaults(registeredNavController, registeredUiEvents, registeredConfigService);
     }
 
     @Override
