@@ -28,11 +28,7 @@ public class DependencyInjectionFrameworkTest implements NeedsNavigationControll
         registeredNavController = new NavigationControllerJournal();
         dependencyInjectionFramework.register(registeredNavController, NeedsNavigationController.class);
 
-        registeredUiEvents = new UIEvents(){
-            @Override
-            public void optionSelectedFinished() {
-            }
-        };
+        registeredUiEvents = new StubUIEvents();
         dependencyInjectionFramework.register(registeredUiEvents,RaisesUIEvents.class);
 
         registeredConfigService = new ConfigService(new HashMapPersistence());
