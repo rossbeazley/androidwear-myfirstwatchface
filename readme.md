@@ -82,9 +82,9 @@ todo:
  - DONE toggle
  - DONE Persistence
  - DONE Menu configuring
- - rename all hours mode objects to refer to "mode" rather than "base"
- - config service needs repackaging
- - testworld config option should be public and referenced in tests
+ - DONE rename all hours mode objects to refer to "mode" rather than "base"
+ - DONE config service needs repackaging
+ - DONE testworld config option should be public and referenced in tests
 
 
  GAP Analysis around ui flow, exiting screen, choosing otions (green tick?)
