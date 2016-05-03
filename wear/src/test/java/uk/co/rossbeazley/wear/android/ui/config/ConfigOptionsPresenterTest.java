@@ -5,8 +5,6 @@ import org.junit.Test;
 
 import java.util.List;
 
-import uk.co.rossbeazley.wear.android.ui.config.ConfigItemOptionsListFragment;
-import uk.co.rossbeazley.wear.android.ui.config.ConfigOptionView;
 import uk.co.rossbeazley.wear.TestWorld;
 import uk.co.rossbeazley.wear.config.ConfigService;
 
@@ -33,7 +31,7 @@ public class ConfigOptionsPresenterTest {
 
         capturingConfigOptionView = new CapturingConfigOptionView();
 
-        ConfigItemOptionsListFragment configItemsListFragment = new ConfigItemOptionsListFragment();
+        ConfigItemOptionsListFragment configItemsListFragment = ConfigItemOptionsListFragment.createConfigItemOptionsListFragment();
         configItemsListFragment.attachConfigService(configService);
 
         configItemsListFragment.buildPresenters(capturingConfigOptionView,null);

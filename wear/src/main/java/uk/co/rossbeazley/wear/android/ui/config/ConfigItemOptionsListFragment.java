@@ -13,6 +13,15 @@ public class ConfigItemOptionsListFragment extends Fragment implements NeedsConf
 
     private ConfigService configService;
 
+    public ConfigItemOptionsListFragment() {
+    }
+
+    public static ConfigItemOptionsListFragment createConfigItemOptionsListFragment() {
+        final ConfigItemOptionsListFragment configItemOptionsListFragment = new ConfigItemOptionsListFragment();
+
+        return configItemOptionsListFragment;
+    }
+
     @Nullable
     @Override
     public ConfigOptionsWearView onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

@@ -121,7 +121,7 @@ public class ConfigOptionsListWearViewTest {
         uiThreadTest.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                ConfigItemsListFragment configItemsListFragment = new ConfigItemsListFragment();
+                ConfigItemsListFragment configItemsListFragment = ConfigItemsListFragment.createConfigItemsListFragment();
                 configOptionsListWearView = (ConfigItemsListWearView) configItemsListFragment.onCreateView(LayoutInflater.from(activity),activity.rootFrameLayout,null);
                 configOptionsListWearView.setId(R.id.view_under_test);
                 activity.setContentView(configOptionsListWearView);

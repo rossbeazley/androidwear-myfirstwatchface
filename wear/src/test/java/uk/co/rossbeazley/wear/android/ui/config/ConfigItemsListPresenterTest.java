@@ -5,8 +5,6 @@ import org.junit.Test;
 
 import java.util.List;
 
-import uk.co.rossbeazley.wear.android.ui.config.ConfigItemsListFragment;
-import uk.co.rossbeazley.wear.android.ui.config.ConfigItemsListView;
 import uk.co.rossbeazley.wear.config.CapturingConfigServiceListener;
 import uk.co.rossbeazley.wear.TestWorld;
 import uk.co.rossbeazley.wear.config.ConfigService;
@@ -25,12 +23,8 @@ public class ConfigItemsListPresenterTest {
         testWorld = new TestWorld();
         configService = testWorld.build();
 
-        ConfigItemsListFragment configItemsListFragment = new ConfigItemsListFragment();
-        configItemsListFragment.attachConfigService(configService);
-
-
         configListView = new CapturingConfigItemsListView();
-        configItemsListFragment.buildPresenters(configListView, null);
+        ConfigItemsListFragment.ConfigItemsListUIFactory.FACTORY.createPresenters(configService, configListView);
     }
 
     @Test
