@@ -119,7 +119,7 @@ public class ConfigOptionWearViewTest {
         uiThreadTest.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                ConfigOptionsWearView configOptionsWearView = ConfigItemOptionsListFragment.createConfigItemOptionsListFragment().onCreateView(LayoutInflater.from(activity),activity.rootFrameLayout,null);
+                ConfigOptionsWearView configOptionsWearView = (ConfigOptionsWearView) ConfigItemOptionsListFragment.createConfigItemOptionsListFragment().onCreateView(LayoutInflater.from(activity),activity.rootFrameLayout,null);
                 configOptionsWearView.setId(R.id.view_under_test);
                 ConfigOptionWearViewTest.this.configOptionsWearView = configOptionsWearView;
                 activity.rootFrameLayout.addView(configOptionsWearView);

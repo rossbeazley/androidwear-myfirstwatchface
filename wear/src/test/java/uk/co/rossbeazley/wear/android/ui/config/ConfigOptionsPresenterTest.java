@@ -31,10 +31,8 @@ public class ConfigOptionsPresenterTest {
 
         capturingConfigOptionView = new CapturingConfigOptionView();
 
-        ConfigItemOptionsListFragment configItemsListFragment = ConfigItemOptionsListFragment.createConfigItemOptionsListFragment();
-        configItemsListFragment.attachConfigService(configService);
+        ConfigItemOptionsListFragment.ConfigItemsOptionsListUIFactory.FACTORY.createPresenters(configService,capturingConfigOptionView);
 
-        configItemsListFragment.buildPresenters(capturingConfigOptionView,null);
 
     }
 

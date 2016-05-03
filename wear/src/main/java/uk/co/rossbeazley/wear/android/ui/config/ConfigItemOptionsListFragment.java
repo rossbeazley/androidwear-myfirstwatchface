@@ -18,27 +18,43 @@ public class ConfigItemOptionsListFragment extends Fragment implements NeedsConf
 
     public static ConfigItemOptionsListFragment createConfigItemOptionsListFragment() {
         final ConfigItemOptionsListFragment configItemOptionsListFragment = new ConfigItemOptionsListFragment();
-
+        final Bundle args = new Bundle();
+        args.putSerializable("factory",ConfigItemsOptionsListUIFactory.FACTORY);
+        configItemOptionsListFragment.setArguments(args);
         return configItemOptionsListFragment;
+    }
+
+    public enum ConfigItemsOptionsListUIFactory implements ConfigItemsListFragment.UIFactory<ConfigOptionView> {
+
+        FACTORY;
+
+        @Override
+        public View createView(ViewGroup container) {
+            ConfigOptionsWearView configOptionsListWearView = new ConfigOptionsWearView(container.getContext());
+            configOptionsListWearView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+            return configOptionsListWearView;
+        }
+
+        @Override
+        public void createPresenters(ConfigService configService, ConfigOptionView view) {
+            new ConfigOptionsPresenter(view, configService);
+        }
+
+    }
+    private ConfigItemsListFragment.UIFactory uiFactory() {
+        return (ConfigItemsListFragment.UIFactory) getArguments().getSerializable("factory");
     }
 
     @Nullable
     @Override
-    public ConfigOptionsWearView onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        ConfigOptionsWearView configOptionsListWearView = new ConfigOptionsWearView(container.getContext());
-        configOptionsListWearView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-        return configOptionsListWearView;
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return uiFactory().createView(container);
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         // make presenters, but need to cast :S
-        buildPresenters((ConfigOptionView)view, savedInstanceState);
-    }
-
-    public void buildPresenters(ConfigOptionView view, Bundle savedInstanceState) {
-        // make presenters, but need to cast :S
-        new ConfigOptionsPresenter(view,configService);
+        uiFactory().createPresenters(configService,view);
     }
 
     @Override

@@ -26,12 +26,12 @@ public class ConfigItemsListFragment extends Fragment implements NeedsConfigServ
         return configItemsListFragment;
     }
 
-    public interface UIFactory {
+    public interface UIFactory<ViewType> {
         View createView(ViewGroup container);
-        void createPresenters(ConfigService configService, ConfigItemsListView view);
+        void createPresenters(ConfigService configService, ViewType view);
     }
 
-    public enum ConfigItemsListUIFactory implements UIFactory {
+    public enum ConfigItemsListUIFactory implements UIFactory<ConfigItemsListView> {
         FACTORY;
 
         @Override

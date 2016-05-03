@@ -29,7 +29,7 @@ public class DependencyInjectionFrameworkTest implements NeedsNavigationControll
         registeredUiEvents = new StubUIEvents();
         registeredConfigService = new ConfigService(new HashMapPersistence());
 
-        dependencyInjectionFrameworkBuilder.withDefaults(registeredNavController, registeredUiEvents, registeredConfigService);
+        dependencyInjectionFramework = dependencyInjectionFrameworkBuilder.withDefaults(registeredNavController, registeredUiEvents, registeredConfigService);
     }
 
     @Test
