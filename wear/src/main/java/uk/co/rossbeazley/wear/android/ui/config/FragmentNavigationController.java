@@ -25,8 +25,8 @@ public class FragmentNavigationController implements NavigationController {
 
     @Override
     public void toConfigItemsList() {
-        ConfigItemsListFragment fragment = ConfigItemsListFragment.createConfigItemsListFragment();
-        pushFragment(fragment, fragment.tag());
+        UIFactoryFragment fragment = ConfigItemsListFragment.createConfigItemsListFragment();
+        pushFragment(fragment, ConfigItemsListFragment.tag());
     }
 
     @Override

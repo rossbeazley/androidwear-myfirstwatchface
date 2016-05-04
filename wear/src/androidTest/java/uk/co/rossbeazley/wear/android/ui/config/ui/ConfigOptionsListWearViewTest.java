@@ -23,6 +23,7 @@ import uk.co.rossbeazley.wear.android.ui.config.TestActivity;
 import uk.co.rossbeazley.wear.android.ui.config.ConfigItemsListFragment;
 import uk.co.rossbeazley.wear.android.ui.config.ConfigItemsListView;
 import uk.co.rossbeazley.wear.android.ui.config.ConfigItemsListWearView;
+import uk.co.rossbeazley.wear.android.ui.config.UIFactoryFragment;
 import uk.co.rossbeazley.wear.android.ui.espressoMatchers.ScrollToPositionViewAction;
 
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
@@ -121,7 +122,7 @@ public class ConfigOptionsListWearViewTest {
         uiThreadTest.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                ConfigItemsListFragment configItemsListFragment = ConfigItemsListFragment.createConfigItemsListFragment();
+                UIFactoryFragment configItemsListFragment = ConfigItemsListFragment.createConfigItemsListFragment();
                 configOptionsListWearView = (ConfigItemsListWearView) configItemsListFragment.onCreateView(LayoutInflater.from(activity),activity.rootFrameLayout,null);
                 configOptionsListWearView.setId(R.id.view_under_test);
                 activity.setContentView(configOptionsListWearView);

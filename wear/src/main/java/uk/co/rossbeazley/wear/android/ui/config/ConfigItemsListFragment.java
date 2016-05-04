@@ -7,19 +7,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.io.Serializable;
-
 import uk.co.rossbeazley.wear.config.ConfigService;
 
-public class ConfigItemsListFragment extends Fragment implements NeedsConfigService {
-
-    private ConfigService configService;
+public class ConfigItemsListFragment extends UIFactoryFragment {
 
     public ConfigItemsListFragment() {
     }
 
-    public static ConfigItemsListFragment createConfigItemsListFragment() {
-        final ConfigItemsListFragment configItemsListFragment = new ConfigItemsListFragment();
+    public static UIFactoryFragment createConfigItemsListFragment() {
+        final UIFactoryFragment configItemsListFragment = new UIFactoryFragment();
         final Bundle args = new Bundle();
         args.putSerializable("factory",ConfigItemsListUIFactory.FACTORY);
         configItemsListFragment.setArguments(args);
@@ -47,30 +43,6 @@ public class ConfigItemsListFragment extends Fragment implements NeedsConfigServ
         }
     }
 
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return uiFactory().createView(container);
-    }
-
-    private UIFactory uiFactory() {
-        return (UIFactory) getArguments().getSerializable("factory");
-    }
-
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        // make presenters, but need to cast :S
-        buildPresenters((ConfigItemsListView)view, savedInstanceState);
-    }
-
-    public void buildPresenters(ConfigItemsListView view, Bundle savedInstanceState) {
-        uiFactory().createPresenters(configService, view);
-    }
-
-    @Override
-    public void attachConfigService(ConfigService configService) {
-        this.configService = configService;
-    }
 
     public static String tag() {
         return "CONFIG_ITEMS";

@@ -1,10 +1,14 @@
 package uk.co.rossbeazley.wear.android.ui.config.ui;
 
 import android.app.FragmentManager;
+import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
+import org.hamcrest.BaseMatcher;
+import org.hamcrest.Description;
+import org.hamcrest.Matcher;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -57,7 +61,25 @@ public class FragmentNavigationControllerTest {
     public void navigateToConfigItemsList() throws Exception {
         fragmentNavigationController.toConfigItemsList();
         SystemClock.sleep(1000);
-        assertThat(testActivity.fragment, is(instanceOf(ConfigItemsListFragment.class)));
+        assertThat(testActivity.fragment.getArguments(), contains("factory", ConfigItemsListFragment.ConfigItemsListUIFactory.FACTORY));
+    }
+
+    private Matcher<? super Bundle> contains(final String key, final ConfigItemsListFragment.UIFactory uiFactory) {
+        return new BaseMatcher<Bundle>() {
+            @Override
+            public boolean matches(Object item) {
+                Bundle toSearch = (Bundle) item;
+                if (!toSearch.containsKey(key)) {
+                    return false;
+                }
+                return toSearch.getSerializable(key).equals(uiFactory);
+            }
+
+            @Override
+            public void describeTo(Description description) {
+                description.appendText("Bundle containing " + uiFactory + " at key " + key);
+            }
+        };
     }
 
     @Test
@@ -65,7 +87,7 @@ public class FragmentNavigationControllerTest {
         testWorld.configService.configureItem(testWorld.anyItemID());
         fragmentNavigationController.toConfigOption();
         SystemClock.sleep(1000);
-        assertThat(testActivity.fragment, is(instanceOf(ConfigItemOptionsListFragment.class)));
+        assertThat(testActivity.fragment.getArguments(), contains("factory", ConfigItemOptionsListFragment.ConfigItemsOptionsListUIFactory.FACTORY));
     }
 
     @Test

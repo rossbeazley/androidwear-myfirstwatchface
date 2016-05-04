@@ -48,7 +48,8 @@ public class ConfigItemOptionsListFragment extends Fragment implements NeedsConf
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return uiFactory().createView(container);
+        final View view = uiFactory().createView(container);
+        return view;
     }
 
     @Override
