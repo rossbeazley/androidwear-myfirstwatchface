@@ -26,19 +26,19 @@ public class FragmentNavigationController implements NavigationController {
     @Override
     public void toConfigItemsList() {
         UIFactoryFragment fragment = ConfigItemsListFragment.createConfigItemsListFragment();
-        pushFragment(fragment, ConfigItemsListFragment.tag());
+        pushFragment(fragment, "CONFIG_ITEMS");
     }
 
     @Override
     public void toConfigOption() {
-        ConfigItemOptionsListFragment fragment = ConfigItemOptionsListFragment.createConfigItemOptionsListFragment();
-        pushFragment(fragment, fragment.tag());
+        UIFactoryFragment fragment = ConfigItemOptionsListFragment.createConfigItemOptionsListFragment();
+        pushFragment(fragment, "CONFIG_OPTIONS");
     }
 
     @Override
     public void toConfigOptionSelected() {
         ConfigOptionSelectedFragment fragment = new ConfigOptionSelectedFragment();
-        pushFragment(fragment,fragment.tag());
+        pushFragment(fragment, "ConfigOptionSelectedFragment");
     }
 
     private FragmentManager fragmentManager() {

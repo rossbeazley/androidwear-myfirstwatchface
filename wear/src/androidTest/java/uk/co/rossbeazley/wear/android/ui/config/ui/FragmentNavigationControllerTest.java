@@ -24,6 +24,7 @@ import uk.co.rossbeazley.wear.android.ui.config.NeedsNavigationController;
 import uk.co.rossbeazley.wear.android.ui.config.RaisesUIEvents;
 import uk.co.rossbeazley.wear.android.ui.config.TestActivity;
 import uk.co.rossbeazley.wear.TestWorld;
+import uk.co.rossbeazley.wear.android.ui.config.UIFactory;
 import uk.co.rossbeazley.wear.ui.config.UIEvents;
 
 import static org.hamcrest.CoreMatchers.*;
@@ -64,7 +65,7 @@ public class FragmentNavigationControllerTest {
         assertThat(testActivity.fragment.getArguments(), contains("factory", ConfigItemsListFragment.ConfigItemsListUIFactory.FACTORY));
     }
 
-    private Matcher<? super Bundle> contains(final String key, final ConfigItemsListFragment.UIFactory uiFactory) {
+    private Matcher<? super Bundle> contains(final String key, final UIFactory uiFactory) {
         return new BaseMatcher<Bundle>() {
             @Override
             public boolean matches(Object item) {

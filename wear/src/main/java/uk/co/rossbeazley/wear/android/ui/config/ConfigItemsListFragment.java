@@ -1,18 +1,12 @@
 package uk.co.rossbeazley.wear.android.ui.config;
 
-import android.app.Fragment;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import uk.co.rossbeazley.wear.config.ConfigService;
 
-public class ConfigItemsListFragment extends UIFactoryFragment {
-
-    public ConfigItemsListFragment() {
-    }
+public class ConfigItemsListFragment {
 
     public static UIFactoryFragment createConfigItemsListFragment() {
         final UIFactoryFragment configItemsListFragment = new UIFactoryFragment();
@@ -20,11 +14,6 @@ public class ConfigItemsListFragment extends UIFactoryFragment {
         args.putSerializable("factory",ConfigItemsListUIFactory.FACTORY);
         configItemsListFragment.setArguments(args);
         return configItemsListFragment;
-    }
-
-    public interface UIFactory<ViewType> {
-        View createView(ViewGroup container);
-        void createPresenters(ConfigService configService, ViewType view);
     }
 
     public enum ConfigItemsListUIFactory implements UIFactory<ConfigItemsListView> {
@@ -44,7 +33,4 @@ public class ConfigItemsListFragment extends UIFactoryFragment {
     }
 
 
-    public static String tag() {
-        return "CONFIG_ITEMS";
-    }
 }

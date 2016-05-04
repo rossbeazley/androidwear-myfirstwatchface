@@ -10,10 +10,6 @@ import uk.co.rossbeazley.wear.ui.config.UIEvents;
 public class ConfigOptionSelectedFragment extends Fragment implements RaisesUIEvents {
     private UIEvents uiEvents;
 
-    public String tag() {
-        return "ConfigOptionSelectedFragment";
-    }
-
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
