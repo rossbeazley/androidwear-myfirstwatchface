@@ -1,12 +1,10 @@
 package uk.co.rossbeazley.wear.android.ui.config;
 
-import android.os.Bundle;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.rule.UiThreadTestRule;
 import android.view.View;
 import android.view.ViewGroup;
 
-import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -22,53 +20,39 @@ public class UIFactoryFragmentTest {
     @Rule
     public UiThreadTestRule uiThreadTest = new UiThreadTestRule();
 
-    @Before
-    public void setUp() throws Exception {
-    }
-
     @Test
     public void createsPresentersWithView() throws Throwable {
         final TestActivity activity = activityTestRule.getActivity();
-        uiThreadTest.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
 
-                UIFactoryFragment uiFragment = new UIFactoryFragment();
-                final Bundle args = new Bundle();
-                args.putSerializable("factory",FACTORY.STUB);
-                uiFragment.setArguments(args);
+        UIFactoryFragment uiFragment = UIFactoryFragment.createUIFactoryFragment(CAPTURING_IMPLEMENTATION.Factory);
 
-                activity.getFragmentManager()
-                        .beginTransaction()
-                        .add(TestActivity.TEST_ACTIVITY_ROOT_VIEW_ID,uiFragment)
-                        .commit();
+        activity.getFragmentManager()
+                .beginTransaction()
+                .add(TestActivity.TEST_ACTIVITY_ROOT_VIEW_ID, uiFragment)
+                .commit();
 
-            }
-        });
-
-
-        View capturedView= FACTORY.STUB.capturedView;
-        View expectedView = FACTORY.STUB.expectedView;
+        View capturedView = CAPTURING_IMPLEMENTATION.Factory.captured;
+        View expectedView = CAPTURING_IMPLEMENTATION.Factory.created;
         assertThat(capturedView, is(expectedView));
 
     }
 
-    public enum FACTORY implements UIFactory<View>{
+    public enum CAPTURING_IMPLEMENTATION implements UIFactory<View> {
 
-        STUB;
+        Factory;
 
-        private View expectedView;
-        private View capturedView;
+        private View created;
+        private View captured;
 
         @Override
         public View createView(ViewGroup container) {
-            expectedView = new View(container.getContext());
-            return expectedView;
+            created = new View(container.getContext());
+            return created;
         }
 
         @Override
         public void createPresenters(ConfigService configService, View view) {
-            this.capturedView = view;
+            this.captured = view;
         }
     }
 

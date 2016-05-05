@@ -9,7 +9,7 @@ import uk.co.rossbeazley.wear.config.ConfigService;
 public class ConfigItemOptionsListFragment {
 
     public static UIFactoryFragment createConfigItemOptionsListFragment() {
-        final UIFactoryFragment configItemOptionsListFragment = new UIFactoryFragment();
+        final UIFactoryFragment configItemOptionsListFragment = UIFactoryFragment.createUIFactoryFragment(null);
         final Bundle args = new Bundle();
         args.putSerializable("factory",ConfigItemsOptionsListUIFactory.FACTORY);
         configItemOptionsListFragment.setArguments(args);

@@ -7,10 +7,22 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.io.Serializable;
+
 import uk.co.rossbeazley.wear.config.ConfigService;
 
 public class UIFactoryFragment extends Fragment implements NeedsConfigService {
     private ConfigService configService;
+
+
+    public static <T extends Serializable&UIFactory> UIFactoryFragment createUIFactoryFragment(T factory) {
+        final UIFactoryFragment uiFactoryFragment = new UIFactoryFragment();
+        final Bundle args = new Bundle();
+        args.putSerializable("factory", factory);
+        uiFactoryFragment.setArguments(args);
+
+        return uiFactoryFragment;
+    }
 
     @Nullable
     @Override
