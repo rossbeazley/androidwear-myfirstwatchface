@@ -25,8 +25,6 @@ public class ConfigItemsListWearView extends FrameLayout implements ConfigItemsL
     private CopyOnWriteArrayList<Listener> listeners;
 
     private void _ConfigOptionsListWearView() {
-        setBackgroundColor(0xaa000000);
-
         listeners = new CopyOnWriteArrayList<>();
         LayoutInflater.from(getContext()).inflate(R.layout.list_wear_view, this);
         wearableListView = (WearableListView) findViewById(R.id.wearable_list);
