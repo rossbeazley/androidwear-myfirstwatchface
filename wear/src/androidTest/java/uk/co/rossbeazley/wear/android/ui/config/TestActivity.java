@@ -12,6 +12,7 @@ import uk.co.rossbeazley.wear.config.HashMapPersistence;
 
 public class TestActivity extends Activity {
 
+    public static final int TEST_ACTIVITY_ROOT_VIEW_ID = R.id.test_activity_root_view_id;
     public FrameLayout rootFrameLayout;
     public Fragment fragment;
     public DependencyInjectionFramework dependencyInjectionFramework;
@@ -21,7 +22,7 @@ public class TestActivity extends Activity {
         super.onCreate(savedInstanceState);
         rootFrameLayout = new FrameLayout(this);
         rootFrameLayout.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-        rootFrameLayout.setId(R.id.test_activity_root_view_id);
+        rootFrameLayout.setId(TEST_ACTIVITY_ROOT_VIEW_ID);
         setContentView(rootFrameLayout);
 
         NavigationControllerJournal registeredNavController = new NavigationControllerJournal();
