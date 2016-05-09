@@ -6,6 +6,7 @@ import org.junit.Test;
 import uk.co.rossbeazley.wear.android.ui.config.ConfigItemsListView;
 import uk.co.rossbeazley.wear.android.ui.config.ConfigOptionView;
 import uk.co.rossbeazley.wear.config.ConfigService;
+import uk.co.rossbeazley.wear.config.ConfigServiceListener;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.core.IsEqual.equalTo;
@@ -24,13 +25,18 @@ public class MobileUINavigationTest {
         testWorld = new TestWorld();
         configService = testWorld.build();
 
-        mobileUINavigation = new MobileUINavigation(screen);
+        mobileUINavigation = new MobileUINavigation(screen, configService);
     }
 
     @Test
     public void defaultNavigationShowsConfigItemsAsLeftHandPane() {
         final Class configItemsListViewClass = ConfigItemsListView.class;
         assertThat(screen.currentLeft(),is(equalTo(configItemsListViewClass)));
+    }
+
+    @Test
+    public void defaultNavigationShowsNothingAsRightHandPane() {
+        assertThat(screen.currentRight(),is(equalTo(screen.nothing())));
     }
 
 
@@ -44,9 +50,9 @@ public class MobileUINavigationTest {
 
 
 
-    private class CapturingScreen {
-        private Class left;
-        private Class right;
+    private static class CapturingScreen {
+        private Class left = nothing();
+        private Class right = nothing();
 
         public void showRight(Class uiPanel) {
             right=uiPanel;
@@ -63,13 +69,32 @@ public class MobileUINavigationTest {
         public Class currentRight() {
             return right;
         }
+
+        public static Class nothing() {
+            return CapturingScreen.class;
+        }
     }
 
     private class MobileUINavigation {
-        public MobileUINavigation(CapturingScreen screen) {
+        public MobileUINavigation(final CapturingScreen screen, ConfigService configService) {
             screen.showLeft(ConfigItemsListView.class);
 
-            screen.showRight(ConfigOptionView.class);
+            configService.addListener(new ConfigServiceListener() {
+                @Override
+                public void configuring(String item) {
+                    screen.showRight(ConfigOptionView.class);
+                }
+
+                @Override
+                public void error(KeyNotFound keyNotFound) {
+
+                }
+
+                @Override
+                public void chosenOption(String option) {
+
+                }
+            });
         }
     }
 }
