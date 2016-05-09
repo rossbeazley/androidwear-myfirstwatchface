@@ -28,7 +28,7 @@ public class NavigationTest {
     }
 
     @Test
-    public void firstScreenShowIsConfigOptionsList() {
+    public void firstScreenShowIsConfigItemsList() {
         assertThat(navigation.screen, is(NavigationControllerJournal.CONFIG_ITEMS_LIST));
         assertThat(navigation.journal, hasItems(NavigationControllerJournal.CONFIG_ITEMS_LIST));
     }
