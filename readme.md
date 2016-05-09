@@ -99,7 +99,8 @@ todo:
     therefore the fragment should control the lifecycle of the presenter and the view)
 
 6. Mobile configuration
-- UI navigation, one fragment with items, adds alongside another fragment with options
-- selecting option should replace options list with confirmation
-- options list is removed
+- DONE UI navigation, one fragment with items, adds alongside another fragment with options
+- DONE selecting option should replace options list with confirmation
+- DONE options list is removed
+- FRAGMENT implementations of the above
 - maybe helper panel saying "choose item <--"
