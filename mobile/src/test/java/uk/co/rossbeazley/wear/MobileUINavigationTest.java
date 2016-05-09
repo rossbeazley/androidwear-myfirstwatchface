@@ -47,6 +47,14 @@ public class MobileUINavigationTest {
         assertThat(screen.currentRight(),is(equalTo(configOptionViewClass)));
     }
 
+    @Test
+    public void showsNothingAtRightPaneAfterOptionChosen() {
+
+        final String item = testWorld.anyItemID();
+        configService.configureItem(item);
+        configService.chooseOption(testWorld.anyOptionForItem(item));
+        assertThat(screen.currentRight(),is(equalTo(screen.nothing())));
+    }
 
 
 
@@ -73,6 +81,10 @@ public class MobileUINavigationTest {
         public static Class nothing() {
             return CapturingScreen.class;
         }
+
+        public void hideRight() {
+            right = nothing();
+        }
     }
 
     private class MobileUINavigation {
@@ -92,7 +104,7 @@ public class MobileUINavigationTest {
 
                 @Override
                 public void chosenOption(String option) {
-
+                    screen.hideRight();
                 }
             });
         }
