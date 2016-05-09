@@ -58,14 +58,16 @@ public class MobileUINavigationTest {
 
 
 
-    private static class CapturingScreen {
+    private static class CapturingScreen implements ScreenNavigationController {
         private Class left = nothing();
         private Class right = nothing();
 
+        @Override
         public void showRight(Class uiPanel) {
             right=uiPanel;
         }
 
+        @Override
         public void showLeft(Class uiPanel) {
             left=uiPanel;
         }
@@ -82,13 +84,14 @@ public class MobileUINavigationTest {
             return CapturingScreen.class;
         }
 
+        @Override
         public void hideRight() {
             right = nothing();
         }
     }
 
     private class MobileUINavigation {
-        public MobileUINavigation(final CapturingScreen screen, ConfigService configService) {
+        public MobileUINavigation(final ScreenNavigationController screen, ConfigService configService) {
             screen.showLeft(ConfigItemsListView.class);
 
             configService.addListener(new ConfigServiceListener() {
