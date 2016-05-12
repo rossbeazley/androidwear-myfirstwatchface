@@ -30,7 +30,7 @@ public class UIFactoryFragment extends Fragment implements NeedsConfigService {
         return uiFactory().createView(container);
     }
 
-    private UIFactory uiFactory() {
+    public UIFactory uiFactory() {
         return (UIFactory) getArguments().getSerializable("factory");
     }
 

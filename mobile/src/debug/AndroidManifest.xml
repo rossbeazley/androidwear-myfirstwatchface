@@ -1,0 +1,10 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <application android:vmSafeMode="true">
+
+
+        <activity android:name="uk.co.rossbeazley.wear.android.ui.TestActivity"/>
+
+    </application>
+
+</manifest>

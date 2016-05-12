@@ -103,4 +103,7 @@ todo:
 - DONE selecting option should replace options list with confirmation
 - DONE options list is removed
 - FRAGMENT implementations of the above
+ - move TestActivity into android module
+  - DI framework needs to go first, although.... maybe not yet.. duplicate then eliminate
 - maybe helper panel saying "choose item <--"
+(am i missing a test around dep injection in wear, could i move the DI stuff into the view factory?)

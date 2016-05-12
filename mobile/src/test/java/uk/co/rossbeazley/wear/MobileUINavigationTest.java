@@ -41,7 +41,7 @@ public class MobileUINavigationTest {
 
 
     @Test
-    public void showsConfigItemsAtRightHandPane() {
+    public void showsConfigItemOptionsAtRightHandPane() {
         configService.configureItem(testWorld.anyItemID());
         final Class configOptionViewClass = ConfigOptionView.class;
         assertThat(screen.currentRight(),is(equalTo(configOptionViewClass)));
