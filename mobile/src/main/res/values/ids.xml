@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <item name="view_under_test" type="id"/>
-    <item name="test_activity_root_view_id" type="id"/>
-    <item name="test_activity_LEFT_view_id" type="id"/>
-    <item name="test_activity_RIGHT_view_id" type="id"/>
-</resources>
