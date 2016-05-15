@@ -2,6 +2,7 @@ package uk.co.rossbeazley.wear.android.ui.config;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.graphics.Typeface;
 import android.os.Build;
 import android.support.wearable.view.WearableListView;
 import android.util.AttributeSet;
@@ -86,7 +87,9 @@ public class ConfigItemsListWearView extends FrameLayout implements ConfigItemsL
             textview.setText("---");
             textview.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
             textview.setGravity(Gravity.CENTER);
-            textview.setTextSize(30f);
+            textview.setTextSize(24f);
+            Typeface sansSerifThin = Typeface.create("sans-serif-thin",Typeface.NORMAL);
+            textview.setTypeface(sansSerifThin);
             return new WearableListView.ViewHolder(textview);
         }
 
