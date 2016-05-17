@@ -2,6 +2,7 @@ package uk.co.rossbeazley.wear.android.ui;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.support.test.annotation.UiThreadTest;
 import android.support.test.rule.ActivityTestRule;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import android.view.ViewGroup;
 import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -28,28 +30,29 @@ public class FragmentScreenNavigationControllerTest {
 
     @Rule
     public ActivityTestRule<TestActivity> activityActivityTestRule = new ActivityTestRule<>(TestActivity.class);
+    private TestActivity activity;
+    private FragmentManager fm;
+    private ScreenNavigationController fragmentScreenNavigationController;
+
+    @Before
+    public void setUp() throws Exception {
+        activity = activityActivityTestRule.getActivity();
+        fm = activity.getFragmentManager();
+        fragmentScreenNavigationController = new FragmentScreenNavigationController(fm, R.id.test_left, R.id.test_right);
+    }
 
     @Test
+    @UiThreadTest
     public void showsConfigItemsAsLeftHandPane() throws Throwable {
-
-        final TestActivity activity = activityActivityTestRule.getActivity();
-        final FragmentManager fm = activity.getFragmentManager();
-        final ScreenNavigationController fragmentScreenNavigationController = new FragmentScreenNavigationController(fm, R.id.test_left, R.id.test_right);
 
         fragmentScreenNavigationController.showLeft(ConfigItemsListView.class);
 
-        //asserting on the UI thread pumps a message onto the that executes after the UI finishes its shiznit
-        activityActivityTestRule.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
+        fm.executePendingTransactions();
 
-                UIFactoryFragment fragmentInLeftPane = (UIFactoryFragment) fm.findFragmentById(R.id.test_left);
-                assertThat(fragmentInLeftPane, hasViewFactory(TestFactoryOne.FACTORY));
-                View subViewInTestLeft = activity.findViewById(R.id.test_left).findViewById(R.id.view_under_test);
-                assertThat("no view created with id view_under_test in parent view test_left", subViewInTestLeft, is(TestFactoryOne.FACTORY.createdView));
-            }
-        });
-
+        UIFactoryFragment fragmentInLeftPane = (UIFactoryFragment) fm.findFragmentById(R.id.test_left);
+        assertThat(fragmentInLeftPane, hasViewFactory(TestFactoryOne.FACTORY));
+        View subViewInTestLeft = activity.findViewById(R.id.test_left).findViewById(R.id.view_under_test);
+        assertThat("no view created with id view_under_test in parent view test_left", subViewInTestLeft, is(TestFactoryOne.FACTORY.createdView));
     }
 
     private Matcher<? super UIFactoryFragment> hasViewFactory(final UIFactory factory) {
@@ -87,24 +90,16 @@ public class FragmentScreenNavigationControllerTest {
 
 
     @Test
+    @UiThreadTest
     public void showsConfigItemOptionsAtRightHandPane() throws Throwable {
-        final TestActivity activity = activityActivityTestRule.getActivity();
-        final FragmentManager fm = activity.getFragmentManager();
-        final ScreenNavigationController fragmentScreenNavigationController = new FragmentScreenNavigationController(fm, R.id.test_left, R.id.test_right);
 
         fragmentScreenNavigationController.showRight(ConfigOptionView.class);
 
-        //asserting on the UI thread pumps a message onto the that executes after the UI finishes its shiznit
-        activityActivityTestRule.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-
-                UIFactoryFragment fragmentInRightPane = (UIFactoryFragment) fm.findFragmentById(R.id.test_right);
-                assertThat(fragmentInRightPane, hasViewFactory(TestFactoryTwo.FACTORY));
-                View subViewInTestRight = activity.findViewById(R.id.test_right).findViewById(R.id.view_under_test_two);
-                assertThat("no view created with id view_under_test_two in parent view test_right", subViewInTestRight, is(TestFactoryTwo.FACTORY.createdView));
-            }
-        });
+        fm.executePendingTransactions();
+        UIFactoryFragment fragmentInRightPane = (UIFactoryFragment) fm.findFragmentById(R.id.test_right);
+        assertThat(fragmentInRightPane, hasViewFactory(TestFactoryTwo.FACTORY));
+        View subViewInTestRight = activity.findViewById(R.id.test_right).findViewById(R.id.view_under_test_two);
+        assertThat("no view created with id view_under_test_two in parent view test_right", subViewInTestRight, is(TestFactoryTwo.FACTORY.createdView));
     }
 
 
@@ -126,25 +121,19 @@ public class FragmentScreenNavigationControllerTest {
     }
 
     @Test
+    @UiThreadTest
     public void showsNothingAtRightPaneAfterShowingSomething() throws Throwable {
-        final TestActivity activity = activityActivityTestRule.getActivity();
-        final FragmentManager fm = activity.getFragmentManager();
-        final ScreenNavigationController fragmentScreenNavigationController = new FragmentScreenNavigationController(fm, R.id.test_left, R.id.test_right);
+        showsConfigItemOptionsAtRightHandPane();
 
-        fragmentScreenNavigationController.showRight(ConfigOptionView.class);
+        fm.executePendingTransactions();
+
         fragmentScreenNavigationController.hideRight();
 
-        //asserting on the UI thread pumps a message onto the that executes after the UI finishes its shiznit
-        activityActivityTestRule.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-
-                UIFactoryFragment fragmentInRightPane = (UIFactoryFragment) fm.findFragmentById(R.id.test_right);
-                assertThat(fragmentInRightPane, is(nullValue()));
-                View subViewInTestRight = activity.findViewById(R.id.test_right).findViewById(R.id.view_under_test_two);
-                assertThat(subViewInTestRight, is(nullValue()));
-            }
-        });
+        fm.executePendingTransactions();
+        UIFactoryFragment fragmentInRightPane = (UIFactoryFragment) fm.findFragmentById(R.id.test_right);
+        assertThat(fragmentInRightPane, is(nullValue()));
+        View subViewInTestRight = activity.findViewById(R.id.test_right).findViewById(R.id.view_under_test_two);
+        assertThat(subViewInTestRight, is(nullValue()));
     }
 
     private static class FragmentScreenNavigationController implements ScreenNavigationController {
@@ -152,6 +141,7 @@ public class FragmentScreenNavigationControllerTest {
         private final FragmentManager fm;
         private final int leftID;
         private final int rightID;
+        private Fragment rightFragment;
 
         public FragmentScreenNavigationController(FragmentManager fm, int test_activity_LEFT_view_id, int test_activity_RIGHT_view_id) {
 
@@ -163,10 +153,9 @@ public class FragmentScreenNavigationControllerTest {
         @Override
         public void showRight(Class uiPanel) {
 
-            Fragment fragment;
-            fragment = UIFactoryFragment.createUIFactoryFragment(TestFactoryTwo.FACTORY);
+            rightFragment = UIFactoryFragment.createUIFactoryFragment(TestFactoryTwo.FACTORY);
             fm.beginTransaction()
-                    .replace(rightID, fragment)
+                    .replace(rightID, rightFragment)
                     .commit();
 
         }
@@ -181,10 +170,17 @@ public class FragmentScreenNavigationControllerTest {
                     .replace(leftID, fragment)
                     .commit();
 
+
         }
 
         @Override
         public void hideRight() {
+
+            final Fragment fragmentById = fm.findFragmentById(rightID);
+            fm.beginTransaction()
+                    .remove(fragmentById)
+                    .commit();
+
 
         }
     }
