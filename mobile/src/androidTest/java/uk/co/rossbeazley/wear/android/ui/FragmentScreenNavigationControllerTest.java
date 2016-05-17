@@ -55,39 +55,6 @@ public class FragmentScreenNavigationControllerTest {
         assertThat("no view created with id view_under_test in parent view test_left", subViewInTestLeft, is(TestFactoryOne.FACTORY.createdView));
     }
 
-    private Matcher<? super UIFactoryFragment> hasViewFactory(final UIFactory factory) {
-        return new BaseMatcher<UIFactoryFragment>() {
-            @Override
-            public boolean matches(Object item) {
-                if (!(item instanceof UIFactoryFragment)) return false;
-                UIFactoryFragment fragment = (UIFactoryFragment) item;
-                return factory == fragment.uiFactory();
-            }
-
-            @Override
-            public void describeTo(Description description) {
-            }
-        };
-    }
-
-
-    public enum TestFactoryOne implements UIFactory<View> {
-        FACTORY;
-
-        public View createdView;
-
-        @Override
-        public View createView(ViewGroup container) {
-            createdView = new View(container.getContext());
-            createdView.setId(R.id.view_under_test);
-            return createdView;
-        }
-
-        @Override
-        public void createPresenters(ConfigService configService, View view) {
-        }
-    }
-
 
     @Test
     @UiThreadTest
@@ -103,22 +70,6 @@ public class FragmentScreenNavigationControllerTest {
     }
 
 
-    public enum TestFactoryTwo implements UIFactory<View> {
-        FACTORY;
-
-        public View createdView;
-
-        @Override
-        public View createView(ViewGroup container) {
-            createdView = new View(container.getContext());
-            createdView.setId(R.id.view_under_test_two);
-            return createdView;
-        }
-
-        @Override
-        public void createPresenters(ConfigService configService, View view) {
-        }
-    }
 
     @Test
     @UiThreadTest
@@ -175,13 +126,62 @@ public class FragmentScreenNavigationControllerTest {
 
         @Override
         public void hideRight() {
-
             final Fragment fragmentById = fm.findFragmentById(rightID);
             fm.beginTransaction()
                     .remove(fragmentById)
                     .commit();
-
-
         }
     }
+
+
+
+    public enum TestFactoryOne implements UIFactory<View> {
+        FACTORY;
+
+        public View createdView;
+
+        @Override
+        public View createView(ViewGroup container) {
+            createdView = new View(container.getContext());
+            createdView.setId(R.id.view_under_test);
+            return createdView;
+        }
+
+        @Override
+        public void createPresenters(ConfigService configService, View view) {
+        }
+    }
+
+    public enum TestFactoryTwo implements UIFactory<View> {
+        FACTORY;
+
+        public View createdView;
+
+        @Override
+        public View createView(ViewGroup container) {
+            createdView = new View(container.getContext());
+            createdView.setId(R.id.view_under_test_two);
+            return createdView;
+        }
+
+        @Override
+        public void createPresenters(ConfigService configService, View view) {
+        }
+    }
+
+    private Matcher<? super UIFactoryFragment> hasViewFactory(final UIFactory factory) {
+        return new BaseMatcher<UIFactoryFragment>() {
+            @Override
+            public boolean matches(Object item) {
+                if (!(item instanceof UIFactoryFragment)) return false;
+                UIFactoryFragment fragment = (UIFactoryFragment) item;
+                return factory == fragment.uiFactory();
+            }
+
+            @Override
+            public void describeTo(Description description) {
+            }
+        };
+    }
+
 }
