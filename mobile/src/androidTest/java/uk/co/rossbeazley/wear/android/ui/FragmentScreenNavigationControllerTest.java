@@ -135,15 +135,23 @@ public class FragmentScreenNavigationControllerTest {
 
         private final FragmentManager fm;
         private final int leftID;
+        private final int rightID;
 
         public FragmentScreenNavigationController(FragmentManager fm, int test_activity_LEFT_view_id, int test_activity_RIGHT_view_id) {
 
             this.fm = fm;
             leftID = test_activity_LEFT_view_id;
+            rightID = test_activity_RIGHT_view_id;
         }
 
         @Override
         public void showRight(Class uiPanel) {
+
+            Fragment fragment;
+            fragment = UIFactoryFragment.createUIFactoryFragment(TestFactoryTwo.FACTORY);
+            fm.beginTransaction()
+                    .replace(rightID, fragment)
+                    .commit();
 
         }
 
