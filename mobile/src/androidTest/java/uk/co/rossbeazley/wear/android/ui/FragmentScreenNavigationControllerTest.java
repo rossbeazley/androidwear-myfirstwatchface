@@ -46,7 +46,7 @@ public class FragmentScreenNavigationControllerTest {
                 UIFactoryFragment fragmentInLeftPane = (UIFactoryFragment) fm.findFragmentById(R.id.test_left);
                 assertThat(fragmentInLeftPane, hasViewFactory(TestFactoryOne.FACTORY));
                 View subViewInTestLeft = activity.findViewById(R.id.test_left).findViewById(R.id.view_under_test);
-                assertThat("no view created with id view_under_test in parent view test_left",subViewInTestLeft,is(TestFactoryOne.FACTORY.createdView));
+                assertThat("no view created with id view_under_test in parent view test_left", subViewInTestLeft, is(TestFactoryOne.FACTORY.createdView));
             }
         });
 
@@ -99,14 +99,13 @@ public class FragmentScreenNavigationControllerTest {
             @Override
             public void run() {
 
-                UIFactoryFragment fragmentInLeftPane = (UIFactoryFragment) fm.findFragmentById(R.id.test_right);
-                assertThat(fragmentInLeftPane, hasViewFactory(TestFactoryTwo.FACTORY));
+                UIFactoryFragment fragmentInRightPane = (UIFactoryFragment) fm.findFragmentById(R.id.test_right);
+                assertThat(fragmentInRightPane, hasViewFactory(TestFactoryTwo.FACTORY));
                 View subViewInTestRight = activity.findViewById(R.id.test_right).findViewById(R.id.view_under_test_two);
-                assertThat("no view created with id view_under_test_two in parent view test_right",subViewInTestRight,is(TestFactoryTwo.FACTORY.createdView));
+                assertThat("no view created with id view_under_test_two in parent view test_right", subViewInTestRight, is(TestFactoryTwo.FACTORY.createdView));
             }
         });
     }
-
 
 
     public enum TestFactoryTwo implements UIFactory<View> {
@@ -126,9 +125,26 @@ public class FragmentScreenNavigationControllerTest {
         }
     }
 
-    public void showsNothingAtRightPaneAfterShowingSomething() {
-//        screen.showRight(ConfigOptionView.class);
-        //screen.hideRight();
+    @Test
+    public void showsNothingAtRightPaneAfterShowingSomething() throws Throwable {
+        final TestActivity activity = activityActivityTestRule.getActivity();
+        final FragmentManager fm = activity.getFragmentManager();
+        final ScreenNavigationController fragmentScreenNavigationController = new FragmentScreenNavigationController(fm, R.id.test_left, R.id.test_right);
+
+        fragmentScreenNavigationController.showRight(ConfigOptionView.class);
+        fragmentScreenNavigationController.hideRight();
+
+        //asserting on the UI thread pumps a message onto the that executes after the UI finishes its shiznit
+        activityActivityTestRule.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+
+                UIFactoryFragment fragmentInRightPane = (UIFactoryFragment) fm.findFragmentById(R.id.test_right);
+                assertThat(fragmentInRightPane, is(nullValue()));
+                View subViewInTestRight = activity.findViewById(R.id.test_right).findViewById(R.id.view_under_test_two);
+                assertThat(subViewInTestRight, is(nullValue()));
+            }
+        });
     }
 
     private static class FragmentScreenNavigationController implements ScreenNavigationController {
