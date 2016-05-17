@@ -88,7 +88,7 @@ public class ConfigItemsListWearView extends FrameLayout implements ConfigItemsL
             textview.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
             textview.setGravity(Gravity.CENTER);
             textview.setTextSize(24f);
-            Typeface sansSerifThin = Typeface.create("sans-serif-thin",Typeface.NORMAL);
+            Typeface sansSerifThin = Typeface.create("sans-serif-thin",Typeface.BOLD);
             textview.setTypeface(sansSerifThin);
             return new WearableListView.ViewHolder(textview);
         }
