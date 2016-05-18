@@ -14,16 +14,17 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
+import java.io.Serializable;
+
 import uk.co.rossbeazley.wear.R;
 import uk.co.rossbeazley.wear.ScreenNavigationController;
 import uk.co.rossbeazley.wear.android.ui.config.ConfigItemsListView;
 import uk.co.rossbeazley.wear.android.ui.config.ConfigOptionView;
-import uk.co.rossbeazley.wear.android.ui.config.UIFactory;
 import uk.co.rossbeazley.wear.android.ui.config.UIFactoryFragment;
 import uk.co.rossbeazley.wear.config.ConfigService;
 
-import static org.hamcrest.CoreMatchers.*;
-import static org.junit.Assert.assertNotNull;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
 
 public class FragmentScreenNavigationControllerTest {
@@ -64,9 +65,9 @@ public class FragmentScreenNavigationControllerTest {
 
         fm.executePendingTransactions();
         UIFactoryFragment fragmentInRightPane = (UIFactoryFragment) fm.findFragmentById(R.id.test_right);
-        assertThat(fragmentInRightPane, hasViewFactory(TestFactoryTwo.FACTORY));
+        assertThat(fragmentInRightPane, hasViewFactory(FragmentScreenNavigationControllerTest.UIFactory.FACTORY));
         View subViewInTestRight = activity.findViewById(R.id.test_right).findViewById(R.id.view_under_test_two);
-        assertThat("no view created with id view_under_test_two in parent view test_right", subViewInTestRight, is(TestFactoryTwo.FACTORY.createdView));
+        assertThat("no view created with id view_under_test_two in parent view test_right", subViewInTestRight, is(FragmentScreenNavigationControllerTest.UIFactory.FACTORY.createdView));
     }
 
 
@@ -92,50 +93,58 @@ public class FragmentScreenNavigationControllerTest {
         private final FragmentManager fm;
         private final int leftID;
         private final int rightID;
-        private Fragment rightFragment;
+        private final UIFactoryFragmentTransaction uiFactoryFragmentTransaction;
 
         public FragmentScreenNavigationController(FragmentManager fm, int test_activity_LEFT_view_id, int test_activity_RIGHT_view_id) {
 
             this.fm = fm;
             leftID = test_activity_LEFT_view_id;
             rightID = test_activity_RIGHT_view_id;
+            uiFactoryFragmentTransaction = new UIFactoryFragmentTransaction(fm);
         }
 
         @Override
         public void showRight(Class uiPanel) {
-
-            rightFragment = UIFactoryFragment.createUIFactoryFragment(TestFactoryTwo.FACTORY);
-            fm.beginTransaction()
-                    .replace(rightID, rightFragment)
-                    .commit();
-
+            uiFactoryFragmentTransaction.add(FragmentScreenNavigationControllerTest.UIFactory.FACTORY, this.rightID);
         }
 
         @Override
         public void showLeft(Class uiPanel) {
-            final TestFactoryOne factory = TestFactoryOne.FACTORY;
-
-            Fragment fragment;
-            fragment = UIFactoryFragment.createUIFactoryFragment(factory);
-            fm.beginTransaction()
-                    .replace(leftID, fragment)
-                    .commit();
-
-
+            uiFactoryFragmentTransaction.add(TestFactoryOne.FACTORY, this.leftID);
         }
 
         @Override
         public void hideRight() {
-            final Fragment fragmentById = fm.findFragmentById(rightID);
-            fm.beginTransaction()
-                    .remove(fragmentById)
-                    .commit();
+            uiFactoryFragmentTransaction.remove(this.rightID);
+        }
+
+        private class UIFactoryFragmentTransaction {
+
+            private final FragmentManager fragmentManager;
+
+            public UIFactoryFragmentTransaction(FragmentManager fm) {
+                this.fragmentManager = fm;
+            }
+
+            public <UIFactory extends Serializable & uk.co.rossbeazley.wear.android.ui.config.UIFactory> void add(UIFactory factory, int id) {
+                Fragment rightFragment = UIFactoryFragment.createUIFactoryFragment(factory);
+                fragmentManager.beginTransaction()
+                        .replace(id,  rightFragment)
+                        .commit();
+            }
+
+            public void remove(int id) {
+                final Fragment fragmentById = fragmentManager.findFragmentById(id);
+                fragmentManager.beginTransaction()
+                        .remove(fragmentById)
+                        .commit();
+            }
         }
     }
 
 
 
-    public enum TestFactoryOne implements UIFactory<View> {
+    public enum TestFactoryOne implements uk.co.rossbeazley.wear.android.ui.config.UIFactory<View> {
         FACTORY;
 
         public View createdView;
@@ -152,7 +161,7 @@ public class FragmentScreenNavigationControllerTest {
         }
     }
 
-    public enum TestFactoryTwo implements UIFactory<View> {
+    public enum UIFactory implements uk.co.rossbeazley.wear.android.ui.config.UIFactory<View> {
         FACTORY;
 
         public View createdView;
@@ -169,7 +178,7 @@ public class FragmentScreenNavigationControllerTest {
         }
     }
 
-    private Matcher<? super UIFactoryFragment> hasViewFactory(final UIFactory factory) {
+    private Matcher<? super UIFactoryFragment> hasViewFactory(final uk.co.rossbeazley.wear.android.ui.config.UIFactory factory) {
         return new BaseMatcher<UIFactoryFragment>() {
             @Override
             public boolean matches(Object item) {
