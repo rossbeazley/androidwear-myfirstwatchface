@@ -1,6 +1,5 @@
 package uk.co.rossbeazley.wear.android.ui;
 
-import android.app.Fragment;
 import android.app.FragmentManager;
 import android.support.test.annotation.UiThreadTest;
 import android.support.test.rule.ActivityTestRule;
@@ -13,8 +12,6 @@ import org.hamcrest.Matcher;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-
-import java.io.Serializable;
 
 import uk.co.rossbeazley.wear.R;
 import uk.co.rossbeazley.wear.ScreenNavigationController;
@@ -39,7 +36,7 @@ public class FragmentScreenNavigationControllerTest {
     public void setUp() throws Exception {
         activity = activityActivityTestRule.getActivity();
         fm = activity.getFragmentManager();
-        fragmentScreenNavigationController = new FragmentScreenNavigationController(fm, R.id.test_left, R.id.test_right);
+        fragmentScreenNavigationController = new FragmentScreenNavigationController(fm, R.id.test_left, R.id.test_right, UIFactory.FACTORY, TestFactoryOne.FACTORY);
     }
 
     @Test
@@ -71,13 +68,10 @@ public class FragmentScreenNavigationControllerTest {
     }
 
 
-
     @Test
     @UiThreadTest
     public void showsNothingAtRightPaneAfterShowingSomething() throws Throwable {
         showsConfigItemOptionsAtRightHandPane();
-
-        fm.executePendingTransactions();
 
         fragmentScreenNavigationController.hideRight();
 
@@ -88,63 +82,8 @@ public class FragmentScreenNavigationControllerTest {
         assertThat(subViewInTestRight, is(nullValue()));
     }
 
-    private static class FragmentScreenNavigationController implements ScreenNavigationController {
 
-        private final FragmentManager fm;
-        private final int leftID;
-        private final int rightID;
-        private final UIFactoryFragmentTransaction uiFactoryFragmentTransaction;
-
-        public FragmentScreenNavigationController(FragmentManager fm, int test_activity_LEFT_view_id, int test_activity_RIGHT_view_id) {
-
-            this.fm = fm;
-            leftID = test_activity_LEFT_view_id;
-            rightID = test_activity_RIGHT_view_id;
-            uiFactoryFragmentTransaction = new UIFactoryFragmentTransaction(fm);
-        }
-
-        @Override
-        public void showRight(Class uiPanel) {
-            uiFactoryFragmentTransaction.add(FragmentScreenNavigationControllerTest.UIFactory.FACTORY, this.rightID);
-        }
-
-        @Override
-        public void showLeft(Class uiPanel) {
-            uiFactoryFragmentTransaction.add(TestFactoryOne.FACTORY, this.leftID);
-        }
-
-        @Override
-        public void hideRight() {
-            uiFactoryFragmentTransaction.remove(this.rightID);
-        }
-
-        private class UIFactoryFragmentTransaction {
-
-            private final FragmentManager fragmentManager;
-
-            public UIFactoryFragmentTransaction(FragmentManager fm) {
-                this.fragmentManager = fm;
-            }
-
-            public <UIFactory extends Serializable & uk.co.rossbeazley.wear.android.ui.config.UIFactory> void add(UIFactory factory, int id) {
-                Fragment rightFragment = UIFactoryFragment.createUIFactoryFragment(factory);
-                fragmentManager.beginTransaction()
-                        .replace(id,  rightFragment)
-                        .commit();
-            }
-
-            public void remove(int id) {
-                final Fragment fragmentById = fragmentManager.findFragmentById(id);
-                fragmentManager.beginTransaction()
-                        .remove(fragmentById)
-                        .commit();
-            }
-        }
-    }
-
-
-
-    public enum TestFactoryOne implements uk.co.rossbeazley.wear.android.ui.config.UIFactory<View> {
+    private enum TestFactoryOne implements uk.co.rossbeazley.wear.android.ui.config.UIFactory<View> {
         FACTORY;
 
         public View createdView;
@@ -161,7 +100,7 @@ public class FragmentScreenNavigationControllerTest {
         }
     }
 
-    public enum UIFactory implements uk.co.rossbeazley.wear.android.ui.config.UIFactory<View> {
+    private enum UIFactory implements uk.co.rossbeazley.wear.android.ui.config.UIFactory<View> {
         FACTORY;
 
         public View createdView;
