@@ -27,7 +27,7 @@ public class FragmentScreenNavigationController <FragmentUIFactory extends Seria
     }
 
     @Override
-    public void showLeft(Class uiPanel) {
+    public void showLeft() {
         uiFactoryTransaction.add(this.leftFACTORY, this.leftID);
     }
 

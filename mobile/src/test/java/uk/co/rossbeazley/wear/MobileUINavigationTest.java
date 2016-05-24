@@ -30,8 +30,7 @@ public class MobileUINavigationTest {
 
     @Test
     public void defaultNavigationShowsConfigItemsAsLeftHandPane() {
-        final Class configItemsListViewClass = ConfigItemsListView.class;
-        assertThat(screen.currentLeft(),is(equalTo(configItemsListViewClass)));
+        assertThat(screen.leftShown(),is(true));
     }
 
     @Test
@@ -59,7 +58,7 @@ public class MobileUINavigationTest {
 
 
     private static class CapturingScreen implements ScreenNavigationController {
-        private Class left = nothing();
+        private boolean leftShown = false;
         private Class right = nothing();
 
         @Override
@@ -68,12 +67,12 @@ public class MobileUINavigationTest {
         }
 
         @Override
-        public void showLeft(Class uiPanel) {
-            left=uiPanel;
+        public void showLeft() {
+            leftShown = true;
         }
 
-        public Class currentLeft() {
-            return left;
+        public boolean leftShown() {
+            return leftShown;
         }
 
         public Class currentRight() {
@@ -92,7 +91,7 @@ public class MobileUINavigationTest {
 
     private class MobileUINavigation {
         public MobileUINavigation(final ScreenNavigationController screen, ConfigService configService) {
-            screen.showLeft(ConfigItemsListView.class);
+            screen.showLeft();
 
             configService.addListener(new ConfigServiceListener() {
                 @Override

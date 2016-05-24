@@ -1,15 +1,10 @@
 package uk.co.rossbeazley.wear.android.ui;
 
-import android.app.FragmentManager;
 import android.support.test.annotation.UiThreadTest;
-import android.support.test.rule.ActivityTestRule;
 import android.view.View;
 import android.view.ViewGroup;
 
-import org.hamcrest.BaseMatcher;
 import org.hamcrest.CoreMatchers;
-import org.hamcrest.Description;
-import org.hamcrest.Matcher;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -20,31 +15,22 @@ import java.util.Map;
 
 import uk.co.rossbeazley.wear.R;
 import uk.co.rossbeazley.wear.ScreenNavigationController;
-import uk.co.rossbeazley.wear.android.ui.config.ConfigItemsListView;
 import uk.co.rossbeazley.wear.android.ui.config.ConfigOptionView;
-import uk.co.rossbeazley.wear.android.ui.config.UIFactory;
-import uk.co.rossbeazley.wear.android.ui.config.UIFactoryFragment;
 import uk.co.rossbeazley.wear.config.ConfigService;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
-import static org.hamcrest.CoreMatchers.sameInstance;
 import static org.junit.Assert.assertThat;
 
 public class FragmentScreenNavigationControllerTest {
 
     @Rule
-    public ActivityTestRule<TestActivity> activityActivityTestRule = new ActivityTestRule<>(TestActivity.class);
-    private TestActivity activity;
-    private FragmentManager fm;
     private ScreenNavigationController fragmentScreenNavigationController;
-    private MyUIFactoryTransaction uiFactoryTransaction;
+    private CapturingUIFactoryTransaction uiFactoryTransaction;
 
     @Before
     public void setUp() throws Exception {
-        activity = activityActivityTestRule.getActivity();
-        fm = activity.getFragmentManager();
-        uiFactoryTransaction = new MyUIFactoryTransaction();
+        uiFactoryTransaction = new CapturingUIFactoryTransaction();
         fragmentScreenNavigationController = new FragmentScreenNavigationController(R.id.test_left, R.id.test_right, UIFactory.FACTORY, TestFactoryOne.FACTORY, uiFactoryTransaction);
     }
 
@@ -52,7 +38,7 @@ public class FragmentScreenNavigationControllerTest {
     @UiThreadTest
     public void showsConfigItemsAsLeftHandPane() throws Throwable {
 
-        fragmentScreenNavigationController.showLeft(ConfigItemsListView.class);
+        fragmentScreenNavigationController.showLeft();
         Serializable factoryAtId = uiFactoryTransaction.factoryAtId(R.id.test_left);
         assertThat( factoryAtId, CoreMatchers.<Serializable>is(TestFactoryOne.FACTORY));
     }
@@ -113,7 +99,8 @@ public class FragmentScreenNavigationControllerTest {
         public void createPresenters(ConfigService configService, View view) {
         }
     }
-    private static class MyUIFactoryTransaction implements UIFactoryTransaction {
+
+    private static class CapturingUIFactoryTransaction implements UIFactoryTransaction {
         public Map<Integer, Object> factories = new HashMap<>();
 
         @Override
