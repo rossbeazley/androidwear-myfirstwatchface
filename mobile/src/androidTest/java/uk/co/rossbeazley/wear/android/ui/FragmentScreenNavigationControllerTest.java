@@ -7,21 +7,28 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import org.hamcrest.BaseMatcher;
+import org.hamcrest.CoreMatchers;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
+import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
+
 import uk.co.rossbeazley.wear.R;
 import uk.co.rossbeazley.wear.ScreenNavigationController;
 import uk.co.rossbeazley.wear.android.ui.config.ConfigItemsListView;
 import uk.co.rossbeazley.wear.android.ui.config.ConfigOptionView;
+import uk.co.rossbeazley.wear.android.ui.config.UIFactory;
 import uk.co.rossbeazley.wear.android.ui.config.UIFactoryFragment;
 import uk.co.rossbeazley.wear.config.ConfigService;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
+import static org.hamcrest.CoreMatchers.sameInstance;
 import static org.junit.Assert.assertThat;
 
 public class FragmentScreenNavigationControllerTest {
@@ -31,12 +38,14 @@ public class FragmentScreenNavigationControllerTest {
     private TestActivity activity;
     private FragmentManager fm;
     private ScreenNavigationController fragmentScreenNavigationController;
+    private MyUIFactoryTransaction uiFactoryTransaction;
 
     @Before
     public void setUp() throws Exception {
         activity = activityActivityTestRule.getActivity();
         fm = activity.getFragmentManager();
-        fragmentScreenNavigationController = new FragmentScreenNavigationController(fm, R.id.test_left, R.id.test_right, UIFactory.FACTORY, TestFactoryOne.FACTORY);
+        uiFactoryTransaction = new MyUIFactoryTransaction();
+        fragmentScreenNavigationController = new FragmentScreenNavigationController(R.id.test_left, R.id.test_right, UIFactory.FACTORY, TestFactoryOne.FACTORY, uiFactoryTransaction);
     }
 
     @Test
@@ -44,13 +53,8 @@ public class FragmentScreenNavigationControllerTest {
     public void showsConfigItemsAsLeftHandPane() throws Throwable {
 
         fragmentScreenNavigationController.showLeft(ConfigItemsListView.class);
-
-        fm.executePendingTransactions();
-
-        UIFactoryFragment fragmentInLeftPane = (UIFactoryFragment) fm.findFragmentById(R.id.test_left);
-        assertThat(fragmentInLeftPane, hasViewFactory(TestFactoryOne.FACTORY));
-        View subViewInTestLeft = activity.findViewById(R.id.test_left).findViewById(R.id.view_under_test);
-        assertThat("no view created with id view_under_test in parent view test_left", subViewInTestLeft, is(TestFactoryOne.FACTORY.createdView));
+        Serializable factoryAtId = uiFactoryTransaction.factoryAtId(R.id.test_left);
+        assertThat( factoryAtId, CoreMatchers.<Serializable>is(TestFactoryOne.FACTORY));
     }
 
 
@@ -59,12 +63,8 @@ public class FragmentScreenNavigationControllerTest {
     public void showsConfigItemOptionsAtRightHandPane() throws Throwable {
 
         fragmentScreenNavigationController.showRight(ConfigOptionView.class);
-
-        fm.executePendingTransactions();
-        UIFactoryFragment fragmentInRightPane = (UIFactoryFragment) fm.findFragmentById(R.id.test_right);
-        assertThat(fragmentInRightPane, hasViewFactory(FragmentScreenNavigationControllerTest.UIFactory.FACTORY));
-        View subViewInTestRight = activity.findViewById(R.id.test_right).findViewById(R.id.view_under_test_two);
-        assertThat("no view created with id view_under_test_two in parent view test_right", subViewInTestRight, is(FragmentScreenNavigationControllerTest.UIFactory.FACTORY.createdView));
+        Serializable factoryAtId = uiFactoryTransaction.factoryAtId(R.id.test_right);
+        assertThat( factoryAtId, CoreMatchers.<Serializable>is(UIFactory.FACTORY));
     }
 
 
@@ -75,11 +75,8 @@ public class FragmentScreenNavigationControllerTest {
 
         fragmentScreenNavigationController.hideRight();
 
-        fm.executePendingTransactions();
-        UIFactoryFragment fragmentInRightPane = (UIFactoryFragment) fm.findFragmentById(R.id.test_right);
-        assertThat(fragmentInRightPane, is(nullValue()));
-        View subViewInTestRight = activity.findViewById(R.id.test_right).findViewById(R.id.view_under_test_two);
-        assertThat(subViewInTestRight, is(nullValue()));
+        Serializable factoryAtId = uiFactoryTransaction.factoryAtId(R.id.test_right);
+        assertThat(factoryAtId, is(nullValue()));
     }
 
 
@@ -116,20 +113,21 @@ public class FragmentScreenNavigationControllerTest {
         public void createPresenters(ConfigService configService, View view) {
         }
     }
+    private static class MyUIFactoryTransaction implements UIFactoryTransaction {
+        public Map<Integer, Object> factories = new HashMap<>();
 
-    private Matcher<? super UIFactoryFragment> hasViewFactory(final uk.co.rossbeazley.wear.android.ui.config.UIFactory factory) {
-        return new BaseMatcher<UIFactoryFragment>() {
-            @Override
-            public boolean matches(Object item) {
-                if (!(item instanceof UIFactoryFragment)) return false;
-                UIFactoryFragment fragment = (UIFactoryFragment) item;
-                return factory == fragment.uiFactory();
-            }
+        @Override
+        public <FragmentUIFactory extends Serializable & uk.co.rossbeazley.wear.android.ui.config.UIFactory> void add(FragmentUIFactory fragmentUIFactory, int id) {
+            this.factories.put(id,fragmentUIFactory);
+        }
 
-            @Override
-            public void describeTo(Description description) {
-            }
-        };
+        @Override
+        public void remove(int id) {
+            factories.remove(id);
+        }
+
+        public <FragmentUIFactory extends Serializable & uk.co.rossbeazley.wear.android.ui.config.UIFactory> FragmentUIFactory factoryAtId(int test_left) {
+            return (FragmentUIFactory) factories.get(test_left);
+        }
     }
-
 }
