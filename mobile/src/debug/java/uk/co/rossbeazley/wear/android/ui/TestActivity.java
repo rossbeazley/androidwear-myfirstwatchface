@@ -15,12 +15,13 @@ public class TestActivity extends Activity {
 
     public Fragment fragment;
     private ConfigService registeredConfigService;
+    public ViewGroup rootView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.test_activity);
-
+        rootView = (ViewGroup) findViewById(R.id.test_left);
         registeredConfigService = new ConfigService(new HashMapPersistence());
     }
 
@@ -28,7 +29,7 @@ public class TestActivity extends Activity {
     public void onAttachFragment(Fragment fragment) {
         super.onAttachFragment(fragment);
         this.fragment = fragment;
-        if(this.fragment instanceof NeedsConfigService) {
+        if (this.fragment instanceof NeedsConfigService) {
             ((NeedsConfigService) fragment).attachConfigService(registeredConfigService);
         }
     }

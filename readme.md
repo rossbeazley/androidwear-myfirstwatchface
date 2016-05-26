@@ -107,3 +107,5 @@ todo:
   - DI framework needs to go first, although.... maybe not yet.. duplicate then eliminate
 - maybe helper panel saying "choose item <--"
 (am i missing a test around dep injection in wear, could i move the DI stuff into the view factory?)
+
+--next up, the fragment implementations. Write a test that makes a list.
