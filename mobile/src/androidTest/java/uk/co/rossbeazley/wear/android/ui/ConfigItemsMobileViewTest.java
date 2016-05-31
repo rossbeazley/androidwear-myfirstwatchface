@@ -4,7 +4,6 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.os.Build;
-import android.os.SystemClock;
 import android.support.test.espresso.Espresso;
 import android.support.test.espresso.action.ViewActions;
 import android.support.test.espresso.contrib.RecyclerViewActions;
@@ -13,7 +12,6 @@ import android.support.test.rule.UiThreadTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
@@ -32,7 +30,7 @@ import java.util.Collections;
 import java.util.List;
 
 import uk.co.rossbeazley.wear.R;
-import uk.co.rossbeazley.wear.android.ui.config.ConfigOptionView;
+import uk.co.rossbeazley.wear.android.ui.config.SelectableItemListView;
 import uk.co.rossbeazley.wear.android.ui.config.UIFactory;
 import uk.co.rossbeazley.wear.config.ConfigService;
 
@@ -45,7 +43,7 @@ import static uk.co.rossbeazley.wear.android.ui.DepthFirstChildCount.hasNumberOf
 @RunWith(AndroidJUnit4.class)
 public class ConfigItemsMobileViewTest {
 
-    private ConfigOptionView configOptionsWearView;
+    private SelectableItemListView configOptionsWearView;
 
     @Rule
     public ActivityTestRule<TestActivity> activityTestRule = new ActivityTestRule<>(TestActivity.class);
@@ -61,21 +59,21 @@ public class ConfigItemsMobileViewTest {
 
     @Test
     public void showsOneConfigOption() throws Throwable {
-        configOptionsWearView.showConfigOptions(Collections.singletonList("ANY"));
+        configOptionsWearView.showItems(Collections.singletonList("ANY"));
         Espresso.onView(withId(R.id.view_under_test))
                 .check(hasNumberOfChildrenMatching(1, withText("ANY")));
     }
 
     @Test
     public void showsTwoConfigOption() throws Throwable {
-        configOptionsWearView.showConfigOptions(Arrays.asList("ANY", "ANY"));
+        configOptionsWearView.showItems(Arrays.asList("ANY", "ANY"));
         Espresso.onView(withId(R.id.view_under_test))
                 .check(hasNumberOfChildrenMatching(2, withText("ANY")));
     }
 
     @Test
     public void showsTwoDifferentConfigOption() throws Throwable {
-        configOptionsWearView.showConfigOptions(Arrays.asList("ANY", "OLD"));
+        configOptionsWearView.showItems(Arrays.asList("ANY", "OLD"));
         Espresso.onView(withId(R.id.view_under_test))
                 .check(hasNumberOfChildrenMatching(1, withText("ANY")))
                 .check(hasNumberOfChildrenMatching(1, withText("OLD")));
@@ -92,7 +90,7 @@ public class ConfigItemsMobileViewTest {
         list.add("ANY5");
         list.add("ANY6");
 
-        configOptionsWearView.showConfigOptions(list);
+        configOptionsWearView.showItems(list);
         Espresso.onView(withId(R.id.list))
                 .perform(RecyclerViewActions.scrollTo(withText("ANY4")));
     }
@@ -100,7 +98,7 @@ public class ConfigItemsMobileViewTest {
 
     @Test
     public void theOneWhereWeSelectAnItem() {
-        configOptionsWearView.showConfigOptions(Arrays.asList("ANY1", "ANY2", "ANY3"));
+        configOptionsWearView.showItems(Arrays.asList("ANY1", "ANY2", "ANY3"));
         CapturingListener capturingListener = new CapturingListener();
         configOptionsWearView.addListener(capturingListener);
         Espresso.onView(withText("ANY1"))
@@ -111,7 +109,7 @@ public class ConfigItemsMobileViewTest {
 
     @Test
     public void theOneWhereWeSelectTheSecondItem() {
-        configOptionsWearView.showConfigOptions(Arrays.asList("ANY1", "ANY2", "ANY3"));
+        configOptionsWearView.showItems(Arrays.asList("ANY1", "ANY2", "ANY3"));
 
 
         CapturingListener capturingListener = new CapturingListener();
@@ -134,12 +132,12 @@ public class ConfigItemsMobileViewTest {
                 View view = ConfigItemsMobileUIFactory.FACTORY.createView(activity.rootView);
                 view.setId(R.id.view_under_test);
                 activity.rootView.addView(view);
-                configOptionsWearView = (ConfigOptionView) view;
+                configOptionsWearView = (SelectableItemListView) view;
             }
         });
     }
 
-    public enum ConfigItemsMobileUIFactory implements UIFactory<ConfigOptionView> {
+    public enum ConfigItemsMobileUIFactory implements UIFactory<SelectableItemListView> {
         FACTORY {
             @Override
             public View createView(ViewGroup container) {
@@ -150,7 +148,7 @@ public class ConfigItemsMobileViewTest {
             }
 
             @Override
-            public void createPresenters(ConfigService configService, ConfigOptionView view) {
+            public void createPresenters(ConfigService configService, SelectableItemListView view) {
 
             }
         };
@@ -158,7 +156,7 @@ public class ConfigItemsMobileViewTest {
 
     }
 
-    public static class ListRecylcerView extends FrameLayout implements ConfigOptionView {
+    public static class ListRecylcerView extends FrameLayout implements SelectableItemListView {
 
 
         private List<Listener> listeners;
@@ -195,8 +193,8 @@ public class ConfigItemsMobileViewTest {
         }
 
         @Override
-        public void showConfigOptions(List<String> configOptions) {
-            Adapter adapter = new Adapter(configOptions, this);
+        public void showItems(List<String> items) {
+            Adapter adapter = new Adapter(items, this);
             recyclerView.setAdapter(adapter);
         }
 
@@ -280,7 +278,7 @@ public class ConfigItemsMobileViewTest {
         }
     }
 
-    private class CapturingListener implements ConfigOptionView.Listener {
+    private class CapturingListener implements SelectableItemListView.Listener {
         public String itemSelected;
 
         public void itemSelected(String text) {

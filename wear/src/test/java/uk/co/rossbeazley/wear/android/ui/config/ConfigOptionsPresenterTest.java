@@ -17,7 +17,7 @@ public class ConfigOptionsPresenterTest {
     private TestWorld testWorld;
     private ConfigService configService;
     private String anyItem;
-    private CapturingConfigOptionView capturingConfigOptionView;
+    private CapturingSelectableItemListView capturingConfigOptionView;
 
     @Before
     public void buildTestWorld() {
@@ -29,7 +29,7 @@ public class ConfigOptionsPresenterTest {
 
         configService.configureItem(anyItem);
 
-        capturingConfigOptionView = new CapturingConfigOptionView();
+        capturingConfigOptionView = new CapturingSelectableItemListView();
 
         ConfigItemOptionsListFragment.ConfigItemsOptionsListUIFactory.FACTORY.createPresenters(configService,capturingConfigOptionView);
 
@@ -56,13 +56,13 @@ public class ConfigOptionsPresenterTest {
         assertThat(optionForItem,is(expectedOption));
     }
 
-    private class CapturingConfigOptionView implements ConfigOptionView {
+    private class CapturingSelectableItemListView implements SelectableItemListView {
         public List<String> presentedList;
         public Listener capturingListener;
 
         @Override
-        public void showConfigOptions(List<String> configOptions) {
-            presentedList = configOptions;
+        public void showItems(List<String> items) {
+            presentedList = items;
         }
 
         @Override

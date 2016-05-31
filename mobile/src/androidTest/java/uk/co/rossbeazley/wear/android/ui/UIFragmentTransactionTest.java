@@ -14,8 +14,6 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import uk.co.rossbeazley.wear.R;
-import uk.co.rossbeazley.wear.ScreenNavigationController;
-import uk.co.rossbeazley.wear.android.ui.config.ConfigOptionView;
 import uk.co.rossbeazley.wear.android.ui.config.UIFactoryFragment;
 import uk.co.rossbeazley.wear.config.ConfigService;
 

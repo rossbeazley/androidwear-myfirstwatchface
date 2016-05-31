@@ -3,7 +3,7 @@ package uk.co.rossbeazley.wear;
 import org.junit.Before;
 import org.junit.Test;
 
-import uk.co.rossbeazley.wear.android.ui.config.ConfigOptionView;
+import uk.co.rossbeazley.wear.android.ui.config.SelectableItemListView;
 import uk.co.rossbeazley.wear.config.ConfigService;
 import uk.co.rossbeazley.wear.config.ConfigServiceListener;
 
@@ -41,7 +41,7 @@ public class MobileUINavigationTest {
     @Test
     public void showsConfigItemOptionsAtRightHandPane() {
         configService.configureItem(testWorld.anyItemID());
-        final Class configOptionViewClass = ConfigOptionView.class;
+        final Class configOptionViewClass = SelectableItemListView.class;
         assertThat(screen.currentRight(),is(equalTo(configOptionViewClass)));
     }
 
@@ -95,7 +95,7 @@ public class MobileUINavigationTest {
             configService.addListener(new ConfigServiceListener() {
                 @Override
                 public void configuring(String item) {
-                    screen.showRight(ConfigOptionView.class);
+                    screen.showRight(SelectableItemListView.class);
                 }
 
                 @Override

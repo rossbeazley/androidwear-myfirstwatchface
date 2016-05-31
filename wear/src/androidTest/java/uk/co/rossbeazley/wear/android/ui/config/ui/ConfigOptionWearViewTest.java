@@ -19,7 +19,7 @@ import java.util.List;
 
 import uk.co.rossbeazley.wear.R;
 import uk.co.rossbeazley.wear.android.ui.config.ConfigItemOptionsListFragment;
-import uk.co.rossbeazley.wear.android.ui.config.ConfigOptionView;
+import uk.co.rossbeazley.wear.android.ui.config.SelectableItemListView;
 import uk.co.rossbeazley.wear.android.ui.config.ConfigOptionsWearView;
 import uk.co.rossbeazley.wear.android.ui.config.TestActivity;
 import uk.co.rossbeazley.wear.android.ui.espressoMatchers.ScrollToPositionViewAction;
@@ -33,7 +33,7 @@ import static uk.co.rossbeazley.wear.android.ui.espressoMatchers.DepthFirstChild
 @RunWith(AndroidJUnit4.class)
 public class ConfigOptionWearViewTest {
 
-    private ConfigOptionView configOptionsWearView;
+    private SelectableItemListView configOptionsWearView;
 
     @Rule
     public ActivityTestRule<TestActivity> activityTestRule = new ActivityTestRule<>(TestActivity.class);
@@ -49,20 +49,20 @@ public class ConfigOptionWearViewTest {
 
     @Test
     public void showsOneConfigOption() throws Throwable {
-        configOptionsWearView.showConfigOptions(Collections.singletonList("ANY"));
+        configOptionsWearView.showItems(Collections.singletonList("ANY"));
         Espresso.onView(withId(R.id.view_under_test))
                 .check(hasNumberOfChildrenMatching(1, withText("ANY")));
     }
 
     @Test
     public void showsTwoConfigOption() throws Throwable {
-        configOptionsWearView.showConfigOptions(Arrays.asList("ANY", "ANY"));
+        configOptionsWearView.showItems(Arrays.asList("ANY", "ANY"));
         Espresso.onView(withId(R.id.view_under_test))
                 .check(hasNumberOfChildrenMatching(2, withText("ANY")));
     }
     @Test
     public void showsTwoDifferentConfigOption() throws Throwable {
-        configOptionsWearView.showConfigOptions(Arrays.asList("ANY", "OLD"));
+        configOptionsWearView.showItems(Arrays.asList("ANY", "OLD"));
         Espresso.onView(withId(R.id.view_under_test))
                 .check(hasNumberOfChildrenMatching(1, withText("ANY")))
                 .check(hasNumberOfChildrenMatching(1, withText("OLD")));
@@ -79,7 +79,7 @@ public class ConfigOptionWearViewTest {
         list.add("ANY5");
         list.add("ANY6");
 
-        configOptionsWearView.showConfigOptions(list);
+        configOptionsWearView.showItems(list);
         Espresso.onView(withId(R.id.wearable_list))
                 .perform(ScrollToPositionViewAction.scrollWearableListToPosition(4))
                 .check(hasNumberOfChildrenMatching(1, withText("ANY4")));
@@ -88,7 +88,7 @@ public class ConfigOptionWearViewTest {
 
     @Test
     public void theOneWhereWeSelectAnItem() {
-        configOptionsWearView.showConfigOptions(Arrays.asList("ANY1", "ANY2", "ANY3"));
+        configOptionsWearView.showItems(Arrays.asList("ANY1", "ANY2", "ANY3"));
         CapturingListener capturingListener = new CapturingListener();
         configOptionsWearView.addListener(capturingListener);
         Espresso.onView(withText("ANY1"))
@@ -99,7 +99,7 @@ public class ConfigOptionWearViewTest {
 
     @Test
     public void theOneWhereWeSelectTheSecondItem() {
-        configOptionsWearView.showConfigOptions(Arrays.asList("ANY1", "ANY2", "ANY3"));
+        configOptionsWearView.showItems(Arrays.asList("ANY1", "ANY2", "ANY3"));
 
 
         CapturingListener capturingListener = new CapturingListener();
@@ -127,7 +127,7 @@ public class ConfigOptionWearViewTest {
         });
     }
 
-    private class CapturingListener implements ConfigOptionView.Listener {
+    private class CapturingListener implements SelectableItemListView.Listener {
         public String itemSelected;
 
         public void itemSelected(String text) {

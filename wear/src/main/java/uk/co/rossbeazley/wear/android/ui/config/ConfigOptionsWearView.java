@@ -13,7 +13,7 @@ import java.util.List;
 
 import uk.co.rossbeazley.wear.R;
 
-public class ConfigOptionsWearView extends FrameLayout implements ConfigOptionView {
+public class ConfigOptionsWearView extends FrameLayout implements SelectableItemListView {
 
     private WearableListView wearableListView;
     private Listener listener;
@@ -60,8 +60,8 @@ public class ConfigOptionsWearView extends FrameLayout implements ConfigOptionVi
     }
 
     @Override
-    public void showConfigOptions(List<String> configOptions) {
-        wearableListView.setAdapter(new ConfigItemsListWearView.Adapter(configOptions));
+    public void showItems(List<String> items) {
+        wearableListView.setAdapter(new ConfigItemsListWearView.Adapter(items));
     }
 
     @Override

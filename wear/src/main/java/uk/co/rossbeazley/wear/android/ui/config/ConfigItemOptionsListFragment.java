@@ -16,7 +16,7 @@ public class ConfigItemOptionsListFragment {
         return configItemOptionsListFragment;
     }
 
-    public enum ConfigItemsOptionsListUIFactory implements UIFactory<ConfigOptionView> {
+    public enum ConfigItemsOptionsListUIFactory implements UIFactory<SelectableItemListView> {
 
         FACTORY;
 
@@ -28,7 +28,7 @@ public class ConfigItemOptionsListFragment {
         }
 
         @Override
-        public void createPresenters(ConfigService configService, ConfigOptionView view) {
+        public void createPresenters(ConfigService configService, SelectableItemListView view) {
             new ConfigOptionsPresenter(view, configService);
         }
 

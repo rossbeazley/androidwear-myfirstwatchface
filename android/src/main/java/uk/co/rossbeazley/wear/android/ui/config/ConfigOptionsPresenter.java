@@ -24,13 +24,13 @@ public class ConfigOptionsPresenter {
      * So here we have is Model-ViewPresenter-Controller.
      */
 
-    public ConfigOptionsPresenter(ConfigOptionView configOptionView, final ConfigService configService) {
-        configOptionView.addListener(new ConfigOptionView.Listener() {
+    public ConfigOptionsPresenter(SelectableItemListView selectableItemListView, final ConfigService configService) {
+        selectableItemListView.addListener(new SelectableItemListView.Listener() {
             @Override
             public void itemSelected(String option) {
                 configService.chooseOption(option);
             }
         });
-        configOptionView.showConfigOptions(configService.selectedConfigOptions());
+        selectableItemListView.showItems(configService.selectedConfigOptions());
     }
 }

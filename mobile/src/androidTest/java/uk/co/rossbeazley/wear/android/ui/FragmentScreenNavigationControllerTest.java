@@ -15,7 +15,7 @@ import java.util.Map;
 
 import uk.co.rossbeazley.wear.R;
 import uk.co.rossbeazley.wear.ScreenNavigationController;
-import uk.co.rossbeazley.wear.android.ui.config.ConfigOptionView;
+import uk.co.rossbeazley.wear.android.ui.config.SelectableItemListView;
 import uk.co.rossbeazley.wear.config.ConfigService;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -48,7 +48,7 @@ public class FragmentScreenNavigationControllerTest {
     @UiThreadTest
     public void showsConfigItemOptionsAtRightHandPane() throws Throwable {
 
-        fragmentScreenNavigationController.showRight(ConfigOptionView.class);
+        fragmentScreenNavigationController.showRight(SelectableItemListView.class);
         Serializable factoryAtId = uiFactoryTransaction.factoryAtId(R.id.test_right);
         assertThat( factoryAtId, CoreMatchers.<Serializable>is(UIFactory.FACTORY));
     }
