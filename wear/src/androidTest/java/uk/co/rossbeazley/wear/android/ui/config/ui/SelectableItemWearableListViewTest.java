@@ -31,7 +31,7 @@ import static org.junit.Assert.assertThat;
 import static uk.co.rossbeazley.wear.android.ui.espressoMatchers.DepthFirstChildCount.hasNumberOfChildrenMatching;
 
 @RunWith(AndroidJUnit4.class)
-public class ConfigOptionWearViewTest {
+public class SelectableItemWearableListViewTest {
 
     private SelectableItemListView configOptionsWearView;
 
@@ -121,7 +121,7 @@ public class ConfigOptionWearViewTest {
             public void run() {
                 SelectableItemWearableListView configOptionsWearView = (SelectableItemWearableListView) ConfigItemOptionsListFragmentFactory.createConfigItemOptionsListFragment().onCreateView(LayoutInflater.from(activity),activity.rootFrameLayout,null);
                 configOptionsWearView.setId(R.id.view_under_test);
-                ConfigOptionWearViewTest.this.configOptionsWearView = configOptionsWearView;
+                SelectableItemWearableListViewTest.this.configOptionsWearView = configOptionsWearView;
                 activity.rootFrameLayout.addView(configOptionsWearView);
             }
         });
