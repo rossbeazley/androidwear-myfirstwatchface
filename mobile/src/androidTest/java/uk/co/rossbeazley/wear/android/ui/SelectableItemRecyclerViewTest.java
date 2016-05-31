@@ -41,7 +41,7 @@ import static org.junit.Assert.assertThat;
 import static uk.co.rossbeazley.wear.android.ui.DepthFirstChildCount.hasNumberOfChildrenMatching;
 
 @RunWith(AndroidJUnit4.class)
-public class ConfigItemsMobileViewTest {
+public class SelectableItemRecyclerViewTest {
 
     private SelectableItemListView configOptionsWearView;
 
@@ -141,7 +141,7 @@ public class ConfigItemsMobileViewTest {
         FACTORY {
             @Override
             public View createView(ViewGroup container) {
-                ListRecylcerView result = new ListRecylcerView(container.getContext());
+                SelectableItemRecyclerView result = new SelectableItemRecyclerView(container.getContext());
                 result.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 
                 return result;
@@ -156,29 +156,29 @@ public class ConfigItemsMobileViewTest {
 
     }
 
-    public static class ListRecylcerView extends FrameLayout implements SelectableItemListView {
+    public static class SelectableItemRecyclerView extends FrameLayout implements SelectableItemListView {
 
 
         private List<Listener> listeners;
         private RecyclerView recyclerView;
 
-        public ListRecylcerView(Context context) {
+        public SelectableItemRecyclerView(Context context) {
             super(context);
             __ListRecylcerView();
         }
 
-        public ListRecylcerView(Context context, AttributeSet attrs) {
+        public SelectableItemRecyclerView(Context context, AttributeSet attrs) {
             super(context, attrs);
             __ListRecylcerView();
         }
 
-        public ListRecylcerView(Context context, AttributeSet attrs, int defStyleAttr) {
+        public SelectableItemRecyclerView(Context context, AttributeSet attrs, int defStyleAttr) {
             super(context, attrs, defStyleAttr);
             __ListRecylcerView();
         }
 
         @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-        public ListRecylcerView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+        public SelectableItemRecyclerView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
             super(context, attrs, defStyleAttr, defStyleRes);
             __ListRecylcerView();
         }
@@ -223,12 +223,12 @@ public class ConfigItemsMobileViewTest {
 
         private static class Adapter extends RecyclerView.Adapter<ListViewHolder> {
             private final List<String> configOptions;
-            private final ListRecylcerView listRecylcerView;
+            private final SelectableItemRecyclerView selectableItemRecyclerView;
 
-            public Adapter(List<String> configOptions, ListRecylcerView listRecylcerView) {
+            public Adapter(List<String> configOptions, SelectableItemRecyclerView selectableItemRecyclerView) {
 
                 this.configOptions = configOptions;
-                this.listRecylcerView = listRecylcerView;
+                this.selectableItemRecyclerView = selectableItemRecyclerView;
             }
 
             @Override
@@ -259,7 +259,7 @@ public class ConfigItemsMobileViewTest {
                 itemView.setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        listRecylcerView.announce(text);
+                        selectableItemRecyclerView.announce(text);
                     }
                 });
             }

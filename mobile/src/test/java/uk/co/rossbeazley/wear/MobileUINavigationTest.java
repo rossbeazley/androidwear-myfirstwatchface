@@ -95,7 +95,7 @@ public class MobileUINavigationTest {
             configService.addListener(new ConfigServiceListener() {
                 @Override
                 public void configuring(String item) {
-                    screen.showRight(SelectableItemListView.class);
+                    screen.showRight(SelectableItemListView.class); //TODO change to show Presenter class, not view class
                 }
 
                 @Override
@@ -105,7 +105,9 @@ public class MobileUINavigationTest {
 
                 @Override
                 public void chosenOption(String option) {
+                    // show OK, then timer, then... (maybe timer goes in presenter....)
                     screen.hideRight();
+
                 }
             });
         }
