@@ -24,7 +24,7 @@ public class ConfigItemsListPresenterTest {
         configService = testWorld.build();
 
         configListView = new CapturingConfigItemsListView();
-        ConfigItemsListFragment.ConfigItemsListUIFactory.FACTORY.createPresenters(configService, configListView);
+        ConfigItemsListFragmentFactory.ConfigItemsListUIFactory.FACTORY.createPresenters(configService, configListView);
     }
 
     @Test

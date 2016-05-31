@@ -31,7 +31,7 @@ public class ConfigOptionsPresenterTest {
 
         capturingConfigOptionView = new CapturingSelectableItemListView();
 
-        ConfigItemOptionsListFragment.ConfigItemsOptionsListUIFactory.FACTORY.createPresenters(configService,capturingConfigOptionView);
+        ConfigItemOptionsListFragmentFactory.ConfigItemsOptionsListUIFactory.FACTORY.createPresenters(configService,capturingConfigOptionView);
 
 
     }

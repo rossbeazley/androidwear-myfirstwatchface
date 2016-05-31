@@ -18,9 +18,9 @@ import java.util.Collections;
 import java.util.List;
 
 import uk.co.rossbeazley.wear.R;
-import uk.co.rossbeazley.wear.android.ui.config.ConfigItemOptionsListFragment;
+import uk.co.rossbeazley.wear.android.ui.config.ConfigItemOptionsListFragmentFactory;
 import uk.co.rossbeazley.wear.android.ui.config.SelectableItemListView;
-import uk.co.rossbeazley.wear.android.ui.config.ConfigOptionsWearView;
+import uk.co.rossbeazley.wear.android.ui.config.SelectableItemWearableListView;
 import uk.co.rossbeazley.wear.android.ui.config.TestActivity;
 import uk.co.rossbeazley.wear.android.ui.espressoMatchers.ScrollToPositionViewAction;
 
@@ -119,7 +119,7 @@ public class ConfigOptionWearViewTest {
         uiThreadTest.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                ConfigOptionsWearView configOptionsWearView = (ConfigOptionsWearView) ConfigItemOptionsListFragment.createConfigItemOptionsListFragment().onCreateView(LayoutInflater.from(activity),activity.rootFrameLayout,null);
+                SelectableItemWearableListView configOptionsWearView = (SelectableItemWearableListView) ConfigItemOptionsListFragmentFactory.createConfigItemOptionsListFragment().onCreateView(LayoutInflater.from(activity),activity.rootFrameLayout,null);
                 configOptionsWearView.setId(R.id.view_under_test);
                 ConfigOptionWearViewTest.this.configOptionsWearView = configOptionsWearView;
                 activity.rootFrameLayout.addView(configOptionsWearView);

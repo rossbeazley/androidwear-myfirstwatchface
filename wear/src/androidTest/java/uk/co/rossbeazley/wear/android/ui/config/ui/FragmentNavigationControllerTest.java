@@ -14,8 +14,8 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import uk.co.rossbeazley.wear.android.ui.config.ConfigItemOptionsListFragment;
-import uk.co.rossbeazley.wear.android.ui.config.ConfigItemsListFragment;
+import uk.co.rossbeazley.wear.android.ui.config.ConfigItemOptionsListFragmentFactory;
+import uk.co.rossbeazley.wear.android.ui.config.ConfigItemsListFragmentFactory;
 import uk.co.rossbeazley.wear.android.ui.config.ConfigOptionSelectedFragment;
 import uk.co.rossbeazley.wear.android.ui.config.FragmentNavigationController;
 import uk.co.rossbeazley.wear.android.ui.config.NavigationControllerJournal;
@@ -62,7 +62,7 @@ public class FragmentNavigationControllerTest {
     public void navigateToConfigItemsList() throws Exception {
         fragmentNavigationController.toConfigItemsList();
         SystemClock.sleep(1000);
-        assertThat(testActivity.fragment.getArguments(), contains("factory", ConfigItemsListFragment.ConfigItemsListUIFactory.FACTORY));
+        assertThat(testActivity.fragment.getArguments(), contains("factory", ConfigItemsListFragmentFactory.ConfigItemsListUIFactory.FACTORY));
     }
 
     private Matcher<? super Bundle> contains(final String key, final UIFactory uiFactory) {
@@ -88,7 +88,7 @@ public class FragmentNavigationControllerTest {
         testWorld.configService.configureItem(testWorld.anyItemID());
         fragmentNavigationController.toConfigOption();
         SystemClock.sleep(1000);
-        assertThat(testActivity.fragment.getArguments(), contains("factory", ConfigItemOptionsListFragment.ConfigItemsOptionsListUIFactory.FACTORY));
+        assertThat(testActivity.fragment.getArguments(), contains("factory", ConfigItemOptionsListFragmentFactory.ConfigItemsOptionsListUIFactory.FACTORY));
     }
 
     @Test

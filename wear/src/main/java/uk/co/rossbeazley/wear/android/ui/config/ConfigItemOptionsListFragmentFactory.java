@@ -6,7 +6,7 @@ import android.view.ViewGroup;
 
 import uk.co.rossbeazley.wear.config.ConfigService;
 
-public class ConfigItemOptionsListFragment {
+public class ConfigItemOptionsListFragmentFactory {
 
     public static UIFactoryFragment createConfigItemOptionsListFragment() {
         final UIFactoryFragment configItemOptionsListFragment = UIFactoryFragment.createUIFactoryFragment(null);
@@ -22,7 +22,7 @@ public class ConfigItemOptionsListFragment {
 
         @Override
         public View createView(ViewGroup container) {
-            ConfigOptionsWearView configOptionsListWearView = new ConfigOptionsWearView(container.getContext());
+            SelectableItemWearableListView configOptionsListWearView = new SelectableItemWearableListView(container.getContext());
             configOptionsListWearView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
             return configOptionsListWearView;
         }
