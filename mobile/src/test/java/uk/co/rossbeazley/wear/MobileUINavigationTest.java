@@ -3,7 +3,6 @@ package uk.co.rossbeazley.wear;
 import org.junit.Before;
 import org.junit.Test;
 
-import uk.co.rossbeazley.wear.android.ui.config.ConfigItemsListView;
 import uk.co.rossbeazley.wear.android.ui.config.ConfigOptionView;
 import uk.co.rossbeazley.wear.config.ConfigService;
 import uk.co.rossbeazley.wear.config.ConfigServiceListener;

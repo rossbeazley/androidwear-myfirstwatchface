@@ -42,13 +42,13 @@ public class ConfigItemsListPresenterTest {
         assertThat(listener.configuredItem, is(anyItem));
     }
 
-    private static class CapturingConfigItemsListView implements ConfigItemsListView {
+    private static class CapturingConfigItemsListView implements ConfigOptionView {
         public List<String> presentedList;
-        public ConfigItemsListView.Listener listener;
+        public ConfigOptionView.Listener listener;
 
         @Override
-        public void showConfigItems(List<String> list) {
-            presentedList = list;
+        public void showConfigOptions(List<String> configOptions) {
+            presentedList = configOptions;
         }
 
         @Override

@@ -128,8 +128,6 @@ public class ConfigItemsMobileViewTest {
 
     private void createUI(final TestActivity activity) throws Throwable {
 
-        //new enum, and invoke its create view method
-
         uiThreadTest.runOnUiThread(new Runnable() {
             @Override
             public void run() {

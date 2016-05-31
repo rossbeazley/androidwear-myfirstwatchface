@@ -108,4 +108,7 @@ todo:
 - maybe helper panel saying "choose item <--"
 (am i missing a test around dep injection in wear, could i move the DI stuff into the view factory?)
 
---next up, the fragment implementations. Write a test that makes a list.
+--next up, put the right presenter in the Factory
+ - consider how we can change the enum factories to compose plain old class factories (maybe just segregate interface)
+ - collapse existing View interfaces into one generic ListOfStringsView
+ - possible implement re-work of factory enums

@@ -20,7 +20,7 @@ import uk.co.rossbeazley.wear.R;
 /**
  * Created by beazlr02 on 19/02/16.
  */
-public class ConfigItemsListWearView extends FrameLayout implements ConfigItemsListView {
+public class ConfigItemsListWearView extends FrameLayout implements ConfigOptionView {
 
     private WearableListView wearableListView;
     private CopyOnWriteArrayList<Listener> listeners;
@@ -69,8 +69,8 @@ public class ConfigItemsListWearView extends FrameLayout implements ConfigItemsL
     }
 
     @Override
-    public void showConfigItems(List<String> list) {
-        wearableListView.setAdapter(new Adapter(list));
+    public void showConfigOptions(List<String> configOptions) {
+        wearableListView.setAdapter(new Adapter(configOptions));
 
     }
 
