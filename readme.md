@@ -112,4 +112,5 @@ todo:
  - consider how we can change the enum factories to compose plain old class factories (maybe just segregate interface)
  - DONE collapse existing View interfaces into one generic ListOfStringsView
  - possible implement re-work of factory enums
- - add next screen to show option has been selected  <-- NEXT
+ - DONE add next screen to show option has been selected
+ - wear messaging, con of algorithm to tackle

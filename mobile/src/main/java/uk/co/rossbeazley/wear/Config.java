@@ -28,12 +28,8 @@ public class Config extends Activity {
         broadcast = new Nodes(this);
         tickTock = TickTock.createTickTock(Core.instance().canBeTicked);
         SetTextOnMainThread.strategy = new SetTextOnMainThread.PostingStrategy();
-        createView();
-
-
-
-
         Core.instance().configService.addListener(new WearBroadcastConfigServiceListener(broadcast));
+        createView();
     }
 
 
