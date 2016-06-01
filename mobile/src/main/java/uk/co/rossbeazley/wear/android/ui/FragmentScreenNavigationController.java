@@ -13,9 +13,9 @@ public class FragmentScreenNavigationController <FragmentUIFactory extends Seria
     private final FragmentUIFactory rightFACTORY;
     private final FragmentUIFactory leftFACTORY;
 
-    public FragmentScreenNavigationController(int test_activity_LEFT_view_id, int test_activity_RIGHT_view_id, FragmentUIFactory rightFACTORY, FragmentUIFactory leftFACTORY, UIFactoryTransaction uiFactoryTransaction) {
-        leftID = test_activity_LEFT_view_id;
-        rightID = test_activity_RIGHT_view_id;
+    public FragmentScreenNavigationController(int leftID, int rightID, FragmentUIFactory rightFACTORY, FragmentUIFactory leftFACTORY, UIFactoryTransaction uiFactoryTransaction) {
+        this.leftID = leftID;
+        this.rightID = rightID;
         this.rightFACTORY = rightFACTORY;
         this.leftFACTORY = leftFACTORY;
         this.uiFactoryTransaction = uiFactoryTransaction;

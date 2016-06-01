@@ -15,7 +15,7 @@ import com.google.android.gms.wearable.Wearable;
 import java.util.Collections;
 import java.util.List;
 
-public class Nodes {
+public class Nodes implements Broadcast {
 
     private final Context context;
     private GoogleApiClient gac;
@@ -82,6 +82,7 @@ public class Nodes {
         return gac;
     }
 
+    @Override
     public void sendMessage(final String messagePathString) {
 
         System.out.println("SENDing MSG " + messagePathString);

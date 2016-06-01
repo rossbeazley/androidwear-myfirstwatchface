@@ -5,7 +5,6 @@ import org.junit.Test;
 
 import uk.co.rossbeazley.wear.android.ui.config.SelectableItemListView;
 import uk.co.rossbeazley.wear.config.ConfigService;
-import uk.co.rossbeazley.wear.config.ConfigServiceListener;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.core.IsEqual.equalTo;
@@ -88,28 +87,4 @@ public class MobileUINavigationTest {
         }
     }
 
-    private class MobileUINavigation {
-        public MobileUINavigation(final ScreenNavigationController screen, ConfigService configService) {
-            screen.showLeft();
-
-            configService.addListener(new ConfigServiceListener() {
-                @Override
-                public void configuring(String item) {
-                    screen.showRight(SelectableItemListView.class); //TODO change to show Presenter class, not view class
-                }
-
-                @Override
-                public void error(KeyNotFound keyNotFound) {
-
-                }
-
-                @Override
-                public void chosenOption(String option) {
-                    // show OK, then timer, then... (maybe timer goes in presenter....)
-                    screen.hideRight();
-
-                }
-            });
-        }
-    }
 }
