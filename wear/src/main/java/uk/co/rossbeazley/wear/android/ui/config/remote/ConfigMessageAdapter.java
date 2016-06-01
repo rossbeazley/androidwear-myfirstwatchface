@@ -16,7 +16,10 @@ public class ConfigMessageAdapter implements MessageApi.MessageListener {
     @Override
     public void onMessageReceived(MessageEvent messageEvent) {
         String path = messageEvent.getPath();
-        String[] split = path.replace("/face/configure/", "").split("/to/");
-        configService.persistItemChoice(split[0],split[1]);
+        String configureMessagePrefix = "/face/configure/";
+        if(path.startsWith(configureMessagePrefix)) {
+            String[] split = path.replace(configureMessagePrefix, "").split("/to/");
+            configService.persistItemChoice(split[0], split[1]);
+        }
     }
 }

@@ -4,6 +4,8 @@ import android.content.Context;
 
 import uk.co.rossbeazley.wear.android.SharedPreferencesStringPersistence;
 import uk.co.rossbeazley.wear.android.gsm.GoogleWearApiConnection;
+import uk.co.rossbeazley.wear.android.ui.config.remote.ConfigMessage;
+import uk.co.rossbeazley.wear.android.ui.config.remote.ConfigMessageAdapter;
 import uk.co.rossbeazley.wear.months.MonthFactory;
 import uk.co.rossbeazley.wear.ticktock.TickTock;
 
@@ -29,8 +31,10 @@ public class Main {
         //Debug.waitForDebugger();
         tickTock = TickTock.createTickTock(core.canBeTicked);
 
-        new GoogleWearApiConnection(context, new RotationMessage(core.canBeRotated));
-        new GoogleWearApiConnection(context, new ColourMessage(core.canBeColoured));
+//        new GoogleWearApiConnection(context, new RotationMessage(core.canBeRotated));
+//        new GoogleWearApiConnection(context, new ColourMessage(core.canBeColoured));
+
+        new GoogleWearApiConnection(context, new ConfigMessage(new ConfigMessageAdapter(core.configService)));
     }
 
     private void initialiseMonthFactoryStrings(Context context) {
