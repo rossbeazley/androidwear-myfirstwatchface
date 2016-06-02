@@ -7,7 +7,7 @@ android {
         applicationId 'uk.co.rossbeazley.wear'
         minSdkVersion 20
         targetSdkVersion 23
-        versionCode 27
+        versionCode 28
         versionName '5.0'
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
