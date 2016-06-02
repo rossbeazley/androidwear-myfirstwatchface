@@ -5,6 +5,7 @@ import android.app.FragmentManager;
 
 import java.io.Serializable;
 
+import uk.co.rossbeazley.wear.R;
 import uk.co.rossbeazley.wear.android.ui.config.UIFactory;
 import uk.co.rossbeazley.wear.android.ui.config.UIFactoryFragment;
 

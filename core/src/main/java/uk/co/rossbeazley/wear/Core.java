@@ -114,6 +114,9 @@ public class Core {
 
 
     public static Core instance() {
+        if(InstanceHolder.instance==null) {
+            InstanceHolder.instance = new Core();
+        }
         return InstanceHolder.instance;
     }
 

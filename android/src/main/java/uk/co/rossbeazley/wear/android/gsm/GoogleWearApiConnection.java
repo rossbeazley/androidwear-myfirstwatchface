@@ -16,6 +16,7 @@ public class GoogleWearApiConnection {
                 .addConnectionCallbacks(new GoogleApiClient.ConnectionCallbacks() {
                     @Override
                     public void onConnected(Bundle bundle) {
+                        System.out.println("CONNECTED========");
                         connected.invoke(gac);
                     }
 

@@ -105,9 +105,18 @@ public class SelectableItemRecyclerView extends FrameLayout implements Selectabl
         public ListViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             TextView textview = new TextView(parent.getContext());
             textview.setText("---");
-            textview.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+            ViewGroup.MarginLayoutParams params = new MarginLayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+            params.setMargins(4,20,4,20);
+
+            textview.setBackground(parent.getContext().getResources().getDrawable(R.drawable.card_frame));
+            //textview.setBackgroundColor(parent.getContext().getResources().getColor(R.color.grey));
+            textview.setTextColor(parent.getContext().getResources().getColor(R.color.black));
+            textview.setLayoutParams(params);
             textview.setGravity(Gravity.CENTER);
             textview.setTextSize(24f);
+            textview.setPadding(10,50,10,50);
+
+
             Typeface sansSerifThin = Typeface.create("sans-serif-thin", Typeface.BOLD);
             textview.setTypeface(sansSerifThin);
             ListViewHolder holder = new ListViewHolder(textview);

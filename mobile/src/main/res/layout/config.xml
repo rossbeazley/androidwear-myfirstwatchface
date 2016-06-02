@@ -30,12 +30,16 @@
             android:id="@+id/left_menu"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:padding="4dp"
+            android:background="@color/white"
             android:layout_weight="50"></FrameLayout>
 
         <FrameLayout
             android:id="@+id/right_menu"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:padding="4dp"
+            android:background="@color/card_default_background"
             android:layout_weight="50"/>
 
     </LinearLayout>
