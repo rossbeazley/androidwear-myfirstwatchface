@@ -66,6 +66,21 @@ public class FragmentScreenNavigationControllerTest {
     }
 
 
+
+    @Test
+    @UiThreadTest
+    public void showsTheSelectItemView() {
+
+    }
+
+
+
+    @Test
+    @UiThreadTest
+    public void showsTheChosenOptionView() {
+
+    }
+
     private enum TestFactoryOne implements uk.co.rossbeazley.wear.android.ui.config.UIFactory<View> {
         FACTORY;
 

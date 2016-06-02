@@ -7,6 +7,7 @@ import uk.co.rossbeazley.wear.config.ConfigServiceListener;
 public class MobileUINavigation {
     public MobileUINavigation(final ScreenNavigationController screen, ConfigService configService) {
         screen.showLeft();
+        screen.showRight(SelectAnItemView.class);
 
         configService.addListener(new ConfigServiceListener() {
             @Override
@@ -22,7 +23,7 @@ public class MobileUINavigation {
             @Override
             public void chosenOption(String option) {
                 // show OK, then timer, then... (maybe timer goes in presenter....)
-                screen.hideRight();
+                screen.showRight(ChosenOptionView.class);
 
             }
         });

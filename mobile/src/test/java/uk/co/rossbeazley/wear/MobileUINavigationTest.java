@@ -33,7 +33,8 @@ public class MobileUINavigationTest {
 
     @Test
     public void defaultNavigationShowsNothingAsRightHandPane() {
-        assertThat(screen.currentRight(),is(equalTo(screen.nothing())));
+        Class viewClass = SelectAnItemView.class;
+        assertThat(screen.currentRight(),is(equalTo(viewClass)));
     }
 
 
@@ -50,7 +51,8 @@ public class MobileUINavigationTest {
         final String item = testWorld.anyItemID();
         configService.configureItem(item);
         configService.chooseOption(testWorld.anyOptionForItem(item));
-        assertThat(screen.currentRight(),is(equalTo(screen.nothing())));
+        final Class chosenOptionClass = ChosenOptionView.class;
+        assertThat(screen.currentRight(),is(equalTo(chosenOptionClass)));
     }
 
 
