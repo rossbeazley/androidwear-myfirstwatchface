@@ -13,9 +13,12 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
+import uk.co.rossbeazley.wear.ChosenOptionView;
 import uk.co.rossbeazley.wear.R;
 import uk.co.rossbeazley.wear.ScreenNavigationController;
+import uk.co.rossbeazley.wear.SelectAnItemView;
 import uk.co.rossbeazley.wear.android.ui.config.SelectableItemListView;
+import uk.co.rossbeazley.wear.android.ui.config.UIFactory;
 import uk.co.rossbeazley.wear.config.ConfigService;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -24,14 +27,17 @@ import static org.junit.Assert.assertThat;
 
 public class FragmentScreenNavigationControllerTest {
 
-    @Rule
     private ScreenNavigationController fragmentScreenNavigationController;
     private CapturingUIFactoryTransaction uiFactoryTransaction;
 
     @Before
     public void setUp() throws Exception {
         uiFactoryTransaction = new CapturingUIFactoryTransaction();
-        fragmentScreenNavigationController = new FragmentScreenNavigationController(R.id.test_left, R.id.test_right, UIFactory.FACTORY, TestFactoryOne.FACTORY, uiFactoryTransaction);
+        Map<Class, uk.co.rossbeazley.wear.android.ui.config.UIFactory> rightHandFactories = new HashMap<>();
+        rightHandFactories.put(SelectableItemListView.class, UIFactory.FACTORY);
+        rightHandFactories.put(SelectAnItemView.class, SelectAnItemViewUIFactory.FACTORY);
+        rightHandFactories.put(ChosenOptionView.class, ChosenOptionViewUIFactory.FACTORY);
+        fragmentScreenNavigationController = new FragmentScreenNavigationController(R.id.test_left, R.id.test_right, rightHandFactories, TestFactoryOne.FACTORY, uiFactoryTransaction);
     }
 
     @Test
@@ -40,7 +46,7 @@ public class FragmentScreenNavigationControllerTest {
 
         fragmentScreenNavigationController.showLeft();
         Serializable factoryAtId = uiFactoryTransaction.factoryAtId(R.id.test_left);
-        assertThat( factoryAtId, CoreMatchers.<Serializable>is(TestFactoryOne.FACTORY));
+        assertThat(factoryAtId, CoreMatchers.<Serializable>is(TestFactoryOne.FACTORY));
     }
 
 
@@ -50,7 +56,7 @@ public class FragmentScreenNavigationControllerTest {
 
         fragmentScreenNavigationController.showRight(SelectableItemListView.class);
         Serializable factoryAtId = uiFactoryTransaction.factoryAtId(R.id.test_right);
-        assertThat( factoryAtId, CoreMatchers.<Serializable>is(UIFactory.FACTORY));
+        assertThat(factoryAtId, CoreMatchers.<Serializable>is(UIFactory.FACTORY));
     }
 
 
@@ -66,19 +72,23 @@ public class FragmentScreenNavigationControllerTest {
     }
 
 
-
     @Test
     @UiThreadTest
     public void showsTheSelectItemView() {
 
+        fragmentScreenNavigationController.showRight(SelectAnItemView.class);
+        Serializable factoryAtId = uiFactoryTransaction.factoryAtId(R.id.test_right);
+        assertThat(factoryAtId, CoreMatchers.<Serializable>is(SelectAnItemViewUIFactory.FACTORY));
     }
-
 
 
     @Test
     @UiThreadTest
     public void showsTheChosenOptionView() {
 
+        fragmentScreenNavigationController.showRight(ChosenOptionView.class);
+        Serializable factoryAtId = uiFactoryTransaction.factoryAtId(R.id.test_right);
+        assertThat(factoryAtId, CoreMatchers.<Serializable>is(ChosenOptionViewUIFactory.FACTORY));
     }
 
     private enum TestFactoryOne implements uk.co.rossbeazley.wear.android.ui.config.UIFactory<View> {
@@ -90,6 +100,40 @@ public class FragmentScreenNavigationControllerTest {
         public View createView(ViewGroup container) {
             createdView = new View(container.getContext());
             createdView.setId(R.id.view_under_test);
+            return createdView;
+        }
+
+        @Override
+        public void createPresenters(ConfigService configService, View view) {
+        }
+    }
+
+    private enum SelectAnItemViewUIFactory implements uk.co.rossbeazley.wear.android.ui.config.UIFactory<View> {
+        FACTORY;
+
+        public View createdView;
+
+        @Override
+        public View createView(ViewGroup container) {
+            createdView = new View(container.getContext());
+            createdView.setId(R.id.view_under_test_two);
+            return createdView;
+        }
+
+        @Override
+        public void createPresenters(ConfigService configService, View view) {
+        }
+    }
+
+    private enum ChosenOptionViewUIFactory implements uk.co.rossbeazley.wear.android.ui.config.UIFactory<View> {
+        FACTORY;
+
+        public View createdView;
+
+        @Override
+        public View createView(ViewGroup container) {
+            createdView = new View(container.getContext());
+            createdView.setId(R.id.view_under_test_two);
             return createdView;
         }
 
@@ -120,7 +164,7 @@ public class FragmentScreenNavigationControllerTest {
 
         @Override
         public <FragmentUIFactory extends Serializable & uk.co.rossbeazley.wear.android.ui.config.UIFactory> void add(FragmentUIFactory fragmentUIFactory, int id) {
-            this.factories.put(id,fragmentUIFactory);
+            this.factories.put(id, fragmentUIFactory);
         }
 
         @Override
