@@ -5,7 +5,6 @@ import android.app.FragmentManager;
 
 import java.io.Serializable;
 
-import uk.co.rossbeazley.wear.R;
 import uk.co.rossbeazley.wear.android.ui.config.UIFactory;
 import uk.co.rossbeazley.wear.android.ui.config.UIFactoryFragment;
 
@@ -21,6 +20,7 @@ public class UIFactoryFragmentTransaction implements UIFactoryTransaction {
     public <FragmentUIFactory extends Serializable & UIFactory> void add(FragmentUIFactory factory, int id) {
         Fragment rightFragment = UIFactoryFragment.createUIFactoryFragment(factory);
         fragmentManager.beginTransaction()
+                .setCustomAnimations(android.R.animator.fade_in,android.R.animator.fade_out,android.R.animator.fade_in,android.R.animator.fade_out)
                 .replace(id,  rightFragment)
                 .commit();
     }
